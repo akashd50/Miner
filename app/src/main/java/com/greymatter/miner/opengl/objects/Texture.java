@@ -1,4 +1,4 @@
-package com.greymatter.miner.openGL.objects;
+package com.greymatter.miner.opengl.objects;
 
 public class Texture {
 	private int texture, width, height, nrChannels;

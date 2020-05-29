@@ -1,10 +1,10 @@
-package com.greymatter.miner.openGL.objects;
+package com.greymatter.miner.opengl.objects;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
-import com.greymatter.miner.openGL.helpers.BufferHelper;
-import com.greymatter.miner.openGL.helpers.ResourceLoader;
+import com.greymatter.miner.opengl.helpers.BufferHelper;
+import com.greymatter.miner.opengl.helpers.ResourceLoader;
 
 import java.nio.ByteBuffer;
 

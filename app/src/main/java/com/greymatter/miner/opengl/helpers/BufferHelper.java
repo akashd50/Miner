@@ -1,4 +1,4 @@
-package com.greymatter.miner.openGL.helpers;
+package com.greymatter.miner.opengl.helpers;
 
 import android.graphics.Bitmap;
 

@@ -1,9 +1,9 @@
-package com.greymatter.miner.openGL.objects;
+package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
 import android.opengl.Matrix;
-import com.greymatter.miner.openGL.helpers.BufferHelper;
-import com.greymatter.miner.openGL.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.BufferHelper;
+import com.greymatter.miner.opengl.helpers.Constants;
 import javax.vecmath.*;
 
 public class Quad {

@@ -1,8 +1,8 @@
-package com.greymatter.miner.openGL;
+package com.greymatter.miner.opengl;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.openGL.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.Constants;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

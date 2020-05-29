@@ -1,4 +1,4 @@
-package com.greymatter.miner.openGL.objects;
+package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
 

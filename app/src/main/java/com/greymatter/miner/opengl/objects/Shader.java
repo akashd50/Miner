@@ -1,13 +1,13 @@
-package com.greymatter.miner.openGL.objects;
+package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.greymatter.miner.openGL.helpers.ResourceLoader;
+import com.greymatter.miner.opengl.helpers.ResourceLoader;
 
-import static com.greymatter.miner.openGL.helpers.Constants.FRAG_SHADER;
-import static com.greymatter.miner.openGL.helpers.Constants.SHADERS;
-import static com.greymatter.miner.openGL.helpers.Constants.VERTEX_SHADER;
+import static com.greymatter.miner.opengl.helpers.Constants.FRAG_SHADER;
+import static com.greymatter.miner.opengl.helpers.Constants.SHADERS;
+import static com.greymatter.miner.opengl.helpers.Constants.VERTEX_SHADER;
 
 public class Shader {
     private int program;

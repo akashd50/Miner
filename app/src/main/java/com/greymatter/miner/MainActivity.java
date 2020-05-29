@@ -8,7 +8,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.View;
 
-import com.greymatter.miner.openGL.MainGLRenderer;
+import com.greymatter.miner.opengl.MainGLRenderer;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;

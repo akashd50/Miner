@@ -1,4 +1,4 @@
-package com.greymatter.miner.openGL.helpers;
+package com.greymatter.miner.opengl.helpers;
 
 public class Constants {
     public static int SIZE_OF_FLOAT = 4;
