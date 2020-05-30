@@ -36,7 +36,7 @@ public class TextureBuilder {
 
 	public TextureBuilder attachImageTexture(String imageRes) {
 		Bitmap bitmap = ResourceLoader.loadImageResource(imageRes);
-		Buffer pixelData = BufferHelper.asByteBuffer(bitmap);
+		//Buffer pixelData = BufferHelper.asByteBuffer(bitmap);
 
 		texture.setWidth(bitmap.getWidth());
 		texture.setHeight(bitmap.getHeight());
@@ -65,6 +65,7 @@ public class TextureBuilder {
 
 	public Texture finish() {
 		GLES30.glBindTexture(currTexType, currTexID[0]);
+
 		if (currTexType == GLES30.GL_TEXTURE_CUBE_MAP) {
 
 			GLES30.glTexParameteri(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
@@ -78,8 +79,8 @@ public class TextureBuilder {
 			GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, imgTextureformat == GLES30.GL_RGBA ? GLES30.GL_CLAMP_TO_EDGE : GLES30.GL_REPEAT);
 			GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
 			GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
-
 		}
+
 		GLES30.glBindTexture(currTexType, 0);
 
 		texture.setTexture(currTexID[0]);

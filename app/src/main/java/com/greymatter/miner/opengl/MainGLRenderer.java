@@ -32,15 +32,19 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         quadShader = new Shader(Constants.QUAD_SHADER);
 
         triangle = new Triangle(simpleTriangleShader);
+
         material = new Material(Constants.TEXTURES+"download.jpg",Constants.TEXTURES+"sample_particle.png");
+
         quad = new Quad(new Vector3f(0.0f,0.0f,0.0f), material, quadShader);
-        quad.scaleTo(new Vector2f(0.5f,0.5f));
+        quad.scaleTo(new Vector2f(0.5f,0.1f));
+        quad.translateTo(new Vector3f());
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES30.glViewport(0,0,width,height);
         camera = new Camera(width, height);
+        camera.translateTo(new Vector3f(0f,0f,5f));
     }
 
     @Override
@@ -48,8 +52,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(1.0f,0f,0f,1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
-        float[] modelMat = new float[16];
-        Matrix.setIdentityM(modelMat,0);
 
         ShaderHelper.useProgram(quadShader);
         ShaderHelper.setCameraProperties(quadShader, camera);

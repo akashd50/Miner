@@ -7,6 +7,7 @@ public class Material
 {
     private Texture diffuseTexture;
     private Texture roughnessTexture;
+
     private float shinniness;
     private Vector3f ambient;
     private Vector3f diffuse;

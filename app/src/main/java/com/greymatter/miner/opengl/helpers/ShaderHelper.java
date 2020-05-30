@@ -89,6 +89,7 @@ public class ShaderHelper {
         int shader = GLES30.glCreateShader(type);
         GLES30.glShaderSource(shader, shaderCode);
         GLES30.glCompileShader(shader);
+
         int[] success = new int[1];
         GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, success, 0);
         if (success[0]!=1) {

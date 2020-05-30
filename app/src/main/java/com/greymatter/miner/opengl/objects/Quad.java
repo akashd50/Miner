@@ -2,7 +2,7 @@ package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
 import android.opengl.Matrix;
-import com.greymatter.miner.opengl.helpers.BufferHelper;
+
 import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
@@ -18,7 +18,6 @@ public class Quad {
 	private Shader shader;
 
 	public Quad(Vector3f position, Material material, Shader shader) {
-		super();
 		this.translation = position;
 		this.rotation = new Vector3f(0f,0f,0f);
 		this.scale = new Vector2f(1.0f,1.0f);
@@ -26,10 +25,10 @@ public class Quad {
 		this.shader = shader;
 		this.modelMatrix = new float[16];
 
-		init();
+		initialize();
 	}
 
-	private void init() {
+	private void initialize() {
 		float textureRatio = material.getDiffuseTexture().getRatio();
 		if (textureRatio == 0.0f) {
 			textureRatio = 1.0f;

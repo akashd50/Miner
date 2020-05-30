@@ -15,8 +15,8 @@ public class ResourceLoader {
     public static Bitmap loadImageResource(String imagePath) {
         try {
             InputStream ins = AppServices.getAssetManager().open(imagePath);
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;
+//            final BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inScaled = false;
             return BitmapFactory.decodeStream(ins);
         }catch (IOException e) {
             e.printStackTrace();
