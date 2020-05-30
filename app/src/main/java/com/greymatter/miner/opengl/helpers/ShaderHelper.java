@@ -61,10 +61,10 @@ public class ShaderHelper {
         setUniformInt(shader, "material.specularTexture", 1);
 
         if (material.hasDiffuseTexture()) {
-            setTextureUnit2D(0, material.getDiffuseTexture().getTexture());
+            setTextureUnit2D(0, material.getDiffuseTexture().getTextureId());
         }
         if (material.hasRoughnessTexture()) {
-            setTextureUnit2D(1, material.getRoughnessTexture().getTexture());
+            setTextureUnit2D(1, material.getRoughnessTexture().getTextureId());
         }
 //        setUniformFloat(shader, "material.specMultiplier", material.getShinniness());
 //        setUniformVec3(shader, "material.diffuse", material.getDiffuse());

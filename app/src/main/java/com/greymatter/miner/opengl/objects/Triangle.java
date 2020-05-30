@@ -1,14 +1,7 @@
-package com.greymatter.miner.opengl;
-
-import android.opengl.GLES30;
+package com.greymatter.miner.opengl.objects;
 
 import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
-import com.greymatter.miner.opengl.objects.Shader;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 public class Triangle {
     public int vertexArray;

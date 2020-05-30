@@ -55,10 +55,10 @@ public class Quad {
 	public void onDrawFrame() {
 		Matrix.setIdentityM(modelMatrix, 0);
 		Matrix.translateM(modelMatrix,0,translation.x,translation.y,translation.z);
-		Matrix.scaleM(modelMatrix,0,scale.x,scale.y,1f);
 		Matrix.rotateM(modelMatrix, 0, rotation.x, 1, 0, 0);
 		Matrix.rotateM(modelMatrix, 0, rotation.y, 0, 1, 0);
 		Matrix.rotateM(modelMatrix, 0, rotation.z, 0, 0, 1);
+		Matrix.scaleM(modelMatrix,0,scale.x,scale.y,1f);
 
 		GLBufferHelper.glBindVertexArray(vertexArray);
 		ShaderHelper.setUniformMatrix4fv(shader, Constants.MODEL, modelMatrix);
@@ -98,7 +98,7 @@ public class Quad {
 	}
 
 	public void setTexture(int tex) {
-		this.material.getDiffuseTexture().setTexture(tex);
+		this.material.getDiffuseTexture().setTextureId(tex);
 	}
 
 	public int getVertexArrayObject() {

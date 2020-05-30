@@ -13,8 +13,8 @@ public class Camera {
 	private Vector3f up;
 
 	public Camera(int w, int h) {
-		width = w;
-		height = h;
+		this.width = w;
+		this.height = h;
 		this.up = new Vector3f(0.0f, 1.0f, 0.0f);
 		this.translation = new Vector3f(0f, 0f, 0f);
 		this.lookAtVec = new Vector3f(0f, 0f, 0f);
@@ -22,7 +22,9 @@ public class Camera {
 		projectionMatrix = new float[16];
 		viewMatrix = new float[16];
 
-		Matrix.orthoM(projectionMatrix, 0, -1.0f,1.0f,-1.0f,1.0f,1f, 100f);
+		float ratio = (float)width/(float)height;
+
+		Matrix.orthoM(projectionMatrix, 0, -1.0f*ratio,1.0f*ratio,-1.0f,1.0f,1f, 100f);
 		Matrix.setLookAtM(viewMatrix, 0, translation.x, translation.y, translation.z,
 														lookAtVec.x, lookAtVec.y, lookAtVec.z,
 														up.x, up.y, up.z);

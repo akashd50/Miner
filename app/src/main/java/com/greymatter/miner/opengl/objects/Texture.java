@@ -1,15 +1,15 @@
 package com.greymatter.miner.opengl.objects;
 
 public class Texture {
-	private int texture, width, height, nrChannels;
+	private int textureId, width, height, nrChannels, glTexType;
 
 	public Texture() {}
 
 	public float getRatio() { return this.width / this.height; }
 
-	public int getTexture() { return this.texture; }
+	public int getTextureId() { return this.textureId; }
 
-	public void setTexture(int tex) { this.texture = tex; }
+	public void setTextureId(int tex) { this.textureId = tex; }
 
 	public int getWidth() { return this.width; }
 
@@ -22,4 +22,12 @@ public class Texture {
 	public void setCC(int c) { this.nrChannels = c; }
 
 	public int getCC() { return this.nrChannels; }
+
+	public int getGlTexType() {
+		return glTexType;
+	}
+
+	public void setGlTexType(int glTexType) {
+		this.glTexType = glTexType;
+	}
 }

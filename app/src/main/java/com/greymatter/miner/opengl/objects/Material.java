@@ -1,6 +1,10 @@
 package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
+
+import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.TextureBuilder;
+
 import javax.vecmath.Vector3f;
 
 public class Material
@@ -13,23 +17,20 @@ public class Material
     private Vector3f diffuse;
     private Vector3f specular;
 
-    public Material(String diffTPath, String roughTPath) {
-		/*if(!diffTPath.empty()) diffuseTexture = new Texture(diffTPath);
-		if(!roughTPath.empty()) roughnessTexture = new Texture(roughTPath);*/
+    public Material(String diffTexName, String roughTexName) {
+        if (diffTexName.length() > 0) {
+            Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES+diffTexName);
+            TextureBuilder.finish(texture);
 
-        if (diffTPath.length() > 0) {
-            TextureBuilder tb = new TextureBuilder();
-            tb = tb.init(GLES30.GL_TEXTURE_2D);
-            tb = tb.attachImageTexture(diffTPath);
-
-            diffuseTexture = tb.finish();
+            diffuseTexture = texture;
         }
-        if (roughTPath.length() > 0) {
-            TextureBuilder tb = new TextureBuilder();
-            tb = tb.init(GLES30.GL_TEXTURE_2D);
-            tb = tb.attachImageTexture(roughTPath);
+        if (roughTexName.length() > 0) {
+            Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES+roughTexName);
+            TextureBuilder.finish(texture);
 
-            roughnessTexture = tb.finish();
+            roughnessTexture = texture;
         }
 
         ambient = new Vector3f(1.0f,1.0f,1.0f);
