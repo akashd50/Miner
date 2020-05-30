@@ -4,33 +4,35 @@ import android.opengl.GLES30;
 import android.opengl.Matrix;
 import com.greymatter.miner.opengl.helpers.BufferHelper;
 import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.GLBufferHelper;
+import com.greymatter.miner.opengl.helpers.ShaderHelper;
+
 import javax.vecmath.*;
 
 public class Quad {
-	private Vector3f translation, rotation, scale;
+	private Vector3f translation, rotation;
+	private Vector2f scale;
 	private Material material;
-	private int[] vertexArrayObject, vertexBufferObject, uvBufferObject;
+	private int vertexArray;
 	private float[] modelMatrix;
 	private Shader shader;
-	public int TEXTURE;
 
-	public Quad(Vector3f position, Material material)
-	{
+	public Quad(Vector3f position, Material material, Shader shader) {
 		super();
-		TEXTURE = 0;
-		translation = position;
-		rotation = new Vector3f();
-		scale = new Vector3f();
+		this.translation = position;
+		this.rotation = new Vector3f(0f,0f,0f);
+		this.scale = new Vector2f(1.0f,1.0f);
 		this.material = material;
+		this.shader = shader;
+		this.modelMatrix = new float[16];
 
-//		init();
+		init();
 	}
-	public final void init()
-	{
+
+	private void init() {
 		float textureRatio = material.getDiffuseTexture().getRatio();
-		if (textureRatio == 0.0F)
-		{
-			textureRatio = 1.0F;
+		if (textureRatio == 0.0f) {
+			textureRatio = 1.0f;
 		}
 
 		float[] vertices = {1.0f * textureRatio, 1.0f, 0.0f,
@@ -39,57 +41,33 @@ public class Quad {
 							1.0f * textureRatio, 1.0f, 0.0f,
 							-1.0f * textureRatio, -1.0f, 0.0f,
 							1.0f * textureRatio, -1.0f, 0.0f};
+
 		float[] uvs = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
 
+		vertexArray = GLBufferHelper.glGenVertexArray();
+		GLBufferHelper.glBindVertexArray(vertexArray);
 
-		GLES30.glGenVertexArrays(1, vertexArrayObject, 1);
-		GLES30.glBindVertexArray(vertexArrayObject[0]);
+		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(vertices, 3, shader, Constants.IN_POSITION);
+		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(uvs, 2, shader, Constants.IN_UV);
 
-		GLES30.glGenBuffers(1, vertexBufferObject, 1);
-		GLES30.glGenBuffers(1, uvBufferObject, 1);
-
-		GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vertexBufferObject[0]);
-		GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, (Float.SIZE / Byte.SIZE) * 18,
-				BufferHelper.asFloatBuffer(vertices), GLES30.GL_STATIC_DRAW);
-		GLES30.glVertexAttribPointer(0, 3,
-				GLES30.GL_FLOAT, false,
-				3 * Constants.SIZE_OF_FLOAT, 0);
-		GLES30.glEnableVertexAttribArray(0);
-
-		GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, uvBufferObject[0]);
-		GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, (Float.SIZE / Byte.SIZE) * 12,
-				BufferHelper.asFloatBuffer(uvs), GLES30.GL_STATIC_DRAW);
-		GLES30.glVertexAttribPointer(2, 2,
-				GLES30.GL_FLOAT, false,
-				2 * Constants.SIZE_OF_FLOAT, 0);
-		GLES30.glEnableVertexAttribArray(2);
-
-		GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
-		GLES30.glBindVertexArray(0);
+		GLBufferHelper.glUnbindVertexArray();
 	}
 
-	public final void onDrawFrame() {
-		modelMatrix = new float[16];
+	public void onDrawFrame() {
 		Matrix.setIdentityM(modelMatrix, 0);
 		Matrix.translateM(modelMatrix,0,translation.x,translation.y,translation.z);
-		Matrix.scaleM(modelMatrix,0,scale.x,scale.y,scale.z);
+		Matrix.scaleM(modelMatrix,0,scale.x,scale.y,1f);
 		Matrix.rotateM(modelMatrix, 0, rotation.x, 1, 0, 0);
 		Matrix.rotateM(modelMatrix, 0, rotation.y, 0, 1, 0);
 		Matrix.rotateM(modelMatrix, 0, rotation.z, 0, 0, 1);
 
-		GLES30.glBindVertexArray(vertexArrayObject[0]);
-//		shader.setUniformMatrix4fv("model", glm.value_ptr(this.modelMatrix));
-//		shader.setMaterialProperties(material);
-		
-//		float[] kernel = {1.0 / 16, 2.0 / 16, 1.0 / 16, 2.0 / 16, 4.0 / 16, 2.0 / 16, 1.0 / 16, 2.0 / 16, 1.0 / 16};
-//
-//		for (int i = 0; i < 9; i++)
-//		{
-//			String arrayLoc = "kernel[" + String.valueOf(i) + "]";
-//			shader.setUniformFloat(arrayLoc, kernel[i]);
-//		}
+		GLBufferHelper.glBindVertexArray(vertexArray);
+		ShaderHelper.setUniformMatrix4fv(shader, Constants.MODEL, modelMatrix);
+		ShaderHelper.setMaterialProperties(shader, material);
 
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);
+
+		GLBufferHelper.glUnbindVertexArray();
 	}
 
 	public void translateTo(Vector3f position) {
@@ -125,6 +103,14 @@ public class Quad {
 	}
 
 	public int getVertexArrayObject() {
-		return this.vertexArrayObject[0];
+		return this.vertexArray;
+	}
+
+	public void scaleTo(Vector2f newScale) {
+		this.scale = newScale;
+	}
+
+	public void scaleBy(Vector2f newScale) {
+		this.scale.add(newScale);
 	}
 }

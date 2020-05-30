@@ -2,11 +2,10 @@ package com.greymatter.miner.opengl.objects;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
-
+import android.opengl.GLUtils;
 import com.greymatter.miner.opengl.helpers.BufferHelper;
 import com.greymatter.miner.opengl.helpers.ResourceLoader;
-
-import java.nio.ByteBuffer;
+import java.nio.Buffer;
 
 public class TextureBuilder {
 	private Texture texture;
@@ -18,27 +17,26 @@ public class TextureBuilder {
 
 	public TextureBuilder() {
 		texture = new Texture();
+		currTexID = new int[1];
 	}
 
-	public final TextureBuilder init(int texType)
-	{
-		GLES30.glDeleteTextures(1, currTexID, 0);
+	public final TextureBuilder init(int texType) {
 		GLES30.glGenTextures(1, currTexID, 0);
 		this.currTexType = texType;
 
 		return this;
 	}
 
-	public final TextureBuilder init(int texType, int w, int h) {
+	public TextureBuilder init(int texType, int w, int h) {
 		this.currTexType = texType;
 		currW = w;
 		currH = h;
 		return this;
 	}
 
-	public final TextureBuilder attachImageTexture(String imageRes) {
+	public TextureBuilder attachImageTexture(String imageRes) {
 		Bitmap bitmap = ResourceLoader.loadImageResource(imageRes);
-		ByteBuffer pixelData = BufferHelper.asByteBuffer(bitmap);
+		Buffer pixelData = BufferHelper.asByteBuffer(bitmap);
 
 		texture.setWidth(bitmap.getWidth());
 		texture.setHeight(bitmap.getHeight());
@@ -55,15 +53,17 @@ public class TextureBuilder {
 		}
 
 		GLES30.glBindTexture(currTexType, currTexID[0]);
-		GLES30.glTexImage2D(currTexType, 0, imgTextureformat, texture.getWidth(), texture.getHeight(),
-				0, imgTextureformat, GLES30.GL_UNSIGNED_BYTE, pixelData);
+//		GLES30.glTexImage2D(currTexType, 0, imgTextureformat, texture.getWidth(), texture.getHeight(),
+//				0, imgTextureformat, GLES30.GL_UNSIGNED_BYTE, pixelData);
+		GLUtils.texImage2D(currTexType, 0, bitmap, 0);
+
 		GLES30.glGenerateMipmap(currTexType);
 		GLES30.glBindTexture(currTexType, 0);
 
 		return this;
 	}
 
-	public final Texture finish() {
+	public Texture finish() {
 		GLES30.glBindTexture(currTexType, currTexID[0]);
 		if (currTexType == GLES30.GL_TEXTURE_CUBE_MAP) {
 
@@ -87,7 +87,7 @@ public class TextureBuilder {
 		return this.texture;
 	}
 
-	public final Texture getTexture()
+	public Texture getTexture()
 	{
 		return this.texture;
 	}

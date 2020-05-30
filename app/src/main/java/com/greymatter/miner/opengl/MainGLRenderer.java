@@ -3,17 +3,24 @@ package com.greymatter.miner.opengl;
 import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
+
 import android.opengl.GLES30;
 import android.opengl.Matrix;
-
 import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
+import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer {
     private Camera camera;
-    private Shader simpleTriangleShader;
+    private Shader simpleTriangleShader, quadShader;
     private Triangle triangle;
+    private Material material;
+    private Quad quad;
 
     public MainGLRenderer() {
 
@@ -21,8 +28,13 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        simpleTriangleShader = new Shader(Constants.SIMPLE_TRIANGLE);
-        triangle = new Triangle(simpleTriangleShader.getProgram());
+        simpleTriangleShader = new Shader(Constants.SIMPLE_TRIANGLE_SHADER);
+        quadShader = new Shader(Constants.QUAD_SHADER);
+
+        triangle = new Triangle(simpleTriangleShader);
+        material = new Material(Constants.TEXTURES+"download.jpg",Constants.TEXTURES+"sample_particle.png");
+        quad = new Quad(new Vector3f(0.0f,0.0f,0.0f), material, quadShader);
+        quad.scaleTo(new Vector2f(0.5f,0.5f));
     }
 
     @Override
@@ -39,19 +51,9 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         float[] modelMat = new float[16];
         Matrix.setIdentityM(modelMat,0);
 
-        simpleTriangleShader.useProgram();
-
-        int matLocation = GLES30.glGetUniformLocation(simpleTriangleShader.getProgram(), "projection");
-        GLES30.glUniformMatrix4fv(matLocation, 1,false, camera.getProjectionMatrix(), 0);
-        int viewLoc = GLES30.glGetUniformLocation(simpleTriangleShader.getProgram(), "view");
-        GLES30.glUniformMatrix4fv(viewLoc, 1,false, camera.getViewMatrix(), 0);
-        int modelLoc = GLES30.glGetUniformLocation(simpleTriangleShader.getProgram(), "model");
-        GLES30.glUniformMatrix4fv(modelLoc, 1,false, modelMat, 0);
-
-
-        GLES30.glBindVertexArray(triangle.vertexArrayObject[0]);
-
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
+        ShaderHelper.useProgram(quadShader);
+        ShaderHelper.setCameraProperties(quadShader, camera);
+        quad.onDrawFrame();
     }
 
 }

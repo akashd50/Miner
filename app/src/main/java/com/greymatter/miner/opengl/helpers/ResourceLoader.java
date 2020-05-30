@@ -13,9 +13,15 @@ import java.io.InputStreamReader;
 public class ResourceLoader {
 
     public static Bitmap loadImageResource(String imagePath) {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = false;
-        return BitmapFactory.decodeFile(imagePath, options);
+        try {
+            InputStream ins = AppServices.getAssetManager().open(imagePath);
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+            return BitmapFactory.decodeStream(ins);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String loadFileResource(String filePath) {

@@ -1,17 +1,17 @@
 package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
-
-import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 
 public class Material
 {
     private Texture diffuseTexture;
     private Texture roughnessTexture;
     private float shinniness;
-    private Vector3d ambient;
-    private Vector3d diffuse;
-    private Vector3d specular;
+    private Vector3f ambient;
+    private Vector3f diffuse;
+    private Vector3f specular;
+
     public Material(String diffTPath, String roughTPath) {
 		/*if(!diffTPath.empty()) diffuseTexture = new Texture(diffTPath);
 		if(!roughTPath.empty()) roughnessTexture = new Texture(roughTPath);*/
@@ -31,9 +31,9 @@ public class Material
             roughnessTexture = tb.finish();
         }
 
-        ambient = new Vector3d(1.0,1.0,1.0);
-        diffuse = new Vector3d(1.0,1.0,1.0);
-        specular = new Vector3d(0.5,0.5,0.5);
+        ambient = new Vector3f(1.0f,1.0f,1.0f);
+        diffuse = new Vector3f(1.0f,1.0f,1.0f);
+        specular = new Vector3f(0.5f,0.5f,0.5f);
 
         shinniness = 1.0f;
     }
@@ -41,10 +41,9 @@ public class Material
     public Material() {
         diffuseTexture = new Texture();
         roughnessTexture = new Texture();
-        ambient = new Vector3d(1.0,1.0,1.0);
-        diffuse = new Vector3d(1.0,1.0,1.0);
-        specular = new Vector3d(1.0,1.0,1.0);
-
+        ambient = new Vector3f(1.0f,1.0f,1.0f);
+        diffuse = new Vector3f(1.0f,1.0f,1.0f);
+        specular = new Vector3f(0.5f,0.5f,0.5f);
         shinniness = 1.0f;
     }
 
@@ -64,27 +63,27 @@ public class Material
         this.shinniness = f;
     }
 
-    public final Vector3d getDiffuse() {
+    public final Vector3f getDiffuse() {
         return this.diffuse;
     }
 
-    public final Vector3d getSpecular() {
+    public final Vector3f getSpecular() {
         return this.specular;
     }
 
-    public final Vector3d getAmbient() {
+    public final Vector3f getAmbient() {
         return this.ambient;
     }
 
-    public final void setDiffuse(Vector3d diff) {
+    public final void setDiffuse(Vector3f diff) {
         this.diffuse = diff;
     }
 
-    public final void setSpecular(Vector3d spec) {
+    public final void setSpecular(Vector3f spec) {
         this.specular = spec;
     }
 
-    public final void setAmbient(Vector3d amb) {
+    public final void setAmbient(Vector3f amb) {
         this.ambient = amb;
     }
 
