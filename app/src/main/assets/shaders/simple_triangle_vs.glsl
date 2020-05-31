@@ -1,5 +1,5 @@
 #version 300 es
-layout (location=0) in vec3 in_position;
+in vec3 in_position;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;

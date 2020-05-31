@@ -1,6 +1,8 @@
 package com.greymatter.miner.opengl.helpers;
 
 import android.opengl.GLES30;
+import android.util.Log;
+
 import com.greymatter.miner.opengl.objects.Shader;
 
 public class GLBufferHelper {
@@ -39,6 +41,9 @@ public class GLBufferHelper {
         glBindArrayBuffer(bufferObject);
 
         int attribLocation = GLES30.glGetAttribLocation(shader.getProgram(), attribName);
+        if(attribLocation == -1) {
+            Log.v("Shader Error: ", "Unable to find attribute \"" + attribName + "\" in " + shader.toString());
+        }
         GLES30.glEnableVertexAttribArray(attribLocation);
         GLES30.glVertexAttribPointer(attribLocation, coordsPerVertex, GLES30.GL_FLOAT, false,
                 coordsPerVertex * Constants.SIZE_OF_FLOAT, 0);

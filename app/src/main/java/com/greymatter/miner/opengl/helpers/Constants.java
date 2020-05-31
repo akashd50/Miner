@@ -9,6 +9,7 @@ public class Constants {
     public static final String FRAG_SHADER = "_fs.glsl";
     public static final String SIMPLE_TRIANGLE_SHADER = "simple_triangle";
     public static final String QUAD_SHADER = "quad";
+    public static final String THREE_D_OBJECT_SHADER = "three_d_object";
     //textures
     public static final String TEXTURES = "textures/";
 
