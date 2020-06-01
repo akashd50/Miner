@@ -4,6 +4,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
+import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,14 +15,12 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Object3D extends Drawable {
-	private static class config {
-		int v1, v2, v3, n1, n2, n3, t1, t2, t3;
-	}
-
+	public Vector3f top, bottom, left, right;
+	public int topIndex;
 	private ArrayList<Vector3f> vertices;
 	private ArrayList<Vector3f> normals;
 	private ArrayList<Vector2f> uvs;
-	private ArrayList<config> faceConfiguration;
+	private ArrayList<Config> faceConfiguration;
 
 	private int vertexBufferObject;
 	private int normalBufferObject;
@@ -32,8 +31,11 @@ public class Object3D extends Drawable {
 		super.setShader(shader);
 		super.setMaterial(material);
 
-		readFile(file);
+		//extras
+		top = new Vector3f(); bottom = new Vector3f();
+		left = new Vector3f(); right = new Vector3f();
 
+		readFile(file);
 		float[] localVerts = new float[faceConfiguration.size() * 3 * 3];
 		float[] localNormals = new float[faceConfiguration.size() * 3 * 3];
 		float[] localUvs = new float[faceConfiguration.size() * 6];
@@ -42,7 +44,7 @@ public class Object3D extends Drawable {
 		int vertsIndex = 0;
 		int uvsIndex = 0;
 		for (int i = 0; i < faceConfiguration.size(); i++) {
-			config curr = faceConfiguration.get(i);
+			Config curr = faceConfiguration.get(i);
 
 			localVerts[vertsIndex++] = (float) vertices.get(curr.v1).x;
 			localVerts[vertsIndex++] = (float) vertices.get(curr.v1).y;
@@ -131,7 +133,7 @@ public class Object3D extends Drawable {
 					Vector3f vert = new Vector3f(Float.parseFloat(lineTokens[1]), 
 												Float.parseFloat(lineTokens[2]),
 												Float.parseFloat(lineTokens[3]));
-					
+					updateShapeParams(vert);
 					vertices.add(vert);
 				} else if (lineTokens[0].equals("vt")) {
 					Vector2f uv = new Vector2f(Float.parseFloat(lineTokens[1]),
@@ -142,11 +144,11 @@ public class Object3D extends Drawable {
 					String[] faceV2Tokens = lineTokens[2].split( "/");
 					String[] faceV3Tokens = lineTokens[3].split( "/");
 
-					config c = new config();
+					Config c = new Config();
 					c.v1 = Integer.parseInt(faceV1Tokens[0]) - 1;
 					c.v2 = Integer.parseInt(faceV2Tokens[0]) - 1;
 					c.v3 = Integer.parseInt(faceV3Tokens[0]) - 1;
-
+					//edges from v1 -> v2, v2 -> v3, v3 -> v1
 					c.t1 = Integer.parseInt(faceV1Tokens[1]) - 1;
 					c.t2 = Integer.parseInt(faceV2Tokens[1]) - 1;
 					c.t3 = Integer.parseInt(faceV3Tokens[1]) - 1;
@@ -166,6 +168,29 @@ public class Object3D extends Drawable {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Vector3f> getOuterMesh() {
+		return Object3DHelper.generateRoughMesh2(this, vertices, faceConfiguration);
+	}
+
+	public void updateShapeParams(Vector3f vector) {
+		if(vector.y > top.y) {
+			top = vector;
+			topIndex = vertices.size();
+		}
+
+		if(vector.y < bottom.y) {
+			bottom = vector;
+		}
+
+		if(vector.x > right.x) {
+			right = vector;
+		}
+
+		if(vector.x < left.x) {
+			left = vector;
 		}
 	}
 }

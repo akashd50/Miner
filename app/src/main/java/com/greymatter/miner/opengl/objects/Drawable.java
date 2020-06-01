@@ -1,6 +1,9 @@
 package com.greymatter.miner.opengl.objects;
 
 import android.opengl.Matrix;
+
+import com.greymatter.miner.physics.Collider;
+
 import javax.vecmath.Vector3f;
 
 public abstract class Drawable {
@@ -10,6 +13,7 @@ public abstract class Drawable {
     private Shader shader;
     private boolean transformationsUpdated;
     private int vertexArray;
+    private Collider collider;
 
     public Drawable() {
         this.translation = new Vector3f(0f,0f,0f);
@@ -39,21 +43,25 @@ public abstract class Drawable {
     public void scaleTo(Vector3f newScale) {
         this.scale = newScale;
         this.transformationsUpdated = true;
+        if(this.collider!=null) collider.scaleTo(newScale);
     }
 
     public void scaleBy(Vector3f newScale) {
         this.scale.add(newScale);
         this.transformationsUpdated = true;
+        if(this.collider!=null) collider.scaleBy(newScale);
     }
 
     public void translateTo(Vector3f position) {
         this.translation = position;
         this.transformationsUpdated = true;
+        if(this.collider!=null) collider.translateTo(position);
     }
 
     public void translateBy(Vector3f translation) {
         this.translation.add(translation);
         this.transformationsUpdated = true;
+        if(this.collider!=null) collider.translateBy(translation);
     }
 
     public void rotateTo(Vector3f rotation) {
@@ -101,4 +109,13 @@ public abstract class Drawable {
     public void setVertexArrayObject(int vertexArrayObject ) { this.vertexArray = vertexArrayObject; }
 
     public float[] getModelMatrix() { return this.modelMatrix; }
+
+    public Collider getCollider() {
+        return collider;
+    }
+
+    public void setCollider(Collider collider) {
+        this.collider = collider;
+        if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
+    }
 }

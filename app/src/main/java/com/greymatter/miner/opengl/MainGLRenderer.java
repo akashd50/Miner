@@ -25,11 +25,15 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLRendererHelper.loadShaders();
         MainGLRendererHelper.loadMaterials();
         MainGLRendererHelper.loadObjects();
+        MainGLRendererHelper.loadPhysicsObjects();
 
         MainGLRendererHelper.groundQuad.translateBy(new Vector3f(0f,-1.5f,0f));
         MainGLRendererHelper.characterQuad.scaleTo(new Vector3f(0.07f,0.1f,0f));
-        MainGLRendererHelper.testObject.scaleTo(new Vector3f(50f,50f,1f));
-        MainGLRendererHelper.testObject.translateBy(new Vector3f(0f,-50.5f, 0f));
+        MainGLRendererHelper.planet.scaleTo(new Vector3f(70f,70f,1f));
+        MainGLRendererHelper.planet.translateBy(new Vector3f(0f,-70.5f, 0f));
+        MainGLRendererHelper.ball.scaleTo(new Vector3f(0.2f,0.2f,1f));
+
+        MainGLRendererHelper.initiatePhysicsProcesses();
     }
 
     @Override
@@ -48,22 +52,30 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         Drawable toDraw = MainGLRendererHelper.backdropQuad;
         Drawable ground = MainGLRendererHelper.groundQuad;
         Drawable character = MainGLRendererHelper.characterQuad;
-        Drawable monkey = MainGLRendererHelper.testObject;
+        Drawable planet = MainGLRendererHelper.planet;
+        Drawable ball = MainGLRendererHelper.ball;
+        Drawable testLine = MainGLRendererHelper.testLine;
 
         //draw quads
-        ShaderHelper.useProgram(toDraw.getShader());
+        ShaderHelper.useProgram(MainGLRendererHelper.quadShader);
         ShaderHelper.setCameraProperties(toDraw.getShader(), MainGLRendererHelper.camera);
-
         //toDraw.onDrawFrame();
         //ground.onDrawFrame();
         character.rotateBy(new Vector3f(1f,1f,0f));
         character.onDrawFrame();
 
         //draw 3d objects
-        //monkey.rotateBy(new Vector3f(1f,0f,0f));
-        ShaderHelper.useProgram(monkey.getShader());
-        ShaderHelper.setCameraProperties(monkey.getShader(), MainGLRendererHelper.camera);
-        monkey.onDrawFrame();
+        ShaderHelper.useProgram(MainGLRendererHelper.threeDObjectShader);
+        ShaderHelper.setCameraProperties(MainGLRendererHelper.threeDObjectShader, MainGLRendererHelper.camera);
+        planet.onDrawFrame();
+        ball.translateBy(new Vector3f(0f,-0.003f,0f));
+        ball.onDrawFrame();
+
+        //drawLines
+        ShaderHelper.useProgram(MainGLRendererHelper.lineShader);
+        ShaderHelper.setCameraProperties(MainGLRendererHelper.lineShader, MainGLRendererHelper.camera);
+        testLine.onDrawFrame();
+
     }
 
 }
