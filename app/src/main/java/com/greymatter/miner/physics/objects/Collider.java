@@ -1,7 +1,8 @@
-package com.greymatter.miner.physics;
+package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.opengl.objects.Drawable;
 import com.greymatter.miner.physics.objects.CircleCollider;
+import com.greymatter.miner.physics.objects.CustomCollider;
 
 import javax.vecmath.Vector3f;
 
@@ -19,20 +20,28 @@ public abstract class Collider {
         return (CircleCollider)this;
     }
 
+    public CustomCollider asCustomColloder() {
+        return (CustomCollider) this;
+    }
+
     public void scaleTo(Vector3f newScale) {
         this.scale = newScale;
+        this.updateParams();
     }
 
     public void scaleBy(Vector3f newScale) {
         this.scale.add(newScale);
+        this.updateParams();
     }
 
     public void translateTo(Vector3f position) {
         this.translation = position;
+        this.updateParams();
     }
 
     public void translateBy(Vector3f translation) {
         this.translation.add(translation);
+        this.updateParams();
     }
 
     public void rotateTo(Vector3f rotation) {
@@ -63,4 +72,6 @@ public abstract class Collider {
         this.drawable = drawable;
         if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
     }
+
+    public abstract void updateParams();
 }

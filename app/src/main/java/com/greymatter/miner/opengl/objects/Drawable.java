@@ -2,7 +2,7 @@ package com.greymatter.miner.opengl.objects;
 
 import android.opengl.Matrix;
 
-import com.greymatter.miner.physics.Collider;
+import com.greymatter.miner.physics.objects.Collider;
 
 import javax.vecmath.Vector3f;
 

@@ -33,6 +33,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLRendererHelper.planet.translateBy(new Vector3f(0f,-70.5f, 0f));
         MainGLRendererHelper.ball.scaleTo(new Vector3f(0.2f,0.2f,1f));
 
+
         MainGLRendererHelper.initiatePhysicsProcesses();
     }
 
@@ -42,6 +43,8 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         MainGLRendererHelper.onSurfaceChanged(width, height);
         MainGLRendererHelper.camera.translateTo(new Vector3f(0f,0f,5f));
+        MainGLRendererHelper.camera.translateTo(new Vector3f(0f,0f,50f));
+
     }
 
     @Override
@@ -76,6 +79,10 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         ShaderHelper.setCameraProperties(MainGLRendererHelper.lineShader, MainGLRendererHelper.camera);
         testLine.onDrawFrame();
 
+    }
+
+    public void onDestroy() {
+        MainGLRendererHelper.onDestroy();
     }
 
 }

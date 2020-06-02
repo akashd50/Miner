@@ -9,11 +9,9 @@ import com.greymatter.miner.opengl.objects.Object3D;
 import com.greymatter.miner.opengl.objects.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.Triangle;
-import com.greymatter.miner.physics.Collider;
-import com.greymatter.miner.physics.CollisionHandler;
+import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.collisioncheckers.CollisionChecker;
 import com.greymatter.miner.physics.objects.CircleCollider;
-
-import javax.vecmath.Vector3f;
 
 class MainGLRendererHelper {
     static Camera camera;
@@ -22,6 +20,7 @@ class MainGLRendererHelper {
     static Material material, backdropMaterial, groundMaterial, characterMaterial;
     static Drawable backdropQuad, groundQuad, characterQuad, planet, ball, testLine;
     static Collider planetCollider, ballCollider;
+    static CollisionChecker ballAndPlanetCC;
 
     static void onSurfaceChanged(int width, int height) {
         camera = new Camera(width, height);
@@ -59,6 +58,7 @@ class MainGLRendererHelper {
         ballCollider = new CircleCollider(1f);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
+        ballAndPlanetCC = new CollisionChecker(planet, ball, 300);
     }
 
     static void loadMaterials() {
@@ -69,6 +69,12 @@ class MainGLRendererHelper {
     }
 
     static void initiatePhysicsProcesses() {
-        CollisionHandler.setUpCollisionCheckThread(planet, ball);
+        ballAndPlanetCC.start();
+    }
+
+    static void onDestroy() {
+        if(ballAndPlanetCC!=null) {
+            ballAndPlanetCC.onDestroy();
+        }
     }
 }

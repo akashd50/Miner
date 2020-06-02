@@ -12,7 +12,7 @@ import com.greymatter.miner.opengl.MainGLRenderer;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
-
+    private MainGLRenderer glRenderer;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +29,17 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
         surface.setSystemUiVisibility(uiOptions);
 
-        MainGLRenderer glRenderer = new MainGLRenderer();
+        glRenderer = new MainGLRenderer();
         surface.setRenderer(glRenderer);
     }
 
     private void init() {
         AppServices.init(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        glRenderer.onDestroy();
+        super.onDestroy();
     }
 }
