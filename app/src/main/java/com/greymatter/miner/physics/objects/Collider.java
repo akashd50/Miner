@@ -1,8 +1,9 @@
 package com.greymatter.miner.physics.objects;
 
+import android.os.Handler;
+
 import com.greymatter.miner.opengl.objects.Drawable;
-import com.greymatter.miner.physics.objects.CircleCollider;
-import com.greymatter.miner.physics.objects.CustomCollider;
+import com.greymatter.miner.physics.collisioncheckers.CollisionListener;
 
 import javax.vecmath.Vector3f;
 
@@ -10,6 +11,8 @@ public abstract class Collider {
     private Vector3f translation, rotation, scale;
     private float mass;
     private Drawable drawable;
+    private Handler collisionHandler;
+    private CollisionListener collisionListener;
     public Collider() {
         this.translation = new Vector3f(0f,0f,0f);
         this.rotation = new Vector3f(0f,0f,0f);
@@ -22,6 +25,12 @@ public abstract class Collider {
 
     public CustomCollider asCustomColloder() {
         return (CustomCollider) this;
+    }
+
+    public Collider initCollisionListener(long collisionWaitTime) {
+        this.collisionListener = new CollisionListener(this, collisionWaitTime);
+        this.collisionListener.onStart();
+        return this;
     }
 
     public void scaleTo(Vector3f newScale) {
@@ -42,6 +51,14 @@ public abstract class Collider {
     public void translateBy(Vector3f translation) {
         this.translation.add(translation);
         this.updateParams();
+    }
+
+    public Handler getCollisionHandler() {
+        return collisionHandler;
+    }
+
+    public void setCollisionHandler(Handler collisionHandler) {
+        this.collisionHandler = collisionHandler;
     }
 
     public void rotateTo(Vector3f rotation) {
@@ -71,6 +88,10 @@ public abstract class Collider {
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
         if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
+    }
+
+    public void onDestroy() {
+        collisionListener.onDestroy();
     }
 
     public abstract void updateParams();

@@ -36,8 +36,9 @@ public class Line extends Drawable {
         lineVertices.add(toAdd);
     }
 
-    public void addVertices(ArrayList<Vector3f> toAdd) {
+    public Line addVertices(ArrayList<Vector3f> toAdd) {
         lineVertices.addAll(toAdd);
+        return this;
     }
 
     public float[] asArray() {
@@ -51,7 +52,7 @@ public class Line extends Drawable {
         return toReturn;
     }
 
-    public void build() {
+    public Line build() {
         setVertexArrayObject(GLBufferHelper.glGenVertexArray());
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
@@ -59,5 +60,6 @@ public class Line extends Drawable {
                 getShader(), Constants.IN_POSITION);
 
         GLBufferHelper.glUnbindVertexArray();
+        return this;
     }
 }

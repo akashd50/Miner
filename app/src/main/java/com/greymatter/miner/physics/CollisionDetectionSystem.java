@@ -5,6 +5,8 @@ import com.greymatter.miner.physics.objects.CircleCollider;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector3f;
+
 public class CollisionDetectionSystem {
     private static ArrayList<Drawable> systemObjects;
 
@@ -25,14 +27,7 @@ public class CollisionDetectionSystem {
         return toReturn;
     }
 
-    //static helper functions
-    public static boolean circleVCircle(CircleCollider c1, CircleCollider c2) {
-        float marginOfError = 80f;
-        float r = c1.getTransformedRadius() + c2.getTransformedRadius();
-        r *= r;
-        return r < Math.pow((c1.getTranslation().x + c2.getTranslation().x),2)
-                + Math.pow((c1.getTranslation().y + c2.getTranslation().y),2) - marginOfError;
-    }
+
 
 //    public static boolean rectVRect(  a, AABB b )
 //    {
