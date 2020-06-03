@@ -3,7 +3,7 @@ package com.greymatter.miner.physics.objects;
 import android.os.Handler;
 
 import com.greymatter.miner.opengl.objects.Drawable;
-import com.greymatter.miner.physics.collisioncheckers.CollisionListener;
+import com.greymatter.miner.physics.collisioncheckers.CollisionDetector;
 
 import javax.vecmath.Vector3f;
 
@@ -11,8 +11,8 @@ public abstract class Collider {
     private Vector3f translation, rotation, scale;
     private float mass;
     private Drawable drawable;
-    private Handler collisionHandler;
-    private CollisionListener collisionListener;
+    private OnCollisionListener onCollisionListener;
+    private CollisionDetector collisionDetector;
     public Collider() {
         this.translation = new Vector3f(0f,0f,0f);
         this.rotation = new Vector3f(0f,0f,0f);
@@ -28,9 +28,12 @@ public abstract class Collider {
     }
 
     public Collider initCollisionListener(long collisionWaitTime) {
-        this.collisionListener = new CollisionListener(this, collisionWaitTime);
-        this.collisionListener.onStart();
-        return this;
+        if(this.onCollisionListener!=null) {
+            this.collisionDetector = new CollisionDetector(this, collisionWaitTime);
+            this.collisionDetector.onStart();
+            return this;
+        }
+        return null;
     }
 
     public void scaleTo(Vector3f newScale) {
@@ -53,12 +56,12 @@ public abstract class Collider {
         this.updateParams();
     }
 
-    public Handler getCollisionHandler() {
-        return collisionHandler;
+    public OnCollisionListener getCollisionListener() {
+        return onCollisionListener;
     }
 
-    public void setCollisionHandler(Handler collisionHandler) {
-        this.collisionHandler = collisionHandler;
+    public void setCollisionListener(OnCollisionListener collisionListener) {
+        this.onCollisionListener = collisionListener;
     }
 
     public void rotateTo(Vector3f rotation) {
@@ -91,7 +94,7 @@ public abstract class Collider {
     }
 
     public void onDestroy() {
-        collisionListener.onDestroy();
+        collisionDetector.onDestroy();
     }
 
     public abstract void updateParams();

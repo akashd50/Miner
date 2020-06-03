@@ -13,6 +13,14 @@ public class CustomCollider extends Collider {
         transformedVertices = new ArrayList<>();
     }
 
+    public ArrayList<Vector3f> getMeshVertices() {
+        return meshVertices;
+    }
+
+    public ArrayList<Vector3f> getTransformedVertices() {
+        return transformedVertices;
+    }
+
     @Override
     public void updateParams() {
         transformedVertices.clear();

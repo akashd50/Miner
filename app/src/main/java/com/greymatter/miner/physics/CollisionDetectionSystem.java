@@ -27,7 +27,11 @@ public class CollisionDetectionSystem {
         return toReturn;
     }
 
-
+    public static void initializeWorldCollisionDetectionSystem() {
+        for(Drawable drawable : systemObjects) {
+            drawable.getCollider().initCollisionListener(0);
+        }
+    }
 
 //    public static boolean rectVRect(  a, AABB b )
 //    {

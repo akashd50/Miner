@@ -10,6 +10,7 @@ import android.opengl.GLES30;
 
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Drawable;
+import com.greymatter.miner.opengl.objects.Line;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer {
 
@@ -33,6 +34,9 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLRendererHelper.planet.translateBy(new Vector3f(0f,-70.5f, 0f));
         MainGLRendererHelper.ball.scaleTo(new Vector3f(0.2f,0.2f,1f));
 
+        MainGLRendererHelper.testLine = new Line(MainGLRendererHelper.lineShader)
+                .addVertices(MainGLRendererHelper.planetCollider.asCustomColloder()
+                        .getTransformedVertices()).build();
 
         MainGLRendererHelper.initiatePhysicsProcesses();
     }
@@ -43,8 +47,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         MainGLRendererHelper.onSurfaceChanged(width, height);
         MainGLRendererHelper.camera.translateTo(new Vector3f(0f,0f,5f));
-        MainGLRendererHelper.camera.translateTo(new Vector3f(0f,0f,50f));
-
     }
 
     @Override
@@ -78,7 +80,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         ShaderHelper.useProgram(MainGLRendererHelper.lineShader);
         ShaderHelper.setCameraProperties(MainGLRendererHelper.lineShader, MainGLRendererHelper.camera);
         testLine.onDrawFrame();
-
     }
 
     public void onDestroy() {

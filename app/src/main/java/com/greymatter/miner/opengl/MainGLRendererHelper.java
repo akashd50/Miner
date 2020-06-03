@@ -18,6 +18,8 @@ import com.greymatter.miner.opengl.objects.Triangle;
 import com.greymatter.miner.physics.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CircleCollider;
+import com.greymatter.miner.physics.objects.CustomCollider;
+import com.greymatter.miner.physics.objects.OnCollisionListener;
 
 import javax.vecmath.Vector3f;
 
@@ -56,28 +58,27 @@ class MainGLRendererHelper {
         planet = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
         ball = new Object3D("objects/circle_test.obj", characterMaterial, threeDObjectShader);
         testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
-
-        addObjectsToCollisionSystem();
     }
 
     static void loadPhysicsObjects() {
-        planetCollider = new CircleCollider(1f);
+        planetCollider = new CustomCollider(((Object3D)planet).getOuterMesh());
         ballCollider = new CircleCollider(1f);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
 
-        ballCollider.setCollisionHandler(new Handler(Looper.getMainLooper()){
+        ballCollider.setCollisionListener(new OnCollisionListener() {
             @Override
-            public void handleMessage(@NonNull Message msg) {
-                if(msg.what == 1) {
-                    ((Collider)msg.obj).getDrawable().translateTo(new Vector3f(0f,1f,0f));
+            public void onCollision(int collStat, Collider collider) {
+                if(collStat==1) {
+                    collider.getDrawable().translateTo(new Vector3f(0.5f,1f,0f));
                 }
             }
         });
     }
 
     static void initiatePhysicsProcesses() {
-        ballCollider.initCollisionListener(1000);
+        addObjectsToCollisionSystem();
+        CollisionDetectionSystem.initializeWorldCollisionDetectionSystem();
     }
 
     static void onDestroy() {
