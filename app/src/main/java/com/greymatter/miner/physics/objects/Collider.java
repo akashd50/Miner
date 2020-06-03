@@ -94,7 +94,9 @@ public abstract class Collider {
     }
 
     public void onDestroy() {
-        collisionDetector.onDestroy();
+        if(collisionDetector!=null) {
+            collisionDetector.onDestroy();
+        }
     }
 
     public abstract void updateParams();

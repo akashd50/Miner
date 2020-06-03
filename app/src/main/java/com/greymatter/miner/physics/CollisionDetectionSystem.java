@@ -33,6 +33,15 @@ public class CollisionDetectionSystem {
         }
     }
 
+    public static void onDestroy() {
+        if(systemObjects==null) return;
+        for(Drawable drawable : systemObjects) {
+            if(drawable.getCollider()!=null) {
+                drawable.getCollider().onDestroy();
+            }
+        }
+    }
+
 //    public static boolean rectVRect(  a, AABB b )
 //    {
 //        // Exit with no intersection if found separated along an axis

@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -82,7 +83,8 @@ class MainGLRendererHelper {
     }
 
     static void onDestroy() {
-        if(ballCollider!=null) ballCollider.onDestroy();
+        Log.v("On Destroy","Closing all background threads");
+        CollisionDetectionSystem.onDestroy();
     }
 
     static void addObjectsToCollisionSystem() {
