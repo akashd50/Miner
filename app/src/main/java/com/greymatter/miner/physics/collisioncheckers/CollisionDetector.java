@@ -5,6 +5,7 @@ import android.util.Log;
 import com.greymatter.miner.opengl.objects.Drawable;
 import com.greymatter.miner.physics.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.CollisionEvent;
 
 public class CollisionDetector {
     private Thread collisionCheckerThread;
@@ -37,11 +38,15 @@ public class CollisionDetector {
                     boolean hasCollided = CollisionDetectionHelper.checkCollision(linkedCollider, drawable.getCollider());
 
                     if(hasCollided && linkedCollider.getCollisionListener()!=null) {
+
                         Log.v("CollisionListener" ,"Collision Detected");
-                        linkedCollider.getCollisionListener().onCollision(1,linkedCollider);
-                    }/*else {
-                        linkedCollider.getCollisionHandler().obtainMessage(0, linkedCollider).sendToTarget();
-                    }*/
+
+                        linkedCollider.getCollisionListener().onCollision(
+                                new CollisionEvent()
+                                .withStatus(1)
+                                .withLinkedObject(linkedCollider)
+                                .againstObject(drawable.getCollider()));
+                    }
                 }
                 if(waitTimeBWChecks!=0) {
                     synchronized (this) {

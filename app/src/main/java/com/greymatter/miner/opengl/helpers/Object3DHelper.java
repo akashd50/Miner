@@ -23,6 +23,15 @@ public class Object3DHelper {
         return roughShape;
     }
 
+    public static ArrayList<Vector3f> simplify(ArrayList<Vector3f> vertices, float simplificationFactor) {
+        int reducedVerticesSize = (int)Math.ceil(vertices.size() * simplificationFactor);
+        ArrayList<Vector3f> toReturn = new ArrayList<>();
+        for(int i=0;i<vertices.size();i+=(int)(vertices.size()/reducedVerticesSize)) {
+            toReturn.add(vertices.get(i));
+        }
+        return toReturn;
+    }
+
     public static ArrayList<Vector3f> generateRoughMesh2(Object3D object, ArrayList<Vector3f> vertices,
                                                                   ArrayList<Config> faceConfiguration) {
         roughShape = new ArrayList<>();

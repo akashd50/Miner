@@ -1,13 +1,9 @@
 package com.greymatter.miner.opengl;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Drawable;
 import com.greymatter.miner.opengl.objects.Line;
@@ -18,8 +14,8 @@ import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.Triangle;
 import com.greymatter.miner.physics.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
-import com.greymatter.miner.physics.objects.CircleCollider;
-import com.greymatter.miner.physics.objects.CustomCollider;
+import com.greymatter.miner.physics.objects.CollisionEvent;
+import com.greymatter.miner.physics.objects.PolygonCollider;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 
 import javax.vecmath.Vector3f;
@@ -57,21 +53,23 @@ class MainGLRendererHelper {
         groundQuad = new Quad(groundMaterial, quadShader);
         characterQuad = new Quad(characterMaterial, quadShader);
         planet = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
-        ball = new Object3D("objects/circle_test.obj", characterMaterial, threeDObjectShader);
+        ball = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
         testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
     }
 
     static void loadPhysicsObjects() {
-        planetCollider = new CustomCollider(((Object3D)planet).getOuterMesh());
-        ballCollider = new CircleCollider(1f);
+        planetCollider = new PolygonCollider(((Object3D)planet).getOuterMesh());
+        ballCollider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
+        planetCollider.updateTransformationsPerMovement(false);
+        ballCollider.updateTransformationsPerMovement(false);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
 
         ballCollider.setCollisionListener(new OnCollisionListener() {
             @Override
-            public void onCollision(int collStat, Collider collider) {
-                if(collStat==1) {
-                    collider.getDrawable().translateTo(new Vector3f(0.5f,1f,0f));
+            public void onCollision(CollisionEvent event) {
+                if(event.getCollisionStatus()==1) {
+                    event.getLinkedObject().getDrawable().translateTo(new Vector3f(0.5f,1f,0f));
                 }
             }
         });

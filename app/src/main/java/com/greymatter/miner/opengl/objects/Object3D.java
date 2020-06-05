@@ -21,6 +21,7 @@ public class Object3D extends Drawable {
 	private ArrayList<Vector3f> normals;
 	private ArrayList<Vector2f> uvs;
 	private ArrayList<Config> faceConfiguration;
+	private ArrayList<Vector3f> outerMesh;
 
 	private int vertexBufferObject;
 	private int normalBufferObject;
@@ -172,7 +173,10 @@ public class Object3D extends Drawable {
 	}
 	
 	public ArrayList<Vector3f> getOuterMesh() {
-		return Object3DHelper.generateRoughMesh2(this, vertices, faceConfiguration);
+		if(outerMesh==null) {
+			outerMesh = Object3DHelper.generateRoughMesh2(this, vertices, faceConfiguration);
+		}
+		return outerMesh;
 	}
 
 	public void updateShapeParams(Vector3f vector) {

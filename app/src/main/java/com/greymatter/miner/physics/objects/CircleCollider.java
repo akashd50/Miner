@@ -15,11 +15,14 @@ public class CircleCollider extends Collider {
     }
 
     public float getTransformedRadius() {
+        if(!isUpdatedPerMovement()) {
+            updateParamsOverride();
+        }
         return transformedRadius;
     }
 
     @Override
-    public void updateParams() {
+    public void updateParamsOverride() {
         transformedRadius = getScale().x * radius;
     }
 }

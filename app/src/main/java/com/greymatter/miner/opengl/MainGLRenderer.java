@@ -35,7 +35,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLRendererHelper.ball.scaleTo(new Vector3f(0.2f,0.2f,1f));
 
         MainGLRendererHelper.testLine = new Line(MainGLRendererHelper.lineShader)
-                .addVertices(MainGLRendererHelper.planetCollider.asCustomColloder()
+                .addVertices(MainGLRendererHelper.ballCollider.asCustomColloder()
                         .getTransformedVertices()).build();
 
         MainGLRendererHelper.initiatePhysicsProcesses();

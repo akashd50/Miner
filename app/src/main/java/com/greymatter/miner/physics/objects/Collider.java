@@ -1,7 +1,5 @@
 package com.greymatter.miner.physics.objects;
 
-import android.os.Handler;
-
 import com.greymatter.miner.opengl.objects.Drawable;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetector;
 
@@ -10,9 +8,11 @@ import javax.vecmath.Vector3f;
 public abstract class Collider {
     private Vector3f translation, rotation, scale;
     private float mass;
+    private boolean dynamicallyUpdated;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private CollisionDetector collisionDetector;
+
     public Collider() {
         this.translation = new Vector3f(0f,0f,0f);
         this.rotation = new Vector3f(0f,0f,0f);
@@ -23,8 +23,8 @@ public abstract class Collider {
         return (CircleCollider)this;
     }
 
-    public CustomCollider asCustomColloder() {
-        return (CustomCollider) this;
+    public PolygonCollider asCustomColloder() {
+        return (PolygonCollider) this;
     }
 
     public Collider initCollisionListener(long collisionWaitTime) {
@@ -84,6 +84,14 @@ public abstract class Collider {
         return scale;
     }
 
+    public void updateTransformationsPerMovement(boolean dynamicallyUpdated) {
+        this.dynamicallyUpdated = dynamicallyUpdated;
+    }
+
+    public boolean isUpdatedPerMovement() {
+        return dynamicallyUpdated;
+    }
+
     public Drawable getDrawable() {
         return drawable;
     }
@@ -99,5 +107,11 @@ public abstract class Collider {
         }
     }
 
-    public abstract void updateParams();
+    public void updateParams() {
+        if(dynamicallyUpdated) {
+            this.updateParamsOverride();
+        }
+    }
+
+    public abstract void updateParamsOverride();
 }
