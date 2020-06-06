@@ -2,6 +2,7 @@ package com.greymatter.miner.physics.collisioncheckers;
 
 import com.greymatter.miner.physics.objects.CircleCollider;
 import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
 
 import java.util.ArrayList;
@@ -9,40 +10,43 @@ import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 
 public class CollisionDetectionHelper {
-    public static synchronized boolean checkCollision(Collider c1, Collider c2) {
+    public static synchronized CollisionEvent checkCollision(Collider c1, Collider c2) {
         if(c1 instanceof CircleCollider && c2 instanceof  CircleCollider) {
-            return circleVCircle((CircleCollider) c1, (CircleCollider) c2);
+            return circleVCircle(c1.asCircleCollider(), c2.asCircleCollider());
         }else if(c1 instanceof CircleCollider && c2 instanceof PolygonCollider) {
-            return circleVCustomAdvanced((CircleCollider) c1, (PolygonCollider) c2);
+            return circleVCustomAdvanced(c1.asCircleCollider(), c2.asPolygonCollider());
         }else if(c1 instanceof PolygonCollider && c2 instanceof CircleCollider) {
-            return circleVCustomAdvanced((CircleCollider) c2, (PolygonCollider) c1);
+            return circleVCustomAdvanced(c2.asCircleCollider(), c1.asPolygonCollider());
         }else if(c1 instanceof PolygonCollider && c2 instanceof PolygonCollider) {
-            return customVCustomAdvanced((PolygonCollider) c1, (PolygonCollider) c2);
+            return customVCustomAdvanced(c1.asPolygonCollider(), c2.asPolygonCollider());
         }
-        return false;
+        return null;
     }
 
     //static helper functions
-    private static synchronized boolean circleVCircle(CircleCollider c1, CircleCollider c2) {
+    private static synchronized CollisionEvent circleVCircle(CircleCollider c1, CircleCollider c2) {
         float marginOfError = 80f;
         float r = c1.getTransformedRadius() + c2.getTransformedRadius();
         r *= r;
-        return r < Math.pow((c1.getTranslation().x + c2.getTranslation().x),2)
-                + Math.pow((c1.getTranslation().y + c2.getTranslation().y),2) - marginOfError;
+        if(r < Math.pow((c1.getTranslation().x + c2.getTranslation().x),2)
+                + Math.pow((c1.getTranslation().y + c2.getTranslation().y),2) - marginOfError) {
+            return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
+        }
+        return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized boolean circleVCustom(CircleCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent circleVCustom(CircleCollider c1, PolygonCollider c2) {
         float r = c1.getTransformedRadius();
         r *= r;
         for(Vector3f vector : c2.getTransformedVertices()) {
             if(getDistance(vector, c1.getTranslation()) <= r) {
-                return true;
+                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
         }
-        return false;
+        return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized boolean circleVCustomAdvanced(CircleCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent circleVCustomAdvanced(CircleCollider c1, PolygonCollider c2) {
         Vector3f circleTop = new Vector3f(c1.getTranslation());
         Vector3f circleBottom = new Vector3f(c1.getTranslation());
         Vector3f circleLeft = new Vector3f(c1.getTranslation());
@@ -66,13 +70,13 @@ public class CollisionDetectionHelper {
             }
             if(checkLineIntersection(curr, next, circleTop, circleBottom)
             || checkLineIntersection(curr, next, circleLeft, circleRight)) {
-                return true;
+                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
         }
-        return false;
+        return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized boolean customVCustomAdvanced(PolygonCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent customVCustomAdvanced(PolygonCollider c1, PolygonCollider c2) {
         ArrayList<Vector3f> vertsC2 = c2.getTransformedVertices();
         ArrayList<Vector3f> vertsC1 = c1.getTransformedVertices();
 
@@ -89,24 +93,20 @@ public class CollisionDetectionHelper {
                 else { nextC2 = vertsC2.get(0); }
 
                 if (checkLineIntersection(currC1, nextC1, currC2, nextC2)) {
-                    return true;
+                    return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
                 }
             }
         }
-        return false;
+        return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
     public static synchronized double getDistance(Vector3f v1, Vector3f v2) {
         return Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2);
     }
 
-    public static float getNormal(Vector3f v1, Vector3f v2) {
-        Vector3f diff = new Vector3f(v2);
-        diff.sub(v1);
-
-
-
-        return 0f;
+    public static Vector3f getNormal(Vector3f vector) {
+        float mag = getMagnitude(vector);
+        return new Vector3f(vector.x/mag, vector.y/mag, vector.z);
     }
 
     public static float getMagnitude(Vector3f vector) {

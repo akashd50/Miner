@@ -32,8 +32,9 @@ public class Line extends Drawable {
         GLBufferHelper.glUnbindVertexArray();
     }
 
-    public void addVertex(Vector3f toAdd) {
+    public Line addVertex(Vector3f toAdd) {
         lineVertices.add(toAdd);
+        return this;
     }
 
     public Line addVertices(ArrayList<Vector3f> toAdd) {

@@ -6,7 +6,7 @@ import com.greymatter.miner.physics.collisioncheckers.CollisionDetector;
 import javax.vecmath.Vector3f;
 
 public abstract class Collider {
-    private Vector3f translation, rotation, scale;
+    private Vector3f translation, rotation, scale, acceleration, velocity;
     private float mass;
     private boolean dynamicallyUpdated;
     private Drawable drawable;
@@ -17,14 +17,9 @@ public abstract class Collider {
         this.translation = new Vector3f(0f,0f,0f);
         this.rotation = new Vector3f(0f,0f,0f);
         this.scale = new Vector3f(1.0f,1.0f, 1.0f);
-    }
-
-    public CircleCollider asCircleCollider() {
-        return (CircleCollider)this;
-    }
-
-    public PolygonCollider asCustomColloder() {
-        return (PolygonCollider) this;
+        this.acceleration = new Vector3f();
+        this.velocity = new Vector3f();
+        this.mass = 0;
     }
 
     public Collider initCollisionListener(long collisionWaitTime) {
@@ -34,6 +29,36 @@ public abstract class Collider {
             return this;
         }
         return null;
+    }
+
+    public void update() {
+        this.updateVelocity(acceleration);
+        this.translateBy(velocity);
+    }
+
+    public Collider setAcceleration(Vector3f acceleration) {
+        this.acceleration = acceleration;
+        return this;
+    }
+
+    public Collider setVelocity(Vector3f velocity) {
+        this.velocity = velocity;
+        return this;
+    }
+
+    public Collider updateAcceleration(Vector3f acceleration) {
+        this.acceleration.add(acceleration);
+        return this;
+    }
+
+    public Collider updateVelocity(Vector3f velocity) {
+        this.velocity.add(velocity);
+        return this;
+    }
+
+    public Collider setMass(float mass) {
+        this.mass = mass;
+        return this;
     }
 
     public void scaleTo(Vector3f newScale) {
@@ -56,6 +81,16 @@ public abstract class Collider {
         this.updateParams();
     }
 
+    public void rotateTo(Vector3f rotation) {
+        this.rotation = rotation;
+        this.updateParams();
+    }
+
+    public void rotateBy(Vector3f rotation) {
+        this.rotation.add(rotation);
+        this.updateParams();
+    }
+
     public OnCollisionListener getCollisionListener() {
         return onCollisionListener;
     }
@@ -64,12 +99,24 @@ public abstract class Collider {
         this.onCollisionListener = collisionListener;
     }
 
-    public void rotateTo(Vector3f rotation) {
-        this.rotation = rotation;
+    public void updateTransformationsPerMovement(boolean dynamicallyUpdated) {
+        this.dynamicallyUpdated = dynamicallyUpdated;
     }
 
-    public void rotateBy(Vector3f rotation) {
-        this.rotation.add(rotation);
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
+        if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
+    }
+
+    public void updateParams() {
+        if(dynamicallyUpdated) {
+            this.updateParamsOverride();
+        }
+        this.drawable.transformationsUpdated();
+    }
+
+    public boolean isUpdatedPerMovement() {
+        return dynamicallyUpdated;
     }
 
     public Vector3f getTranslation() {
@@ -84,34 +131,23 @@ public abstract class Collider {
         return scale;
     }
 
-    public void updateTransformationsPerMovement(boolean dynamicallyUpdated) {
-        this.dynamicallyUpdated = dynamicallyUpdated;
-    }
-
-    public boolean isUpdatedPerMovement() {
-        return dynamicallyUpdated;
-    }
-
     public Drawable getDrawable() {
         return drawable;
     }
 
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
-        if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
+    public CircleCollider asCircleCollider() {
+        return (CircleCollider)this;
     }
+
+    public PolygonCollider asPolygonCollider() {
+        return (PolygonCollider) this;
+    }
+
+    public abstract void updateParamsOverride();
 
     public void onDestroy() {
         if(collisionDetector!=null) {
             collisionDetector.onDestroy();
         }
     }
-
-    public void updateParams() {
-        if(dynamicallyUpdated) {
-            this.updateParamsOverride();
-        }
-    }
-
-    public abstract void updateParamsOverride();
 }

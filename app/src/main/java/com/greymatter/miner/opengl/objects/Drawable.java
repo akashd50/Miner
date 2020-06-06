@@ -3,11 +3,12 @@ package com.greymatter.miner.opengl.objects;
 import android.opengl.Matrix;
 
 import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.GeneralCollider;
 
 import javax.vecmath.Vector3f;
 
 public abstract class Drawable {
-    private Vector3f translation, rotation, scale;
+    //private Vector3f translation, rotation, scale;
     private Material material;
     private float[] modelMatrix;
     private Shader shader;
@@ -16,12 +17,10 @@ public abstract class Drawable {
     private Collider collider;
 
     public Drawable() {
-        this.translation = new Vector3f(0f,0f,0f);
-        this.rotation = new Vector3f(0f,0f,0f);
-        this.scale = new Vector3f(1.0f,1.0f, 1.0f);
         this.transformationsUpdated = false;
         this.modelMatrix = new float[16];
         Matrix.setIdentityM(modelMatrix, 0);
+        this.setCollider(new GeneralCollider());
     }
 
     public void onDrawFrame() {
@@ -32,58 +31,22 @@ public abstract class Drawable {
     }
 
     private void applyTransformations() {
-        Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix,0,translation.x,translation.y,translation.z);
-        Matrix.rotateM(modelMatrix, 0, rotation.x, 1, 0, 0);
-        Matrix.rotateM(modelMatrix, 0, rotation.y, 0, 1, 0);
-        Matrix.rotateM(modelMatrix, 0, rotation.z, 0, 0, 1);
-        Matrix.scaleM(modelMatrix,0,scale.x,scale.y,scale.z);
+        if(collider!=null) {
+            Matrix.setIdentityM(modelMatrix, 0);
+            Matrix.translateM(modelMatrix, 0, collider.getTranslation().x,
+                                                        collider.getTranslation().y,
+                                                        collider.getTranslation().z);
+            Matrix.rotateM(modelMatrix, 0, collider.getRotation().x, 1, 0, 0);
+            Matrix.rotateM(modelMatrix, 0, collider.getRotation().y, 0, 1, 0);
+            Matrix.rotateM(modelMatrix, 0, collider.getRotation().z, 0, 0, 1);
+            Matrix.scaleM(modelMatrix, 0, collider.getScale().x,
+                                                    collider.getScale().y,
+                                                    collider.getScale().z);
+        }
     }
 
-    public void scaleTo(Vector3f newScale) {
-        this.scale = newScale;
-        this.transformationsUpdated = true;
-        if(this.collider!=null) collider.scaleTo(newScale);
-    }
-
-    public void scaleBy(Vector3f newScale) {
-        this.scale.add(newScale);
-        this.transformationsUpdated = true;
-        if(this.collider!=null) collider.scaleBy(newScale);
-    }
-
-    public void translateTo(Vector3f position) {
-        this.translation = position;
-        this.transformationsUpdated = true;
-        if(this.collider!=null) collider.translateTo(position);
-    }
-
-    public void translateBy(Vector3f translation) {
-        this.translation.add(translation);
-        this.transformationsUpdated = true;
-        if(this.collider!=null) collider.translateBy(translation);
-    }
-
-    public void rotateTo(Vector3f rotation) {
-        this.rotation = rotation;
-        this.transformationsUpdated = true;
-    }
-
-    public void rotateBy(Vector3f rotation) {
-        this.rotation.add(rotation);
-        this.transformationsUpdated = true;
-    }
-
-    public Vector3f getTranslation() {
-        return translation;
-    }
-
-    public Vector3f getRotation() {
-        return rotation;
-    }
-
-    public Vector3f getScale() {
-        return scale;
+    public void transformationsUpdated() {
+        transformationsUpdated = true;
     }
 
     public Shader getShader() {

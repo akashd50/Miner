@@ -2,9 +2,12 @@ package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.opengl.objects.Drawable;
 
+import javax.vecmath.Vector3f;
+
 public class CollisionEvent {
     private Collider linkedObject, againstObject;
-    private int collisionStatus;
+    private Vector3f collisionNormal;
+    private boolean collisionStatus;
     public CollisionEvent(){ }
 
     public CollisionEvent withLinkedObject(Collider collider) {
@@ -17,12 +20,17 @@ public class CollisionEvent {
         return this;
     }
 
-    public CollisionEvent withStatus(int s) {
-        this.collisionStatus = s;
+    public CollisionEvent withCollisionNormal(Vector3f normal) {
+        this.collisionNormal = normal;
         return this;
     }
 
-    public int getCollisionStatus() {
+    public CollisionEvent withStatus(boolean collStat) {
+        this.collisionStatus = collStat;
+        return this;
+    }
+
+    public boolean getCollisionStatus() {
         return collisionStatus;
     }
 

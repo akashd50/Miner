@@ -27,7 +27,6 @@ class MainGLRendererHelper {
     static Material material, backdropMaterial, groundMaterial, characterMaterial;
     static Drawable backdropQuad, groundQuad, characterQuad, planet, ball, testLine;
     static Collider planetCollider, ballCollider;
-    //static CollisionChecker ballAndPlanetCC;
 
     static void onSurfaceChanged(int width, int height) {
         camera = new Camera(width, height);
@@ -54,7 +53,7 @@ class MainGLRendererHelper {
         characterQuad = new Quad(characterMaterial, quadShader);
         planet = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
         ball = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
-        testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
+        //testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
     }
 
     static void loadPhysicsObjects() {
@@ -64,12 +63,14 @@ class MainGLRendererHelper {
         ballCollider.updateTransformationsPerMovement(false);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
+        ball.getCollider().setAcceleration(new Vector3f(0f,-0.001f, 0f));
 
         ballCollider.setCollisionListener(new OnCollisionListener() {
             @Override
             public void onCollision(CollisionEvent event) {
-                if(event.getCollisionStatus()==1) {
-                    event.getLinkedObject().getDrawable().translateTo(new Vector3f(0.5f,1f,0f));
+                if(event.getCollisionStatus()) {
+                    event.getLinkedObject().translateTo(new Vector3f(0.5f,1f,0f));
+                    event.getLinkedObject().setVelocity(new Vector3f());
                 }
             }
         });

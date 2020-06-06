@@ -35,17 +35,13 @@ public class CollisionDetector {
             while(isActive) {
                 for(Drawable drawable : CollisionDetectionSystem.getSystemObjectsExcept(
                         linkedCollider.getDrawable())) {
-                    boolean hasCollided = CollisionDetectionHelper.checkCollision(linkedCollider, drawable.getCollider());
+                    CollisionEvent event = CollisionDetectionHelper.checkCollision(linkedCollider, drawable.getCollider());
 
-                    if(hasCollided && linkedCollider.getCollisionListener()!=null) {
+                    if(event.getCollisionStatus() && linkedCollider.getCollisionListener()!=null) {
 
                         Log.v("CollisionListener" ,"Collision Detected");
 
-                        linkedCollider.getCollisionListener().onCollision(
-                                new CollisionEvent()
-                                .withStatus(1)
-                                .withLinkedObject(linkedCollider)
-                                .againstObject(drawable.getCollider()));
+                        linkedCollider.getCollisionListener().onCollision(event);
                     }
                 }
                 if(waitTimeBWChecks!=0) {

@@ -6,6 +6,9 @@ import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
+import com.greymatter.miner.physics.objects.GeneralCollider;
+import com.greymatter.miner.physics.objects.PolygonCollider;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -94,8 +97,6 @@ public class Object3D extends Drawable {
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(localUvs, 2,
 																getShader(), Constants.IN_UV);
 		GLBufferHelper.glUnbindVertexArray();
-
-
 	}
 
 	public void onDrawFrame() {
