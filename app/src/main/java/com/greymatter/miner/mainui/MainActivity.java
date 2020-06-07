@@ -1,4 +1,4 @@
-package com.greymatter.miner;
+package com.greymatter.miner.mainui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.View;
 
+import com.greymatter.miner.AppServices;
+import com.greymatter.miner.R;
 import com.greymatter.miner.opengl.MainGLRenderer;
 
 public class MainActivity extends AppCompatActivity {
