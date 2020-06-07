@@ -109,4 +109,27 @@ public class Camera {
 		return this.width;
 	}
 
+	public float getCameraLeft() {
+		return (float) -1.0 * ratio * zoomValue;
+	}
+
+	public float getCameraRight() {
+		return (float) 1.0 * ratio * zoomValue;
+	}
+
+	public float getCameraTop() {
+		return (float) 1.0 * zoomValue;
+	}
+
+	public float getCameraBottom() {
+		return (float) -1.0 * zoomValue;
+	}
+
+	public float getCameraWidth() {
+		return getCameraRight()*2;
+	}
+
+	public float getCameraHeight() {
+		return getCameraTop()*2;
+	}
 }

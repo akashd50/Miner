@@ -61,19 +61,18 @@ class MainGLRendererHelper {
         planetCollider = new PolygonCollider(((Object3D)planet).getOuterMesh());
         ballCollider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
         planetCollider.updateTransformationsPerMovement(false);
-        ballCollider.updateTransformationsPerMovement(false);
+        ballCollider.updateTransformationsPerMovement(true);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
 
         planet.setMass(1f);
-        planet.setRestitution(3f);
+        planet.setRestitution(2f);
 
         ball.setAcceleration(new Vector3f(0f,-0.001f, 0f));
         ball.setMass(1.0f);
-        ball.setRestitution(3f);
+        ball.setRestitution(2f);
 
         ballCollider.setCollisionListener(new OnCollisionListener() {
-
             @Override
             public void impulseResolution(CollisionEvent event) {
                 if(event.getCollisionStatus()) {
@@ -118,14 +117,13 @@ class MainGLRendererHelper {
         CollisionDetectionSystem.initializeWorldCollisionDetectionSystem();
     }
 
-    static void onDestroy() {
-        Log.v("On Destroy","Closing all background threads");
-        CollisionDetectionSystem.onDestroy();
-    }
-
     static void addObjectsToCollisionSystem() {
         CollisionDetectionSystem.addObject(planet);
         CollisionDetectionSystem.addObject(ball);
     }
 
+    static void onDestroy() {
+        Log.v("On Destroy","Closing all background threads");
+        CollisionDetectionSystem.onDestroy();
+    }
 }

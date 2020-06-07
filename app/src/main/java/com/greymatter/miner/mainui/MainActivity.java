@@ -1,16 +1,16 @@
 package com.greymatter.miner.mainui;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
-
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.opengl.MainGLRenderer;
+import com.greymatter.miner.opengl.MainGLTouchHelper;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
@@ -33,11 +33,31 @@ public class MainActivity extends AppCompatActivity {
 
         glRenderer = new MainGLRenderer();
         surface.setRenderer(glRenderer);
+        setOnTouchListener();
     }
 
     private void init() {
         AppServices.init(this);
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setOnTouchListener() {
+        surface.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.mainGLSurfaceView:
+                        MainGLTouchHelper.onTouch(event);
+                        return true;
+                }
+
+                return false;
+            }
+        });
+    }
+
+
+
 
     @Override
     protected void onDestroy() {
