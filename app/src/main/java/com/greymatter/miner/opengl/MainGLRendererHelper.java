@@ -13,6 +13,7 @@ import com.greymatter.miner.opengl.objects.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.Triangle;
 import com.greymatter.miner.physics.CollisionDetectionSystem;
+import com.greymatter.miner.physics.generalhelpers.VectorHelper;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
@@ -63,16 +64,52 @@ class MainGLRendererHelper {
         ballCollider.updateTransformationsPerMovement(false);
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
-        ball.getCollider().setAcceleration(new Vector3f(0f,-0.001f, 0f));
+
+        planet.setMass(1f);
+        planet.setRestitution(3f);
+
+        ball.setAcceleration(new Vector3f(0f,-0.001f, 0f));
+        ball.setMass(1.0f);
+        ball.setRestitution(3f);
 
         ballCollider.setCollisionListener(new OnCollisionListener() {
+
             @Override
-            public void onCollision(CollisionEvent event) {
+            public void impulseResolution(CollisionEvent event) {
                 if(event.getCollisionStatus()) {
-                    event.getLinkedObject().translateTo(new Vector3f(0.5f,1f,0f));
-                    event.getLinkedObject().setVelocity(new Vector3f());
+                    if (event.getCollisionNormal() != null) {
+                        Log.v("Collision Normal: ", event.getCollisionNormal().toString());
+
+                        //resolve collision
+                        Vector3f relativeVelocity = VectorHelper.sub(event.getLinkedObject().getVelocity(),
+                                event.getAgainstObject().getVelocity());
+                        float vectorAlongNormal = VectorHelper.dot(relativeVelocity, event.getCollisionNormal());
+
+                        if (vectorAlongNormal > 0) return;
+
+                        float e = Math.min(event.getLinkedObject().getRestitution(),
+                                event.getAgainstObject().getRestitution());
+                        float j = -(1 + e) * vectorAlongNormal;
+                        j /= 1 / event.getLinkedObject().getMass() + 1 / event.getAgainstObject().getMass();
+
+                        Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
+
+                        event.getLinkedObject().updateVelocity(impulse);
+                    }
                 }
             }
+
+            @Override
+            public void positionalCorrection(CollisionEvent event) {
+                float percent = 0.2f;
+                float slop = 0.02f;
+                float correction = Math.max( event.getPenDepth() - slop, 0.0f )
+                        / (1/event.getLinkedObject().getMass() + 1/event.getAgainstObject().getMass()) * percent;
+                Vector3f correctionVector = VectorHelper.multiply(event.getCollisionNormal(), correction);
+                correctionVector = VectorHelper.multiply(correctionVector, 1/event.getLinkedObject().getMass());
+                event.getLinkedObject().translateBy(correctionVector);
+            }
+
         });
     }
 
@@ -90,4 +127,5 @@ class MainGLRendererHelper {
         CollisionDetectionSystem.addObject(planet);
         CollisionDetectionSystem.addObject(ball);
     }
+
 }

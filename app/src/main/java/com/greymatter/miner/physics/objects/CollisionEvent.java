@@ -7,6 +7,7 @@ import javax.vecmath.Vector3f;
 public class CollisionEvent {
     private Collider linkedObject, againstObject;
     private Vector3f collisionNormal;
+    private float penetrationDepth;
     private boolean collisionStatus;
     public CollisionEvent(){ }
 
@@ -28,6 +29,19 @@ public class CollisionEvent {
     public CollisionEvent withStatus(boolean collStat) {
         this.collisionStatus = collStat;
         return this;
+    }
+
+    public CollisionEvent withPenDepth(float penDepth) {
+        this.penetrationDepth = penDepth;
+        return this;
+    }
+
+    public float getPenDepth() {
+        return this.penetrationDepth;
+    }
+
+    public Vector3f getCollisionNormal() {
+        return this.collisionNormal;
     }
 
     public boolean getCollisionStatus() {

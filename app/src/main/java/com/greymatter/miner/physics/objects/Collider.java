@@ -7,7 +7,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class Collider {
     private Vector3f translation, rotation, scale, acceleration, velocity;
-    private float mass;
+    private float mass, restitution;
     private boolean dynamicallyUpdated;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
@@ -58,6 +58,11 @@ public abstract class Collider {
 
     public Collider setMass(float mass) {
         this.mass = mass;
+        return this;
+    }
+
+    public Collider setRestitution(float restitution) {
+        this.restitution = restitution;
         return this;
     }
 
@@ -131,8 +136,24 @@ public abstract class Collider {
         return scale;
     }
 
+    public Vector3f getVelocity() {
+        return velocity;
+    }
+
+    public Vector3f getAcceleration() {
+        return acceleration;
+    }
+
     public Drawable getDrawable() {
         return drawable;
+    }
+
+    public float getMass(){
+        return this.mass;
+    }
+
+    public float getRestitution() {
+        return restitution;
     }
 
     public CircleCollider asCircleCollider() {

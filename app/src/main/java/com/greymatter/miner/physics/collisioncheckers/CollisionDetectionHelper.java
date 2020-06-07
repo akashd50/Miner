@@ -1,5 +1,6 @@
 package com.greymatter.miner.physics.collisioncheckers;
 
+import com.greymatter.miner.physics.generalhelpers.VectorHelper;
 import com.greymatter.miner.physics.objects.CircleCollider;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
@@ -39,7 +40,7 @@ public class CollisionDetectionHelper {
         float r = c1.getTransformedRadius();
         r *= r;
         for(Vector3f vector : c2.getTransformedVertices()) {
-            if(getDistance(vector, c1.getTranslation()) <= r) {
+            if(VectorHelper.getDistance(vector, c1.getTranslation()) <= r) {
                 return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
         }
@@ -93,24 +94,25 @@ public class CollisionDetectionHelper {
                 else { nextC2 = vertsC2.get(0); }
 
                 if (checkLineIntersection(currC1, nextC1, currC2, nextC2)) {
-                    return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
+
+                    float againstObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC2),
+                                                            VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC2));
+                    float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC1),
+                                                            VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC1));
+                    float penDepth = 0f;
+                    if(againstObjVertDist>linkedObjVertDist) penDepth = againstObjVertDist - linkedObjVertDist;
+                    else penDepth = linkedObjVertDist - againstObjVertDist;
+
+                    Vector3f collNormal = VectorHelper.getNormal(VectorHelper.sub(nextC2, currC2));
+                    return new CollisionEvent().withLinkedObject(c1)
+                                                .againstObject(c2)
+                                                .withCollisionNormal(collNormal)
+                                                .withStatus(true)
+                                                .withPenDepth(penDepth);
                 }
             }
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
-    }
-
-    public static synchronized double getDistance(Vector3f v1, Vector3f v2) {
-        return Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2);
-    }
-
-    public static Vector3f getNormal(Vector3f vector) {
-        float mag = getMagnitude(vector);
-        return new Vector3f(vector.x/mag, vector.y/mag, vector.z);
-    }
-
-    public static float getMagnitude(Vector3f vector) {
-        return (float)Math.sqrt(vector.x*vector.x + vector.y*vector.y);
     }
 
     private static synchronized boolean checkLineIntersection(Vector3f a1, Vector3f a2, Vector3f b1, Vector3f b2){

@@ -37,10 +37,9 @@ public class CollisionDetector {
                         linkedCollider.getDrawable())) {
                     CollisionEvent event = CollisionDetectionHelper.checkCollision(linkedCollider, drawable.getCollider());
 
+                    assert event != null;
                     if(event.getCollisionStatus() && linkedCollider.getCollisionListener()!=null) {
-
                         Log.v("CollisionListener" ,"Collision Detected");
-
                         linkedCollider.getCollisionListener().onCollision(event);
                     }
                 }

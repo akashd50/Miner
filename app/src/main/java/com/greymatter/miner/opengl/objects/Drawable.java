@@ -8,7 +8,6 @@ import com.greymatter.miner.physics.objects.GeneralCollider;
 import javax.vecmath.Vector3f;
 
 public abstract class Drawable {
-    //private Vector3f translation, rotation, scale;
     private Material material;
     private float[] modelMatrix;
     private Shader shader;
@@ -80,5 +79,54 @@ public abstract class Drawable {
     public void setCollider(Collider collider) {
         this.collider = collider;
         if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
+    }
+
+    //collider helper functions
+    public void setAcceleration(Vector3f acceleration) {
+        collider.setAcceleration(acceleration);
+    }
+
+    public void setVelocity(Vector3f velocity) {
+        collider.setVelocity(velocity);
+    }
+
+    public void updateAcceleration(Vector3f acceleration) {
+        collider.updateAcceleration(acceleration);
+    }
+
+    public void updateVelocity(Vector3f velocity) {
+        collider.updateVelocity(velocity);
+    }
+
+    public void setMass(float mass) {
+        collider.setMass(mass);
+    }
+
+    public void setRestitution(float restitution) {
+        collider.setRestitution(restitution);
+    }
+
+    public void scaleTo(Vector3f newScale) {
+        collider.scaleTo(newScale);
+    }
+
+    public void scaleBy(Vector3f newScale) {
+        collider.scaleBy(newScale);
+    }
+
+    public void translateTo(Vector3f position) {
+        collider.translateTo(position);
+    }
+
+    public void translateBy(Vector3f translation) {
+        collider.translateBy(translation);
+    }
+
+    public void rotateTo(Vector3f rotation) {
+        collider.rotateTo(rotation);
+    }
+
+    public void rotateBy(Vector3f rotation) {
+        collider.rotateBy(rotation);
     }
 }

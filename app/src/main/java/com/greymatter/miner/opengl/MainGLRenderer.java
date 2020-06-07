@@ -33,6 +33,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLRendererHelper.planet.getCollider().scaleTo(new Vector3f(70f,70f,1f));
         MainGLRendererHelper.planet.getCollider().translateBy(new Vector3f(0f,-70.5f, 0f));
         MainGLRendererHelper.ball.getCollider().scaleTo(new Vector3f(0.2f,0.2f,1f));
+        MainGLRendererHelper.ball.getCollider().translateBy(new Vector3f(-0.5f,0f,0f));
 
         MainGLRendererHelper.testLine = new Line(MainGLRendererHelper.lineShader)
                 .addVertices(MainGLRendererHelper.ballCollider.asPolygonCollider()
@@ -47,6 +48,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         MainGLRendererHelper.onSurfaceChanged(width, height);
         MainGLRendererHelper.camera.translateTo(new Vector3f(0f,0f,5f));
+        MainGLRendererHelper.camera.updateZoomValue(5.0f);
     }
 
     @Override
