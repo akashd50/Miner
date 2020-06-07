@@ -21,13 +21,13 @@ import com.greymatter.miner.physics.objects.OnCollisionListener;
 
 import javax.vecmath.Vector3f;
 
-class MainGLRendererHelper {
+class MainGLObjectsHelper {
     static Camera camera;
     static Shader simpleTriangleShader, quadShader, threeDObjectShader, lineShader;
     static Triangle triangle;
     static Material material, backdropMaterial, groundMaterial, characterMaterial;
-    static Drawable backdropQuad, groundQuad, characterQuad, planet, ball, testLine;
-    static Collider planetCollider, ballCollider;
+    static Drawable backdropQuad, groundQuad, characterQuad, planet, ball, ball2, testLine;
+    static Collider planetCollider, ballCollider, ball2Collider;
 
     static void onSurfaceChanged(int width, int height) {
         camera = new Camera(width, height);
@@ -52,18 +52,23 @@ class MainGLRendererHelper {
         backdropQuad = new Quad(backdropMaterial, quadShader);
         groundQuad = new Quad(groundMaterial, quadShader);
         characterQuad = new Quad(characterMaterial, quadShader);
-        planet = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
+        planet = new Object3D("objects/circle_sub_div_ii.obj", characterMaterial, threeDObjectShader);
         ball = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
+        ball2 = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
         //testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
     }
 
     static void loadPhysicsObjects() {
         planetCollider = new PolygonCollider(((Object3D)planet).getOuterMesh());
         ballCollider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
+        ball2Collider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
         planetCollider.updateTransformationsPerMovement(false);
         ballCollider.updateTransformationsPerMovement(true);
+        ball2Collider.updateTransformationsPerMovement(true);
+
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
+        ball2.setCollider(ball2Collider);
 
         planet.setMass(1f);
         planet.setRestitution(2f);
@@ -72,44 +77,23 @@ class MainGLRendererHelper {
         ball.setMass(1.0f);
         ball.setRestitution(2f);
 
-        ballCollider.setCollisionListener(new OnCollisionListener() {
+        ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
+        ball2.setMass(1.0f);
+        ball2.setRestitution(2f);
+
+        OnCollisionListener listener = new OnCollisionListener() {
             @Override
             public void impulseResolution(CollisionEvent event) {
-                if(event.getCollisionStatus()) {
-                    if (event.getCollisionNormal() != null) {
-                        Log.v("Collision Normal: ", event.getCollisionNormal().toString());
-
-                        //resolve collision
-                        Vector3f relativeVelocity = VectorHelper.sub(event.getLinkedObject().getVelocity(),
-                                event.getAgainstObject().getVelocity());
-                        float vectorAlongNormal = VectorHelper.dot(relativeVelocity, event.getCollisionNormal());
-
-                        if (vectorAlongNormal > 0) return;
-
-                        float e = Math.min(event.getLinkedObject().getRestitution(),
-                                event.getAgainstObject().getRestitution());
-                        float j = -(1 + e) * vectorAlongNormal;
-                        j /= 1 / event.getLinkedObject().getMass() + 1 / event.getAgainstObject().getMass();
-
-                        Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
-
-                        event.getLinkedObject().updateVelocity(impulse);
-                    }
-                }
+                OnCollisionListener.super.impulseResolutionDefault(event);
             }
-
             @Override
             public void positionalCorrection(CollisionEvent event) {
-                float percent = 0.2f;
-                float slop = 0.02f;
-                float correction = Math.max( event.getPenDepth() - slop, 0.0f )
-                        / (1/event.getLinkedObject().getMass() + 1/event.getAgainstObject().getMass()) * percent;
-                Vector3f correctionVector = VectorHelper.multiply(event.getCollisionNormal(), correction);
-                correctionVector = VectorHelper.multiply(correctionVector, 1/event.getLinkedObject().getMass());
-                event.getLinkedObject().translateBy(correctionVector);
+                OnCollisionListener.super.positionalCorrectionDefault(event);
             }
+        };
 
-        });
+        ballCollider.setCollisionListener(listener);
+        ball2Collider.setCollisionListener(listener);
     }
 
     static void initiatePhysicsProcesses() {
@@ -117,9 +101,10 @@ class MainGLRendererHelper {
         CollisionDetectionSystem.initializeWorldCollisionDetectionSystem();
     }
 
-    static void addObjectsToCollisionSystem() {
+    private static void addObjectsToCollisionSystem() {
         CollisionDetectionSystem.addObject(planet);
         CollisionDetectionSystem.addObject(ball);
+        CollisionDetectionSystem.addObject(ball2);
     }
 
     static void onDestroy() {

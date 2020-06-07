@@ -1,13 +1,12 @@
 package com.greymatter.miner.opengl;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.greymatter.miner.opengl.objects.Camera;
 
 import javax.vecmath.Vector3f;
 
-import static com.greymatter.miner.opengl.MainGLRendererHelper.*;
+import static com.greymatter.miner.opengl.MainGLObjectsHelper.*;
 
 public class MainGLTouchHelper {
     private static Camera camera;
@@ -24,9 +23,16 @@ public class MainGLTouchHelper {
 
                 break;
             case MotionEvent.ACTION_UP:
-                ball.translateTo(getTouchPointVector(event.getX(), event.getY()));
+                Vector3f touchPoint = getTouchPointVector(event.getX(), event.getY());
+
+                ball.translateTo(touchPoint);
                 ball.setVelocity(new Vector3f());
 
+                Vector3f newPos = new Vector3f(touchPoint);
+                newPos.y+=0.5f;
+
+                ball2.translateTo(newPos);
+                ball2.setVelocity(new Vector3f());
                 break;
         }
     }
