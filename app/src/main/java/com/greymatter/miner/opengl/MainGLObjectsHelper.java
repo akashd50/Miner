@@ -6,14 +6,12 @@ import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Drawable;
-import com.greymatter.miner.opengl.objects.Line;
 import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Object3D;
 import com.greymatter.miner.opengl.objects.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.Triangle;
-import com.greymatter.miner.physics.CollisionDetectionSystem;
-import com.greymatter.miner.physics.generalhelpers.VectorHelper;
+import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
@@ -63,8 +61,12 @@ class MainGLObjectsHelper {
         ballCollider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
         ball2Collider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
         planetCollider.updateTransformationsPerMovement(false);
+        planetCollider.isStaticObject(true);
+
         ballCollider.updateTransformationsPerMovement(true);
+        ballCollider.isStaticObject(false);
         ball2Collider.updateTransformationsPerMovement(true);
+        ball2Collider.isStaticObject(false);
 
         planet.setCollider(planetCollider);
         ball.setCollider(ballCollider);
@@ -77,7 +79,7 @@ class MainGLObjectsHelper {
         ball.setMass(1.0f);
         ball.setRestitution(2f);
 
-        //ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
+        ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
         ball2.setMass(1.0f);
         ball2.setRestitution(2f);
 
@@ -93,7 +95,7 @@ class MainGLObjectsHelper {
         };
 
         ballCollider.setCollisionListener(listener);
-        //ball2Collider.setCollisionListener(listener);
+        ball2Collider.setCollisionListener(listener);
     }
 
     static void initiatePhysicsProcesses() {
@@ -104,7 +106,7 @@ class MainGLObjectsHelper {
     private static void addObjectsToCollisionSystem() {
         CollisionDetectionSystem.addObject(planet);
         CollisionDetectionSystem.addObject(ball);
-        //CollisionDetectionSystem.addObject(ball2);
+        CollisionDetectionSystem.addObject(ball2);
     }
 
     static void onDestroy() {

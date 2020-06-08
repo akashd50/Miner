@@ -1,17 +1,16 @@
 package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.opengl.objects.Drawable;
-import com.greymatter.miner.physics.collisioncheckers.CollisionDetector;
 
 import javax.vecmath.Vector3f;
 
 public abstract class Collider {
     private Vector3f translation, rotation, scale, acceleration, velocity;
     private float mass, restitution;
-    private boolean dynamicallyUpdated;
+    private boolean isStaticObject, dynamicallyUpdated;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
-    private CollisionDetector collisionDetector;
+    //private CollisionDetector collisionDetector;
 
     public Collider() {
         this.translation = new Vector3f(0f,0f,0f);
@@ -21,16 +20,7 @@ public abstract class Collider {
         this.velocity = new Vector3f();
         this.mass = 0;
     }
-
-    public Collider initCollisionListener(long collisionWaitTime) {
-        if(this.onCollisionListener!=null) {
-            this.collisionDetector = new CollisionDetector(this, collisionWaitTime);
-            this.collisionDetector.onStart();
-            return this;
-        }
-        return null;
-    }
-
+    
     public void update() {
         this.updateVelocity(acceleration);
         this.translateBy(velocity);
@@ -96,6 +86,10 @@ public abstract class Collider {
         this.updateParams();
     }
 
+    public void isStaticObject(boolean isStatic) {
+        this.isStaticObject = isStatic;
+    }
+
     public OnCollisionListener getCollisionListener() {
         return onCollisionListener;
     }
@@ -118,6 +112,10 @@ public abstract class Collider {
             this.updateParamsOverride();
         }
         this.drawable.transformationsUpdated();
+    }
+
+    public boolean isStaticObject() {
+        return isStaticObject;
     }
 
     public boolean isUpdatedPerMovement() {
@@ -165,10 +163,4 @@ public abstract class Collider {
     }
 
     public abstract void updateParamsOverride();
-
-    public void onDestroy() {
-        if(collisionDetector!=null) {
-            collisionDetector.onDestroy();
-        }
-    }
 }
