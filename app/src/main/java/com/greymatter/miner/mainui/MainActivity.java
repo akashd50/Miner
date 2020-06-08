@@ -7,6 +7,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.opengl.MainGLRenderer;
@@ -15,6 +17,7 @@ import com.greymatter.miner.opengl.MainGLTouchHelper;
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
     private MainGLRenderer glRenderer;
+    private Button left, right;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,13 @@ public class MainActivity extends AppCompatActivity {
         glRenderer = new MainGLRenderer();
         surface.setRenderer(glRenderer);
         setOnTouchListener();
+        setOnClickListener();
     }
 
     private void init() {
         AppServices.init(this);
+        left = findViewById(R.id.move_left);
+        right = findViewById(R.id.move_right);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -50,10 +56,24 @@ public class MainActivity extends AppCompatActivity {
                         MainGLTouchHelper.onTouch(event);
                         return true;
                 }
-
                 return false;
             }
         });
+    }
+
+    private void setOnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainGLTouchHelper.onClick(v);
+            }
+
+
+        };
+        left.setOnClickListener(listener);
+        right.setOnClickListener(listener);
+
+
     }
 
 

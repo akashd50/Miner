@@ -1,7 +1,9 @@
 package com.greymatter.miner.opengl;
 
 import android.view.MotionEvent;
+import android.view.View;
 
+import com.greymatter.miner.R;
 import com.greymatter.miner.opengl.objects.Camera;
 
 import javax.vecmath.Vector3f;
@@ -33,6 +35,20 @@ public class MainGLTouchHelper {
 
                 ball2.translateTo(newPos);
                 ball2.setVelocity(new Vector3f());
+                break;
+        }
+    }
+
+    public static void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.move_left:
+                ball.updateVelocity(new Vector3f(-0.01f, 0f,0f));
+                break;
+            case R.id.move_right:
+                ball.updateVelocity(new Vector3f(0.01f, 0f,0f));
+                break;
+            default:
+                //ball.setAcceleration(new Vector3f(-0.001f, 0f,0f));
                 break;
         }
     }

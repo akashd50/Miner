@@ -43,15 +43,15 @@ public class CollisionDetector {
                         linkedCollider.getCollisionListener().onCollision(event);
                     }
                 }
-                if(waitTimeBWChecks!=0) {
-                    synchronized (this) {
-                        try {
-                            this.wait(waitTimeBWChecks);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+//                if(waitTimeBWChecks!=0) {
+//                    synchronized (this) {
+//                        try {
+//                            this.wait(waitTimeBWChecks);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
             }
             }
         });

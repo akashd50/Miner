@@ -77,7 +77,7 @@ class MainGLObjectsHelper {
         ball.setMass(1.0f);
         ball.setRestitution(2f);
 
-        ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
+        //ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
         ball2.setMass(1.0f);
         ball2.setRestitution(2f);
 
@@ -93,7 +93,7 @@ class MainGLObjectsHelper {
         };
 
         ballCollider.setCollisionListener(listener);
-        ball2Collider.setCollisionListener(listener);
+        //ball2Collider.setCollisionListener(listener);
     }
 
     static void initiatePhysicsProcesses() {
@@ -104,7 +104,7 @@ class MainGLObjectsHelper {
     private static void addObjectsToCollisionSystem() {
         CollisionDetectionSystem.addObject(planet);
         CollisionDetectionSystem.addObject(ball);
-        CollisionDetectionSystem.addObject(ball2);
+        //CollisionDetectionSystem.addObject(ball2);
     }
 
     static void onDestroy() {
