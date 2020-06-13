@@ -1,6 +1,6 @@
 package com.greymatter.miner.physics.collisioncheckers;
 
-import com.greymatter.miner.physics.generalhelpers.VectorHelper;
+import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.physics.objects.CircleCollider;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
@@ -69,10 +69,10 @@ public class CollisionDetectionHelper {
             }else{
                 next = verts.get(0);
             }
-            if(checkLineIntersection(curr, next, circleTop, circleBottom)
-            || checkLineIntersection(curr, next, circleLeft, circleRight)) {
-                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
-            }
+//            if(checkLineIntersection(curr, next, circleTop, circleBottom)
+//            || checkLineIntersection(curr, next, circleLeft, circleRight)) {
+//                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
+//            }
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
@@ -93,44 +93,64 @@ public class CollisionDetectionHelper {
                 if (j < vertsC2.size() - 1) { nextC2 = vertsC2.get(j + 1); }
                 else { nextC2 = vertsC2.get(0); }
 
-                if (checkLineIntersection(currC1, nextC1, currC2, nextC2)) {
+                Intersection intersection = checkLineIntersection(currC1, nextC1, currC2, nextC2);
+                if (intersection.intersected) {
 
-                    float againstObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC2),
-                                                            VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC2));
                     float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC1),
                                                             VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC1));
+
+                    float collPointDist = (float)VectorHelper.getDistanceWithSQRT(c2.getTranslation(), intersection.intPoint);
                     float penDepth = 0f;
-                    if(againstObjVertDist>linkedObjVertDist) penDepth = againstObjVertDist - linkedObjVertDist;
-                    else penDepth = linkedObjVertDist - againstObjVertDist;
+                    if(collPointDist>linkedObjVertDist) penDepth = collPointDist - linkedObjVertDist;
+                    else penDepth = linkedObjVertDist - collPointDist;
 
                     Vector3f collNormal = VectorHelper.getNormal(VectorHelper.sub(nextC2, currC2));
                     return new CollisionEvent().withLinkedObject(c1)
                                                 .againstObject(c2)
                                                 .withCollisionNormal(collNormal)
                                                 .withStatus(true)
-                                                .withPenDepth(penDepth);
+                                                .withPenDepth(penDepth)
+                                                .withLinkedObjCollisionVector(VectorHelper.sub(nextC1, currC1))
+                                                .withCollisionPoint(intersection.intPoint);
                 }
             }
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized boolean checkLineIntersection(Vector3f a1, Vector3f a2, Vector3f b1, Vector3f b2){
-        if(a1==null || a2==null || b1==null || b2==null) {
-            return false;
-        }
+    private static synchronized Intersection checkLineIntersection(Vector3f a1, Vector3f a2, Vector3f b1, Vector3f b2){
+        Intersection intersection = new Intersection();
+
+        if(a1==null || a2==null || b1==null || b2==null) return intersection;
 
         float x1 = a1.x; float x2 = a2.x; float x3 = b1.x; float x4 = b2.x;
         float y1 = a1.y; float y2 = a2.y; float y3 = b1.y; float y4 = b2.y;
 
-        float den = (y4-y3)*(x2-x1) - (x4-x3)*(y2-y1);
-        if (den == 0.0f) {
-            return false;
+        float y4_y3 = y4-y3;
+        float x2_x1 = x2-x1;
+        float x4_x3 = x4-x3;
+        float y2_y1 = y2-y1;
+
+        float den = (y4_y3)*(x2_x1) - (x4_x3)*(y2_y1);
+        if (den == 0.0f) return intersection;
+
+        float y1_y3 = y1-y3;
+        float x1_x3 = x1-x3;
+
+        float ta = ((x4_x3)*(y1_y3) - (y4_y3)*(x1_x3))/den;
+        float tb = ((x2_x1)*(y1_y3) - (y2_y1)*(x1_x3))/den;
+
+        if(ta >= 0 && ta <= 1f && tb >= 0 && tb <= 1f) {
+            intersection.intersected = true;
+            intersection.intPoint = VectorHelper.sub(a2, a1);
+            intersection.intPoint.x = a1.x+(intersection.intPoint.x * ta);
+            intersection.intPoint.y = a1.y+(intersection.intPoint.y * tb);
         }
-
-        float ta = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3))/den;
-        float tb = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3))/den;
-
-        return ta >= 0 && ta <= 1f && tb >= 0 && tb <= 1f;
+        return intersection;
     }
+}
+
+class Intersection {
+    Vector3f intPoint;
+    boolean intersected = false;
 }

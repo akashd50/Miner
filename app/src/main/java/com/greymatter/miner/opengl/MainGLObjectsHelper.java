@@ -50,38 +50,32 @@ class MainGLObjectsHelper {
         backdropQuad = new Quad(backdropMaterial, quadShader);
         groundQuad = new Quad(groundMaterial, quadShader);
         characterQuad = new Quad(characterMaterial, quadShader);
-        planet = new Object3D("objects/circle_sub_div_ii.obj", characterMaterial, threeDObjectShader);
-        ball = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
+        planet = new Object3D("objects/circle_sub_div_iii.obj", characterMaterial, threeDObjectShader);
+        ball = new Object3D("objects/box.obj", characterMaterial, threeDObjectShader);
         ball2 = new Object3D("objects/circle_sub_div_i.obj", characterMaterial, threeDObjectShader);
-        //testLine = new Line(lineShader).addVertices(((Object3D)ball).getOuterMesh()).build();
     }
 
     static void loadPhysicsObjects() {
-        planetCollider = new PolygonCollider(((Object3D)planet).getOuterMesh());
-        ballCollider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
-        ball2Collider = new PolygonCollider(Object3DHelper.simplify(((Object3D)ball).getOuterMesh(),0.1f));
-        planetCollider.updateTransformationsPerMovement(false);
-        planetCollider.isStaticObject(true);
+        planet.setCollider(new PolygonCollider(((Object3D)planet).getOuterMesh()));
+        ball.setCollider(new PolygonCollider(((Object3D)ball).getOuterMesh()));
+        ball2.setCollider(new PolygonCollider(Object3DHelper.simplify(((Object3D)ball2).getOuterMesh(),0.1f)));
 
-        ballCollider.updateTransformationsPerMovement(true);
-        ballCollider.isStaticObject(false);
-        ball2Collider.updateTransformationsPerMovement(true);
-        ball2Collider.isStaticObject(false);
+        planet.updateTransformationsPerMovement(true);
+        planet.isStaticObject(true);
 
-        planet.setCollider(planetCollider);
-        ball.setCollider(ballCollider);
-        ball2.setCollider(ball2Collider);
+        ball.updateTransformationsPerMovement(true);
+        ball.isStaticObject(false);
+        ball2.updateTransformationsPerMovement(true);
+        ball2.isStaticObject(false);
 
-        planet.setMass(1f);
-        planet.setRestitution(2f);
+        planet.setMass(1000f);
+        planet.setRestitution(0.3f);
 
-        ball.setAcceleration(new Vector3f(0f,-0.001f, 0f));
         ball.setMass(1.0f);
-        ball.setRestitution(2f);
+        ball.setRestitution(1f);
 
-        ball2.setAcceleration(new Vector3f(0f,-0.001f, 0f));
         ball2.setMass(1.0f);
-        ball2.setRestitution(2f);
+        ball2.setRestitution(1f);
 
         OnCollisionListener listener = new OnCollisionListener() {
             @Override
@@ -93,6 +87,11 @@ class MainGLObjectsHelper {
                 OnCollisionListener.super.positionalCorrectionDefault(event);
             }
         };
+
+        //assign colliders and listeners
+        planetCollider = planet.getCollider();
+        ballCollider = ball.getCollider();
+        ball2Collider = ball2.getCollider();
 
         ballCollider.setCollisionListener(listener);
         ball2Collider.setCollisionListener(listener);

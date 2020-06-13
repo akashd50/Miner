@@ -2,28 +2,97 @@ package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.opengl.objects.Drawable;
 
+import java.util.HashMap;
+
 import javax.vecmath.Vector3f;
 
 public abstract class Collider {
-    private Vector3f translation, rotation, scale, acceleration, velocity;
-    private float mass, restitution;
-    private boolean isStaticObject, dynamicallyUpdated;
+    private Vector3f translation, rotation, scale,
+            acceleration, velocity, gravity, friction;
+    private float mass, restitution, angularVel, angularAcc;
+    private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
-    //private CollisionDetector collisionDetector;
-
+    private HashMap<String, CollisionEvent> lastCollisionEvents;
     public Collider() {
         this.translation = new Vector3f(0f,0f,0f);
         this.rotation = new Vector3f(0f,0f,0f);
         this.scale = new Vector3f(1.0f,1.0f, 1.0f);
         this.acceleration = new Vector3f();
         this.velocity = new Vector3f();
+        this.gravity = new Vector3f();
+        this.friction = new Vector3f();
         this.mass = 0;
+        this.lastCollisionEvents = new HashMap<>();
+        this.shouldUpdateGravity = true;
+        this.shouldUpdateFriction = true;
     }
-    
+
+    //<---------------------------------forces start-------------------------------------------->
+    public void resetGravity() {
+        this.gravity.set(0f,0f,0f);
+    }
+
+    public void applyGravity(Vector3f gUpdate) {
+        this.gravity.add(gUpdate);
+    }
+
+    public void resetFriction() {
+        this.friction.set(0f,0f,0f);
+    }
+
+    public void applyFriction(Vector3f gUpdate) {
+        this.friction.add(gUpdate);
+    }
+
     public void update() {
+        this.resetAcceleration();
+        this.updateAcceleration(gravity);
+
+        this.updateVelocity(friction);
         this.updateVelocity(acceleration);
+
         this.translateBy(velocity);
+
+        this.updateAngularVelocity(angularAcc);
+        //this.rotation.z += Math.min(angularVel, 5f);
+        this.rotation.z = angularVel;
+    }
+
+    public void addOrUpdateCollisionEvent(CollisionEvent collisionEvent) {
+        if(lastCollisionEvents.containsKey(collisionEvent.getAgainstObject().toString())) {
+            lastCollisionEvents.replace(collisionEvent.getAgainstObject().toString(), collisionEvent);
+        }else{
+            lastCollisionEvents.put(collisionEvent.getAgainstObject().toString(), collisionEvent);
+        }
+    }
+
+    public CollisionEvent getLastCollisionEvent(Drawable against) {
+        return lastCollisionEvents.get(against.getCollider().toString());
+    }
+    //<---------------------------------forces end -------------------------------------------->
+    public void resetAcceleration() {
+        this.acceleration.set(0f,0f,0f);
+    }
+
+    public Collider setAngularAcceleration(float acceleration) {
+        this.angularAcc = acceleration;
+        return this;
+    }
+
+    public Collider setAngularVelocity(float vel) {
+        this.angularVel = vel;
+        return this;
+    }
+
+    public Collider updateAngularAcceleration(float acceleration) {
+        this.angularAcc += acceleration;
+        return this;
+    }
+
+    public Collider updateAngularVelocity(float vel) {
+        this.angularVel += vel;
+        return this;
     }
 
     public Collider setAcceleration(Vector3f acceleration) {
@@ -114,6 +183,14 @@ public abstract class Collider {
         this.drawable.transformationsUpdated();
     }
 
+    public float getAngularAcceleration() {
+        return angularAcc;
+    }
+
+    public float getAngularVelocity() {
+        return angularVel;
+    }
+
     public boolean isStaticObject() {
         return isStaticObject;
     }
@@ -142,6 +219,14 @@ public abstract class Collider {
         return acceleration;
     }
 
+    public Vector3f getFriction() {
+        return friction;
+    }
+
+    public Vector3f getGravity() {
+        return gravity;
+    }
+
     public Drawable getDrawable() {
         return drawable;
     }
@@ -160,6 +245,22 @@ public abstract class Collider {
 
     public PolygonCollider asPolygonCollider() {
         return (PolygonCollider) this;
+    }
+
+    public boolean shouldUpdateGravity() {
+        return shouldUpdateGravity;
+    }
+
+    public void shouldUpdateGravity(boolean shouldUpdateGravity) {
+        this.shouldUpdateGravity = shouldUpdateGravity;
+    }
+
+    public boolean shouldUpdateFriction() {
+        return shouldUpdateFriction;
+    }
+
+    public void shouldUpdateFriction(boolean shouldUpdateFriction) {
+        this.shouldUpdateFriction = shouldUpdateFriction;
     }
 
     public abstract void updateParamsOverride();

@@ -6,7 +6,7 @@ import javax.vecmath.Vector3f;
 
 public class CollisionEvent {
     private Collider linkedObject, againstObject;
-    private Vector3f collisionNormal;
+    private Vector3f collisionNormal, agObjCollisionPoint, linkedObjectCollisionVector;
     private float penetrationDepth;
     private boolean collisionStatus;
     public CollisionEvent(){ }
@@ -26,6 +26,16 @@ public class CollisionEvent {
         return this;
     }
 
+    public CollisionEvent withLinkedObjCollisionVector(Vector3f vector) {
+        this.linkedObjectCollisionVector = vector;
+        return this;
+    }
+
+    public CollisionEvent withCollisionPoint(Vector3f point) {
+        this.agObjCollisionPoint = point;
+        return this;
+    }
+
     public CollisionEvent withStatus(boolean collStat) {
         this.collisionStatus = collStat;
         return this;
@@ -36,12 +46,20 @@ public class CollisionEvent {
         return this;
     }
 
+    public Vector3f getAgObjCollisionPoint() {
+        return agObjCollisionPoint;
+    }
+
     public float getPenDepth() {
         return this.penetrationDepth;
     }
 
     public Vector3f getCollisionNormal() {
         return this.collisionNormal;
+    }
+
+    public Vector3f getLinkedObjectCollisionVector() {
+        return this.linkedObjectCollisionVector;
     }
 
     public boolean getCollisionStatus() {

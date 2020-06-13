@@ -60,4 +60,10 @@ public class GLBufferHelper {
         return bufferObject;
     }
 
+    public static void updateArrayBufferData(int arrayBuffer, float[] data, int coordsPerVertex,
+                                             Shader shader, String attributeName) {
+        glBufferArrayData(arrayBuffer, data);
+        glVertexAttributePointer(arrayBuffer, shader, attributeName, coordsPerVertex);
+    }
+
 }

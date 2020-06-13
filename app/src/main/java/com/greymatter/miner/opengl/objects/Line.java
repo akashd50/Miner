@@ -53,12 +53,24 @@ public class Line extends Drawable {
         return toReturn;
     }
 
+    public Line updateVertexData(ArrayList<Vector3f> newData) {
+        this.lineVertices.clear();
+        this.lineVertices.addAll(newData);
+
+        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
+        GLBufferHelper.updateArrayBufferData(getVertexBufferObject(), asArray(),
+                3,  getShader(), Constants.IN_POSITION);
+        GLBufferHelper.glUnbindVertexArray();
+        return this;
+    }
+
     public Line build() {
         setVertexArrayObject(GLBufferHelper.glGenVertexArray());
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
         int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(asArray(), 3,
                 getShader(), Constants.IN_POSITION);
+        this.setVertexBufferObject(vertexBuffer);
 
         GLBufferHelper.glUnbindVertexArray();
         return this;

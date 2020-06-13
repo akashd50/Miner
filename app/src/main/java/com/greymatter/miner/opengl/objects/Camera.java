@@ -7,9 +7,7 @@ public class Camera {
 	private int width, height;
 	private float[] projectionMatrix;
 	private float[] viewMatrix;
-	private Vector3f translation;
-	private Vector3f lookAtVec;
-	private Vector3f up;
+	private Vector3f translation, lookAtVec, up;
 	private float ratio, zoomValue;
 
 	public Camera(int w, int h) {
@@ -30,27 +28,37 @@ public class Camera {
 
 	public void translateTo(Vector3f position) {
 		this.translation = position;
+		this.setLookAt(new Vector3f(position.x, position.y, lookAtVec.z));
+		this.updateViewMatrix();
+	}
+
+	public void translateXY(Vector3f position) {
+		this.translation.x = position.x;
+		this.translation.y = position.y;
+		this.setLookAt(new Vector3f(position.x, position.y, lookAtVec.z));
 		this.updateViewMatrix();
 	}
 
 	public void translateBy(Vector3f translation) {
 		this.translation.add(translation);
+		this.setLookAt(new Vector3f(translation.x, translation.y, 0f));
 		this.updateViewMatrix();
 	}
 
-	public void lookAt(Vector3f lookAt) {
+	public void setLookAt(Vector3f lookAt) {
 		this.lookAtVec = lookAt;
 		this.updateViewMatrix();
 	}
 
-	public void lookAt(Vector3f lookAt, Vector3f up) {
+	public void updateLookAt(Vector3f lookAt) {
+		this.lookAtVec.add(lookAt);
+		this.updateViewMatrix();
+	}
+
+	public void setLookAt(Vector3f lookAt, Vector3f up) {
 		this.lookAtVec = lookAt;
 		this.up = up;
 		this.updateViewMatrix();
-	}
-
-	public void onDrawFrame() {
-
 	}
 
 	public void onScreenSizeChanged(int w, int h) {
@@ -75,6 +83,9 @@ public class Camera {
 		Matrix.orthoM(projectionMatrix, 0, -1.0f*ratio*zoomValue,1.0f*ratio*zoomValue,
 				-1.0f*zoomValue,1.0f*zoomValue,
 				1f, 100f);
+//		Matrix.orthoM(projectionMatrix, 0, (translation.x-1.0f)*ratio*zoomValue,(translation.x+1.0f)*ratio*zoomValue,
+//				(translation.y-1.0f)*zoomValue,(translation.y+1.0f)*zoomValue,
+//				1f, 100f);
 	}
 
 	private void updateViewMatrix() {

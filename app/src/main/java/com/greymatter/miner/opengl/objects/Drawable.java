@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl.objects;
 import android.opengl.Matrix;
 
 import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.GeneralCollider;
 
 import javax.vecmath.Vector3f;
@@ -12,7 +13,7 @@ public abstract class Drawable {
     private float[] modelMatrix;
     private Shader shader;
     private boolean transformationsUpdated;
-    private int vertexArray;
+    private int vertexArray, vertexBuffer;
     private Collider collider;
 
     public Drawable() {
@@ -68,7 +69,13 @@ public abstract class Drawable {
         return this.vertexArray;
     }
 
+    public int getVertexBufferObject() {
+        return this.vertexBuffer;
+    }
+
     public void setVertexArrayObject(int vertexArrayObject ) { this.vertexArray = vertexArrayObject; }
+
+    public void setVertexBufferObject(int vertexBufferObject ) { this.vertexBuffer = vertexBufferObject; }
 
     public float[] getModelMatrix() { return this.modelMatrix; }
 
@@ -82,6 +89,30 @@ public abstract class Drawable {
     }
 
     //collider helper functions
+    public void resetFriction() {
+        collider.resetFriction();
+    }
+
+    public void applyFriction(Vector3f gUpdate) {
+        collider.applyFriction(gUpdate);
+    }
+
+    public void addOrUpdateCollisionEvent(CollisionEvent collisionEvent) {
+        collider.addOrUpdateCollisionEvent(collisionEvent);
+    }
+
+    public void resetGravity() {
+        collider.resetGravity();
+    }
+
+    public void applyGravity(Vector3f gUpdate) {
+        collider.applyGravity(gUpdate);
+    }
+
+    public void update() {
+        collider.update();
+    }
+
     public void setAcceleration(Vector3f acceleration) {
         collider.setAcceleration(acceleration);
     }
@@ -128,5 +159,49 @@ public abstract class Drawable {
 
     public void rotateBy(Vector3f rotation) {
         collider.rotateBy(rotation);
+    }
+
+    public void isStaticObject(boolean isStatic) {
+        collider.isStaticObject(isStatic);
+    }
+
+    public void updateTransformationsPerMovement(boolean dynamicallyUpdated) {
+        collider.updateTransformationsPerMovement(dynamicallyUpdated);
+    }
+
+    public boolean isUpdatedPerMovement() {
+        return collider.isUpdatedPerMovement();
+    }
+
+    public Vector3f getTranslation() {
+        return collider.getTranslation();
+    }
+
+    public Vector3f getRotation() {
+        return collider.getRotation();
+    }
+
+    public Vector3f getScale() {
+        return collider.getScale();
+    }
+
+    public Vector3f getVelocity() {
+        return collider.getVelocity();
+    }
+
+    public Vector3f getAcceleration() {
+        return collider.getAcceleration();
+    }
+
+    public float getMass(){
+        return collider.getMass();
+    }
+
+    public boolean isStaticObject() {
+        return collider.isStaticObject();
+    }
+
+    public CollisionEvent getLastCollisionEvent(Drawable against) {
+        return collider.getLastCollisionEvent(against);
     }
 }

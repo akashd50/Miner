@@ -1,5 +1,7 @@
 package com.greymatter.miner.physics.objects;
 
+import com.greymatter.miner.generalhelpers.VectorHelper;
+
 import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
@@ -28,7 +30,7 @@ public class PolygonCollider extends Collider {
     public void updateParamsOverride() {
         ArrayList<Vector3f> newTransformedVerts = new ArrayList<>();
         for(Vector3f vector : meshVertices) {
-            Vector3f temp = new Vector3f(vector);
+            Vector3f temp = VectorHelper.rotateAroundZ(vector, (float)Math.toRadians(getRotation().z));
             temp.x = temp.x * getScale().x + getTranslation().x;
             temp.y = temp.y * getScale().y + getTranslation().y;
             newTransformedVerts.add(temp);

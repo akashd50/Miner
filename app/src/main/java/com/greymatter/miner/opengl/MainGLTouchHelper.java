@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.greymatter.miner.R;
+import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 
 import javax.vecmath.Vector3f;
@@ -28,13 +29,19 @@ public class MainGLTouchHelper {
                 Vector3f touchPoint = getTouchPointVector(event.getX(), event.getY());
 
                 ball.translateTo(touchPoint);
-                ball.setVelocity(new Vector3f());
-
+                ball.setVelocity(new Vector3f(0f,0f,0f));
+                ball.rotateTo(new Vector3f());
+                ball.getCollider().setAngularAcceleration(0f);
+                ball.getCollider().setAngularVelocity(0f);
                 Vector3f newPos = new Vector3f(touchPoint);
                 newPos.y+=0.5f;
 
-                ball2.translateTo(newPos);
-                ball2.setVelocity(new Vector3f());
+                //ball2.translateTo(newPos);
+                //ball2.setVelocity(new Vector3f());
+
+                //test angles
+                System.out.println("Angle Test: "+Math.sin(VectorHelper.angle(new Vector3f(3f,1f,0f), new Vector3f(3f,2f,1f))));
+                System.out.println(Math.sin(VectorHelper.angle(new Vector3f(2f,3f,0f), new Vector3f(3f,2f,1f))));
                 break;
         }
     }
@@ -58,10 +65,10 @@ public class MainGLTouchHelper {
     }
 
     private static float getLocalX(float x) {
-        return camera.getCameraWidth() * x/camera.getViewportWidth() - camera.getCameraWidth()/2;
+        return camera.getTranslation().x + camera.getCameraWidth() * x/camera.getViewportWidth() - camera.getCameraWidth()/2;
     }
 
     private static float getLocalY(float y) {
-        return camera.getCameraHeight()/2 - camera.getCameraHeight() * y/camera.getViewportHeight();
+        return camera.getTranslation().y + camera.getCameraHeight()/2 - camera.getCameraHeight() * y/camera.getViewportHeight();
     }
 }

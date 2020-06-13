@@ -5,12 +5,14 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
-
 import android.opengl.GLES30;
-
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Drawable;
 import com.greymatter.miner.opengl.objects.Line;
+import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
+
+import java.util.ArrayList;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer {
 
@@ -28,16 +30,16 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLObjectsHelper.loadObjects();
         MainGLObjectsHelper.loadPhysicsObjects();
 
-        MainGLObjectsHelper.groundQuad.getCollider().translateBy(new Vector3f(0f,-1.5f,0f));
-        MainGLObjectsHelper.characterQuad.getCollider().scaleTo(new Vector3f(0.07f,0.1f,0f));
-        MainGLObjectsHelper.planet.getCollider().scaleTo(new Vector3f(70f,70f,1f));
-        MainGLObjectsHelper.planet.getCollider().translateBy(new Vector3f(0f,-70.5f, 0f));
+        MainGLObjectsHelper.groundQuad.translateBy(new Vector3f(0f,-1.5f,0f));
 
-        MainGLObjectsHelper.ball.getCollider().scaleTo(new Vector3f(0.2f,0.2f,1f));
-        MainGLObjectsHelper.ball.getCollider().translateBy(new Vector3f(-0.5f,0f,0f));
+        MainGLObjectsHelper.planet.scaleTo(new Vector3f(100f,100f,1f));
+        MainGLObjectsHelper.planet.translateBy(new Vector3f(0f,-100.5f, 0f));
 
-        MainGLObjectsHelper.ball2.getCollider().scaleTo(new Vector3f(0.2f,0.2f,1f));
-        MainGLObjectsHelper.ball2.getCollider().translateBy(new Vector3f(-0.5f,1f,0f));
+        MainGLObjectsHelper.ball.scaleTo(new Vector3f(0.5f,0.5f,1f));
+        MainGLObjectsHelper.ball.translateBy(new Vector3f(-0.5f,0f,0f));
+
+        MainGLObjectsHelper.ball2.scaleTo(new Vector3f(0.2f,0.2f,1f));
+        MainGLObjectsHelper.ball2.translateBy(new Vector3f(-0.5f,2f,0f));
 
         MainGLObjectsHelper.testLine = new Line(MainGLObjectsHelper.lineShader)
                 .addVertices(MainGLObjectsHelper.ballCollider.asPolygonCollider()
@@ -52,8 +54,10 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         MainGLObjectsHelper.onSurfaceChanged(width, height);
         MainGLTouchHelper.onViewChanged(MainGLObjectsHelper.camera);
+//        MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,-70f,5f));
+//        MainGLObjectsHelper.camera.updateZoomValue(80f);
         MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,0f,5f));
-        MainGLObjectsHelper.camera.updateZoomValue(1f);
+        MainGLObjectsHelper.camera.updateZoomValue(5f);
     }
 
     @Override
@@ -62,24 +66,28 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
         Drawable toDraw = MainGLObjectsHelper.backdropQuad;
-        Drawable ground = MainGLObjectsHelper.groundQuad;
-        Drawable character = MainGLObjectsHelper.characterQuad;
         Drawable planet = MainGLObjectsHelper.planet;
         Drawable ball = MainGLObjectsHelper.ball;
         Drawable ball2 = MainGLObjectsHelper.ball2;
         Drawable testLine = MainGLObjectsHelper.testLine;
 
         /*<---------------------------------------update----------------------------------------->*/
-        ball.getCollider().update();
-        ball2.getCollider().update();
+
+        //MainGLObjectsHelper.camera.translateXY(ball.getCollider().getTranslation());
+        CollisionDetectionSystem.updateSystemObjectsForces();
+
+        ArrayList<Vector3f> vertexData = new ArrayList<>();
+        vertexData.add(ball.getTranslation());
+        Vector3f accPoint = new Vector3f(ball.getTranslation());
+        accPoint.add(VectorHelper.multiply(ball.getVelocity(),40f));
+        vertexData.add(accPoint);
+
+        ((Line)testLine).updateVertexData(vertexData);
 
         /*<-----------------------------------draw quads----------------------------------------->*/
         ShaderHelper.useProgram(MainGLObjectsHelper.quadShader);
         ShaderHelper.setCameraProperties(toDraw.getShader(), MainGLObjectsHelper.camera);
         toDraw.onDrawFrame();
-        //ground.onDrawFrame();
-        character.getCollider().rotateBy(new Vector3f(1f,1f,0f));
-        character.onDrawFrame();
 
         /*<-----------------------------------draw 3d objects------------------------------------>*/
         ShaderHelper.useProgram(MainGLObjectsHelper.threeDObjectShader);
