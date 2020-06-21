@@ -71,7 +71,7 @@ class MainGLObjectsHelper {
         planet.setMass(1000f);
         planet.setRestitution(0.3f);
 
-        ball.setMass(1.0f);
+        ball.setMass(1f);
         ball.setRestitution(1f);
 
         ball2.setMass(1.0f);

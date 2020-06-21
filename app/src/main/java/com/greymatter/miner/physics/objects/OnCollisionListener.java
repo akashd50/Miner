@@ -84,22 +84,14 @@ public interface OnCollisionListener {
 
             Collider linked = event.getLinkedObject();
             Vector3f directionToLinkedObjCenter = VectorHelper.sub(linked.getTranslation(), event.getAgObjCollisionPoint());
-            float theta = VectorHelper.angle(directionToLinkedObjCenter, event.getCollisionNormal());
             float forceMag = VectorHelper.getMagnitude(impulse);
-
-
             float rotDir = (float)Math.atan2(impulse.y, impulse.x);
             float angularForce = (float)Math.sin(rotDir) * forceMag;
             float angularAcc = angularForce/(linked.getMass() * VectorHelper.getMagnitude(directionToLinkedObjCenter));
 
             float cosOfImpulse = (float)Math.cos(rotDir);
-            if(cosOfImpulse >= 0) {
-                rotDir = -rotDir;
-            }else {
-                rotDir = rotDir;
-            }
+            if(cosOfImpulse >= 0) { rotDir = -rotDir; }
 
-            Log.v("Angular Acceleration:: ", angularAcc+"");
             float toDegrees = (float)Math.toDegrees(angularAcc);
             if(linked.getAngularVelocity() > (float)Math.toDegrees(rotDir)) {
                 linked.setAngularAcceleration( - toDegrees);

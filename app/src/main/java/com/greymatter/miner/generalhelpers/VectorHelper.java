@@ -56,4 +56,9 @@ public class VectorHelper {
         rotatedAngle.y = v1.x * rmat[2] + v1.y * rmat[3];
         return rotatedAngle;
     }
+
+    public static float pointOnLine(Vector3f lineA, Vector3f lineB, Vector3f point) {
+        //(Bx - Ax) * (Cy - Ay) - (By - Ay) * (Cx - Ax)
+        return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
+    }
 }

@@ -54,8 +54,8 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         MainGLObjectsHelper.onSurfaceChanged(width, height);
         MainGLTouchHelper.onViewChanged(MainGLObjectsHelper.camera);
-//        MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,-70f,5f));
-//        MainGLObjectsHelper.camera.updateZoomValue(80f);
+        //MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,-100f,5f));
+        //MainGLObjectsHelper.camera.updateZoomValue(120f);
         MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,0f,5f));
         MainGLObjectsHelper.camera.updateZoomValue(5f);
     }

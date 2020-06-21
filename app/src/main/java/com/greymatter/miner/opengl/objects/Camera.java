@@ -41,7 +41,7 @@ public class Camera {
 
 	public void translateBy(Vector3f translation) {
 		this.translation.add(translation);
-		this.setLookAt(new Vector3f(translation.x, translation.y, 0f));
+		this.setLookAt(new Vector3f(this.translation.x, this.translation.y, 0f));
 		this.updateViewMatrix();
 	}
 
