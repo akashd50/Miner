@@ -40,10 +40,12 @@ public class MainGLTouchHelper {
     public static void onClick(View v) {
         switch (v.getId()) {
             case R.id.move_left:
-                ball.updateVelocity(new Vector3f(-0.01f, 0f,0f));
+                Vector3f left = VectorHelper.getNormal(ball.getCollider().getUpVector());
+                ball.updateVelocity(VectorHelper.multiply(left, 0.01f));
                 break;
             case R.id.move_right:
-                ball.updateVelocity(new Vector3f(0.01f, 0f,0f));
+                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(ball.getCollider().getUpVector()), -1f);
+                ball.updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             default:
                 break;

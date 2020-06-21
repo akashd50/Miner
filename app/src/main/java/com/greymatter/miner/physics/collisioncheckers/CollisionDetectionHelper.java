@@ -96,6 +96,7 @@ public class CollisionDetectionHelper {
                 Intersection intersection = checkLineIntersection(currC1, nextC1, currC2, nextC2);
                 if (intersection.intersected) {
 
+                    //calculate pen depth
                     float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC1),
                                                             VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC1));
                     float collPointDist = (float)VectorHelper.getDistanceWithSQRT(c2.getTranslation(), intersection.intPoint);
@@ -104,6 +105,10 @@ public class CollisionDetectionHelper {
                     if(collPointDist>linkedObjVertDist) penDepth = collPointDist - linkedObjVertDist;
                     else penDepth = linkedObjVertDist - collPointDist;
 
+                    //calculate linked intersection point
+                    float distToCurrC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, currC1);
+                    float distToNextC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, nextC1);
+
                     Vector3f collNormal = VectorHelper.getNormal(VectorHelper.sub(nextC2, currC2));
                     return new CollisionEvent().withLinkedObject(c1)
                                                 .againstObject(c2)
@@ -111,7 +116,9 @@ public class CollisionDetectionHelper {
                                                 .withStatus(true)
                                                 .withPenDepth(penDepth)
                                                 .withLinkedObjCollisionVector(VectorHelper.sub(nextC1, currC1))
-                                                .withCollisionPoint(intersection.intPoint);
+                                                .withAgainstObjectCollisionVector(VectorHelper.sub(nextC2, currC2))
+                                                .withAgainstObjectCollisionPoint(intersection.intPoint)
+                                                .withLinkedObjectCollisionPoint(distToCurrC1 < distToNextC1 ? currC1 : nextC1);
                 }
             }
         }

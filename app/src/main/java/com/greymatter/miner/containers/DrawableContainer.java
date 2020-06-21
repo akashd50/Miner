@@ -1,6 +1,6 @@
 package com.greymatter.miner.containers;
 
-import com.greymatter.miner.opengl.objects.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

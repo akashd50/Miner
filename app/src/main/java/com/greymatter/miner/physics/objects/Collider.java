@@ -1,6 +1,7 @@
 package com.greymatter.miner.physics.objects;
 
-import com.greymatter.miner.opengl.objects.Drawable;
+import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.HashMap;
 
@@ -8,7 +9,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class Collider {
     private Vector3f translation, rotation, scale,
-            acceleration, velocity, gravity, friction;
+            acceleration, velocity, gravity, friction, upVector;
     private float mass, restitution, angularVel, angularAcc;
     private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
     private Drawable drawable;
@@ -22,6 +23,7 @@ public abstract class Collider {
         this.velocity = new Vector3f();
         this.gravity = new Vector3f();
         this.friction = new Vector3f();
+        this.upVector = new Vector3f(0f,1f,0f);
         this.mass = 0;
         this.lastCollisionEvents = new HashMap<>();
         this.shouldUpdateGravity = true;
@@ -55,8 +57,15 @@ public abstract class Collider {
         this.translateBy(velocity);
 
         this.updateAngularVelocity(angularAcc);
-        //this.rotation.z += Math.min(angularVel, 5f);
-        this.rotation.z = angularVel;
+        //angular friction
+//        if(angularVel > 0) {
+//            angularVel-=0.1f;
+//        }else if(angularVel < 0){
+//            angularVel+=0.1f;
+//        }
+        rotateBy(0f,0f,angularVel);
+
+        upVector = VectorHelper.rotateAroundZ(new Vector3f(1f,0f,0f), (float)Math.toRadians(rotation.z));
     }
 
     public void addOrUpdateCollisionEvent(CollisionEvent collisionEvent) {
@@ -155,6 +164,13 @@ public abstract class Collider {
         this.updateParams();
     }
 
+    public void rotateBy(float x, float y, float z) {
+        this.rotation.x+=x;
+        this.rotation.y+=y;
+        this.rotation.z+=z;
+        this.updateParams();
+    }
+
     public void isStaticObject(boolean isStatic) {
         this.isStaticObject = isStatic;
     }
@@ -225,6 +241,10 @@ public abstract class Collider {
 
     public Vector3f getGravity() {
         return gravity;
+    }
+
+    public Vector3f getUpVector() {
+        return upVector;
     }
 
     public Drawable getDrawable() {

@@ -7,8 +7,8 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 import android.opengl.GLES30;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Drawable;
-import com.greymatter.miner.opengl.objects.Line;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
@@ -72,7 +72,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         Drawable testLine = MainGLObjectsHelper.testLine;
 
         /*<---------------------------------------update----------------------------------------->*/
-
+        //MainGLObjectsHelper.camera.setUpVector(ball.getCollider().getUpVector());
         //MainGLObjectsHelper.camera.translateXY(ball.getCollider().getTranslation());
         CollisionDetectionSystem.updateSystemObjectsForces();
 
@@ -89,7 +89,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         ShaderHelper.setCameraProperties(toDraw.getShader(), MainGLObjectsHelper.camera);
         toDraw.onDrawFrame();
 
-        /*<-----------------------------------draw 3d objects------------------------------------>*/
+        /*<-----------------------------------draw 2d objects------------------------------------>*/
         ShaderHelper.useProgram(MainGLObjectsHelper.threeDObjectShader);
         ShaderHelper.setCameraProperties(MainGLObjectsHelper.threeDObjectShader, MainGLObjectsHelper.camera);
         planet.onDrawFrame();

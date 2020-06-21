@@ -1,12 +1,14 @@
 package com.greymatter.miner.physics.objects;
 
-import com.greymatter.miner.opengl.objects.Drawable;
-
 import javax.vecmath.Vector3f;
 
 public class CollisionEvent {
     private Collider linkedObject, againstObject;
-    private Vector3f collisionNormal, agObjCollisionPoint, linkedObjectCollisionVector;
+    private Vector3f collisionNormal;
+    private Vector3f linkedObjectCollisionPoint;
+    private Vector3f againstObjectCollisionPoint;
+    private Vector3f linkedObjectCollisionVector;
+    private Vector3f againstObjectCollisionVector;
     private float penetrationDepth;
     private boolean collisionStatus;
     public CollisionEvent(){ }
@@ -31,8 +33,8 @@ public class CollisionEvent {
         return this;
     }
 
-    public CollisionEvent withCollisionPoint(Vector3f point) {
-        this.agObjCollisionPoint = point;
+    public CollisionEvent withAgainstObjectCollisionPoint(Vector3f point) {
+        this.againstObjectCollisionPoint = point;
         return this;
     }
 
@@ -46,8 +48,26 @@ public class CollisionEvent {
         return this;
     }
 
-    public Vector3f getAgObjCollisionPoint() {
-        return agObjCollisionPoint;
+    public CollisionEvent withLinkedObjectCollisionPoint(Vector3f linkedObjectCollisionPoint) {
+        this.linkedObjectCollisionPoint = linkedObjectCollisionPoint;
+        return this;
+    }
+
+    public CollisionEvent withAgainstObjectCollisionVector(Vector3f againstObjectCollisionVector) {
+        this.againstObjectCollisionVector = againstObjectCollisionVector;
+        return this;
+    }
+
+    public Vector3f getAgainstObjectCollisionVector() {
+        return againstObjectCollisionVector;
+    }
+
+    public Vector3f getLinkedObjectCollisionPoint() {
+        return linkedObjectCollisionPoint;
+    }
+
+    public Vector3f getAgainstObjectCollisionPoint() {
+        return againstObjectCollisionPoint;
     }
 
     public float getPenDepth() {

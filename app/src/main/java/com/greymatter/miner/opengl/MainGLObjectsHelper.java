@@ -1,23 +1,21 @@
 package com.greymatter.miner.opengl;
 
 import android.util.Log;
-
 import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.Material;
-import com.greymatter.miner.opengl.objects.Object3D;
-import com.greymatter.miner.opengl.objects.Quad;
+import com.greymatter.miner.opengl.objects.drawables.Object3D;
+import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.Triangle;
+import com.greymatter.miner.opengl.objects.drawables.Triangle;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 
-import javax.vecmath.Vector3f;
 
 class MainGLObjectsHelper {
     static Camera camera;

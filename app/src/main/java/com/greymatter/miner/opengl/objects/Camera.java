@@ -61,6 +61,11 @@ public class Camera {
 		this.updateViewMatrix();
 	}
 
+	public void setUpVector(Vector3f up) {
+		this.up = up;
+		this.updateViewMatrix();
+	}
+
 	public void onScreenSizeChanged(int w, int h) {
 		width = w;
 		height = h;

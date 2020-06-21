@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects;
+package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 import com.greymatter.miner.AppServices;
@@ -6,8 +6,10 @@ import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.Object3DHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.physics.objects.GeneralCollider;
-import com.greymatter.miner.physics.objects.PolygonCollider;
+import com.greymatter.miner.opengl.objects.Config;
+import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.io.BufferedReader;
 import java.io.IOException;

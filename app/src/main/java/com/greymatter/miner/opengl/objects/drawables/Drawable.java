@@ -1,7 +1,9 @@
-package com.greymatter.miner.opengl.objects;
+package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.Matrix;
 
+import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.GeneralCollider;
@@ -25,23 +27,32 @@ public abstract class Drawable {
 
     public void onDrawFrame() {
         if(transformationsUpdated) {
-            applyTransformations();
+            Matrix.setIdentityM(this.modelMatrix, 0);
+            applyTransformations(this.modelMatrix);
             transformationsUpdated = false;
         }
     }
 
-    private void applyTransformations() {
-        if(collider!=null) {
-            Matrix.setIdentityM(modelMatrix, 0);
-            Matrix.translateM(modelMatrix, 0, collider.getTranslation().x,
+    public void onDrawFrame(boolean applyTransformations) {
+        if(applyTransformations) {
+            Matrix.setIdentityM(this.modelMatrix, 0);
+            applyTransformations(this.modelMatrix);
+            transformationsUpdated = false;
+        }
+    }
+
+    public void applyTransformations(float[] modelMat) {
+        if(collider != null) {
+            Matrix.translateM(modelMat, 0, collider.getTranslation().x,
                                                         collider.getTranslation().y,
                                                         collider.getTranslation().z);
-            Matrix.rotateM(modelMatrix, 0, collider.getRotation().x, 1, 0, 0);
-            Matrix.rotateM(modelMatrix, 0, collider.getRotation().y, 0, 1, 0);
-            Matrix.rotateM(modelMatrix, 0, collider.getRotation().z, 0, 0, 1);
-            Matrix.scaleM(modelMatrix, 0, collider.getScale().x,
+            Matrix.rotateM(modelMat, 0, collider.getRotation().x, 1, 0, 0);
+            Matrix.rotateM(modelMat, 0, collider.getRotation().y, 0, 1, 0);
+            Matrix.rotateM(modelMat, 0, collider.getRotation().z, 0, 0, 1);
+            Matrix.scaleM(modelMat, 0, collider.getScale().x,
                                                     collider.getScale().y,
                                                     collider.getScale().z);
+            this.modelMatrix = modelMat.clone();
         }
     }
 

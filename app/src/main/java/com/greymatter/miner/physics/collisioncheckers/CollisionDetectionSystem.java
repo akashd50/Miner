@@ -3,7 +3,7 @@ package com.greymatter.miner.physics.collisioncheckers;
 import android.util.Log;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 
@@ -64,8 +64,8 @@ public class CollisionDetectionSystem {
                 drawable.resetFriction();
                 for (Drawable against : getSystemObjectsExcept(drawable)) {
                     drawable.applyGravity(calculateGravitationalForce(drawable, against));
-                    drawable.applyFriction(VectorHelper.multiply(drawable.getVelocity(), -0.001f));
                 }
+                drawable.applyFriction(VectorHelper.multiply(drawable.getVelocity(), -0.01f * drawable.getMass()));
                 drawable.update();
             }
         }
@@ -101,33 +101,6 @@ public class CollisionDetectionSystem {
         }else {
             current.getCollider().setAngularAcceleration( (magSumPosSide - magSumNegSide));
         }
-
-//        CollisionEvent lastEvent = current.getCollider().getLastCollisionEvent(against);
-//        if(lastEvent!=null && lastEvent.getCollisionStatus()) {
-//            float rotDir = (float)Math.atan2(lastEvent.getCollisionNormal().y, lastEvent.getCollisionNormal().x);
-//            float toDegrees = (float)Math.toDegrees(rotDir);
-//            if(toDegrees < current.getCollider().getAngularVelocity()) {
-//                current.getCollider().updateAngularAcceleration(-toDegrees * 0.01f);
-//            }else {
-//                current.getCollider().updateAngularAcceleration(toDegrees * 0.01f);
-//            }
-//        }
-    }
-
-    public static Vector3f calculateFrictionalForce(Drawable current, Drawable against) {
-        float c = 0.0001f;
-        CollisionEvent lastEvent = current.getCollider().getLastCollisionEvent(against);
-        if(lastEvent!=null && lastEvent.getCollisionStatus()) {
-            Vector3f frictionMag = VectorHelper.multiply(lastEvent.getCollisionNormal(),c);
-            Vector3f friction = VectorHelper.multiply(current.getVelocity(), -1);
-            friction.normalize();
-            friction.cross(frictionMag, new Vector3f(1f,1f,0f));
-
-            friction.x = Math.min(0.1f, friction.x);
-            friction.y = Math.min(0.1f, friction.y);
-            return friction;
-        }
-        return null;
     }
 
     public static void onDestroy() {
