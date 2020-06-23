@@ -15,5 +15,5 @@ in vec3 out_ws_normal;
 
 out vec4 FragColor;
 void main() {
-    FragColor = vec4(1.0,1.0,1.0,1.0);//texture(material.diffuseTexture, out_uv);
+    FragColor = texture(material.diffuseTexture, out_uv);
 }

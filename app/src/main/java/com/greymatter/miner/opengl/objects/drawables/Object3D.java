@@ -32,8 +32,8 @@ public class Object3D extends Drawable {
 	private int normalBufferObject;
 	private int uvBufferObject;
 
-	public Object3D(String file, Material material, Shader shader) {
-		super();
+	public Object3D(String id, String file, Material material, Shader shader) {
+		super(id);
 		super.setShader(shader);
 		super.setMaterial(material);
 
@@ -41,7 +41,7 @@ public class Object3D extends Drawable {
 		top = new Vector3f(); bottom = new Vector3f();
 		left = new Vector3f(); right = new Vector3f();
 
-		readFile(file);
+		readFile(Constants.OBJECTS + file);
 		float[] localVerts = new float[faceConfiguration.size() * 3 * 3];
 		float[] localNormals = new float[faceConfiguration.size() * 3 * 3];
 		float[] localUvs = new float[faceConfiguration.size() * 6];

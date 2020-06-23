@@ -58,7 +58,82 @@ public class VectorHelper {
     }
 
     public static float pointOnLine(Vector3f lineA, Vector3f lineB, Vector3f point) {
-        //(Bx - Ax) * (Cy - Ay) - (By - Ay) * (Cx - Ax)
         return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
+    }
+
+    public static IntersectionEvent checkIntersection(Vector3f line1A, Vector3f line1B,
+                                                       Vector3f line2A, Vector3f line2B){
+        IntersectionEvent intersection = new IntersectionEvent();
+
+        if(line1A==null || line1B==null || line2A==null || line2B==null) return intersection;
+
+        float y4_y3 = line2B.y-line2A.y; //a2
+        float x2_x1 = line1B.x-line1A.x;
+        float x4_x3 = line2B.x-line2A.x;
+        float y2_y1 = line1B.y-line1A.y; //a1
+        float den = (y4_y3)*(x2_x1) - (x4_x3)*(y2_y1);
+
+        if (den == 0.0f) return intersection;
+
+        float y1_y3 = line1A.y-line2A.y;
+        float x1_x3 = line1A.x-line2A.x;
+
+        float ta = ((x4_x3)*(y1_y3) - (y4_y3)*(x1_x3))/den;
+        float tb = ((x2_x1)*(y1_y3) - (y2_y1)*(x1_x3))/den;
+
+        if(ta >= 0 && ta <= 1f && tb >= 0 && tb <= 1f) {
+            intersection.intersected = true;
+        }
+        return intersection;
+    }
+
+    public static IntersectionEvent checkIntersectionWithExtraInfo(Vector3f line1A, Vector3f line1B,
+                                                                   Vector3f line2A, Vector3f line2B){
+        IntersectionEvent intersection = new IntersectionEvent();
+
+        if(line1A==null || line1B==null || line2A==null || line2B==null) return intersection;
+
+        float y4_y3 = line2B.y-line2A.y; //a2
+        float x2_x1 = line1B.x-line1A.x;
+        float x4_x3 = line2B.x-line2A.x;
+        float y2_y1 = line1B.y-line1A.y; //a1
+
+        float den = (y4_y3)*(x2_x1) - (x4_x3)*(y2_y1);
+        if (den == 0.0f) return intersection;
+
+        float y1_y3 = line1A.y-line2A.y;
+        float x1_x3 = line1A.x-line2A.x;
+
+        float ta = ((x4_x3)*(y1_y3) - (y4_y3)*(x1_x3))/den;
+        float tb = ((x2_x1)*(y1_y3) - (y2_y1)*(x1_x3))/den;
+
+        if(ta >= 0 && ta <= 1f && tb >= 0 && tb <= 1f) {
+            intersection.intersected = true;
+            intersection.intPoint = pointOfIntersection(line1A,line1B,line2A,line2B);
+        }
+        return intersection;
+    }
+
+    public static Vector3f pointOfIntersection(Vector3f line1A, Vector3f line1B,
+                                                Vector3f line2A, Vector3f line2B) {
+        // Line AB represented as a1x + b1y = c1
+        float a1 = line1B.y - line1A.y;
+        float b1 = line1A.x - line1B.x;
+        float c1 = a1*(line1A.x) + b1*(line1A.y);
+
+        // Line CD represented as a2x + b2y = c2
+        float a2 = line2B.y - line2A.y;
+        float b2 = line2A.x - line2B.x;
+        float c2 = a2*(line2A.x)+ b2*(line2A.y);
+
+        float determinant = a1*b2 - a2*b1;
+
+        if (determinant == 0) {
+            return new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        } else {
+            float x = (b2*c1 - b1*c2)/determinant;
+            float y = (a1*c2 - a2*c1)/determinant;
+            return new Vector3f(x, y,0f);
+        }
     }
 }

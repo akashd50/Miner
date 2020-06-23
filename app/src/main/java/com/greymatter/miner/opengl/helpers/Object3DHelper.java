@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.helpers;
 
 import com.greymatter.miner.opengl.objects.Config;
-import com.greymatter.miner.opengl.objects.Object3D;
+import com.greymatter.miner.opengl.objects.drawables.Object3D;
 
 import java.util.ArrayList;
 

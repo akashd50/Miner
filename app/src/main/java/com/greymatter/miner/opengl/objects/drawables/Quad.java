@@ -11,8 +11,8 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class Quad extends Drawable {
 
-	public Quad(Material material, Shader shader) {
-		super();
+	public Quad(String id, Material material, Shader shader) {
+		super(id);
 		super.setShader(shader);
 		super.setMaterial(material);
 

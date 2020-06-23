@@ -15,7 +15,7 @@ public interface OnCollisionListener {
     default void impulseResolutionDefault(CollisionEvent event) {
         if(event.getCollisionStatus()) {
             if (event.getCollisionNormal() != null) {
-                Log.v("Default Impulse resolution - Collision Normal: ", event.getCollisionNormal().toString());
+                //Log.v("Default Impulse resolution - Collision Normal: ", event.getCollisionNormal().toString());
 
                 //resolve collision
                 Vector3f relativeVelocity = VectorHelper.sub(event.getLinkedObject().getVelocity(),
@@ -74,7 +74,7 @@ public interface OnCollisionListener {
     }
 
     default void positionalCorrectionDefault(CollisionEvent event) {
-        Log.v("Default Positional Correction", "");
+        //Log.v("Default Positional Correction", "");
         float scale = (event.getLinkedObject().getScale().x + event.getLinkedObject().getScale().x)/2;
         float percent = 0.2f * scale;
         float slop = 0.01f * scale;

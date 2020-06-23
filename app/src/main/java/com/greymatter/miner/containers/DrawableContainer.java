@@ -1,24 +1,29 @@
 package com.greymatter.miner.containers;
 
+import com.greymatter.miner.game.objects.GameBuilding;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DrawableContainer {
-    private static HashMap<String, ArrayList<Drawable>> drawablesGroupedByShader;
+    private static HashMap<String, Drawable> drawables;
 
-    public static void addNew(Drawable drawable) {
-        if(drawablesGroupedByShader == null) {
-            drawablesGroupedByShader = new HashMap<>();
+    public static void addDrawable(Drawable drawable) {
+        if(drawables == null) {
+            drawables = new HashMap<>();
         }
+        drawables.put(drawable.getId(), drawable);
+    }
 
-        if(drawablesGroupedByShader.containsKey(drawable.getShader().toString())) {
-            drawablesGroupedByShader.get(drawable.getShader().toString()).add(drawable);
-        }else{
-            ArrayList<Drawable> toAdd = new ArrayList<>();
-            toAdd.add(drawable);
-            drawablesGroupedByShader.put(drawable.getShader().toString(), toAdd);
+    public static void removeDrawable(String id) {
+        if(drawables !=null) {
+            drawables.remove(id);
         }
+    }
+
+    public static void onDrawFrame() {
+        drawables.forEach((id, drawable) -> {
+            drawable.onDrawFrame();
+        });
     }
 }

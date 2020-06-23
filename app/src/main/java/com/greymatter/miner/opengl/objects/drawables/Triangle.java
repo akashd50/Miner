@@ -13,8 +13,8 @@ public class Triangle extends Drawable {
             -0.5f,0f,0f,
             0.5f,0f,0f};
 
-    public Triangle(Shader shader) {
-        super();
+    public Triangle(String id, Shader shader) {
+        super(id);
         super.setShader(shader);
 
         setVertexArrayObject(GLBufferHelper.glGenVertexArray());

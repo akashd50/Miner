@@ -45,7 +45,6 @@ public class CollisionDetectionSystem {
 
                                 assert event != null;
                                 if (event.getCollisionStatus() && linkedCollider.getCollisionListener() != null) {
-                                    Log.v("CollisionListener", "Collision Detected");
                                     linkedCollider.getCollisionListener().onCollision(event);
                                 }
                                 linkedCollider.addOrUpdateCollisionEvent(event);
@@ -59,21 +58,21 @@ public class CollisionDetectionSystem {
 
     public static void updateSystemObjectsForces() {
         for(Drawable drawable : systemObjects) {
-            if(!drawable.isStaticObject()) {
-                drawable.resetGravity();
-                drawable.resetFriction();
+            if(!drawable.getCollider().isStaticObject()) {
+                drawable.getCollider().resetGravity();
+                drawable.getCollider().resetFriction();
                 for (Drawable against : getSystemObjectsExcept(drawable)) {
-                    drawable.applyGravity(calculateGravitationalForce(drawable, against));
+                    if(against.getCollider().isStaticObject()) drawable.getCollider().applyGravity(calculateGravitationalForce(drawable, against));
                 }
-                drawable.applyFriction(VectorHelper.multiply(drawable.getVelocity(), -0.01f * drawable.getMass()));
-                drawable.update();
+                drawable.getCollider().applyFriction(VectorHelper.multiply(drawable.getCollider().getVelocity(), -0.01f * drawable.getCollider().getMass()));
+                drawable.getCollider().update();
             }
         }
     }
 
     public static Vector3f calculateGravitationalForce(Drawable current, Drawable against) {
-        Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
-        float force = (0.0003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
+        Vector3f tDir = VectorHelper.sub(against.getCollider().getTranslation(), current.getCollider().getTranslation());
+        float force = (0.0003f * against.getCollider().getMass() * current.getCollider().getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
 
        //angularAdjustmentDueToGravity(current, against);
@@ -82,8 +81,8 @@ public class CollisionDetectionSystem {
     }
 
     private static void angularAdjustmentDueToGravity(Drawable current, Drawable against) {
-        Vector3f directionToObjectCenter = VectorHelper.sub(current.getTranslation(), against.getTranslation());
-        Vector3f startP = against.getTranslation();
+        Vector3f directionToObjectCenter = VectorHelper.sub(current.getCollider().getTranslation(), against.getCollider().getTranslation());
+        Vector3f startP = against.getCollider().getTranslation();
         Vector3f endP = VectorHelper.multiply(directionToObjectCenter, 10);
         float magSumNegSide = 0;
         float magSumPosSide = 0;

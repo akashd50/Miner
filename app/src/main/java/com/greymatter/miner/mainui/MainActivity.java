@@ -11,8 +11,6 @@ import android.widget.Button;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
-import com.greymatter.miner.opengl.MainGLRenderer;
-import com.greymatter.miner.opengl.MainGLTouchHelper;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;

@@ -1,6 +1,8 @@
-package com.greymatter.miner.generalhelpers;
+package com.greymatter.miner.mainui.touch;
 
 import android.view.MotionEvent;
+
+import com.greymatter.miner.generalhelpers.VectorHelper;
 
 import javax.vecmath.Vector3f;
 

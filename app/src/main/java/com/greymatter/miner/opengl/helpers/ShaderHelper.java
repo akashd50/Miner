@@ -7,6 +7,7 @@ import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 public class ShaderHelper {
 
@@ -22,6 +23,11 @@ public class ShaderHelper {
     public static void setUniformVec3(Shader shader, String fname, Vector3f vec) {
         int location = GLES30.glGetUniformLocation(shader.getProgram(), fname);
         GLES30.glUniform3f(location, vec.x, vec.y, vec.z);
+    }
+
+    public static void setUniformVec4(Shader shader, String fname, Vector4f vec) {
+        int location = GLES30.glGetUniformLocation(shader.getProgram(), fname);
+        GLES30.glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
     }
 
     public static void setUniformFloat(Shader shader, String fname, float f) {

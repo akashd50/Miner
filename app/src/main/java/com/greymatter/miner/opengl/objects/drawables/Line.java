@@ -14,8 +14,8 @@ import javax.vecmath.Vector3f;
 public class Line extends Drawable {
     private ArrayList<Vector3f> lineVertices;
 
-    public Line(Shader shader) {
-        super();
+    public Line(String id, Shader shader) {
+        super(id);
         super.setShader(shader);
         lineVertices = new ArrayList<>();
     }
@@ -76,4 +76,5 @@ public class Line extends Drawable {
         GLBufferHelper.glUnbindVertexArray();
         return this;
     }
+
 }
