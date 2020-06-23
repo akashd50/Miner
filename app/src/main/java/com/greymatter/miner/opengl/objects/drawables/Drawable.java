@@ -9,6 +9,7 @@ import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.GeneralCollider;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class Drawable implements Clickable {
@@ -60,7 +61,7 @@ public abstract class Drawable implements Clickable {
     }
 
     @Override
-    public boolean isClicked() {
+    public boolean isClicked(Vector2f touchPoint) {
         return false;
     }
 

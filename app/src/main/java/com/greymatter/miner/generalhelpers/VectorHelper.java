@@ -1,5 +1,6 @@
 package com.greymatter.miner.generalhelpers;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class VectorHelper {
@@ -7,6 +8,8 @@ public class VectorHelper {
     public static Vector3f copy(Vector3f vector) {
         return new Vector3f(vector);
     }
+
+    public static Vector2f toVector2f(Vector3f vector3f) {return new Vector2f(vector3f.x, vector3f.y);}
 
     public static Vector3f sub(Vector3f from, Vector3f toSub) {
         Vector3f temp = copy(from);

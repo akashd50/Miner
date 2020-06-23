@@ -27,6 +27,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES30.glEnable(GLES20.GL_BLEND);
+        GLES30.glEnable(GLES20.GL_DEPTH_TEST);
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         MainGLObjectsHelper.loadShaders();
@@ -35,7 +36,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLObjectsHelper.loadPhysicsObjects();
 
         MainGLObjectsHelper.atmosphere.getCollider().scaleTo(new Vector3f(150f,150f,1f));
-        MainGLObjectsHelper.atmosphere.getCollider().translateBy(new Vector3f(0f,-75f, 0f));
+        MainGLObjectsHelper.atmosphere.getCollider().translateBy(new Vector3f(0f,-75f, -10f));
 
         MainGLObjectsHelper.planet.getCollider().scaleTo(new Vector3f(100f,100f,1f));
         MainGLObjectsHelper.planet.getCollider().translateBy(new Vector3f(0f,-100.5f, 0f));
@@ -47,7 +48,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLObjectsHelper.testBall.getCollider().translateBy(new Vector3f(-0.5f,2f,0f));
 
         MainGLObjectsHelper.mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
-        MainGLObjectsHelper.mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,0f));
+        MainGLObjectsHelper.mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
         MainGLObjectsHelper.testLine = new Line("testLine", MainGLObjectsHelper.lineShader)
                 .addVertices(MainGLObjectsHelper.mainCharCollider.asPolygonCollider()
@@ -71,7 +72,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glClearColor(0.05f,0.05f,0.1f,1f);
-        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
+        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         Drawable planet = MainGLObjectsHelper.planet;
         Drawable mainCharacter = MainGLObjectsHelper.mainCharacter;
@@ -79,7 +80,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         Drawable testLine = MainGLObjectsHelper.testLine;
 
         /*<---------------------------------------update----------------------------------------->*/
-        MainGLObjectsHelper.camera.translateXY(mainCharacter.getCollider().getTranslation());
+        //MainGLObjectsHelper.camera.translateXY(mainCharacter.getCollider().getTranslation());
 
         Vector3f fromCenterToCam = VectorHelper.sub(MainGLObjectsHelper.camera.getTranslation(), planet.getCollider().getTranslation());
         fromCenterToCam.normalize();

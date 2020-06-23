@@ -4,10 +4,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.greymatter.miner.R;
+import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.TouchController;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import static com.greymatter.miner.mainui.MainGLObjectsHelper.*;
@@ -57,7 +59,12 @@ public class MainGLTouchHelper {
     }
 
     private static void doOnTouchMove() {
-        camera.translateBy(convertToLocalUnit(touchController.getPointer1MovementDiff()));
+        Vector3f touchPoint = getLocalTouchPointVector(touchController.getCurrTouchPoint1());
+        if(mainCharacter.isClicked(VectorHelper.toVector2f(touchPoint))){
+            mainCharacter.getCollider().translateTo(touchPoint);
+        }else {
+            camera.translateBy(convertToLocalUnit(touchController.getPointer1MovementDiff()));
+        }
     }
 
     private static void doOnTouchUp() {
@@ -83,6 +90,10 @@ public class MainGLTouchHelper {
 
     private static Vector3f getLocalTouchPointVector(Vector3f touchPoint) {
         return new Vector3f(getLocalX(touchPoint.x), getLocalY(touchPoint.y), 0f);
+    }
+
+    private static Vector2f getLocalTouchPointVector2f(Vector3f touchPoint) {
+        return new Vector2f(getLocalX(touchPoint.x), getLocalY(touchPoint.y));
     }
 
     private static Vector3f getLocalTouchPointVector(float x, float y) {

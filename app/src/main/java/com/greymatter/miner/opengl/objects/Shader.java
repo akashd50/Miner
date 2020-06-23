@@ -8,20 +8,20 @@ import static com.greymatter.miner.opengl.helpers.Constants.VERTEX_SHADER;
 
 public class Shader {
     private int program;
-    private String shaderName;
+    private String id;
 
     public Shader(){}
 
     public Shader(String vsPath, String fsPath) {
-        this.shaderName = vsPath + " | "+ fsPath;
+        this.id = vsPath + " | "+ fsPath;
         program = ShaderHelper.generateShadersAndProgram(ResourceLoader.loadFileResource(vsPath),
                 ResourceLoader.loadFileResource(fsPath));
     }
 
-    public Shader(String shaderName) {
-        this.shaderName = shaderName;
-        program = ShaderHelper.generateShadersAndProgram(ResourceLoader.loadFileResource(SHADERS+shaderName+VERTEX_SHADER),
-                ResourceLoader.loadFileResource(SHADERS+shaderName+FRAG_SHADER));
+    public Shader(String id) {
+        this.id = id;
+        program = ShaderHelper.generateShadersAndProgram(ResourceLoader.loadFileResource(SHADERS+ id +VERTEX_SHADER),
+                ResourceLoader.loadFileResource(SHADERS+ id +FRAG_SHADER));
     }
 
     public int getProgram() {
@@ -33,6 +33,10 @@ public class Shader {
     }
 
     public String toString() {
-        return shaderName;
+        return id;
     }
+    public String getId() {
+        return id;
+    }
+
 }

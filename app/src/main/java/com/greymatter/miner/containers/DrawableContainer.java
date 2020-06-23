@@ -1,16 +1,16 @@
 package com.greymatter.miner.containers;
 
-import com.greymatter.miner.game.objects.GameBuilding;
+import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class DrawableContainer {
-    private static HashMap<String, Drawable> drawables;
+    private static HashMapE<String, Drawable> drawables;
 
     public static void addDrawable(Drawable drawable) {
         if(drawables == null) {
-            drawables = new HashMap<>();
+            drawables = new HashMapE<>();
         }
         drawables.put(drawable.getId(), drawable);
     }
@@ -25,5 +25,9 @@ public class DrawableContainer {
         drawables.forEach((id, drawable) -> {
             drawable.onDrawFrame();
         });
+    }
+
+    public ArrayList<Drawable> getAll() {
+        return drawables.toList();
     }
 }

@@ -14,7 +14,6 @@ import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.drawables.Object3D;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.Triangle;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
@@ -54,9 +53,9 @@ class MainGLObjectsHelper {
         testBall = new Object3D("testBall", Constants.CIRCLE_SUB_DIV_I, groundMaterial, threeDObjectShader);
         mainBase = new Quad("mainBase", mainBaseMaterial, quadShader);
 
-        GameBuildingsContainer.addBuilding(new Townhall(mainBase));
-        ControllableGameObjectsContainer.addObject(new ControllableGameObject(testBall));
-        ControllableGameObjectsContainer.addObject(new ControllableGameObject(mainCharacter));
+        GameBuildingsContainer.add(new Townhall(mainBase));
+        ControllableGameObjectsContainer.add(new ControllableGameObject(testBall));
+        ControllableGameObjectsContainer.add(new ControllableGameObject(mainCharacter));
     }
 
     static void loadPhysicsObjects() {

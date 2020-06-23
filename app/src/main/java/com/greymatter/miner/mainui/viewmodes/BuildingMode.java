@@ -4,7 +4,7 @@ import android.view.View;
 import com.greymatter.miner.mainui.touch.TouchController;
 import com.greymatter.miner.opengl.objects.Camera;
 
-public class BuildingMode implements ViewMode {
+public class BuildingMode implements IViewMode {
     private Camera mainCamera;
     private TouchController touchController;
 
