@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.greymatter.miner.R;
+import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.TouchController;
 import com.greymatter.miner.generalhelpers.VectorHelper;
@@ -42,12 +43,12 @@ public class MainGLTouchHelper {
     public static void onClick(View v) {
         switch (v.getId()) {
             case R.id.move_left:
-                Vector3f left = VectorHelper.getNormal(mainCharacter.getCollider().getUpVector());
-                mainCharacter.getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
+                Vector3f left = VectorHelper.getNormal(DrawableContainer.get("mainCharacter").getCollider().getUpVector());
+                DrawableContainer.get("mainCharacter").getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
                 break;
             case R.id.move_right:
-                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(mainCharacter.getCollider().getUpVector()), -1f);
-                mainCharacter.getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
+                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(DrawableContainer.get("mainCharacter").getCollider().getUpVector()), -1f);
+                DrawableContainer.get("mainCharacter").getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             default:
                 break;
@@ -60,8 +61,8 @@ public class MainGLTouchHelper {
 
     private static void doOnTouchMove() {
         Vector3f touchPoint = getLocalTouchPointVector(touchController.getCurrTouchPoint1());
-        if(mainCharacter.isClicked(VectorHelper.toVector2f(touchPoint))){
-            mainCharacter.getCollider().translateTo(touchPoint);
+        if(DrawableContainer.get("mainCharacter").isClicked(VectorHelper.toVector2f(touchPoint))){
+            DrawableContainer.get("mainCharacter").getCollider().translateTo(touchPoint);
         }else {
             camera.translateBy(convertToLocalUnit(touchController.getPointer1MovementDiff()));
         }
@@ -71,11 +72,11 @@ public class MainGLTouchHelper {
         if(!touchController.isTouchPoint1Drag()) {
             Vector3f touchPoint = getLocalTouchPointVector(touchController.getCurrTouchPoint1());
 
-            mainCharacter.getCollider().translateTo(touchPoint);
-            mainCharacter.getCollider().setVelocity(new Vector3f(0f, 0f, 0f));
-            mainCharacter.getCollider().rotateTo(new Vector3f());
-            mainCharacter.getCollider().setAngularAcceleration(0f);
-            mainCharacter.getCollider().setAngularVelocity(0f);
+            DrawableContainer.get("mainCharacter").getCollider().translateTo(touchPoint);
+            DrawableContainer.get("mainCharacter").getCollider().setVelocity(new Vector3f(0f, 0f, 0f));
+            DrawableContainer.get("mainCharacter").getCollider().rotateTo(new Vector3f());
+            DrawableContainer.get("mainCharacter").getCollider().setAngularAcceleration(0f);
+            DrawableContainer.get("mainCharacter").getCollider().setAngularVelocity(0f);
 
 //            Vector3f newPos = new Vector3f(touchPoint);
 //            newPos.y += 2.5f;

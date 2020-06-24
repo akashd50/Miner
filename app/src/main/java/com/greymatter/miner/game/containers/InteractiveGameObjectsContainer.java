@@ -1,18 +1,21 @@
-package com.greymatter.miner.game;
+package com.greymatter.miner.game.containers;
 
+import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.game.objects.ControllableGameObject;
 import com.greymatter.miner.game.objects.GameBuilding;
+import com.greymatter.miner.game.objects.InteractiveGameObject;
+import com.greymatter.miner.opengl.helpers.ShaderHelper;
+import com.greymatter.miner.opengl.objects.Camera;
+import com.greymatter.miner.opengl.objects.Shader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class ControllableGameObjectsContainer {
-    private static HashMapE<String, ControllableGameObject> controllableObjects;
-    private static GroupMap<String, ControllableGameObject> groupedByShader;
+public class InteractiveGameObjectsContainer {
+    private static HashMapE<String, InteractiveGameObject> controllableObjects;
+    private static GroupMap<String, InteractiveGameObject> groupedByShader;
 
-    public static void add(ControllableGameObject controllableObject) {
+    public static void add(InteractiveGameObject controllableObject) {
         if(controllableObjects == null) {
             controllableObjects = new HashMapE<>();
         }
@@ -26,7 +29,7 @@ public class ControllableGameObjectsContainer {
     }
 
     public static void remove(String id) {
-        ControllableGameObject removed = null;
+        InteractiveGameObject removed = null;
         if(controllableObjects !=null) {
             removed = controllableObjects.remove(id);
         }
@@ -42,11 +45,21 @@ public class ControllableGameObjectsContainer {
         });
     }
 
-    public static ControllableGameObject get(String id) {
+    public static void onDrawFrameByShader(Camera camera) {
+        groupedByShader.forEach((shaderId, intGO) -> {
+            Shader toUse = ShaderContainer.get(shaderId);
+            ShaderHelper.useProgram(toUse);
+            ShaderHelper.setCameraProperties(toUse, camera);
+
+            intGO.forEach(InteractiveGameObject::onDrawFrame);
+        });
+    }
+
+    public static InteractiveGameObject get(String id) {
         return controllableObjects.get(id);
     }
 
-    public static ArrayList<ControllableGameObject> getAll() {
+    public static ArrayList<InteractiveGameObject> getAll() {
         return controllableObjects.toList();
     }
 }

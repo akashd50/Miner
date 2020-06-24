@@ -1,4 +1,4 @@
-package com.greymatter.miner.game;
+package com.greymatter.miner.game.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
@@ -44,10 +44,12 @@ public class GameBuildingsContainer {
     }
 
     public static void onDrawFrameByShader(Camera camera) {
-        groupedByShader.forEach((shaderId, building) -> {
+        groupedByShader.forEach((shaderId, buildings) -> {
             Shader toUse = ShaderContainer.get(shaderId);
             ShaderHelper.useProgram(toUse);
             ShaderHelper.setCameraProperties(toUse, camera);
+
+            buildings.forEach(GameBuilding::onDrawFrame);
         });
     }
 

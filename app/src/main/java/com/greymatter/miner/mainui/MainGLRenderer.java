@@ -6,17 +6,21 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 import android.opengl.GLES30;
-
-import com.greymatter.miner.game.ControllableGameObjectsContainer;
-import com.greymatter.miner.game.GameBuildingsContainer;
+import com.greymatter.miner.containers.DrawableContainer;
+import com.greymatter.miner.containers.ShaderContainer;
+import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
+import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
+import com.greymatter.miner.game.containers.GameBuildingsContainer;
+import com.greymatter.miner.game.objects.InteractiveGameObject;
+import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
-
 import java.util.ArrayList;
+import static com.greymatter.miner.game.GC.*;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer {
 
@@ -33,27 +37,8 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLObjectsHelper.loadShaders();
         MainGLObjectsHelper.loadMaterials();
         MainGLObjectsHelper.loadObjects();
+        MainGLObjectsHelper.finishObjectsSetup();
         MainGLObjectsHelper.loadPhysicsObjects();
-
-        MainGLObjectsHelper.atmosphere.getCollider().scaleTo(new Vector3f(150f,150f,1f));
-        MainGLObjectsHelper.atmosphere.getCollider().translateBy(new Vector3f(0f,-75f, -10f));
-
-        MainGLObjectsHelper.planet.getCollider().scaleTo(new Vector3f(100f,100f,1f));
-        MainGLObjectsHelper.planet.getCollider().translateBy(new Vector3f(0f,-100.5f, 0f));
-
-        MainGLObjectsHelper.mainCharacter.getCollider().scaleTo(new Vector3f(0.5f,0.5f,1f));
-        MainGLObjectsHelper.mainCharacter.getCollider().translateBy(new Vector3f(-0.5f,0f,0f));
-
-        MainGLObjectsHelper.testBall.getCollider().scaleTo(new Vector3f(0.2f,0.2f,1f));
-        MainGLObjectsHelper.testBall.getCollider().translateBy(new Vector3f(-0.5f,2f,0f));
-
-        MainGLObjectsHelper.mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
-        MainGLObjectsHelper.mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
-
-        MainGLObjectsHelper.testLine = new Line("testLine", MainGLObjectsHelper.lineShader)
-                .addVertices(MainGLObjectsHelper.mainCharCollider.asPolygonCollider()
-                        .getTransformedVertices()).build();
-
         MainGLObjectsHelper.initiatePhysicsProcesses();
     }
 
@@ -74,10 +59,9 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.05f,0.05f,0.1f,1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
-        Drawable planet = MainGLObjectsHelper.planet;
-        Drawable mainCharacter = MainGLObjectsHelper.mainCharacter;
-        Drawable ball2 = MainGLObjectsHelper.testBall;
-        Drawable testLine = MainGLObjectsHelper.testLine;
+        Drawable planet = DrawableContainer.get(PLANET);
+        Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
+        Drawable testLine = DrawableContainer.get(TEST_LINE);
 
         /*<---------------------------------------update----------------------------------------->*/
         //MainGLObjectsHelper.camera.translateXY(mainCharacter.getCollider().getTranslation());
@@ -96,36 +80,13 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
         ((Line)testLine).updateVertexData(vertexData);
 
-        /*<-----------------------------------draw quads----------------------------------------->*/
-//        ShaderHelper.useProgram(MainGLObjectsHelper.quadShader);
-//        ShaderHelper.setCameraProperties(toDraw.getShader(), MainGLObjectsHelper.camera);
-
-
-        /*<-----------------------------------draw 2d objects------------------------------------>*/
-        useShader(MainGLObjectsHelper.threeDObjectShader);
-        MainGLObjectsHelper.atmosphere.onDrawFrame();
-
-        /*---------------------------------draw game buildings----------------------------------->*/
-        useShader(MainGLObjectsHelper.quadShader);
-        GameBuildingsContainer.onDrawFrame();
-
-        useShader(MainGLObjectsHelper.threeDObjectShader);
-        planet.onDrawFrame();
-        ControllableGameObjectsContainer.onDrawFrame();
-
-        /*<------------------------------------drawLines----------------------------------------->*/
-        useShader(MainGLObjectsHelper.lineShader);
-        testLine.onDrawFrame();
-
-    }
-
-    private void useShader(Shader shader) {
-        ShaderHelper.useProgram(shader);
-        ShaderHelper.setCameraProperties(shader, MainGLObjectsHelper.camera);
+        /*<-----------------------------------------draw----------------------------------------->*/
+        BackgroundObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
+        GameBuildingsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
+        InteractiveGameObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
     }
 
     public void onDestroy() {
         MainGLObjectsHelper.onDestroy();
     }
-
 }

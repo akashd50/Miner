@@ -7,8 +7,7 @@ import com.greymatter.miner.opengl.helpers.TextureBuilder;
 
 import javax.vecmath.Vector3f;
 
-public class Material
-{
+public class Material {
     private Texture diffuseTexture;
     private Texture roughnessTexture;
 
@@ -16,8 +15,9 @@ public class Material
     private Vector3f ambient;
     private Vector3f diffuse;
     private Vector3f specular;
-
-    public Material(String diffTexName, String roughTexName) {
+    private String id;
+    public Material(String id, String diffTexName, String roughTexName) {
+        this.id = id;
         if (diffTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, Constants.TEXTURES+diffTexName);
@@ -95,6 +95,10 @@ public class Material
 
     public final boolean hasRoughnessTexture() {
         return this.roughnessTexture != null;
+    }
+
+    public String getId() {
+        return id;
     }
 }
 
