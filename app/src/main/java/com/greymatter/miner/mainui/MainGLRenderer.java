@@ -7,14 +7,9 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 import android.opengl.GLES30;
 import com.greymatter.miner.containers.DrawableContainer;
-import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
 import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
 import com.greymatter.miner.game.containers.GameBuildingsContainer;
-import com.greymatter.miner.game.objects.InteractiveGameObject;
-import com.greymatter.miner.opengl.helpers.Constants;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.generalhelpers.VectorHelper;
@@ -37,8 +32,8 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         MainGLObjectsHelper.loadShaders();
         MainGLObjectsHelper.loadMaterials();
         MainGLObjectsHelper.loadObjects();
-        MainGLObjectsHelper.finishObjectsSetup();
         MainGLObjectsHelper.loadPhysicsObjects();
+        MainGLObjectsHelper.finishObjectsSetup();
         MainGLObjectsHelper.initiatePhysicsProcesses();
     }
 
