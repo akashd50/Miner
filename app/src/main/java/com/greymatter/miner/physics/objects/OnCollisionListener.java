@@ -3,6 +3,7 @@ package com.greymatter.miner.physics.objects;
 import android.util.Log;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import javax.vecmath.Vector3f;
 
@@ -33,9 +34,30 @@ public interface OnCollisionListener {
 
                 event.getLinkedObject().updateVelocity(impulse);
                 //rotational resolution
-                matchSurfaceAngleDefault(event, impulse);
-               // angularImpulseResolutionDefault(event, impulse);
+                //matchSurfaceAngleDefault(event, impulse);
+                angularAdjustmentDueToGravity(event, impulse);
             }
+        }
+    }
+
+    default void angularAdjustmentDueToGravity(CollisionEvent event, Vector3f impulse) {
+        Collider linked = event.getLinkedObject();
+
+        Vector3f directionToObjectCenter = VectorHelper.sub(event.getLinkedObjectCollisionPoint(), event.getAgainstObject().getTranslation());
+        Vector3f startP = event.getAgainstObject().getTranslation();
+        Vector3f endP = VectorHelper.multiply(linked.getTranslation(), 1);
+
+        float forceMag = VectorHelper.getMagnitude(impulse);
+        float rotDir = (float)Math.atan2(impulse.y, impulse.x);
+        float angularForce = (float)Math.sin(rotDir) * forceMag;
+        directionToObjectCenter.normalize();
+        float angularAcc = angularForce/(linked.getMass() * VectorHelper.getMagnitude(directionToObjectCenter));
+
+        float pointOnLine = VectorHelper.pointOnLine(startP, endP, event.getLinkedObjectCollisionPoint());
+        if(pointOnLine < 0 ) {
+            linked.updateAngularVelocity( angularAcc * 10f);
+        }else if (pointOnLine > 0 ){
+            linked.updateAngularVelocity(- angularAcc * 10f);
         }
     }
 
@@ -63,12 +85,6 @@ public interface OnCollisionListener {
             Collider linked = event.getLinkedObject();
             float rotDir = (float)Math.atan2(event.getCollisionNormal().y, event.getCollisionNormal().x);
             float toDegrees = (float)Math.toDegrees(rotDir);
-
-//            if(linked.getRotation().z < rotDir) {
-//                linked.setAngularVelocity(toDegrees*0.01f);
-//            }else{
-//                linked.setAngularVelocity(-toDegrees*0.01f);
-//            }
             linked.getRotation().z = toDegrees;
         }
     }

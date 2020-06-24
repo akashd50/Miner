@@ -1,7 +1,6 @@
 package com.greymatter.miner.mainui;
 
 import android.util.Log;
-
 import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
@@ -25,9 +24,7 @@ import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
-
 import javax.vecmath.Vector3f;
-
 import static com.greymatter.miner.game.GC.*;
 
 class MainGLObjectsHelper {

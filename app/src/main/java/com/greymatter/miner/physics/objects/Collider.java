@@ -58,11 +58,11 @@ public abstract class Collider {
 
         this.updateAngularVelocity(angularAcc);
         //angular friction
-//        if(angularVel > 0) {
-//            angularVel-=0.1f;
-//        }else if(angularVel < 0){
-//            angularVel+=0.1f;
-//        }
+        if(angularVel > 0) {
+            angularVel-=0.01f;
+        }else if(angularVel < 0){
+            angularVel+=0.01f;
+        }
         rotateBy(0f,0f,angularVel);
 
         upVector = VectorHelper.rotateAroundZ(new Vector3f(1f,0f,0f), (float)Math.toRadians(rotation.z));

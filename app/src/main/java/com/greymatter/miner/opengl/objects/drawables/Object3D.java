@@ -2,6 +2,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 import com.greymatter.miner.AppServices;
+import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.helpers.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.Object3DHelper;
@@ -199,5 +200,23 @@ public class Object3D extends Drawable {
 		if(vector.x < left.x) {
 			left = vector;
 		}
+	}
+
+	@Override
+	public boolean isClicked(Vector2f touchPoint) {
+		boolean isClicked = false;
+		ArrayList<Vector3f> vertices = getCollider().asPolygonCollider().getTransformedVertices();
+		for(int i=0; i<vertices.size();i++) {
+			Vector2f currC1 = VectorHelper.toVector2f(vertices.get(i));
+			Vector2f nextC1 = null;
+			if (i < vertices.size() - 1) { nextC1 = VectorHelper.toVector2f(vertices.get(i + 1)); }
+			else { nextC1 = VectorHelper.toVector2f(vertices.get(0)); }
+
+			if(VectorHelper.checkIntersection(touchPoint, new Vector2f(touchPoint.x+1000f,touchPoint.y), currC1, nextC1).intersected) {
+				isClicked = true;
+				break;
+			}
+		}
+		return isClicked;
 	}
 }

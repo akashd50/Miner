@@ -64,8 +64,8 @@ public class VectorHelper {
         return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
     }
 
-    public static IntersectionEvent checkIntersection(Vector3f line1A, Vector3f line1B,
-                                                       Vector3f line2A, Vector3f line2B){
+    public static IntersectionEvent checkIntersection(Vector2f line1A, Vector2f line1B,
+                                                       Vector2f line2A, Vector2f line2B){
         IntersectionEvent intersection = new IntersectionEvent();
 
         if(line1A==null || line1B==null || line2A==null || line2B==null) return intersection;

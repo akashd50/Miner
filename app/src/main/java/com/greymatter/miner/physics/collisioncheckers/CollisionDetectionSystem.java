@@ -62,7 +62,10 @@ public class CollisionDetectionSystem {
                 drawable.getCollider().resetGravity();
                 drawable.getCollider().resetFriction();
                 for (Drawable against : getSystemObjectsExcept(drawable)) {
-                    if(against.getCollider().isStaticObject()) drawable.getCollider().applyGravity(calculateGravitationalForce(drawable, against));
+                    if(against.getCollider().isStaticObject()) {
+                        drawable.getCollider().applyGravity(calculateGravitationalForce(drawable, against));
+                        angularAdjustmentDueToGravity(drawable,against);
+                    }
                 }
                 drawable.getCollider().applyFriction(VectorHelper.multiply(drawable.getCollider().getVelocity(), -0.01f * drawable.getCollider().getMass()));
                 drawable.getCollider().update();
@@ -83,22 +86,22 @@ public class CollisionDetectionSystem {
     private static void angularAdjustmentDueToGravity(Drawable current, Drawable against) {
         Vector3f directionToObjectCenter = VectorHelper.sub(current.getCollider().getTranslation(), against.getCollider().getTranslation());
         Vector3f startP = against.getCollider().getTranslation();
-        Vector3f endP = VectorHelper.multiply(directionToObjectCenter, 10);
+        Vector3f endP = VectorHelper.multiply(current.getCollider().getTranslation(), 1);
         float magSumNegSide = 0;
         float magSumPosSide = 0;
 
-        for(Vector3f vector : current.getCollider().asPolygonCollider().getTransformedVertices()) {
-            if(VectorHelper.pointOnLine(startP, endP, vector) < 0 ) {
-                magSumNegSide += VectorHelper.getMagnitude(vector);
+        for(Vector3f point : current.getCollider().asPolygonCollider().getTransformedVertices()) {
+            if(VectorHelper.pointOnLine(startP, endP, point) < 0 ) {
+                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getCollider().getTranslation(), point));
             }else {
-                magSumPosSide += VectorHelper.getMagnitude(vector);
+                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getCollider().getTranslation(), point));
             }
         }
 
-        if(magSumNegSide>magSumPosSide) {
-            current.getCollider().setAngularAcceleration( - (magSumNegSide - magSumPosSide));
-        }else {
-            current.getCollider().setAngularAcceleration( (magSumPosSide - magSumNegSide));
+        if(magSumNegSide<magSumPosSide) {
+            current.getCollider().updateAngularVelocity(0.01f);
+        }else{
+            current.getCollider().updateAngularVelocity(-0.01f);
         }
     }
 
