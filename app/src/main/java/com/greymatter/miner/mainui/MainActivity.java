@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
+import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
@@ -70,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
         };
         left.setOnClickListener(listener);
         right.setOnClickListener(listener);
-
-
     }
 
 
