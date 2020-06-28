@@ -7,11 +7,11 @@ import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class AbstractViewMode {
+public abstract class AbstractTouchMode {
     private TouchController touchController;
     private Camera mainCamera;
     private TouchEventBundle touchEventBundle;
-    public AbstractViewMode(Camera mainCamera, TouchController touchController){
+    public AbstractTouchMode(Camera mainCamera, TouchController touchController){
         this.touchController = touchController;
         this.mainCamera = mainCamera;
     }

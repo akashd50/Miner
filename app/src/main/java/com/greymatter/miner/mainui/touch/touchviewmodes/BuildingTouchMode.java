@@ -6,8 +6,8 @@ import com.greymatter.miner.mainui.touch.TouchController;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class BuildingMode extends AbstractViewMode {
-    public BuildingMode(TouchController controller, Camera camera) {
+public class BuildingTouchMode extends AbstractTouchMode {
+    public BuildingTouchMode(TouchController controller, Camera camera) {
         super(camera, controller);
     }
 

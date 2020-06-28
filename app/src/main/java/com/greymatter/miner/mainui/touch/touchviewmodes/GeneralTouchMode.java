@@ -18,8 +18,8 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import static com.greymatter.miner.game.GC.*;
 
-public class GeneralMode extends AbstractViewMode {
-    public GeneralMode(TouchController controller, Camera camera) {
+public class GeneralTouchMode extends AbstractTouchMode {
+    public GeneralTouchMode(TouchController controller, Camera camera) {
         super(camera, controller);
     }
 
@@ -48,7 +48,8 @@ public class GeneralMode extends AbstractViewMode {
                         GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
 
                         TouchEventBundle touchEventBundle = new TouchEventBundle().setDrawable(DrawableContainer.get(MAIN_BASE));
-                        ViewModeManager.switchToBuildingMode(getTouchController(), getMainCamera()).setTouchEventBundle(touchEventBundle);
+                        ViewModeManager.switchToBuildingMode(getTouchController(), getMainCamera());
+                        ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
                     }
                 });
 

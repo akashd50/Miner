@@ -1,5 +1,7 @@
 package com.greymatter.miner.generalhelpers;
 
+import java.util.ArrayList;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
@@ -62,6 +64,22 @@ public class VectorHelper {
 
     public static float pointOnLine(Vector3f lineA, Vector3f lineB, Vector3f point) {
         return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
+    }
+
+    public static boolean isPointInPolygon(Vector2f point, ArrayList<Vector3f> polygonVertices) {
+        boolean isClicked = false;
+        for(int i=0; i<polygonVertices.size();i++) {
+            Vector2f currC1 = VectorHelper.toVector2f(polygonVertices.get(i));
+            Vector2f nextC1 = null;
+            if (i < polygonVertices.size() - 1) { nextC1 = VectorHelper.toVector2f(polygonVertices.get(i + 1)); }
+            else { nextC1 = VectorHelper.toVector2f(polygonVertices.get(0)); }
+
+            if(VectorHelper.checkIntersection(point, new Vector2f(point.x+1000f,point.y), currC1, nextC1).intersected) {
+                isClicked = true;
+                break;
+            }
+        }
+        return isClicked;
     }
 
     public static IntersectionEvent checkIntersection(Vector2f line1A, Vector2f line1B,

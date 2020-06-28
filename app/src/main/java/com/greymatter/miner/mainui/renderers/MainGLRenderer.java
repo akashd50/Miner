@@ -11,6 +11,7 @@ import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
 import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
 import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
+import com.greymatter.miner.mainui.touch.touchviewmodes.ViewModeManager;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.generalhelpers.VectorHelper;
@@ -18,11 +19,9 @@ import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import java.util.ArrayList;
 import static com.greymatter.miner.game.GC.*;
 
-public class MainGLRenderer implements GLSurfaceView.Renderer {
+public class MainGLRenderer implements GLSurfaceView.Renderer  {
 
-    public MainGLRenderer() {
-
-    }
+    public MainGLRenderer() {}
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -52,34 +51,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES30.glClearColor(0.05f,0.05f,0.1f,1f);
-        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
-
-        Drawable planet = DrawableContainer.get(PLANET);
-        Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
-        Drawable testLine = DrawableContainer.get(TEST_LINE);
-
-        /*<---------------------------------------update----------------------------------------->*/
-        //MainGLObjectsHelper.camera.translateXY(mainCharacter.getCollider().getTranslation());
-
-        Vector3f fromCenterToCam = VectorHelper.sub(MainGLObjectsHelper.camera.getTranslation(), planet.getCollider().getTranslation());
-        fromCenterToCam.normalize();
-        MainGLObjectsHelper.camera.setUpVector(fromCenterToCam);
-
-        CollisionDetectionSystem.updateSystemObjectsForces();
-
-        ArrayList<Vector3f> vertexData = new ArrayList<>();
-        vertexData.add(mainCharacter.getCollider().getTranslation());
-        Vector3f accPoint = new Vector3f(mainCharacter.getCollider().getTranslation());
-        accPoint.add(VectorHelper.multiply(mainCharacter.getCollider().getVelocity(),40f));
-        vertexData.add(accPoint);
-
-        ((Line)testLine).updateVertexData(vertexData);
-
-        /*<-----------------------------------------draw----------------------------------------->*/
-        BackgroundObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
-        GameBuildingsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
-        InteractiveGameObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
+        ViewModeManager.getActiveRendererMode().onDrawFrame();
     }
 
     public void onDestroy() {
