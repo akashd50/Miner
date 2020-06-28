@@ -44,7 +44,7 @@ public class VectorHelper {
 
     public static Vector3f getNormal(Vector3f vector) {
         float mag = getMagnitude(vector);
-        return new Vector3f(-vector.y/mag,vector.x/mag, vector.z);
+        return new Vector3f(-vector.y/mag,vector.x/mag, 0f);
     }
 
     public static float getMagnitude(Vector3f vector) {

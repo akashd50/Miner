@@ -15,10 +15,14 @@ import static com.greymatter.miner.game.GC.*;
 public class MainGLTouchHelper {
     private static Camera camera;
     private static TouchController touchController;
-    public static void onViewChanged(Camera cam) {
-        camera = cam;
-        touchController = new TouchController();
-        ViewModeManager.switchToGeneralMode(touchController, camera);
+    private static boolean initialSetup = true;
+    public static void onSurfaceChanged(Camera cam) {
+        if(initialSetup) {
+            camera = cam;
+            touchController = new TouchController();
+            ViewModeManager.switchToGeneralMode(touchController, camera);
+            initialSetup = false;
+        }
     }
 
     public static void onTouch(MotionEvent event) {
@@ -26,17 +30,6 @@ public class MainGLTouchHelper {
     }
 
     public static void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.move_left:
-                Vector3f left = VectorHelper.getNormal(DrawableContainer.get(MAIN_CHARACTER).getCollider().getUpVector());
-                DrawableContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
-                break;
-            case R.id.move_right:
-                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(DrawableContainer.get(MAIN_CHARACTER).getCollider().getUpVector()), -1f);
-                DrawableContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
-                break;
-            default:
-                break;
-        }
+        ViewModeManager.getActiveViewMode().onClick(v);
     }
 }

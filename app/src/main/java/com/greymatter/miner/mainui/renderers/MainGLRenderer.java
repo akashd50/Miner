@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui;
+package com.greymatter.miner.mainui.renderers;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -43,11 +43,11 @@ public class MainGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glViewport(0,0,width,height);
 
         MainGLObjectsHelper.onSurfaceChanged(width, height);
-        MainGLTouchHelper.onViewChanged(MainGLObjectsHelper.camera);
+        MainGLTouchHelper.onSurfaceChanged(MainGLObjectsHelper.camera);
         //MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,-100f,5f));
         //MainGLObjectsHelper.camera.updateZoomValue(120f);
         MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,0f,5f));
-        MainGLObjectsHelper.camera.updateZoomValue(5f);
+        MainGLObjectsHelper.camera.setZoomValue(5f);
     }
 
     @Override

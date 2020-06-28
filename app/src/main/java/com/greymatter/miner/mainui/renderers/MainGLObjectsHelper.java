@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui;
+package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
 import com.greymatter.miner.containers.DrawableContainer;
@@ -29,11 +29,17 @@ import static com.greymatter.miner.game.GC.*;
 
 class MainGLObjectsHelper {
     static Camera camera;
+    static boolean initialSetup = true;
     static void onSurfaceChanged(int width, int height) {
-        camera = new Camera(width, height);
+        if(initialSetup) {
+            camera = new Camera(width, height);
+            initialSetup = false;
+        }else{
+            camera.onSurfaceChanged(width,height);
+        }
     }
 
-    static void loadShaders() {
+    public static void loadShaders() {
         ShaderContainer.addShader(new Shader(Constants.SIMPLE_TRIANGLE_SHADER));
         ShaderContainer.addShader(new Shader(Constants.QUAD_SHADER));
         ShaderContainer.addShader(new Shader(Constants.THREE_D_OBJECT_SHADER));
@@ -56,7 +62,7 @@ class MainGLObjectsHelper {
 
         BackgroundObjectsContainer.add(new Static(DrawableContainer.get(ATMOSPHERE)));
         GameBuildingsContainer.add(new Planet(DrawableContainer.get(PLANET)));
-        GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
+        //GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
 
         InteractiveGameObjectsContainer.add(new InteractiveGameObject(DrawableContainer.get(MAIN_CHARACTER)));
         InteractiveGameObjectsContainer.add(new InteractiveGameObject(DrawableContainer.get(TEST_BALL)));

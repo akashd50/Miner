@@ -10,6 +10,7 @@ import javax.vecmath.Vector3f;
 public abstract class AbstractViewMode {
     private TouchController touchController;
     private Camera mainCamera;
+    private TouchEventBundle touchEventBundle;
     public AbstractViewMode(Camera mainCamera, TouchController touchController){
         this.touchController = touchController;
         this.mainCamera = mainCamera;
@@ -58,15 +59,23 @@ public abstract class AbstractViewMode {
     }
 
     public Camera getMainCamera() {
-        return mainCamera;
+        return this.mainCamera;
     }
 
     public TouchController getTouchController() {
-        return touchController;
+        return this.touchController;
     }
 
-    abstract void onClick(View v);
-    abstract void doOnTouchDown();
-    abstract void doOnTouchMove();
-    abstract void doOnTouchUp();
+    public TouchEventBundle getTouchEventBundle() {
+        return touchEventBundle;
+    }
+
+    public void setTouchEventBundle(TouchEventBundle touchEventBundle) {
+        this.touchEventBundle = touchEventBundle;
+    }
+
+    public abstract void onClick(View v);
+    public abstract void doOnTouchDown();
+    public abstract void doOnTouchMove();
+    public abstract void doOnTouchUp();
 }

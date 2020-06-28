@@ -5,6 +5,7 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.HashMap;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class Collider {
@@ -65,7 +66,7 @@ public abstract class Collider {
         }
         rotateBy(0f,0f,angularVel);
 
-        upVector = VectorHelper.rotateAroundZ(new Vector3f(1f,0f,0f), (float)Math.toRadians(rotation.z));
+        //upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(rotation.z));
     }
 
     public void addOrUpdateCollisionEvent(CollisionEvent collisionEvent) {
@@ -145,12 +146,24 @@ public abstract class Collider {
     }
 
     public void translateTo(Vector3f position) {
-        this.translation = position;
+        this.translation = new Vector3f(position);
         this.updateParams();
     }
 
     public void translateBy(Vector3f translation) {
         this.translation.add(translation);
+        this.updateParams();
+    }
+
+    public void translateTo(Vector2f position) {
+        this.translation.x = position.x;
+        this.translation.y = position.y;
+        this.updateParams();
+    }
+
+    public void translateBy(Vector2f translation) {
+        this.translation.x = translation.x;
+        this.translation.y = translation.y;
         this.updateParams();
     }
 
@@ -169,6 +182,10 @@ public abstract class Collider {
         this.rotation.y+=y;
         this.rotation.z+=z;
         this.updateParams();
+    }
+
+    public void setUpVector(Vector3f vector) {
+        this.upVector = new Vector3f(vector);
     }
 
     public void isStaticObject(boolean isStatic) {

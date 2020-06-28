@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
+import com.greymatter.miner.mainui.renderers.MainGLRenderer;
 import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,23 +25,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        surface = (GLSurfaceView)findViewById(R.id.mainGLSurfaceView);
+        glRenderer = new MainGLRenderer();
+
         init();
 
-        surface = (GLSurfaceView)findViewById(R.id.mainGLSurfaceView);
         surface.setEGLContextClientVersion(3);
         surface.setEGLConfigChooser(8,8,8,8,24,8);
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
         surface.setSystemUiVisibility(uiOptions);
 
-        glRenderer = new MainGLRenderer();
+
         surface.setRenderer(glRenderer);
         setOnTouchListener();
         setOnClickListener();
     }
 
     private void init() {
-        AppServices.init(this);
+        AppServices.init(this, surface, glRenderer);
         left = findViewById(R.id.move_left);
         right = findViewById(R.id.move_right);
     }
@@ -66,15 +69,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 MainGLTouchHelper.onClick(v);
             }
-
-
         };
+        findViewById(R.id.items_menu).setOnClickListener(listener);
         left.setOnClickListener(listener);
         right.setOnClickListener(listener);
     }
 
 
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        surface.setSystemUiVisibility(uiOptions);
+        super.onWindowFocusChanged(hasFocus);
+    }
 
     @Override
     protected void onDestroy() {

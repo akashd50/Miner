@@ -9,8 +9,13 @@ import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class Quad extends Drawable {
+import java.util.ArrayList;
 
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
+
+public class Quad extends Drawable {
+	private float textureRatio;
 	public Quad(String id, Material material, Shader shader) {
 		super(id);
 		super.setShader(shader);
@@ -20,7 +25,7 @@ public class Quad extends Drawable {
 	}
 
 	private void initialize() {
-		float textureRatio = getMaterial().getDiffuseTexture().getRatio();
+		textureRatio = getMaterial().getDiffuseTexture().getRatio();
 		if (textureRatio == 0.0f) {
 			textureRatio = 1.0f;
 		}
@@ -55,4 +60,13 @@ public class Quad extends Drawable {
 		GLBufferHelper.glUnbindVertexArray();
 	}
 
+	@Override
+	public boolean isClicked(Vector2f touchPoint) {
+		float left = (-1f * textureRatio * getCollider().getScale().x + getCollider().getTranslation().x);
+		float right = (1f * textureRatio * getCollider().getScale().x + getCollider().getTranslation().x);
+		float top = (1f * getCollider().getScale().y + getCollider().getTranslation().y);
+		float bottom = (-1f * getCollider().getScale().y + getCollider().getTranslation().y);
+		return (touchPoint.x > left && touchPoint.x < right
+		&& touchPoint.y < top && touchPoint.y > bottom);
+	}
 }

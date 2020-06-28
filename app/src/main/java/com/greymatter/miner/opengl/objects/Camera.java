@@ -26,6 +26,14 @@ public class Camera {
 		this.updateViewMatrix();
 	}
 
+	public void onSurfaceChanged(int w, int h) {
+		this.width = w;
+		this.height = h;
+		this.ratio = (float)width/(float)height;
+		this.updateProjectionMatrix();
+		this.updateViewMatrix();
+	}
+
 	public void translateTo(Vector3f position) {
 		this.translation = position;
 		this.setLookAt(new Vector3f(position.x, position.y, lookAtVec.z));
@@ -61,7 +69,7 @@ public class Camera {
 		this.updateViewMatrix();
 	}
 
-	public void setUpVector(Vector3f up) {
+	public synchronized void setUpVector(Vector3f up) {
 		this.up = up;
 		this.updateViewMatrix();
 	}
@@ -80,20 +88,19 @@ public class Camera {
 	}
 
 	public void setZoomValue(float val) {
-		zoomValue += val;
+		zoomValue = val;
 		this.updateProjectionMatrix();
 	}
 
 	private void updateProjectionMatrix() {
+		Matrix.setIdentityM(projectionMatrix, 0);
 		Matrix.orthoM(projectionMatrix, 0, -1.0f*ratio*zoomValue,1.0f*ratio*zoomValue,
 				-1.0f*zoomValue,1.0f*zoomValue,
 				1f, 100f);
-//		Matrix.orthoM(projectionMatrix, 0, (translation.x-1.0f)*ratio*zoomValue,(translation.x+1.0f)*ratio*zoomValue,
-//				(translation.y-1.0f)*zoomValue,(translation.y+1.0f)*zoomValue,
-//				1f, 100f);
 	}
 
 	private void updateViewMatrix() {
+		Matrix.setIdentityM(viewMatrix, 0);
 		Matrix.setLookAtM(viewMatrix, 0,translation.x, translation.y, translation.z,
 				lookAtVec.x, lookAtVec.y, lookAtVec.z,
 				up.x, up.y, up.z);
@@ -111,9 +118,13 @@ public class Camera {
 		return this.translation;
 	}
 
-	public Vector3f getLookAtVec()
+	public Vector3f getLookAtVector()
 	{
 		return this.lookAtVec;
+	}
+
+	public synchronized Vector3f getUpVector() {
+		return up;
 	}
 
 	public float getViewportHeight()
