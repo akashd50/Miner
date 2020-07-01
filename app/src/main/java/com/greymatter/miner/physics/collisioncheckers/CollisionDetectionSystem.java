@@ -25,10 +25,8 @@ public class CollisionDetectionSystem {
                                 assert event != null;
                                 if (event.getCollisionStatus() && linkedCollider.getCollisionListener() != null) {
                                     linkedCollider.getCollisionListener().onCollision(event);
-
                                 }
                                 linkedCollider.addOrUpdateCollisionEvent(event);
-                                //toCheckAgainst.getCollider().addOrUpdateCollisionEvent(event);
                             }
                         }
                     }

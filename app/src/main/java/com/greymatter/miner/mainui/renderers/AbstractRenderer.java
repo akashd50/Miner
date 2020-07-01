@@ -6,11 +6,11 @@ import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
-public abstract class AbstractRendererMode {
+public abstract class AbstractRenderer {
     private TouchHelper touchHelper;
     private Camera mainCamera;
 
-    public AbstractRendererMode(TouchHelper touchHelper, Camera camera) {
+    public AbstractRenderer(TouchHelper touchHelper, Camera camera) {
         this.touchHelper = touchHelper;
         this.mainCamera = camera;
     }

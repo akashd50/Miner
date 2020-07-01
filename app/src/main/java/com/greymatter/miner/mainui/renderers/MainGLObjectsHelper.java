@@ -142,7 +142,7 @@ class MainGLObjectsHelper {
         testBall.getCollider().setCollisionListener(listener);
     }
 
-    static void initiatePhysicsProcesses() {
+    static void initiatePhysicsSystem() {
         CollisionSystemContainer.add(DrawableContainer.get(PLANET));
         CollisionSystemContainer.add(DrawableContainer.get(MAIN_CHARACTER));
         CollisionSystemContainer.add(DrawableContainer.get(TEST_BALL));

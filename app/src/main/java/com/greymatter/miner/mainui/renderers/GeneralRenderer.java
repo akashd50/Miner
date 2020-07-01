@@ -19,9 +19,9 @@ import static com.greymatter.miner.game.GC.MAIN_CHARACTER;
 import static com.greymatter.miner.game.GC.PLANET;
 import static com.greymatter.miner.game.GC.TEST_LINE;
 
-public class GeneralModeRenderer extends AbstractRendererMode  {
+public class GeneralRenderer extends AbstractRenderer {
 
-    public GeneralModeRenderer(TouchHelper touchHelper, Camera camera) {
+    public GeneralRenderer(TouchHelper touchHelper, Camera camera) {
         super(touchHelper, camera);
     }
 

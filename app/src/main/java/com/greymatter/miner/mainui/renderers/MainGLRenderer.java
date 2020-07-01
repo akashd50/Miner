@@ -24,7 +24,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
         MainGLObjectsHelper.loadObjects();
         MainGLObjectsHelper.loadPhysicsObjects();
         MainGLObjectsHelper.finishObjectsSetup();
-        MainGLObjectsHelper.initiatePhysicsProcesses();
+        MainGLObjectsHelper.initiatePhysicsSystem();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        ViewModeManager.getActiveRendererMode().onDrawFrame();
+        ViewModeManager.getActiveRenderer().onDrawFrame();
     }
 
     public void onDestroy() {

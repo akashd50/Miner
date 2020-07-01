@@ -1,8 +1,8 @@
 package com.greymatter.miner.mainui.viewmode;
 
-import com.greymatter.miner.mainui.renderers.AbstractRendererMode;
-import com.greymatter.miner.mainui.renderers.BuildingModeRenderer;
-import com.greymatter.miner.mainui.renderers.GeneralModeRenderer;
+import com.greymatter.miner.mainui.renderers.AbstractRenderer;
+import com.greymatter.miner.mainui.renderers.BuildingRenderer;
+import com.greymatter.miner.mainui.renderers.GeneralRenderer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchMode;
 import com.greymatter.miner.mainui.touch.touchmodes.BuildingTouchMode;
@@ -20,13 +20,13 @@ public class ViewModeFactory {
         }
     }
 
-    public static AbstractRendererMode getNewRendererMode(ViewMode mode, TouchHelper tc, Camera camera) {
+    public static AbstractRenderer getNewRendererMode(ViewMode mode, TouchHelper tc, Camera camera) {
         switch (mode) {
             case BUILDING_MODE:
-                return new BuildingModeRenderer(tc, camera);
+                return new BuildingRenderer(tc, camera);
             case GENERAL_MODE:
             default:
-                return new GeneralModeRenderer(tc, camera);
+                return new GeneralRenderer(tc, camera);
         }
     }
 }
