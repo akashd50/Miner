@@ -12,7 +12,6 @@ import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.game.objects.InteractiveGameObject;
 import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Static;
-import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -27,6 +26,7 @@ import com.greymatter.miner.physics.objects.PolygonCollider;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 import javax.vecmath.Vector3f;
 import static com.greymatter.miner.game.GC.*;
+import static com.greymatter.miner.opengl.Constants.*;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -41,25 +41,25 @@ class MainGLObjectsHelper {
     }
 
     public static void loadShaders() {
-        ShaderContainer.addShader(new Shader(Constants.SIMPLE_TRIANGLE_SHADER));
-        ShaderContainer.addShader(new Shader(Constants.QUAD_SHADER));
-        ShaderContainer.addShader(new Shader(Constants.THREE_D_OBJECT_SHADER));
-        ShaderContainer.addShader(new Shader(Constants.LINE_SHADER));
-        ShaderContainer.addShader(new Shader(Constants.GRADIENT_SHADERS + Constants.CIRCLE_GRADIENT_SHADER));
+        ShaderContainer.addShader(new Shader(SIMPLE_TRIANGLE_SHADER));
+        ShaderContainer.addShader(new Shader(QUAD_SHADER));
+        ShaderContainer.addShader(new Shader(THREE_D_OBJECT_SHADER));
+        ShaderContainer.addShader(new Shader(LINE_SHADER));
+        ShaderContainer.addShader(new Shader(GRADIENT_SHADERS +CIRCLE_GRADIENT_SHADER));
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new Material(GROUND_MATERIAL, Constants.GROUND_I, ""));
-        MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL, Constants.ATM_RADIAL_II, ""));
-        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, "main_base.png", ""));
+        MaterialContainer.add(new Material(GROUND_MATERIAL, GROUND_I, ""));
+        MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL,ATM_RADIAL_II, ""));
+        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_P, ""));
     }
 
     static void loadObjects() {
-        DrawableContainer.add(new Object3D(ATMOSPHERE, Constants.ATM_SIMPLE_CIRCLE, MaterialContainer.get(ATMOSPHERE_MATERIAL), ShaderContainer.get(Constants.THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Object3D(PLANET, Constants.CIRCLE_SUB_DIV_III, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(Constants.THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Quad(MAIN_BASE, MaterialContainer.get(MAIN_BASE_MATERIAL), ShaderContainer.get(Constants.QUAD_SHADER)));
-        DrawableContainer.add(new Object3D(MAIN_CHARACTER, Constants.BOX, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(Constants.THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Object3D(TEST_BALL, Constants.CIRCLE_SUB_DIV_I, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(Constants.THREE_D_OBJECT_SHADER)));
+        DrawableContainer.add(new Object3D(ATMOSPHERE, ATM_SIMPLE_CIRCLE, MaterialContainer.get(ATMOSPHERE_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
+        DrawableContainer.add(new Object3D(PLANET, CIRCLE_SUB_DIV_III, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
+        DrawableContainer.add(new Quad(MAIN_BASE, MaterialContainer.get(MAIN_BASE_MATERIAL), ShaderContainer.get(QUAD_SHADER)));
+        DrawableContainer.add(new Object3D(MAIN_CHARACTER,BOX, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
+        DrawableContainer.add(new Object3D(TEST_BALL,CIRCLE_SUB_DIV_I, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
 
         BackgroundObjectsContainer.add(new Static(DrawableContainer.get(ATMOSPHERE)));
 
@@ -72,12 +72,12 @@ class MainGLObjectsHelper {
 
     static void finishObjectsSetup() {
         Drawable atmosphere = DrawableContainer.get(ATMOSPHERE);
-        atmosphere.getCollider().scaleTo(new Vector3f(150f,150f,1f));
-        atmosphere.getCollider().translateBy(new Vector3f(0f,-75f, -10f));
+        atmosphere.getCollider().scaleTo(new Vector3f(190f,190f,1f));
+        atmosphere.getCollider().translateTo(new Vector3f(0f,-100f, -10f));
 
         Drawable planet = DrawableContainer.get(PLANET);
-        planet.getCollider().scaleTo(new Vector3f(100f,100f,1f));
-        planet.getCollider().translateBy(new Vector3f(0f,-100.5f, 0f));
+        planet.getCollider().scaleTo(new Vector3f(120f,120f,1f));
+        planet.getCollider().translateTo(new Vector3f(0f,-120.5f, 0f));
 
         Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
         mainCharacter.getCollider().scaleTo(new Vector3f(0.5f,0.5f,1f));
@@ -91,7 +91,7 @@ class MainGLObjectsHelper {
         mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
-        DrawableContainer.add(new Line(TEST_LINE, ShaderContainer.get(Constants.LINE_SHADER))
+        DrawableContainer.add(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
                         .getTransformedVertices()).build());
 

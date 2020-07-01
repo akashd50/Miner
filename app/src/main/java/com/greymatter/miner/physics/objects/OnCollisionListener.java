@@ -33,8 +33,10 @@ public interface OnCollisionListener {
                 Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
 
                 event.getLinkedObject().updateVelocity(impulse);
-                //rotational resolution
-                //matchSurfaceAngleDefault(event, impulse);
+                if(!event.getAgainstObject().isStaticObject()) {
+                    event.getAgainstObject().updateVelocity(VectorHelper.multiply(impulse, -1f));
+                }
+
                 angularAdjustmentDueToGravity(event, impulse);
             }
         }
@@ -58,25 +60,6 @@ public interface OnCollisionListener {
             linked.updateAngularVelocity( angularAcc * 10f);
         }else if (pointOnLine > 0 ){
             linked.updateAngularVelocity(- angularAcc * 10f);
-        }
-    }
-
-    default void angularImpulseResolutionDefault(CollisionEvent event, Vector3f impulse) {
-        if (event.getCollisionStatus()) {
-            Collider linked = event.getLinkedObject();
-            Vector3f directionToLinkedObjCenter = VectorHelper.sub(linked.getTranslation(), event.getLinkedObjectCollisionPoint());
-            //float directionToCenterAngle = (float)Math.atan2(directionToLinkedObjCenter.y, directionToLinkedObjCenter.x);
-            float angleBWDTCAndAgVec = VectorHelper.angle(directionToLinkedObjCenter, event.getAgainstObjectCollisionVector());
-            float forceMag = VectorHelper.getMagnitude(impulse);
-            float rotDir = (float)Math.atan2(impulse.y, impulse.x);
-            float angularForce = (float)Math.sin(rotDir) * forceMag;
-            float angularAcc = angularForce/(linked.getMass() * VectorHelper.getMagnitude(directionToLinkedObjCenter));
-
-            float cosOfImpulse = (float)Math.cos(angleBWDTCAndAgVec);
-            if(cosOfImpulse >= 0) { rotDir = -rotDir; }
-
-            float toDegrees = (float)Math.toDegrees(angularAcc*0.05f);
-            linked.setAngularAcceleration(toDegrees*rotDir);
         }
     }
 

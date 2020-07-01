@@ -97,6 +97,8 @@ public class GeneralTouchMode extends AbstractTouchMode {
         return false;
     }
 
+    /*------------------------------------------private functions---------------------------------*/
+
     private boolean doOnTouchDownGLSurface() {
 
         return false;

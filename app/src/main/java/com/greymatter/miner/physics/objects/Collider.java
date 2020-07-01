@@ -167,6 +167,7 @@ public abstract class Collider {
         this.updateParams();
     }
 
+    //rotation
     public void rotateTo(Vector3f rotation) {
         this.rotation = rotation;
         this.updateParams();
@@ -181,6 +182,13 @@ public abstract class Collider {
         this.rotation.x+=x;
         this.rotation.y+=y;
         this.rotation.z+=z;
+        this.updateParams();
+    }
+
+    public void rotateTo(float x, float y, float z) {
+        this.rotation.x = x;
+        this.rotation.y = y;
+        this.rotation.z = z;
         this.updateParams();
     }
 

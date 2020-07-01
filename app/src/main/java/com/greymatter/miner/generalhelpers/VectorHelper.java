@@ -1,5 +1,7 @@
 package com.greymatter.miner.generalhelpers;
 
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
+
 import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
@@ -49,6 +51,11 @@ public class VectorHelper {
         float dot = v1.dot(v2);
         float angle = (float)Math.acos(dot/(getMagnitude(v1) * getMagnitude(v2)));
         return angle;
+    }
+
+    public static float angleBetween(Drawable d1, Drawable d2) {
+        Vector3f d1Tod2 = VectorHelper.sub(d2.getCollider().getTranslation(), d1.getCollider().getTranslation());
+        return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x)) - 90;
     }
 
     public static double getDistance(Vector3f v1, Vector3f v2) {
