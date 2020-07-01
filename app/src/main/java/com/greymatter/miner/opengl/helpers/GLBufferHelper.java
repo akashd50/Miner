@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl.helpers;
 import android.opengl.GLES30;
 import android.util.Log;
 
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.Shader;
 
 public class GLBufferHelper {

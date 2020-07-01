@@ -66,12 +66,43 @@ public class GeneralTouchMode extends AbstractTouchMode {
     }
 
     @Override
-    public void doOnTouchDown() {
+    public void onLongClick(View v) {
 
     }
 
     @Override
-    public void doOnTouchMove() {
+    public boolean doOnTouchDown(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchDownGLSurface();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean doOnTouchMove(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchMoveGLSurface();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean doOnTouchUp(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchUpGLSurface();
+        }
+        return false;
+    }
+
+    private boolean doOnTouchDownGLSurface() {
+
+        return false;
+    }
+
+    private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
             if (getTouchHelper().isTouchPoint1Down() && DrawableContainer.get(MAIN_CHARACTER).isClicked(touchPoint)) {
@@ -82,10 +113,10 @@ public class GeneralTouchMode extends AbstractTouchMode {
         }else{
             getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.1f : getMainCamera().getZoomValue()* 0.1f);
         }
+        return true;
     }
 
-    @Override
-    public void doOnTouchUp() {
+    private boolean doOnTouchUpGLSurface() {
         if(!getTouchHelper().isTouchPoint1Drag()) {
             Vector3f touchPoint = getLocalTouchPoint3f(getTouchHelper().getCurrTouchPoint1());
 
@@ -94,6 +125,8 @@ public class GeneralTouchMode extends AbstractTouchMode {
             DrawableContainer.get(MAIN_CHARACTER).getCollider().rotateTo(new Vector3f());
             DrawableContainer.get(MAIN_CHARACTER).getCollider().setAngularAcceleration(0f);
             DrawableContainer.get(MAIN_CHARACTER).getCollider().setAngularVelocity(0f);
+            return true;
         }
+        return false;
     }
 }

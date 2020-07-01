@@ -19,11 +19,14 @@ public class MainGLTouchHelper {
         }
     }
 
-    public static void onTouch(MotionEvent event) {
-        ViewModeManager.getActiveTouchMode().onTouch(event);
+    public static boolean onTouch(View v, MotionEvent event) {
+        return ViewModeManager.getActiveTouchMode().onTouch(v, event);
     }
 
     public static void onClick(View v) {
+        ViewModeManager.getActiveTouchMode().onClick(v);
+    }
+    public static void onLongClick(View v) {
         ViewModeManager.getActiveTouchMode().onClick(v);
     }
 }

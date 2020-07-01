@@ -28,19 +28,39 @@ public class BuildingTouchMode extends AbstractTouchMode {
         }
     }
 
-    @Override
-    public void doOnTouchDown() {
+    public void onLongClick(View v) {}
 
+    @Override
+    public boolean doOnTouchDown(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchDownGLSurface();
+        }
+        return false;
+    }
+
+    private boolean doOnTouchDownGLSurface() {
+
+        return false;
     }
 
     @Override
-    public void doOnTouchMove() {
+    public boolean doOnTouchMove(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchMoveGLSurface();
+        }
+        return false;
+    }
+
+    private boolean doOnTouchMoveGLSurface() {
         Drawable mainBase = getTouchHelper() != null ? getTouchEventBundle().getDrawable() : null;
         if(mainBase != null && mainBase.isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
             translateSelectedObject(mainBase);
         }else{
             getMainCamera().translateBy(VectorHelper.toVector3f(convertPixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
         }
+        return true;
     }
 
     private void translateSelectedObject(Drawable selected) {
@@ -52,7 +72,16 @@ public class BuildingTouchMode extends AbstractTouchMode {
     }
 
     @Override
-    public void doOnTouchUp() {
+    public boolean doOnTouchUp(View v) {
+        switch (v.getId()) {
+            case R.id.mainGLSurfaceView:
+                return doOnTouchUpGLSurface();
+        }
+        return false;
+    }
 
+    private boolean doOnTouchUpGLSurface() {
+
+        return false;
     }
 }

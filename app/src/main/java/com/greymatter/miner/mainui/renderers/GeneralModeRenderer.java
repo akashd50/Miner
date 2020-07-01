@@ -13,6 +13,7 @@ import com.greymatter.miner.opengl.objects.drawables.Line;
 import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 import static com.greymatter.miner.game.GC.MAIN_CHARACTER;
 import static com.greymatter.miner.game.GC.PLANET;
@@ -42,7 +43,8 @@ public class GeneralModeRenderer extends AbstractRendererMode  {
         accPoint.add(VectorHelper.multiply(mainCharacter.getCollider().getVelocity(),40f));
         vertexData.add(accPoint);
 
-        ((Line)testLine).updateVertexData(vertexData);
+        ((Line)testLine).withColor(new Vector4f(0f,1f,0f,1f)).updateVertexData(vertexData);
+        testLine.getCollider().translateTo(new Vector3f(0f,0f,1f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
         BackgroundObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);

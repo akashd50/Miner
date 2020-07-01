@@ -12,7 +12,7 @@ import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.game.objects.InteractiveGameObject;
 import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Static;
-import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;

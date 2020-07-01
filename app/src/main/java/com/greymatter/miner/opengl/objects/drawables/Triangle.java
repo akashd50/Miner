@@ -2,10 +2,9 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class Triangle extends Drawable {
     static float triangleCoords[] =

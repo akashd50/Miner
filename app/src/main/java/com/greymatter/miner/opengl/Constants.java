@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.helpers;
+package com.greymatter.miner.opengl;
 
 public class Constants {
     public static int SIZE_OF_FLOAT = 4;
@@ -33,6 +33,7 @@ public class Constants {
     public static final String VIEW = "view";
     public static final String MODEL = "model";
     public static final String TRANSLATION = "translation";
+    public static final String U_COLOR = "u_color";
     public static final String CENTER_COLOR = "centerColor";
     public static final String EDGE_COLOR = "edgeColor";
     public static final String RADIUS = "radius";

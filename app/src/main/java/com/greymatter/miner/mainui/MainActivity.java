@@ -50,17 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setOnTouchListener() {
-        surface.setOnTouchListener(new View.OnTouchListener() {
+        View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (v.getId()) {
-                    case R.id.mainGLSurfaceView:
-                        MainGLTouchHelper.onTouch(event);
-                        return true;
-                }
-                return false;
+                MainGLTouchHelper.onTouch(v, event);
+                return true;
             }
-        });
+        };
+        surface.setOnTouchListener(onTouchListener);
     }
 
     private void setOnClickListener() {
@@ -70,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
                 MainGLTouchHelper.onClick(v);
             }
         };
+
+        View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                MainGLTouchHelper.onLongClick(v);
+                return false;
+            }
+        };
+
         findViewById(R.id.items_menu).setOnClickListener(listener);
         findViewById(R.id.done_building_placement).setOnClickListener(listener);
         left.setOnClickListener(listener);

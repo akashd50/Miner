@@ -2,7 +2,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Shader;
@@ -10,14 +10,16 @@ import com.greymatter.miner.opengl.objects.Shader;
 import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 public class Line extends Drawable {
     private ArrayList<Vector3f> lineVertices;
-
+    private Vector4f lineColor;
     public Line(String id, Shader shader) {
         super(id);
         super.setShader(shader);
         lineVertices = new ArrayList<>();
+        lineColor = new Vector4f(1f,1f,1f,1f);
     }
 
     @Override
@@ -26,8 +28,9 @@ public class Line extends Drawable {
 
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
         ShaderHelper.setUniformMatrix4fv(getShader(), Constants.MODEL, getModelMatrix());
+        ShaderHelper.setUniformVec4(getShader(), Constants.U_COLOR, lineColor);
 
-        GLES30.glLineWidth(5f);
+        GLES30.glLineWidth(10f);
         GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, lineVertices.size());
 
         GLBufferHelper.glUnbindVertexArray();
@@ -35,6 +38,11 @@ public class Line extends Drawable {
 
     public Line addVertex(Vector3f toAdd) {
         lineVertices.add(toAdd);
+        return this;
+    }
+
+    public Line withColor(Vector4f color) {
+        this.lineColor = color;
         return this;
     }
 

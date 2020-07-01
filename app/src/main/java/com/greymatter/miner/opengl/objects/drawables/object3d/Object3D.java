@@ -3,7 +3,7 @@ package com.greymatter.miner.opengl.objects.drawables.object3d;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Material;

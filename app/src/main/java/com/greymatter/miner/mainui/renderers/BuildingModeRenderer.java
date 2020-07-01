@@ -9,6 +9,8 @@ import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 
+import javax.vecmath.Vector4f;
+
 import static com.greymatter.miner.game.GC.MAIN_CHARACTER;
 import static com.greymatter.miner.game.GC.PLANET;
 import static com.greymatter.miner.game.GC.TEST_LINE;
@@ -27,7 +29,8 @@ public class BuildingModeRenderer extends AbstractRendererMode {
         Drawable testLine = DrawableContainer.get(TEST_LINE);
 
         /*<---------------------------------------update----------------------------------------->*/
-        ((Line)testLine).updateVertexData(planet.getCollider().asPolygonCollider().getTransformedVertices());
+        ((Line)testLine).withColor(new Vector4f(0f,0f,1f,1f))
+                .updateVertexData(planet.getCollider().asPolygonCollider().getTransformedVertices());
 
         /*<-----------------------------------------draw----------------------------------------->*/
         BackgroundObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);

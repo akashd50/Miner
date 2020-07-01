@@ -2,7 +2,7 @@ package com.greymatter.miner.opengl.objects;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.opengl.helpers.Constants;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.TextureBuilder;
 
 import javax.vecmath.Vector3f;

@@ -16,27 +16,25 @@ public abstract class AbstractTouchMode {
         this.mainCamera = mainCamera;
     }
 
-    public void onTouch(MotionEvent event) {
+    public boolean onTouch(View v, MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 touchHelper.onTouchDown(event);
-                doOnTouchDown();
-                break;
+                return doOnTouchDown(v);
             case MotionEvent.ACTION_MOVE:
                 touchHelper.onTouchMove(event);
-                doOnTouchMove();
-                break;
+                return doOnTouchMove(v);
             case MotionEvent.ACTION_UP:
                 touchHelper.onTouchUp(event);
-                doOnTouchUp();
-                break;
+                return doOnTouchUp(v);
             case MotionEvent.ACTION_POINTER_DOWN:
                 touchHelper.onTouchDown(event);
-                break;
+                return true;
             case MotionEvent.ACTION_POINTER_UP:
                 touchHelper.onTouchUp(event);
-                break;
+                return true;
         }
+        return false;
     }
 
     public Vector3f getLocalTouchPoint3f(Vector2f touchPoint) {
@@ -81,7 +79,8 @@ public abstract class AbstractTouchMode {
     }
 
     public abstract void onClick(View v);
-    public abstract void doOnTouchDown();
-    public abstract void doOnTouchMove();
-    public abstract void doOnTouchUp();
+    public abstract void onLongClick(View v);
+    public abstract boolean doOnTouchDown(View v);
+    public abstract boolean doOnTouchMove(View v);
+    public abstract boolean doOnTouchUp(View v);
 }
