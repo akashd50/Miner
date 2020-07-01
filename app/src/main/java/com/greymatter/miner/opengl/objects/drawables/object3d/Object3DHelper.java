@@ -140,6 +140,9 @@ public class Object3DHelper {
             }
         }
 
+        //add the first point again to complete the mesh
+        roughShape.add(roughShape.get(0));
+
         return roughShape;
     }
 

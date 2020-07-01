@@ -1,23 +1,17 @@
 package com.greymatter.miner.mainui.renderers;
 
-import android.opengl.GLES20;
 import android.opengl.GLES30;
-import android.opengl.GLSurfaceView;
-import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
-import com.greymatter.miner.mainui.touch.TouchController;
+
+import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-import javax.vecmath.Vector3f;
-
 public abstract class AbstractRendererMode {
-    private TouchController touchController;
+    private TouchHelper touchHelper;
     private Camera mainCamera;
 
-    public AbstractRendererMode(TouchController touchController, Camera camera) {
-        this.touchController = touchController;
+    public AbstractRendererMode(TouchHelper touchHelper, Camera camera) {
+        this.touchHelper = touchHelper;
         this.mainCamera = camera;
     }
 
@@ -25,11 +19,11 @@ public abstract class AbstractRendererMode {
         return mainCamera;
     }
 
-    public TouchController getTouchController() {
-        return touchController;
+    public TouchHelper getTouchHelper() {
+        return touchHelper;
     }
 
-    public void onDrawFrame() {
+    public synchronized void onDrawFrame() {
         GLES30.glClearColor(0.05f,0.05f,0.1f,1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
         CollisionDetectionSystem.updateSystemObjectsForces();

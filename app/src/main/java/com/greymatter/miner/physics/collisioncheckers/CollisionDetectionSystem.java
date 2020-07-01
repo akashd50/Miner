@@ -1,45 +1,24 @@
 package com.greymatter.miner.physics.collisioncheckers;
 
-import android.util.Log;
-
+import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
-
-import java.util.ArrayList;
-
 import javax.vecmath.Vector3f;
 
 public class CollisionDetectionSystem {
-    private static ArrayList<Drawable> systemObjects;
     private static boolean isCollisionDetectionActive;
-    public static void addObject(Drawable drawable) {
-        if(systemObjects==null) {
-            systemObjects = new ArrayList<>();
-        }
-        systemObjects.add(drawable);
-    }
 
-    public static ArrayList<Drawable> getSystemObjects() {
-        return systemObjects;
-    }
-
-    public static ArrayList<Drawable> getSystemObjectsExcept(Drawable drawable) {
-        ArrayList<Drawable> toReturn = new ArrayList<Drawable>(systemObjects);
-        toReturn.remove(drawable);
-        return toReturn;
-    }
-
-    public static void initializeWorldCollisionDetectionSystem() {
+    public static void initialize() {
         isCollisionDetectionActive = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while(isCollisionDetectionActive) {
-                    for (Drawable drawable : systemObjects) {
+                    for (Drawable drawable : CollisionSystemContainer.getAll()) {
                         if(!drawable.getCollider().isStaticObject()) {
-                            for (Drawable toCheckAgainst : CollisionDetectionSystem.getSystemObjectsExcept(drawable)) {
+                            for (Drawable toCheckAgainst : CollisionSystemContainer.getAllExcept(drawable)) {
                                 Collider linkedCollider = drawable.getCollider();
                                 CollisionEvent event = CollisionDetectionHelper.checkCollision(linkedCollider, toCheckAgainst.getCollider());
 
@@ -57,11 +36,11 @@ public class CollisionDetectionSystem {
     }
 
     public static void updateSystemObjectsForces() {
-        for(Drawable drawable : systemObjects) {
+        for(Drawable drawable : CollisionSystemContainer.getAll()) {
             if(!drawable.getCollider().isStaticObject()) {
                 drawable.getCollider().resetGravity();
                 drawable.getCollider().resetFriction();
-                for (Drawable against : getSystemObjectsExcept(drawable)) {
+                for (Drawable against : CollisionSystemContainer.getAllExcept(drawable)) {
                     if(against.getCollider().isStaticObject()) {
                         drawable.getCollider().applyGravity(calculateGravitationalForce(drawable, against));
                         angularAdjustmentDueToGravity(drawable,against);

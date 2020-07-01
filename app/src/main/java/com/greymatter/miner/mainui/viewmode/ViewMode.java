@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui.touch.touchviewmodes;
+package com.greymatter.miner.mainui.viewmode;
 
 public enum ViewMode {
     BUILDING_MODE,

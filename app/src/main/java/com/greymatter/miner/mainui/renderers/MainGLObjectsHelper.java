@@ -1,6 +1,8 @@
 package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
+
+import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
@@ -60,6 +62,7 @@ class MainGLObjectsHelper {
         DrawableContainer.add(new Object3D(TEST_BALL, Constants.CIRCLE_SUB_DIV_I, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(Constants.THREE_D_OBJECT_SHADER)));
 
         BackgroundObjectsContainer.add(new Static(DrawableContainer.get(ATMOSPHERE)));
+
         GameBuildingsContainer.add(new Planet(DrawableContainer.get(PLANET)));
         //GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
 
@@ -140,14 +143,10 @@ class MainGLObjectsHelper {
     }
 
     static void initiatePhysicsProcesses() {
-        addObjectsToCollisionSystem();
-        CollisionDetectionSystem.initializeWorldCollisionDetectionSystem();
-    }
-
-    private static void addObjectsToCollisionSystem() {
-        CollisionDetectionSystem.addObject(DrawableContainer.get(PLANET));
-        CollisionDetectionSystem.addObject(DrawableContainer.get(MAIN_CHARACTER));
-        CollisionDetectionSystem.addObject(DrawableContainer.get(TEST_BALL));
+        CollisionSystemContainer.add(DrawableContainer.get(PLANET));
+        CollisionSystemContainer.add(DrawableContainer.get(MAIN_CHARACTER));
+        CollisionSystemContainer.add(DrawableContainer.get(TEST_BALL));
+        CollisionDetectionSystem.initialize();
     }
 
     static void onDestroy() {

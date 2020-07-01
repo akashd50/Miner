@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         findViewById(R.id.items_menu).setOnClickListener(listener);
+        findViewById(R.id.done_building_placement).setOnClickListener(listener);
         left.setOnClickListener(listener);
         right.setOnClickListener(listener);
     }

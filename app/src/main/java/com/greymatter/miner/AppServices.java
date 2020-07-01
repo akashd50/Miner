@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
+import android.view.ScaleGestureDetector;
 
 import com.greymatter.miner.mainui.renderers.MainGLRenderer;
 
@@ -12,6 +13,7 @@ public class AppServices {
     private static Context context;
     private static GLSurfaceView surfaceView;
     private static MainGLRenderer glRenderer;
+    private static ScaleGestureDetector scaleGestureDetector;
 
     public static void init(Context ctx, GLSurfaceView surface, MainGLRenderer renderer) {
         context = ctx;
@@ -28,7 +30,7 @@ public class AppServices {
         return surfaceView;
     }
 
-    public static MainGLRenderer getGlRenderer() {
+    public static MainGLRenderer getGLRenderer() {
         return glRenderer;
     }
 
@@ -39,4 +41,5 @@ public class AppServices {
     public static AssetManager getAssetManager() {
         return assetManager;
     }
+
 }

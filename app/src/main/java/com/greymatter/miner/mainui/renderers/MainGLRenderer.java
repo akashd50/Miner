@@ -6,18 +6,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 import android.opengl.GLES30;
-import com.greymatter.miner.containers.DrawableContainer;
-import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
-import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
-import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
-import com.greymatter.miner.mainui.touch.touchviewmodes.ViewModeManager;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.Line;
-import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
-import java.util.ArrayList;
-import static com.greymatter.miner.game.GC.*;
+import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer  {
 
@@ -43,8 +33,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
 
         MainGLObjectsHelper.onSurfaceChanged(width, height);
         MainGLTouchHelper.onSurfaceChanged(MainGLObjectsHelper.camera);
-        //MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,-100f,5f));
-        //MainGLObjectsHelper.camera.updateZoomValue(120f);
         MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,0f,5f));
         MainGLObjectsHelper.camera.setZoomValue(5f);
     }

@@ -13,7 +13,7 @@ public class GameBuildingsContainer {
     private static HashMapE<String, GameBuilding> gameBuildings;
     private static GroupMap<String, GameBuilding> groupedByShader;
 
-    public static void add(GameBuilding building) {
+    public synchronized static void add(GameBuilding building) {
         if(gameBuildings == null) {
             gameBuildings = new HashMapE<>();
         }
@@ -43,7 +43,7 @@ public class GameBuildingsContainer {
         });
     }
 
-    public static void onDrawFrameByShader(Camera camera) {
+    public synchronized static void onDrawFrameByShader(Camera camera) {
         groupedByShader.forEach((shaderId, buildings) -> {
             Shader toUse = ShaderContainer.get(shaderId);
             ShaderHelper.useProgram(toUse);

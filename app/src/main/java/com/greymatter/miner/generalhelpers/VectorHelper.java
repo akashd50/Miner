@@ -10,13 +10,28 @@ public class VectorHelper {
     public static Vector3f copy(Vector3f vector) {
         return new Vector3f(vector);
     }
+    public static Vector2f copy(Vector2f vector) {
+        return new Vector2f(vector);
+    }
 
     public static Vector2f toVector2f(Vector3f vector3f) {return new Vector2f(vector3f.x, vector3f.y);}
+    public static Vector3f toVector3f(Vector2f vector2f) {return new Vector3f(vector2f.x, vector2f.y, 0f);}
 
     public static Vector3f sub(Vector3f from, Vector3f toSub) {
         Vector3f temp = copy(from);
         temp.sub(toSub);
         return temp;
+    }
+
+    public static Vector2f sub(Vector2f from, Vector2f toSub) {
+        Vector2f temp = copy(from);
+        temp.sub(toSub);
+        return temp;
+    }
+
+    public static Vector2f abs(Vector2f vec) {
+        vec.set(Math.abs(vec.x), Math.abs(vec.y));
+        return vec;
     }
 
     public static float dot(Vector3f v1, Vector3f v2) {
@@ -44,6 +59,10 @@ public class VectorHelper {
         return Math.sqrt(Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2));
     }
 
+    public static double getDistanceWithSQRT(Vector2f v1, Vector2f v2) {
+        return Math.sqrt(Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2));
+    }
+
     public static Vector3f getNormal(Vector3f vector) {
         float mag = getMagnitude(vector);
         return new Vector3f(-vector.y/mag,vector.x/mag, 0f);
@@ -68,11 +87,9 @@ public class VectorHelper {
 
     public static boolean isPointInPolygon(Vector2f point, ArrayList<Vector3f> polygonVertices) {
         boolean isClicked = false;
-        for(int i=0; i<polygonVertices.size();i++) {
+        for(int i = 0; i < polygonVertices.size() - 1; i++) {
             Vector2f currC1 = VectorHelper.toVector2f(polygonVertices.get(i));
-            Vector2f nextC1 = null;
-            if (i < polygonVertices.size() - 1) { nextC1 = VectorHelper.toVector2f(polygonVertices.get(i + 1)); }
-            else { nextC1 = VectorHelper.toVector2f(polygonVertices.get(0)); }
+            Vector2f nextC1 = VectorHelper.toVector2f(polygonVertices.get(i + 1));
 
             if(VectorHelper.checkIntersection(point, new Vector2f(point.x+1000f,point.y), currC1, nextC1).intersected) {
                 isClicked = true;

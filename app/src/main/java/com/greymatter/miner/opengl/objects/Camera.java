@@ -159,4 +159,8 @@ public class Camera {
 	public float getCameraHeight() {
 		return getCameraTop()*2;
 	}
+
+	public float getZoomValue() {
+		return zoomValue;
+	}
 }

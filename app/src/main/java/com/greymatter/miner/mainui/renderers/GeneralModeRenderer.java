@@ -1,25 +1,17 @@
 package com.greymatter.miner.mainui.renderers;
 
-import android.opengl.GLES20;
-import android.opengl.GLES30;
-import android.opengl.GLSurfaceView;
-
 import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
 import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
-import com.greymatter.miner.mainui.touch.TouchController;
+import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
-import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 
 import static com.greymatter.miner.game.GC.MAIN_CHARACTER;
@@ -28,11 +20,11 @@ import static com.greymatter.miner.game.GC.TEST_LINE;
 
 public class GeneralModeRenderer extends AbstractRendererMode  {
 
-    public GeneralModeRenderer(TouchController touchController, Camera camera) {
-        super(touchController, camera);
+    public GeneralModeRenderer(TouchHelper touchHelper, Camera camera) {
+        super(touchHelper, camera);
     }
 
-    public void onDrawFrame() {
+    public synchronized void onDrawFrame() {
         super.onDrawFrame();
 
         Drawable planet = DrawableContainer.get(PLANET);

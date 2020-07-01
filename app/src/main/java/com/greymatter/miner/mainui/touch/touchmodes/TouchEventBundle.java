@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui.touch.touchviewmodes;
+package com.greymatter.miner.mainui.touch.touchmodes;
 
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 

@@ -90,6 +90,8 @@ public class Quad extends Drawable {
 			mesh.add(new Vector3f(-1.0f * textureRatio, 1.0f, 0.0f));
 			mesh.add(new Vector3f(-1.0f * textureRatio, -1.0f, 0.0f));
 			mesh.add(new Vector3f(1.0f * textureRatio, -1.0f, 0.0f));
+			//add the first point again to complete the mesh
+			mesh.add(new Vector3f(1.0f * textureRatio, 1.0f, 0.0f));
 		}
 		return mesh;
 	}

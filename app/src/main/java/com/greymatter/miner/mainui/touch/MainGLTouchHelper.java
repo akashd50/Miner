@@ -3,18 +3,18 @@ package com.greymatter.miner.mainui.touch;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.greymatter.miner.mainui.touch.touchviewmodes.ViewModeManager;
+import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 
 public class MainGLTouchHelper {
     private static Camera camera;
-    private static TouchController touchController;
+    private static TouchHelper touchHelper;
     private static boolean initialSetup = true;
     public static void onSurfaceChanged(Camera cam) {
         if(initialSetup) {
             camera = cam;
-            touchController = new TouchController();
-            ViewModeManager.switchToGeneralMode(touchController, camera);
+            touchHelper = new TouchHelper();
+            ViewModeManager.switchToGeneralMode(touchHelper, camera);
             initialSetup = false;
         }
     }

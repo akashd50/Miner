@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui.touch.touchviewmodes;
+package com.greymatter.miner.mainui.touch.touchmodes;
 
 import android.app.AlertDialog;
 import android.view.View;
@@ -10,7 +10,8 @@ import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.game.containers.GameBuildingsContainer;
 import com.greymatter.miner.game.objects.Townhall;
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.mainui.touch.TouchController;
+import com.greymatter.miner.mainui.touch.TouchHelper;
+import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import javax.vecmath.Vector3f;
 import static com.greymatter.miner.game.GC.*;
 
 public class GeneralTouchMode extends AbstractTouchMode {
-    public GeneralTouchMode(TouchController controller, Camera camera) {
+    public GeneralTouchMode(TouchHelper controller, Camera camera) {
         super(camera, controller);
     }
 
@@ -48,7 +49,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                         GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
 
                         TouchEventBundle touchEventBundle = new TouchEventBundle().setDrawable(DrawableContainer.get(MAIN_BASE));
-                        ViewModeManager.switchToBuildingMode(getTouchController(), getMainCamera());
+                        ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                         ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
                     }
                 });
@@ -71,18 +72,22 @@ public class GeneralTouchMode extends AbstractTouchMode {
 
     @Override
     public void doOnTouchMove() {
-        Vector2f touchPoint = getLocalTouchPoint2f(getTouchController().getCurrTouchPoint1());
-        if(DrawableContainer.get(MAIN_CHARACTER).isClicked(touchPoint)){
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
-        }else {
-            getMainCamera().translateBy(convertToLocalUnit(getTouchController().getPointer1MovementDiff()));
+        if(getTouchHelper().getCurrentPointerCount()==1) {
+            Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+            if (getTouchHelper().isTouchPoint1Down() && DrawableContainer.get(MAIN_CHARACTER).isClicked(touchPoint)) {
+                DrawableContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
+            } else {
+                getMainCamera().translateBy(VectorHelper.toVector3f(convertPixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+            }
+        }else{
+            getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.1f : getMainCamera().getZoomValue()* 0.1f);
         }
     }
 
     @Override
     public void doOnTouchUp() {
-        if(!getTouchController().isTouchPoint1Drag()) {
-            Vector3f touchPoint = getLocalTouchPoint3f(getTouchController().getCurrTouchPoint1());
+        if(!getTouchHelper().isTouchPoint1Drag()) {
+            Vector3f touchPoint = getLocalTouchPoint3f(getTouchHelper().getCurrTouchPoint1());
 
             DrawableContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
             DrawableContainer.get(MAIN_CHARACTER).getCollider().setVelocity(new Vector3f(0f, 0f, 0f));

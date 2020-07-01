@@ -61,19 +61,14 @@ public class CollisionDetectionHelper {
 
         ArrayList<Vector3f> verts = c2.getTransformedVertices();
 
-        for(int i=0;i<verts.size();i++) {
+        for(int i=0; i<verts.size() - 1; i++) {
             Vector3f curr = verts.get(i);
-            Vector3f next = null;
+            Vector3f next = verts.get(i+1);
 
-            if(i<verts.size()-1){
-                next = verts.get(i+1);
-            }else{
-                next = verts.get(0);
+            if(VectorHelper.checkIntersectionWithExtraInfo(curr, next, circleTop, circleBottom).intersected
+            || VectorHelper.checkIntersectionWithExtraInfo(curr, next, circleLeft, circleRight).intersected) {
+                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
-//            if(checkLineIntersection(curr, next, circleTop, circleBottom)
-//            || checkLineIntersection(curr, next, circleLeft, circleRight)) {
-//                return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
-//            }
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
@@ -82,17 +77,13 @@ public class CollisionDetectionHelper {
         ArrayList<Vector3f> vertsC2 = c2.getTransformedVertices();
         ArrayList<Vector3f> vertsC1 = c1.getTransformedVertices();
 
-        for(int i=0;i<vertsC1.size();i++) {
+        for(int i=0; i<vertsC1.size() - 1; i++) {
             Vector3f currC1 = vertsC1.get(i);
-            Vector3f nextC1 = null;
-            if (i < vertsC1.size() - 1) { nextC1 = vertsC1.get(i + 1); }
-            else { nextC1 = vertsC1.get(0); }
+            Vector3f nextC1 = vertsC1.get(i + 1);
 
-            for(int j=0;j<vertsC2.size();j++) {
+            for(int j=0; j<vertsC2.size() - 1; j++) {
                 Vector3f currC2 = vertsC2.get(j);
-                Vector3f nextC2 = null;
-                if (j < vertsC2.size() - 1) { nextC2 = vertsC2.get(j + 1); }
-                else { nextC2 = vertsC2.get(0); }
+                Vector3f nextC2 = vertsC2.get(j + 1);
 
                 IntersectionEvent intersection = VectorHelper.checkIntersectionWithExtraInfo(currC1, nextC1, currC2, nextC2);
                 if (intersection.intersected) {
