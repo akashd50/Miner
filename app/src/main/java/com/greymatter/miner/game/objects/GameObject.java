@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.Collider;
 
 public abstract class GameObject {
     private Drawable objectDrawable;
@@ -14,8 +15,11 @@ public abstract class GameObject {
         objectDrawable.onDrawFrame();
     }
 
-    public Drawable getObjectDrawable() {
+    public Drawable getDrawable() {
         return objectDrawable;
+    }
+    public Collider getCollider() {
+        return objectDrawable.getCollider();
     }
 
     public String getId() {

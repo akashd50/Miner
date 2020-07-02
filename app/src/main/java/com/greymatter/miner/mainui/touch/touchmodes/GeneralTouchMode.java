@@ -6,14 +6,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
-import com.greymatter.miner.containers.DrawableContainer;
-import com.greymatter.miner.game.containers.GameBuildingsContainer;
-import com.greymatter.miner.game.objects.Townhall;
+import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
@@ -29,26 +28,25 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.move_left:
                 Vector3f left = VectorHelper.getNormal(getMainCamera().getUpVector());
-                DrawableContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
+                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
                 break;
             case R.id.move_right:
                 Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-                DrawableContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
+                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             case R.id.items_menu:
                 View view = AppServices.getAppContextAsActivity().getLayoutInflater().inflate(R.layout.items_dialog, null);
-                ArrayList<Drawable> buildings = new ArrayList<>();
-                buildings.add(DrawableContainer.get(MAIN_BASE));
+                ArrayList<GameObject> buildings = GameObjectsContainer.getAllWithTag(PLACABLE_GAME_BUILDING);
 
                 ListView listView = view.findViewById(R.id.temp_items_list);
-                ArrayAdapter<Drawable> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
+                ArrayAdapter<GameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
                 listView.setAdapter(buildingArrayAdapter);
 
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
-                    if(buildings.get(position).getId().compareTo(DrawableContainer.get(MAIN_BASE).getId())==0) {
-                        GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
+                    if(buildings.get(position).getId().compareTo(GameObjectsContainer.get(MAIN_BASE).getId())==0) {
+                        ToDrawContainer.add(GameObjectsContainer.get(MAIN_BASE));
 
-                        TouchEventBundle touchEventBundle = new TouchEventBundle().setDrawable(DrawableContainer.get(MAIN_BASE));
+                        TouchEventBundle touchEventBundle = new TouchEventBundle().setDrawable(GameObjectsContainer.get(MAIN_BASE));
                         ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                         ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
                     }
@@ -107,8 +105,8 @@ public class GeneralTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-            if (getTouchHelper().isTouchPoint1Down() && DrawableContainer.get(MAIN_CHARACTER).isClicked(touchPoint)) {
-                DrawableContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
+            if (getTouchHelper().isTouchPoint1Down() && GameObjectsContainer.get(MAIN_CHARACTER).getDrawable().isClicked(touchPoint)) {
+                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
             } else {
                 getMainCamera().translateBy(VectorHelper.toVector3f(convertPixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
             }
@@ -122,11 +120,11 @@ public class GeneralTouchMode extends AbstractTouchMode {
         if(!getTouchHelper().isTouchPoint1Drag()) {
             Vector3f touchPoint = getLocalTouchPoint3f(getTouchHelper().getCurrTouchPoint1());
 
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().setVelocity(new Vector3f(0f, 0f, 0f));
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().rotateTo(new Vector3f());
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().setAngularAcceleration(0f);
-            DrawableContainer.get(MAIN_CHARACTER).getCollider().setAngularVelocity(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setVelocity(new Vector3f(0f, 0f, 0f));
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().rotateTo(new Vector3f());
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setAngularAcceleration(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setAngularVelocity(0f);
             return true;
         }
         return false;

@@ -9,6 +9,8 @@ import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.GeneralCollider;
 
+import java.util.ArrayList;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
@@ -20,9 +22,10 @@ public abstract class Drawable implements Clickable {
     private int vertexArray, vertexBuffer;
     private Collider collider;
     private String id;
-
+    private ArrayList<String> tags;
     public Drawable(String id) {
         this.id = id;
+        this.tags = new ArrayList<>();
         this.transformationsUpdated = false;
         this.modelMatrix = new float[16];
         Matrix.setIdentityM(modelMatrix, 0);
@@ -64,6 +67,17 @@ public abstract class Drawable implements Clickable {
     public boolean isClicked(Vector2f touchPoint) {
         return false;
     }
+
+    public Drawable withTag(String tag) {
+        this.tags.add(tag);
+        return this;
+    }
+
+    public boolean hasTag(String tag) {
+        return this.tags.contains(tag);
+    }
+
+    public int getNumTags() {return this.tags.size();}
 
     public String toString() {
         return this.id;

@@ -24,7 +24,7 @@ public class BackgroundObjectsContainer {
         }
 
         staticObjects.put(object.getId(), object);
-        groupedByShader.add(object.getObjectDrawable().getShader().getId(), object);
+        groupedByShader.add(object.getDrawable().getShader().getId(), object);
     }
 
     public static void remove(String id) {

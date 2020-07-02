@@ -23,7 +23,7 @@ public class GameBuildingsContainer {
         }
 
         gameBuildings.put(building.getId(), building);
-        groupedByShader.add(building.getObjectDrawable().getShader().getId(), building);
+        groupedByShader.add(building.getDrawable().getShader().getId(), building);
     }
 
     public static void remove(String id) {

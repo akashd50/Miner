@@ -1,9 +1,7 @@
 package com.greymatter.miner.mainui.renderers;
 
-import com.greymatter.miner.containers.DrawableContainer;
-import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
-import com.greymatter.miner.game.containers.GameBuildingsContainer;
-import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -28,9 +26,9 @@ public class GeneralRenderer extends AbstractRenderer {
     public synchronized void onDrawFrame() {
         super.onDrawFrame();
 
-        Drawable planet = DrawableContainer.get(PLANET);
-        Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
-        Drawable testLine = DrawableContainer.get(TEST_LINE);
+        Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
+        Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
+        Drawable testLine = GameObjectsContainer.get(TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
         Vector3f fromCenterToCam = VectorHelper.sub(MainGLObjectsHelper.camera.getTranslation(), planet.getCollider().getTranslation());
@@ -47,8 +45,6 @@ public class GeneralRenderer extends AbstractRenderer {
         testLine.getCollider().translateTo(new Vector3f(0f,0f,1f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        BackgroundObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
-        GameBuildingsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
-        InteractiveGameObjectsContainer.onDrawFrameByShader(MainGLObjectsHelper.camera);
+        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
     }
 }

@@ -1,16 +1,13 @@
 package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
-
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.DrawableContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.game.containers.BackgroundObjectsContainer;
-import com.greymatter.miner.game.containers.InteractiveGameObjectsContainer;
-import com.greymatter.miner.game.containers.GameBuildingsContainer;
-import com.greymatter.miner.game.objects.InteractiveGameObject;
-import com.greymatter.miner.game.objects.Planet;
+import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.game.objects.InteractiveObject;
+import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -55,57 +52,71 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
-        DrawableContainer.add(new Object3D(ATMOSPHERE, ATM_SIMPLE_CIRCLE, MaterialContainer.get(ATMOSPHERE_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Object3D(PLANET, CIRCLE_SUB_DIV_III, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Quad(MAIN_BASE, MaterialContainer.get(MAIN_BASE_MATERIAL), ShaderContainer.get(QUAD_SHADER)));
-        DrawableContainer.add(new Object3D(MAIN_CHARACTER,BOX, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
-        DrawableContainer.add(new Object3D(TEST_BALL,CIRCLE_SUB_DIV_I, MaterialContainer.get(GROUND_MATERIAL), ShaderContainer.get(THREE_D_OBJECT_SHADER)));
+        GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE, ATM_SIMPLE_CIRCLE,
+                            MaterialContainer.get(ATMOSPHERE_MATERIAL),
+                            ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(STATIC)));
 
-        BackgroundObjectsContainer.add(new Static(DrawableContainer.get(ATMOSPHERE)));
+        GameObjectsContainer.add(new Static(new Object3D(PLANET, CIRCLE_SUB_DIV_III,
+                            MaterialContainer.get(GROUND_MATERIAL),
+                            ShaderContainer.get(THREE_D_OBJECT_SHADER))
+                            .withTag(STATIC)
+                            .withTag(PHYSICS_OBJECT)));
 
-        GameBuildingsContainer.add(new Planet(DrawableContainer.get(PLANET)));
-        //GameBuildingsContainer.add(new Townhall(DrawableContainer.get(MAIN_BASE)));
+        GameObjectsContainer.add(new MainBase(new Quad(MAIN_BASE,
+                            MaterialContainer.get(MAIN_BASE_MATERIAL),
+                            ShaderContainer.get(QUAD_SHADER))
+                            .withTag(STATIC)
+                            .withTag(PLACABLE_GAME_BUILDING)));
 
-        InteractiveGameObjectsContainer.add(new InteractiveGameObject(DrawableContainer.get(MAIN_CHARACTER)));
-        InteractiveGameObjectsContainer.add(new InteractiveGameObject(DrawableContainer.get(TEST_BALL)));
+        GameObjectsContainer.add(new InteractiveObject(new Object3D(MAIN_CHARACTER,BOX,
+                            MaterialContainer.get(GROUND_MATERIAL),
+                            ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(PHYSICS_OBJECT)));
+
+        GameObjectsContainer.add(new InteractiveObject(new Object3D(TEST_BALL,CIRCLE_SUB_DIV_I,
+                            MaterialContainer.get(GROUND_MATERIAL),
+                            ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(PHYSICS_OBJECT)));
     }
 
     static void finishObjectsSetup() {
-        Drawable atmosphere = DrawableContainer.get(ATMOSPHERE);
+        Drawable atmosphere = GameObjectsContainer.get(ATMOSPHERE).getDrawable();
         atmosphere.getCollider().scaleTo(new Vector3f(190f,190f,1f));
         atmosphere.getCollider().translateTo(new Vector3f(0f,-100f, -10f));
 
-        Drawable planet = DrawableContainer.get(PLANET);
+        Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
         planet.getCollider().scaleTo(new Vector3f(120f,120f,1f));
         planet.getCollider().translateTo(new Vector3f(0f,-120.5f, 0f));
 
-        Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
+        Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
         mainCharacter.getCollider().scaleTo(new Vector3f(0.5f,0.5f,1f));
         mainCharacter.getCollider().translateBy(new Vector3f(-0.5f,0f,0f));
 
-        Drawable testBall = DrawableContainer.get(TEST_BALL);
+        Drawable testBall = GameObjectsContainer.get(TEST_BALL).getDrawable();
         testBall.getCollider().scaleTo(new Vector3f(0.2f,0.2f,1f));
         testBall.getCollider().translateBy(new Vector3f(-0.5f,2f,0f));
 
-        Drawable mainBase = DrawableContainer.get(MAIN_BASE);
+        Drawable mainBase = GameObjectsContainer.get(MAIN_BASE).getDrawable();
         mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
-        DrawableContainer.add(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
+        GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
-                        .getTransformedVertices()).build());
+                        .getTransformedVertices()).build()));
 
-        InteractiveGameObjectsContainer.add(new InteractiveGameObject(DrawableContainer.get(TEST_LINE)));
+        ToDrawContainer.add(GameObjectsContainer.get(TEST_LINE));
+        ToDrawContainer.add(GameObjectsContainer.get(ATMOSPHERE));
+        ToDrawContainer.add(GameObjectsContainer.get(PLANET));
+        ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
+        ToDrawContainer.add(GameObjectsContainer.get(TEST_BALL));
     }
 
     static void loadPhysicsObjects() {
-        Drawable planet = DrawableContainer.get(PLANET);
+        Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
         planet.setCollider(new PolygonCollider(((Object3D)planet).getOuterMesh()));
 
-        Drawable mainCharacter = DrawableContainer.get(MAIN_CHARACTER);
+        Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
         mainCharacter.setCollider(new PolygonCollider(((Object3D) mainCharacter).getOuterMesh()));
 
-        Drawable testBall = DrawableContainer.get(TEST_BALL);
+        Drawable testBall = GameObjectsContainer.get(TEST_BALL).getDrawable();
         testBall.setCollider(new PolygonCollider(Object3DHelper.simplify(((Object3D) testBall).getOuterMesh(),0.1f)));
 
         planet.getCollider().updateTransformationsPerMovement(true);
@@ -143,9 +154,9 @@ class MainGLObjectsHelper {
     }
 
     static void initiatePhysicsSystem() {
-        CollisionSystemContainer.add(DrawableContainer.get(PLANET));
-        CollisionSystemContainer.add(DrawableContainer.get(MAIN_CHARACTER));
-        CollisionSystemContainer.add(DrawableContainer.get(TEST_BALL));
+        CollisionSystemContainer.add(GameObjectsContainer.get(PLANET).getDrawable());
+        CollisionSystemContainer.add(GameObjectsContainer.get(MAIN_CHARACTER).getDrawable());
+        CollisionSystemContainer.add(GameObjectsContainer.get(TEST_BALL).getDrawable());
         CollisionDetectionSystem.initialize();
     }
 

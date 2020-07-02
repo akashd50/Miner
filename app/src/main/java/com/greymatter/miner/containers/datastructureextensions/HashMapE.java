@@ -3,6 +3,7 @@ package com.greymatter.miner.containers.datastructureextensions;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class HashMapE<K,V> extends HashMap<K,V> {
@@ -30,5 +31,10 @@ public class HashMapE<K,V> extends HashMap<K,V> {
             hasDataChanged = false;
         }
         return toList;
+    }
+
+    public void sort(Comparator<V> comparator) {
+        toList = toList == null ? toList() : toList;
+        toList.sort(comparator);
     }
 }
