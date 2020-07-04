@@ -47,9 +47,5 @@ public class GeneralRenderer extends AbstractRenderer {
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
-//        Drawable d = GameObjectsContainer.get("edge").getDrawable();
-//        ShaderHelper.useProgram(d.getShader());
-//        ShaderHelper.setCameraProperties(d.getShader(), MainGLObjectsHelper.camera);
-//        d.onDrawFrame();
     }
 }

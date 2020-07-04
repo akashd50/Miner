@@ -9,13 +9,13 @@ import javax.vecmath.Vector3f;
 
 public class VectorHelper {
 
+    public static Vector3f getNew(float xyz) { return new Vector3f(xyz,xyz,xyz); }
     public static Vector3f copy(Vector3f vector) {
         return new Vector3f(vector);
     }
     public static Vector2f copy(Vector2f vector) {
         return new Vector2f(vector);
     }
-
     public static Vector2f toVector2f(Vector3f vector3f) {return new Vector2f(vector3f.x, vector3f.y);}
     public static Vector3f toVector3f(Vector2f vector2f) {return new Vector3f(vector2f.x, vector2f.y, 0f);}
 

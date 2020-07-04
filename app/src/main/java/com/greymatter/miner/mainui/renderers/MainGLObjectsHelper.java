@@ -19,6 +19,7 @@ import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedCircle;
+import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedPolygon;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
@@ -79,7 +80,9 @@ class MainGLObjectsHelper {
                             MaterialContainer.get(GROUND_MATERIAL),
                             ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(PHYSICS_OBJECT)));
 
-        GameObjectsContainer.add(new InteractiveObject(new TextureEdgedCircle("edge", ShaderContainer.get(QUAD_SHADER),MaterialContainer.get("grass")).buildWith(0.5f,10,0.2f)));
+        GameObjectsContainer.add(new InteractiveObject(new TextureEdgedPolygon("edge",
+                ShaderContainer.get(QUAD_SHADER),MaterialContainer.get("grass"))
+                .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.005f)));
     }
 
     static void finishObjectsSetup() {
@@ -104,8 +107,10 @@ class MainGLObjectsHelper {
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
         Drawable edge = GameObjectsContainer.get("edge").getDrawable();
-        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
-        edge.getCollider().translateTo(new Vector3f(0f,0f,1f));
+        edge.getCollider().scaleTo(new Vector3f(119.6f,119.6f,1f));
+        edge.getCollider().translateTo(new Vector3f(0f,-120.5f, 1f));
+//        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
+//        edge.getCollider().translateTo(new Vector3f(0f,0f, 1f));
 
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()

@@ -60,7 +60,7 @@ public abstract class Drawable implements Clickable {
             Matrix.scaleM(modelMat, 0, collider.getScale().x,
                                                     collider.getScale().y,
                                                     collider.getScale().z);
-            this.modelMatrix = modelMat.clone();
+            this.modelMatrix = modelMat;
         }
     }
 
