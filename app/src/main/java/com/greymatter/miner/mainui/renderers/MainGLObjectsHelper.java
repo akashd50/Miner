@@ -11,11 +11,14 @@ import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.materials.AnimatedMaterial;
+import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedPolygon;
+import com.greymatter.miner.opengl.objects.materials.StaticMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
@@ -44,10 +47,14 @@ class MainGLObjectsHelper {
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new Material(GROUND_MATERIAL, GROUND_I));
-        MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL,ATM_RADIAL_II));
-        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL));
-        MaterialContainer.add(new Material("grass", "grass_patch_gimp.png"));
+        MaterialContainer.add(new StaticMaterial(GROUND_MATERIAL, GROUND_I));
+        MaterialContainer.add(new StaticMaterial(ATMOSPHERE_MATERIAL,ATM_RADIAL_II));
+        MaterialContainer.add(new StaticMaterial(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL));
+        MaterialContainer.add(new StaticMaterial("grass", "grass_patch_gimp.png"));
+//        MaterialContainer.add(new AnimatedMaterial("grass")
+//                .addDiffuseTextureFrame("grass_patch_gimp.png")
+//                .addDiffuseTextureFrame(GROUND_I)
+//                .withAnimationHandler(new AnimationHandler().withFPS(1).withTotalFrames(2)));
     }
 
     static void loadObjects() {

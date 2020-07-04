@@ -7,30 +7,58 @@ import com.greymatter.miner.opengl.objects.Texture;
 import java.util.ArrayList;
 
 public class AnimatedMaterial extends Material {
-    private ArrayList<Texture> textureFrames;
-    private AnimationHandler animationHandler;
-    public AnimatedMaterial(String id, String mainDiffuseTexPath) {
-        super(id, mainDiffuseTexPath);
-
-        textureFrames = new ArrayList<>();
-        textureFrames.add(getDiffuseTexture());
+    private ArrayList<Texture> diffuseTextureFrames;
+    private AnimationHandler _animationHandler;
+    public AnimatedMaterial(String id) {
+        super(id);
+        diffuseTextureFrames = new ArrayList<>();
     }
 
-    public void addDiffuseTextureFrame(String diffuseTexPath) {
+    public AnimatedMaterial addDiffuseTextureFrame(String diffuseTexPath) {
         if (diffuseTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, Constants.TEXTURES+diffuseTexPath);
             TextureBuilder.finish(texture);
 
-            textureFrames.add(texture);
+            diffuseTextureFrames.add(texture);
         }
+        return this;
+    }
+
+    public AnimatedMaterial withAnimationHandler(AnimationHandler animationHandler) {
+        this._animationHandler = animationHandler;
+        return this;
+    }
+
+    @Override
+    public boolean hasDiffuseTexture() {
+        return true;
+    }
+
+    @Override
+    public boolean hasRoughnessTexture() {
+        return false;
+    }
+
+    @Override
+    public Texture getActiveDiffuseTexture() {
+        return diffuseTextureFrames.get(_animationHandler.updateActiveFrame());
+    }
+
+    @Override
+    public Texture getActiveRoughnessTexture() {
+        return null;
+    }
+
+    public AnimationHandler getAnimationHandler() {
+        return _animationHandler;
     }
 
     public Texture getFrame(int index) {
-        return textureFrames.get(index);
+        return diffuseTextureFrames.get(index);
     }
 
     public ArrayList<Texture> getAllFrames() {
-        return textureFrames;
+        return diffuseTextureFrames;
     }
 }

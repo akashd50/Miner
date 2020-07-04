@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.materials.StaticMaterial;
+
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
@@ -66,12 +68,11 @@ public class ShaderHelper {
     public static void setMaterialProperties(Shader shader, Material material) {
         setUniformInt(shader, "material.diffuseTexture", 0);
         setUniformInt(shader, "material.specularTexture", 1);
-
         if (material.hasDiffuseTexture()) {
-            setTextureUnit2D(0, material.getDiffuseTexture().getTextureId());
+            setTextureUnit2D(0, material.getActiveDiffuseTexture().getTextureId());
         }
         if (material.hasRoughnessTexture()) {
-            setTextureUnit2D(1, material.getRoughnessTexture().getTextureId());
+            setTextureUnit2D(1, material.getActiveRoughnessTexture().getTextureId());
         }
 //        setUniformFloat(shader, "material.specMultiplier", material.getShinniness());
 //        setUniformVec3(shader, "material.diffuse", material.getDiffuse());

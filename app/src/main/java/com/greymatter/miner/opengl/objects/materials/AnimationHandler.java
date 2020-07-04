@@ -8,15 +8,14 @@ public class AnimationHandler {
         _lastFrameDrawTime = 0;
     }
 
-    public int getActiveFrame() {
+    public int updateActiveFrame() {
         if(System.currentTimeMillis() - _lastFrameDrawTime > _perFrameDelay) {
             _currentFrame++;
-            if(_currentFrame < _totalFrames) {
-                return _currentFrame;
-            }else{
+            if (_currentFrame >= _totalFrames) {
                 _currentFrame = 0;
-                return _currentFrame;
             }
+            _lastFrameDrawTime = System.currentTimeMillis();
+            return _currentFrame;
         }
         return _currentFrame;
     }
@@ -30,9 +29,5 @@ public class AnimationHandler {
     public AnimationHandler withTotalFrames(int totalFrames) {
         _totalFrames = totalFrames;
         return this;
-    }
-
-    public int getCurrentFrame() {
-        return _currentFrame;
     }
 }

@@ -24,7 +24,7 @@ public class Quad extends Drawable {
 	}
 
 	private void initialize() {
-		textureRatio = getMaterial().getDiffuseTexture().getRatio();
+		textureRatio = getMaterial().getActiveDiffuseTexture().getRatio();
 		if (textureRatio == 0.0f) {
 			textureRatio = 1.0f;
 		}
