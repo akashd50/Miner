@@ -1,13 +1,10 @@
-package com.greymatter.miner.mainui.touch.touchlisteners;
+package com.greymatter.miner.mainui.touch.touchcheckers;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.PolygonCollider;
 
-import java.util.ArrayList;
-
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public class PolygonTouchChecker extends TouchChecker {
     private PolygonCollider polygonCollider;

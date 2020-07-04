@@ -1,4 +1,4 @@
-package com.greymatter.miner.mainui.touch.touchlisteners;
+package com.greymatter.miner.mainui.touch.touchcheckers;
 
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;

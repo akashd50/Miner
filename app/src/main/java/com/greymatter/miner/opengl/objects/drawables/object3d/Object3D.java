@@ -2,8 +2,7 @@ package com.greymatter.miner.opengl.objects.drawables.object3d;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.mainui.touch.touchlisteners.PolygonTouchChecker;
+import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
@@ -13,7 +12,7 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.PolygonCollider;
 
 import java.util.*;
-import javax.vecmath.Vector2f;
+
 import javax.vecmath.Vector3f;
 
 public class Object3D extends Drawable {

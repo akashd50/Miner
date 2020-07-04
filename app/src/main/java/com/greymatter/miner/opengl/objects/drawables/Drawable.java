@@ -3,7 +3,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 import android.opengl.Matrix;
 
 import com.greymatter.miner.mainui.touch.Clickable;
-import com.greymatter.miner.mainui.touch.touchlisteners.TouchChecker;
+import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
