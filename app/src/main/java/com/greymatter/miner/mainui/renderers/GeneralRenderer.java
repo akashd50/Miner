@@ -43,7 +43,7 @@ public class GeneralRenderer extends AbstractRenderer {
         vertexData.add(accPoint);
 
         ((Line)testLine).withColor(new Vector4f(0f,1f,0f,1f)).updateVertexData(vertexData);
-        testLine.getCollider().translateTo(new Vector3f(0f,0f,1f));
+        testLine.getCollider().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);

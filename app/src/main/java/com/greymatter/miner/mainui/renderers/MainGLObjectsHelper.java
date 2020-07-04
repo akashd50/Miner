@@ -82,13 +82,13 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.add(new InteractiveObject(new TextureEdgedPolygon("edge",
                 ShaderContainer.get(QUAD_SHADER),MaterialContainer.get("grass"))
-                .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.005f)));
+                .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.01f)));
     }
 
     static void finishObjectsSetup() {
         Drawable atmosphere = GameObjectsContainer.get(ATMOSPHERE).getDrawable();
         atmosphere.getCollider().scaleTo(new Vector3f(190f,190f,1f));
-        atmosphere.getCollider().translateTo(new Vector3f(0f,-100f, -10f));
+        atmosphere.getCollider().translateTo(new Vector3f(0f,-120.5f, -10f));
 
         Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
         planet.getCollider().scaleTo(new Vector3f(120f,120f,1f));
@@ -107,7 +107,7 @@ class MainGLObjectsHelper {
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
         Drawable edge = GameObjectsContainer.get("edge").getDrawable();
-        edge.getCollider().scaleTo(new Vector3f(119.6f,119.6f,1f));
+        edge.getCollider().scaleTo(new Vector3f(119.65f,119.65f,1f));
         edge.getCollider().translateTo(new Vector3f(0f,-120.5f, 1f));
 //        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
 //        edge.getCollider().translateTo(new Vector3f(0f,0f, 1f));
