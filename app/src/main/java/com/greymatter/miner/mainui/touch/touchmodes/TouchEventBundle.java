@@ -5,7 +5,7 @@ import com.greymatter.miner.game.objects.GameObject;
 public class TouchEventBundle {
     private GameObject gameObject;
 
-    public TouchEventBundle setDrawable(GameObject go) {
+    public TouchEventBundle setObject(GameObject go) {
         this.gameObject = go;
         return this;
     }

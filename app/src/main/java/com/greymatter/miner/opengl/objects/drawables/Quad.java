@@ -62,26 +62,6 @@ public class Quad extends Drawable {
 		GLBufferHelper.glUnbindVertexArray();
 	}
 
-	@Override
-	public boolean isClicked(Vector2f touchPoint) {
-		return getCollider() instanceof PolygonCollider
-				? (isClickedPolygon(touchPoint))
-				: (isClickedGeneral(touchPoint));
-	}
-
-	private boolean isClickedPolygon(Vector2f touchPoint) {
-		return VectorHelper.isPointInPolygon(touchPoint, getCollider().asPolygonCollider().getTransformedVertices());
-	}
-
-	private boolean isClickedGeneral(Vector2f touchPoint) {
-		float left = (-1f * textureRatio * getCollider().getScale().x + getCollider().getTranslation().x);
-		float right = (1f * textureRatio * getCollider().getScale().x + getCollider().getTranslation().x);
-		float top = (1f * getCollider().getScale().y + getCollider().getTranslation().y);
-		float bottom = (-1f * getCollider().getScale().y + getCollider().getTranslation().y);
-		return (touchPoint.x > left && touchPoint.x < right
-		&& touchPoint.y < top && touchPoint.y > bottom);
-	}
-
 	public ArrayList<Vector3f> getObjectMesh() {
 		if(mesh==null){
 			mesh = new ArrayList<>();
@@ -93,5 +73,15 @@ public class Quad extends Drawable {
 			mesh.add(new Vector3f(1.0f * textureRatio, 1.0f, 0.0f));
 		}
 		return mesh;
+	}
+
+	@Override
+	public Quad withPolygonTouchChecker() {
+		return this;
+	}
+
+	@Override
+	public Quad withPolygonCollider() {
+		return this;
 	}
 }

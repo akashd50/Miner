@@ -106,4 +106,14 @@ public class CircleGradient extends Gradient {
         this.offsetFromEdge = offsetFromEdge;
         return this;
     }
+
+    @Override
+    public CircleGradient withPolygonTouchChecker() {
+        return this;
+    }
+
+    @Override
+    public CircleGradient withPolygonCollider() {
+        return this;
+    }
 }

@@ -62,9 +62,9 @@ class MainGLObjectsHelper {
                             .withTag(STATIC)
                             .withTag(PHYSICS_OBJECT)));
 
-        GameObjectsContainer.add(new MainBase(new Quad(MAIN_BASE,
+        GameObjectsContainer.add(new MainBase(new Object3D(MAIN_BASE, UV_MAPPED_BOX,
                             MaterialContainer.get(MAIN_BASE_MATERIAL),
-                            ShaderContainer.get(QUAD_SHADER))
+                            ShaderContainer.get(THREE_D_OBJECT_SHADER))
                             .withTag(STATIC)
                             .withTag(PLACABLE_GAME_BUILDING)));
 
@@ -111,19 +111,17 @@ class MainGLObjectsHelper {
 
     static void loadPhysicsObjects() {
         Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
-        planet.setCollider(new PolygonCollider(((Object3D)planet).getOuterMesh()));
-
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
-        mainCharacter.setCollider(new PolygonCollider(((Object3D) mainCharacter).getOuterMesh()));
-
-        Drawable testBall = GameObjectsContainer.get(TEST_BALL).getDrawable();
-        testBall.setCollider(new PolygonCollider(Object3DHelper.simplify(((Object3D) testBall).getOuterMesh(),0.1f)));
+        Drawable mainBase = GameObjectsContainer.get(MAIN_BASE).getDrawable();
+        Drawable testBall = GameObjectsContainer.get(TEST_BALL).getDrawable().asObject3D().withOptimisedPolygonCollider(0.1f);
 
         planet.getCollider().updateTransformationsPerMovement(true);
         planet.getCollider().isStaticObject(true);
 
         mainCharacter.getCollider().updateTransformationsPerMovement(true);
         mainCharacter.getCollider().isStaticObject(false);
+
+        mainBase.getCollider().updateTransformationsPerMovement(true);
 
         testBall.getCollider().updateTransformationsPerMovement(true);
         testBall.getCollider().isStaticObject(false);

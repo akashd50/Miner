@@ -3,16 +3,16 @@ package com.greymatter.miner.opengl.objects.drawables;
 import android.opengl.Matrix;
 
 import com.greymatter.miner.mainui.touch.Clickable;
+import com.greymatter.miner.mainui.touch.touchlisteners.TouchChecker;
 import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.physics.objects.Collider;
-import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.GeneralCollider;
 
 import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public abstract class Drawable implements Clickable {
     private Material material;
@@ -23,6 +23,7 @@ public abstract class Drawable implements Clickable {
     private Collider collider;
     private String id;
     private ArrayList<String> tags;
+    private TouchChecker touchChecker;
     public Drawable(String id) {
         this.id = id;
         this.tags = new ArrayList<>();
@@ -65,7 +66,7 @@ public abstract class Drawable implements Clickable {
 
     @Override
     public boolean isClicked(Vector2f touchPoint) {
-        return false;
+        return touchChecker != null && touchChecker.isClicked(touchPoint);
     }
 
     public Drawable withTag(String tag) {
@@ -115,12 +116,20 @@ public abstract class Drawable implements Clickable {
         return this.vertexBuffer;
     }
 
+    public TouchChecker getTouchChecker() {
+        return this.touchChecker;
+    }
+
     public void setVertexArrayObject(int vertexArrayObject ) {
         this.vertexArray = vertexArrayObject;
     }
 
     public void setVertexBufferObject(int vertexBufferObject ) {
         this.vertexBuffer = vertexBufferObject;
+    }
+
+    public void setTouchChecker(TouchChecker touchChecker) {
+        this.touchChecker = touchChecker;
     }
 
     public float[] getModelMatrix() { return this.modelMatrix; }
@@ -133,4 +142,17 @@ public abstract class Drawable implements Clickable {
         this.collider = collider;
         if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
     }
+
+    public Object3D asObject3D() {
+        return (Object3D)this;
+    }
+    public Quad asQuad() {
+        return (Quad) this;
+    }
+    public Line asLine() {
+        return (Line) this;
+    }
+
+    public abstract Drawable withPolygonTouchChecker();
+    public abstract Drawable withPolygonCollider();
 }

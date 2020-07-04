@@ -5,6 +5,8 @@ import android.opengl.GLES30;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
+import com.greymatter.miner.physics.objects.PolygonCollider;
 
 public class Triangle extends Drawable {
     static float triangleCoords[] =
@@ -34,5 +36,15 @@ public class Triangle extends Drawable {
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
 
         GLBufferHelper.glUnbindVertexArray();
+    }
+
+    @Override
+    public Triangle withPolygonTouchChecker() {
+        return this;
+    }
+
+    @Override
+    public Triangle withPolygonCollider() {
+        return this;
     }
 }

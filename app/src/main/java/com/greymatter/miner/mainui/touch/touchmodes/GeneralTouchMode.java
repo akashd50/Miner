@@ -46,7 +46,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     if(buildings.get(position).getId().compareTo(GameObjectsContainer.get(MAIN_BASE).getId())==0) {
                         ToDrawContainer.add(GameObjectsContainer.get(MAIN_BASE));
 
-                        TouchEventBundle touchEventBundle = new TouchEventBundle().setDrawable(GameObjectsContainer.get(MAIN_BASE));
+                        TouchEventBundle touchEventBundle = new TouchEventBundle().setObject(GameObjectsContainer.get(MAIN_BASE));
                         ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                         ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
                     }

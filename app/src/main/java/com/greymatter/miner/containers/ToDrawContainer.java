@@ -16,7 +16,7 @@ public class ToDrawContainer {
         }
     };
 
-    public static void add(GameObject gameObject) {
+    public static synchronized void add(GameObject gameObject) {
         if(gameObjects == null) {
             gameObjects = new HashMapE<>();
         }
@@ -24,14 +24,14 @@ public class ToDrawContainer {
         gameObjects.sort(comparator);
     }
 
-    public static void remove(String id) {
+    public static synchronized void remove(String id) {
         GameObject removed = null;
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
         }
     }
 
-    public static void onDrawFrame(Camera camera) {
+    public static synchronized void onDrawFrame(Camera camera) {
         gameObjects.forEach((id, gameObject) -> {
             ShaderHelper.useProgram(gameObject.getDrawable().getShader());
             ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);

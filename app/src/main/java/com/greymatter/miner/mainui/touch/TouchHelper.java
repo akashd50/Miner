@@ -2,6 +2,8 @@ package com.greymatter.miner.mainui.touch;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import javax.vecmath.Vector2f;
 
@@ -20,6 +22,26 @@ public class TouchHelper {
         touchPoint2TouchDownPt = new Vector2f();
         pointer1Id = -1;
         pointer2Id = -1;
+    }
+
+    public void onTouch(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                onTouchDown(event);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                onTouchMove(event);
+                break;
+            case MotionEvent.ACTION_UP:
+                onTouchUp(event);
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                onTouchDown(event);
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                onTouchUp(event);
+                break;
+        }
     }
 
     public void onTouchDown(MotionEvent event) {

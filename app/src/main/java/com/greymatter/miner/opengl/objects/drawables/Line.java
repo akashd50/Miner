@@ -85,4 +85,14 @@ public class Line extends Drawable {
         return this;
     }
 
+    @Override
+    public Line withPolygonTouchChecker() {
+        return this;
+    }
+
+    @Override
+    public Line withPolygonCollider() {
+        return this;
+    }
+
 }

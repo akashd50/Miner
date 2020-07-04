@@ -3,12 +3,14 @@ package com.greymatter.miner.opengl.objects.drawables.object3d;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.mainui.touch.touchlisteners.PolygonTouchChecker;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.PolygonCollider;
 
 import java.util.*;
 import javax.vecmath.Vector2f;
@@ -38,6 +40,9 @@ public class Object3D extends Drawable {
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayUvs, 2,
 																getShader(), Constants.IN_UV);
 		GLBufferHelper.glUnbindVertexArray();
+
+		withPolygonCollider();
+		withPolygonTouchChecker();
 	}
 
 	public void onDrawFrame() {
@@ -61,12 +66,24 @@ public class Object3D extends Drawable {
 		return object3DData.outerMesh;
 	}
 
-	@Override
-	public boolean isClicked(Vector2f touchPoint) {
-		return VectorHelper.isPointInPolygon(touchPoint, getCollider().asPolygonCollider().getTransformedVertices());
-	}
-
 	public Object3DData getObject3DData() {
 		return object3DData;
+	}
+
+	@Override
+	public Object3D withPolygonTouchChecker() {
+		setTouchChecker(new PolygonTouchChecker(this, getCollider().asPolygonCollider()));
+		return this;
+	}
+
+	@Override
+	public Object3D withPolygonCollider() {
+		this.setCollider(new PolygonCollider(this.getOuterMesh()));
+		return this;
+	}
+
+	public Object3D withOptimisedPolygonCollider(float optFac) {
+		this.setCollider(new PolygonCollider(Object3DHelper.simplify(this.getOuterMesh(), optFac)));
+		return this;
 	}
 }

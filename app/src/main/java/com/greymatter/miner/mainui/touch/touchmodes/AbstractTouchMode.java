@@ -19,20 +19,11 @@ public abstract class AbstractTouchMode {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                touchHelper.onTouchDown(event);
                 return doOnTouchDown(v);
             case MotionEvent.ACTION_MOVE:
-                touchHelper.onTouchMove(event);
                 return doOnTouchMove(v);
             case MotionEvent.ACTION_UP:
-                touchHelper.onTouchUp(event);
                 return doOnTouchUp(v);
-            case MotionEvent.ACTION_POINTER_DOWN:
-                touchHelper.onTouchDown(event);
-                return true;
-            case MotionEvent.ACTION_POINTER_UP:
-                touchHelper.onTouchUp(event);
-                return true;
         }
         return false;
     }
