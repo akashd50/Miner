@@ -23,7 +23,8 @@ public class HashMapE<K,V> extends HashMap<K,V> {
 
     public ArrayList<V> toList() {
         if(hasDataChanged) {
-            toList = new ArrayList<>();
+            toList = toList == null? new ArrayList<>() : toList;
+            toList.clear();
             forEach((key, obj) -> {
                 toList.add(obj);
             });
@@ -34,7 +35,7 @@ public class HashMapE<K,V> extends HashMap<K,V> {
     }
 
     public void sort(Comparator<V> comparator) {
-        toList = toList == null ? toList() : toList;
+        toList();
         toList.sort(comparator);
     }
 }

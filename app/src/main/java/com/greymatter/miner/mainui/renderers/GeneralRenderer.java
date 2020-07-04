@@ -4,6 +4,7 @@ import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
+import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
@@ -46,5 +47,9 @@ public class GeneralRenderer extends AbstractRenderer {
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
+//        Drawable d = GameObjectsContainer.get("edge").getDrawable();
+//        ShaderHelper.useProgram(d.getShader());
+//        ShaderHelper.setCameraProperties(d.getShader(), MainGLObjectsHelper.camera);
+//        d.onDrawFrame();
     }
 }

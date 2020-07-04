@@ -9,6 +9,7 @@ import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Static;
+import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -17,6 +18,7 @@ import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedCircle;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.PolygonCollider;
@@ -48,7 +50,8 @@ class MainGLObjectsHelper {
     static void loadMaterials() {
         MaterialContainer.add(new Material(GROUND_MATERIAL, GROUND_I, ""));
         MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL,ATM_RADIAL_II, ""));
-        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_P, ""));
+        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL, ""));
+        MaterialContainer.add(new Material("grass", "grass_patch_gimp.png", ""));
     }
 
     static void loadObjects() {
@@ -75,6 +78,8 @@ class MainGLObjectsHelper {
         GameObjectsContainer.add(new InteractiveObject(new Object3D(TEST_BALL,CIRCLE_SUB_DIV_I,
                             MaterialContainer.get(GROUND_MATERIAL),
                             ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(PHYSICS_OBJECT)));
+
+        GameObjectsContainer.add(new InteractiveObject(new TextureEdgedCircle("edge", ShaderContainer.get(QUAD_SHADER),MaterialContainer.get("grass")).buildWith(0.5f,10,0.2f)));
     }
 
     static void finishObjectsSetup() {
@@ -98,6 +103,10 @@ class MainGLObjectsHelper {
         mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
+        Drawable edge = GameObjectsContainer.get("edge").getDrawable();
+        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
+        edge.getCollider().translateTo(new Vector3f(0f,0f,1f));
+
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
                         .getTransformedVertices()).build()));
@@ -107,6 +116,7 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(PLANET));
         ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         ToDrawContainer.add(GameObjectsContainer.get(TEST_BALL));
+        ToDrawContainer.add(GameObjectsContainer.get("edge"));
     }
 
     static void loadPhysicsObjects() {

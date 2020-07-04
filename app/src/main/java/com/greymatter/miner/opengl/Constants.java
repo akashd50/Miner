@@ -18,6 +18,7 @@ public class Constants {
     public static final String TEXTURES = "textures/";
     public static final String GROUND_I = "ground_i.png";
     public static final String MAIN_BASE_P = "main_base_p.jpg";
+    public static final String MAIN_BASE_FINAL = "main_base.png";
     public static final String SCANNER_P = "scanner_p.jpg";
     public static final String ATM_RADIAL_II = "atm_radial_ii.png";
     public static final String ATM_RADIAL_I = "atm_radial_i.png";

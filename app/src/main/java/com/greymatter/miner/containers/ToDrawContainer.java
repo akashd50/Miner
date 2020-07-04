@@ -12,7 +12,13 @@ public class ToDrawContainer {
     private static Comparator<GameObject> comparator = new Comparator<GameObject>() {
         @Override
         public int compare(GameObject o1, GameObject o2) {
-            return (int)(o1.getCollider().getTranslation().z - o2.getCollider().getTranslation().z);
+            if(o1.getCollider().getTranslation().z > o2.getCollider().getTranslation().z) {
+                return 1;
+            }else if(o2.getCollider().getTranslation().z > o1.getCollider().getTranslation().z){
+                return -1;
+            }else{
+                return 0;
+            }
         }
     };
 
@@ -32,7 +38,7 @@ public class ToDrawContainer {
     }
 
     public static synchronized void onDrawFrame(Camera camera) {
-        gameObjects.forEach((id, gameObject) -> {
+        gameObjects.toList().forEach((gameObject) -> {
             ShaderHelper.useProgram(gameObject.getDrawable().getShader());
             ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
             gameObject.onDrawFrame();

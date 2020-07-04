@@ -16,8 +16,8 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES30.glEnable(GLES20.GL_BLEND);
-        GLES30.glEnable(GLES20.GL_DEPTH_TEST);
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
+        GLES30.glEnable(GLES20.GL_DEPTH_TEST);
 
         MainGLObjectsHelper.loadShaders();
         MainGLObjectsHelper.loadMaterials();
