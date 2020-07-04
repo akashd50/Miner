@@ -1,9 +1,10 @@
-package com.greymatter.miner.opengl.objects;
+package com.greymatter.miner.opengl.objects.materials;
 
 import android.opengl.GLES30;
 
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.TextureBuilder;
+import com.greymatter.miner.opengl.objects.Texture;
 
 import javax.vecmath.Vector3f;
 
@@ -16,6 +17,24 @@ public class Material {
     private Vector3f diffuse;
     private Vector3f specular;
     private String id;
+
+    public Material(String id, String mainDiffuseTexPath) {
+        this.id = id;
+        if (mainDiffuseTexPath.length() > 0) {
+            Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES+mainDiffuseTexPath);
+            TextureBuilder.finish(texture);
+
+            diffuseTexture = texture;
+        }
+
+        ambient = new Vector3f(1.0f,1.0f,1.0f);
+        diffuse = new Vector3f(1.0f,1.0f,1.0f);
+        specular = new Vector3f(0.5f,0.5f,0.5f);
+
+        shinniness = 1.0f;
+    }
+
     public Material(String id, String diffTexName, String roughTexName) {
         this.id = id;
         if (diffTexName.length() > 0) {

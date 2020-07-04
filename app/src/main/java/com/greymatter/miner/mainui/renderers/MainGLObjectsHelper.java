@@ -9,20 +9,15 @@ import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Static;
-import com.greymatter.miner.opengl.Constants;
-import com.greymatter.miner.opengl.objects.drawables.object3d.Object3DHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
-import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedCircle;
 import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedPolygon;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
-import com.greymatter.miner.physics.objects.PolygonCollider;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 import javax.vecmath.Vector3f;
 import static com.greymatter.miner.game.GC.*;
@@ -49,10 +44,10 @@ class MainGLObjectsHelper {
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new Material(GROUND_MATERIAL, GROUND_I, ""));
-        MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL,ATM_RADIAL_II, ""));
-        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL, ""));
-        MaterialContainer.add(new Material("grass", "grass_patch_gimp.png", ""));
+        MaterialContainer.add(new Material(GROUND_MATERIAL, GROUND_I));
+        MaterialContainer.add(new Material(ATMOSPHERE_MATERIAL,ATM_RADIAL_II));
+        MaterialContainer.add(new Material(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL));
+        MaterialContainer.add(new Material("grass", "grass_patch_gimp.png"));
     }
 
     static void loadObjects() {

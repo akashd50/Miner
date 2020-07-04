@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;

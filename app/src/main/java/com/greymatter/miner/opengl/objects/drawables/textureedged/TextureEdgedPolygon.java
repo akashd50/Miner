@@ -6,7 +6,7 @@ import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
@@ -33,6 +33,8 @@ public class TextureEdgedPolygon extends Drawable {
         _verticesIndex = 0;
         _uvsIndex = 0;
         setUpVertexData();
+        _verticesArray = null;
+        _uvsArray = null;
         return this;
     }
 

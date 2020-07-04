@@ -6,7 +6,7 @@ import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Material;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.PolygonCollider;
