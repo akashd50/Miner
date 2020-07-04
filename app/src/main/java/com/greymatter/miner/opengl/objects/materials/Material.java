@@ -1,11 +1,9 @@
 package com.greymatter.miner.opengl.objects.materials;
 
 import android.opengl.GLES30;
-
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
-
 import javax.vecmath.Vector3f;
 
 public class Material {

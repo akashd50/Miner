@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class AnimatedMaterial extends Material {
     private ArrayList<Texture> textureFrames;
+    private AnimationHandler animationHandler;
     public AnimatedMaterial(String id, String mainDiffuseTexPath) {
         super(id, mainDiffuseTexPath);
 
