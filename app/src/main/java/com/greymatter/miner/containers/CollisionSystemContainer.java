@@ -1,48 +1,39 @@
 package com.greymatter.miner.containers;
 
-import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.Collider;
 
 import java.util.ArrayList;
 
 public class CollisionSystemContainer {
-    private static HashMapE<String, Drawable> drawables;
+    private static HashMapE<String, Collider> colliders;
 
-    public static void add(Drawable drawable) {
-        if(drawables == null) {
-            drawables = new HashMapE<>();
+    public static void add(Collider collider) {
+        if(colliders == null) {
+            colliders = new HashMapE<>();
         }
-        drawables.put(drawable.getId(), drawable);
+        colliders.put(collider.getDrawable().getId(), collider);
     }
 
     public static void remove(String id) {
-        Drawable removed = null;
-        if(drawables !=null) {
-            removed = drawables.remove(id);
+        Collider removed = null;
+        if(colliders !=null) {
+            removed = colliders.remove(id);
         }
     }
 
-    public static void onDrawFrame() {
-        drawables.forEach((id, drawable) -> {
-            drawable.onDrawFrame();
-        });
-    }
-
-    public static ArrayList<Drawable> getAllExcept(Drawable drawable) {
-        ArrayList<Drawable> toReturn = new ArrayList<Drawable>(drawables.toList());
-        toReturn.remove(drawable);
+    public static ArrayList<Collider> getAllExcept(Collider collider) {
+        ArrayList<Collider> toReturn = new ArrayList<Collider>(colliders.toList());
+        toReturn.remove(collider);
         return toReturn;
     }
 
-    public static Drawable get(String id) {
-        return drawables.get(id);
+    public static Collider get(String id) {
+        return colliders.get(id);
     }
 
-    public static ArrayList<Drawable> getAll() {
-        return drawables.toList();
+    public static ArrayList<Collider> getAll() {
+        return colliders.toList();
     }
 }

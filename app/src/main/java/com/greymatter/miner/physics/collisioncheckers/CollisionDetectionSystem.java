@@ -16,17 +16,16 @@ public class CollisionDetectionSystem {
             @Override
             public void run() {
                 while(isCollisionDetectionActive) {
-                    for (Drawable drawable : CollisionSystemContainer.getAll()) {
-                        if(!drawable.getCollider().isStaticObject()) {
-                            for (Drawable toCheckAgainst : CollisionSystemContainer.getAllExcept(drawable)) {
-                                Collider linkedCollider = drawable.getCollider();
-                                CollisionEvent event = CollisionDetectionHelper.checkCollision(linkedCollider, toCheckAgainst.getCollider());
+                    for (Collider collider : CollisionSystemContainer.getAll()) {
+                        if(!collider.isStaticObject()) {
+                            for (Collider toCheckAgainst : CollisionSystemContainer.getAllExcept(collider)) {
+                                CollisionEvent event = CollisionDetectionHelper.checkCollision(collider, toCheckAgainst);
 
                                 assert event != null;
-                                if (event.getCollisionStatus() && linkedCollider.getCollisionListener() != null) {
-                                    linkedCollider.getCollisionListener().onCollision(event);
+                                if (event.getCollisionStatus() && collider.getCollisionListener() != null) {
+                                    collider.getCollisionListener().onCollision(event);
                                 }
-                                linkedCollider.addOrUpdateCollisionEvent(event);
+                                collider.addOrUpdateCollisionEvent(event);
                             }
                         }
                     }
@@ -36,25 +35,25 @@ public class CollisionDetectionSystem {
     }
 
     public static void updateSystemObjectsForces() {
-        for(Drawable drawable : CollisionSystemContainer.getAll()) {
-            if(!drawable.getCollider().isStaticObject()) {
-                drawable.getCollider().resetGravity();
-                drawable.getCollider().resetFriction();
-                for (Drawable against : CollisionSystemContainer.getAllExcept(drawable)) {
-                    if(against.getCollider().isStaticObject()) {
-                        drawable.getCollider().applyGravity(calculateGravitationalForce(drawable, against));
-                        angularAdjustmentDueToGravity(drawable,against);
+        for(Collider collider : CollisionSystemContainer.getAll()) {
+            if(!collider.isStaticObject()) {
+                collider.resetGravity();
+                collider.resetFriction();
+                for (Collider against : CollisionSystemContainer.getAllExcept(collider)) {
+                    if(against.isStaticObject()) {
+                        collider.applyGravity(calculateGravitationalForce(collider, against));
+                        angularAdjustmentDueToGravity(collider,against);
                     }
                 }
-                drawable.getCollider().applyFriction(VectorHelper.multiply(drawable.getCollider().getVelocity(), -0.01f * drawable.getCollider().getMass()));
-                drawable.getCollider().update();
+                collider.applyFriction(VectorHelper.multiply(collider.getVelocity(), -0.01f * collider.getMass()));
+                collider.update();
             }
         }
     }
 
-    public static Vector3f calculateGravitationalForce(Drawable current, Drawable against) {
-        Vector3f tDir = VectorHelper.sub(against.getCollider().getTranslation(), current.getCollider().getTranslation());
-        float force = (0.0003f * against.getCollider().getMass() * current.getCollider().getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
+    public static Vector3f calculateGravitationalForce(Collider current, Collider against) {
+        Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
+        float force = (0.0003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
 
        //angularAdjustmentDueToGravity(current, against);
@@ -62,25 +61,25 @@ public class CollisionDetectionSystem {
         return VectorHelper.multiply(tDir, force);
     }
 
-    private static void angularAdjustmentDueToGravity(Drawable current, Drawable against) {
-        Vector3f directionToObjectCenter = VectorHelper.sub(current.getCollider().getTranslation(), against.getCollider().getTranslation());
-        Vector3f startP = against.getCollider().getTranslation();
-        Vector3f endP = VectorHelper.multiply(current.getCollider().getTranslation(), 1);
+    private static void angularAdjustmentDueToGravity(Collider current, Collider against) {
+        Vector3f directionToObjectCenter = VectorHelper.sub(current.getTranslation(), against.getTranslation());
+        Vector3f startP = against.getTranslation();
+        Vector3f endP = VectorHelper.multiply(current.getTranslation(), 1);
         float magSumNegSide = 0;
         float magSumPosSide = 0;
 
-        for(Vector3f point : current.getCollider().asPolygonCollider().getTransformedVertices()) {
+        for(Vector3f point : current.asPolygonCollider().getTransformedVertices()) {
             if(VectorHelper.pointOnLine(startP, endP, point) < 0 ) {
-                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getCollider().getTranslation(), point));
+                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getTranslation(), point));
             }else {
-                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getCollider().getTranslation(), point));
+                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getTranslation(), point));
             }
         }
 
         if(magSumNegSide<magSumPosSide) {
-            current.getCollider().updateAngularVelocity(0.01f);
+            current.updateAngularVelocity(0.01f);
         }else{
-            current.getCollider().updateAngularVelocity(-0.01f);
+            current.updateAngularVelocity(-0.01f);
         }
     }
 

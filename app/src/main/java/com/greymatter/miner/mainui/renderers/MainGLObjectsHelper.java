@@ -117,8 +117,6 @@ class MainGLObjectsHelper {
         Drawable edge = GameObjectsContainer.get(PLANET_GRASS_LAYER).getDrawable();
         edge.getCollider().scaleTo(new Vector3f(119.65f,119.65f,1f));
         edge.getCollider().translateTo(new Vector3f(0f,-120.5f, 1f));
-//        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
-//        edge.getCollider().translateTo(new Vector3f(0f,0f, 1f));
 
         Drawable sampleTree = GameObjectsContainer.get(SAMPLE_TREE).getDrawable();
         sampleTree.getCollider().scaleTo(new Vector3f(1f,1.5f,1f));
@@ -180,9 +178,9 @@ class MainGLObjectsHelper {
     }
 
     static void initiatePhysicsSystem() {
-        CollisionSystemContainer.add(GameObjectsContainer.get(PLANET).getDrawable());
-        CollisionSystemContainer.add(GameObjectsContainer.get(MAIN_CHARACTER).getDrawable());
-        CollisionSystemContainer.add(GameObjectsContainer.get(TEST_BALL).getDrawable());
+        CollisionSystemContainer.add(GameObjectsContainer.get(PLANET).getCollider());
+        CollisionSystemContainer.add(GameObjectsContainer.get(MAIN_CHARACTER).getCollider());
+        CollisionSystemContainer.add(GameObjectsContainer.get(TEST_BALL).getCollider());
         CollisionDetectionSystem.initialize();
     }
 
