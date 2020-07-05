@@ -17,7 +17,7 @@ public class AnimatedMaterial extends Material {
     public AnimatedMaterial addDiffuseTextureFrame(String diffuseTexPath) {
         if (diffuseTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Constants.TEXTURES+diffuseTexPath);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES_F +diffuseTexPath);
             TextureBuilder.finish(texture);
 
             diffuseTextureFrames.add(texture);

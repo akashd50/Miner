@@ -13,7 +13,6 @@ import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.materials.AnimatedMaterial;
 import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
-import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.Shader;
@@ -43,18 +42,21 @@ class MainGLObjectsHelper {
         ShaderContainer.addShader(new Shader(QUAD_SHADER));
         ShaderContainer.addShader(new Shader(THREE_D_OBJECT_SHADER));
         ShaderContainer.addShader(new Shader(LINE_SHADER));
-        ShaderContainer.addShader(new Shader(GRADIENT_SHADERS +CIRCLE_GRADIENT_SHADER));
+        ShaderContainer.addShader(new Shader(GRADIENT_SHADERS_F +CIRCLE_GRADIENT_SHADER));
     }
 
     static void loadMaterials() {
         MaterialContainer.add(new StaticMaterial(GROUND_MATERIAL, GROUND_I));
         MaterialContainer.add(new StaticMaterial(ATMOSPHERE_MATERIAL,ATM_RADIAL_II));
         MaterialContainer.add(new StaticMaterial(MAIN_BASE_MATERIAL, MAIN_BASE_FINAL));
-        MaterialContainer.add(new StaticMaterial("grass", "grass_patch_gimp.png"));
-//        MaterialContainer.add(new AnimatedMaterial("grass")
-//                .addDiffuseTextureFrame("grass_patch_gimp.png")
-//                .addDiffuseTextureFrame(GROUND_I)
-//                .withAnimationHandler(new AnimationHandler().withFPS(1).withTotalFrames(2)));
+        MaterialContainer.add(new StaticMaterial(PLANET_GRASS_MATERIAL_I, GRASS_PATCH_I));
+        MaterialContainer.add(new AnimatedMaterial(TREE_MATERIAL)
+                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
+                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
+                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_iii.png")
+                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_iv.png")
+                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_v.png")
+                .withAnimationHandler(new AnimationHandler().withFPS(6).withTotalFrames(5)));
     }
 
     static void loadObjects() {
@@ -82,8 +84,12 @@ class MainGLObjectsHelper {
                             MaterialContainer.get(GROUND_MATERIAL),
                             ShaderContainer.get(THREE_D_OBJECT_SHADER)).withTag(PHYSICS_OBJECT)));
 
-        GameObjectsContainer.add(new InteractiveObject(new TextureEdgedPolygon("edge",
-                ShaderContainer.get(QUAD_SHADER),MaterialContainer.get("grass"))
+        GameObjectsContainer.add(new InteractiveObject(new Object3D(SAMPLE_TREE,UV_MAPPED_BOX,
+                MaterialContainer.get(TREE_MATERIAL),
+                ShaderContainer.get(THREE_D_OBJECT_SHADER))));
+
+        GameObjectsContainer.add(new InteractiveObject(new TextureEdgedPolygon(PLANET_GRASS_LAYER,
+                ShaderContainer.get(QUAD_SHADER),MaterialContainer.get(PLANET_GRASS_MATERIAL_I))
                 .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.01f)));
     }
 
@@ -108,11 +114,15 @@ class MainGLObjectsHelper {
         mainBase.getCollider().scaleTo(new Vector3f(4f,2.7f,1f));
         mainBase.getCollider().translateTo(new Vector3f(-2.4f,2f,-5f));
 
-        Drawable edge = GameObjectsContainer.get("edge").getDrawable();
+        Drawable edge = GameObjectsContainer.get(PLANET_GRASS_LAYER).getDrawable();
         edge.getCollider().scaleTo(new Vector3f(119.65f,119.65f,1f));
         edge.getCollider().translateTo(new Vector3f(0f,-120.5f, 1f));
 //        edge.getCollider().scaleTo(new Vector3f(2f,2f,1f));
 //        edge.getCollider().translateTo(new Vector3f(0f,0f, 1f));
+
+        Drawable sampleTree = GameObjectsContainer.get(SAMPLE_TREE).getDrawable();
+        sampleTree.getCollider().scaleTo(new Vector3f(1f,1.5f,1f));
+        sampleTree.getCollider().translateTo(new Vector3f(0f,0f, -6f));
 
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
@@ -123,7 +133,8 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(PLANET));
         ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         ToDrawContainer.add(GameObjectsContainer.get(TEST_BALL));
-        ToDrawContainer.add(GameObjectsContainer.get("edge"));
+        ToDrawContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
+        ToDrawContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
     }
 
     static void loadPhysicsObjects() {

@@ -25,7 +25,7 @@ public class Object3D extends Drawable {
 		super.setShader(shader);
 		super.setMaterial(material);
 
-		object3DData = Object3DHelper.load(Constants.OBJECTS + file);
+		object3DData = Object3DHelper.load(Constants.OBJECTS_F + file);
 
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());

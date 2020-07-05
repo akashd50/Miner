@@ -32,10 +32,6 @@ public class GeneralRenderer extends AbstractRenderer {
         Drawable testLine = GameObjectsContainer.get(TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
-        Vector3f fromCenterToCam = VectorHelper.sub(MainGLObjectsHelper.camera.getTranslation(), planet.getCollider().getTranslation());
-        fromCenterToCam.normalize();
-        MainGLObjectsHelper.camera.setUpVector(fromCenterToCam);
-
         ArrayList<Vector3f> vertexData = new ArrayList<>();
         vertexData.add(mainCharacter.getCollider().getTranslation());
         Vector3f accPoint = new Vector3f(mainCharacter.getCollider().getTranslation());

@@ -9,6 +9,8 @@ import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
+import javax.vecmath.Vector3f;
+
 import static com.greymatter.miner.game.GC.*;
 
 public class BuildingTouchMode extends AbstractTouchMode {
@@ -66,7 +68,10 @@ public class BuildingTouchMode extends AbstractTouchMode {
         if(bundleDrawable != null && bundleDrawable.isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
             translateSelectedObject(bundleDrawable);
         }else{
-            getMainCamera().translateBy(VectorHelper.toVector3f(convertPixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+            getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(PLANET).getCollider().getTranslation());
+            fromCenterToCam.normalize();
+            getMainCamera().setUpVector(fromCenterToCam);
         }
         return true;
     }

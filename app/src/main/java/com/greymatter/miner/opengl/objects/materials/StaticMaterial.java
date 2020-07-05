@@ -19,7 +19,7 @@ public class StaticMaterial extends Material {
         super(id);
         if (mainDiffuseTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Constants.TEXTURES+mainDiffuseTexPath);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES_F +mainDiffuseTexPath);
             TextureBuilder.finish(texture);
 
             diffuseTexture = texture;
@@ -36,14 +36,14 @@ public class StaticMaterial extends Material {
         super(id);
         if (diffTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Constants.TEXTURES+diffTexName);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES_F +diffTexName);
             TextureBuilder.finish(texture);
 
             diffuseTexture = texture;
         }
         if (roughTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Constants.TEXTURES+roughTexName);
+            TextureBuilder.attachImage(texture, Constants.TEXTURES_F +roughTexName);
             TextureBuilder.finish(texture);
 
             roughnessTexture = texture;

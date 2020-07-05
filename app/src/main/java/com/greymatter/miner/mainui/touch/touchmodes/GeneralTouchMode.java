@@ -108,7 +108,10 @@ public class GeneralTouchMode extends AbstractTouchMode {
             if (getTouchHelper().isTouchPoint1Down() && GameObjectsContainer.get(MAIN_CHARACTER).getDrawable().isClicked(touchPoint)) {
                 GameObjectsContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
             } else {
-                getMainCamera().translateBy(VectorHelper.toVector3f(convertPixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+                getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+                Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(PLANET).getCollider().getTranslation());
+                fromCenterToCam.normalize();
+                getMainCamera().setUpVector(fromCenterToCam);
             }
         }else{
             getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.1f : getMainCamera().getZoomValue()* 0.1f);
@@ -118,7 +121,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
 
     private boolean doOnTouchUpGLSurface() {
         if(!getTouchHelper().isTouchPoint1Drag()) {
-            Vector3f touchPoint = getLocalTouchPoint3f(getTouchHelper().getCurrTouchPoint1());
+            Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
 
             GameObjectsContainer.get(MAIN_CHARACTER).getCollider().translateTo(touchPoint);
             GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setVelocity(new Vector3f(0f, 0f, 0f));

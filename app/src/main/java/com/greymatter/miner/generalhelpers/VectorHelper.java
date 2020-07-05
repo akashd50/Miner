@@ -88,6 +88,15 @@ public class VectorHelper {
         return rotatedAngle;
     }
 
+    public static Vector2f rotateAroundZ(Vector2f v1, float angleRad) {
+        float[] rmat = {(float)Math.cos(angleRad), -(float)Math.sin(angleRad),
+                (float)Math.sin(angleRad), (float)Math.cos(angleRad)};
+        Vector2f rotatedAngle = new Vector2f();
+        rotatedAngle.x = v1.x * rmat[0] + v1.y * rmat[1];
+        rotatedAngle.y = v1.x * rmat[2] + v1.y * rmat[3];
+        return rotatedAngle;
+    }
+
     public static float pointOnLine(Vector3f lineA, Vector3f lineB, Vector3f point) {
         return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
     }
