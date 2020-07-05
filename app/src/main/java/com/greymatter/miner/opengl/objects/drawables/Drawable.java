@@ -22,11 +22,9 @@ public abstract class Drawable implements Clickable {
     private int vertexArray, vertexBuffer;
     private Collider collider;
     private String id;
-    private ArrayList<String> tags;
     private TouchChecker touchChecker;
     public Drawable(String id) {
         this.id = id;
-        this.tags = new ArrayList<>();
         this.transformationsUpdated = false;
         this.modelMatrix = new float[16];
         Matrix.setIdentityM(modelMatrix, 0);
@@ -68,17 +66,6 @@ public abstract class Drawable implements Clickable {
     public boolean isClicked(Vector2f touchPoint) {
         return touchChecker != null && touchChecker.isClicked(touchPoint);
     }
-
-    public Drawable withTag(String tag) {
-        this.tags.add(tag);
-        return this;
-    }
-
-    public boolean hasTag(String tag) {
-        return this.tags.contains(tag);
-    }
-
-    public int getNumTags() {return this.tags.size();}
 
     public String toString() {
         return this.id;

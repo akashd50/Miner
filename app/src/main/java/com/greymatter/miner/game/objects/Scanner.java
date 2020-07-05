@@ -11,6 +11,11 @@ public class Scanner extends GameBuilding {
         super(id, drawable);
     }
 
+    public boolean inRange() {
+
+        return false;
+    }
+
     public float getScannerRange() {
         return _scannerRange;
     }

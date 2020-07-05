@@ -65,7 +65,7 @@ public class GameObjectsContainer {
     public static ArrayList<GameObject> getAllWithTag(String tag) {
         ArrayList<GameObject> toReturn = new ArrayList<>();
         for(GameObject d : getAll()) {
-            if(d.getDrawable().hasTag(tag)) toReturn.add(d);
+            if(d.hasTag(tag)) toReturn.add(d);
         }
         return toReturn;
     }
@@ -73,7 +73,7 @@ public class GameObjectsContainer {
     public static ArrayList<GameObject> getAllWithOnlyTag(String tag) {
         ArrayList<GameObject> toReturn = new ArrayList<>();
         for(GameObject d : getAll()) {
-            if(d.getDrawable().getNumTags() == 1 && d.getDrawable().hasTag(tag)) toReturn.add(d);
+            if(d.getNumTags() == 1 && d.hasTag(tag)) toReturn.add(d);
         }
         return toReturn;
     }

@@ -135,81 +135,123 @@ public abstract class Collider {
         return this;
     }
 
-    public void scaleTo(Vector3f newScale) {
+    public Collider scaleTo(Vector3f newScale) {
         this.scale = newScale;
         this.updateParams();
+        return this;
     }
 
-    public void scaleBy(Vector3f newScale) {
+    public Collider scaleBy(Vector3f newScale) {
         this.scale.add(newScale);
         this.updateParams();
+        return this;
     }
 
-    public void translateTo(Vector3f position) {
+    public Collider scaleTo(float x, float y, float z) {
+        this.scale.set(x,y,z);
+        this.updateParams();
+        return this;
+    }
+
+    public Collider scaleBy(float x, float y, float z) {
+        this.scale.x+=x;
+        this.scale.y+=y;
+        this.scale.z+=z;
+        this.updateParams();
+        return this;
+    }
+
+    public Collider translateTo(Vector3f position) {
         this.translation = new Vector3f(position);
         this.updateParams();
+        return this;
     }
 
-    public void translateBy(Vector3f translation) {
+    public Collider translateBy(Vector3f translation) {
         this.translation.add(translation);
         this.updateParams();
+        return this;
     }
 
-    public void translateTo(Vector2f position) {
+    public Collider translateTo(Vector2f position) {
         this.translation.x = position.x;
         this.translation.y = position.y;
         this.updateParams();
+        return this;
     }
 
-    public void translateBy(Vector2f translation) {
-        this.translation.x = translation.x;
-        this.translation.y = translation.y;
+    public Collider translateBy(Vector2f translation) {
+        this.translation.x += translation.x;
+        this.translation.y += translation.y;
         this.updateParams();
+        return this;
+    }
+
+    public Collider translateTo(float x, float y) {
+        this.translation.x = x;
+        this.translation.y = y;
+        this.updateParams();
+        return this;
+    }
+
+    public Collider translateBy(float x, float y) {
+        this.translation.x += x;
+        this.translation.y += y;
+        this.updateParams();
+        return this;
     }
 
     //rotation
-    public void rotateTo(Vector3f rotation) {
+    public Collider rotateTo(Vector3f rotation) {
         this.rotation = rotation;
         this.updateParams();
+        return this;
     }
 
-    public void rotateBy(Vector3f rotation) {
+    public Collider rotateBy(Vector3f rotation) {
         this.rotation.add(rotation);
         this.updateParams();
+        return this;
     }
 
-    public void rotateBy(float x, float y, float z) {
+    public Collider rotateBy(float x, float y, float z) {
         this.rotation.x+=x;
         this.rotation.y+=y;
         this.rotation.z+=z;
         this.updateParams();
+        return this;
     }
 
-    public void rotateTo(float x, float y, float z) {
+    public Collider rotateTo(float x, float y, float z) {
         this.rotation.x = x;
         this.rotation.y = y;
         this.rotation.z = z;
         this.updateParams();
+        return this;
     }
 
-    public void setUpVector(Vector3f vector) {
+    public Collider setUpVector(Vector3f vector) {
         this.upVector = new Vector3f(vector);
+        return this;
     }
 
-    public void isStaticObject(boolean isStatic) {
+    public Collider isStaticObject(boolean isStatic) {
         this.isStaticObject = isStatic;
+        return this;
     }
 
     public OnCollisionListener getCollisionListener() {
         return onCollisionListener;
     }
 
-    public void setCollisionListener(OnCollisionListener collisionListener) {
+    public Collider setCollisionListener(OnCollisionListener collisionListener) {
         this.onCollisionListener = collisionListener;
+        return this;
     }
 
-    public void updateTransformationsPerMovement(boolean dynamicallyUpdated) {
+    public Collider updateTransformationsPerMovement(boolean dynamicallyUpdated) {
         this.dynamicallyUpdated = dynamicallyUpdated;
+        return this;
     }
 
     public void setDrawable(Drawable drawable) {

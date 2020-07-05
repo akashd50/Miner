@@ -28,7 +28,7 @@ public interface OnCollisionListener {
                 float e = Math.min(event.getLinkedObject().getRestitution(),
                         event.getAgainstObject().getRestitution());
                 float j = -(1 + e) * vectorAlongNormal;
-                j /= 1 / event.getLinkedObject().getMass() + 1 / event.getAgainstObject().getMass();
+                j *= 1 / event.getLinkedObject().getMass() + 1 / event.getAgainstObject().getMass();
 
                 Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
 

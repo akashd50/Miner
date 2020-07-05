@@ -9,31 +9,31 @@ import java.util.ArrayList;
 public class CollisionSystemContainer {
     private static HashMapE<String, Collider> colliders;
 
-    public static void add(Collider collider) {
+    public synchronized static void add(Collider collider) {
         if(colliders == null) {
             colliders = new HashMapE<>();
         }
         colliders.put(collider.getDrawable().getId(), collider);
     }
 
-    public static void remove(String id) {
+    public synchronized static void remove(String id) {
         Collider removed = null;
         if(colliders !=null) {
             removed = colliders.remove(id);
         }
     }
 
-    public static ArrayList<Collider> getAllExcept(Collider collider) {
+    public synchronized static ArrayList<Collider> getAllExcept(Collider collider) {
         ArrayList<Collider> toReturn = new ArrayList<Collider>(colliders.toList());
         toReturn.remove(collider);
         return toReturn;
     }
 
-    public static Collider get(String id) {
+    public synchronized static Collider get(String id) {
         return colliders.get(id);
     }
 
-    public static ArrayList<Collider> getAll() {
+    public synchronized static ArrayList<Collider> getAll() {
         return colliders.toList();
     }
 }

@@ -53,7 +53,7 @@ public class CollisionDetectionSystem {
 
     public static Vector3f calculateGravitationalForce(Collider current, Collider against) {
         Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
-        float force = (0.0003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
+        float force = (0.0000003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
 
        //angularAdjustmentDueToGravity(current, against);

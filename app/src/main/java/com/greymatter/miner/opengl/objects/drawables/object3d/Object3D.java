@@ -71,7 +71,7 @@ public class Object3D extends Drawable {
 
 	@Override
 	public Object3D withPolygonTouchChecker() {
-		setTouchChecker(new PolygonTouchChecker(this, getCollider().asPolygonCollider()));
+		setTouchChecker(new PolygonTouchChecker(getCollider().asPolygonCollider()));
 		return this;
 	}
 

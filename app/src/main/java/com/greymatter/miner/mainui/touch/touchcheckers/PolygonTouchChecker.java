@@ -8,9 +8,7 @@ import javax.vecmath.Vector2f;
 
 public class PolygonTouchChecker extends TouchChecker {
     private PolygonCollider polygonCollider;
-    private Drawable drawable;
-    public PolygonTouchChecker(Drawable drawable, PolygonCollider collider) {
-        this.drawable = drawable;
+    public PolygonTouchChecker(PolygonCollider collider) {
         this.polygonCollider = collider;
     }
 

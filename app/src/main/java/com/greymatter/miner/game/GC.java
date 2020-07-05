@@ -20,5 +20,5 @@ public class GC {
     public static String TEST_BALL = "testBall";
     public static String TEST_LINE = "testLine";
     public static String SAMPLE_TREE = "sampleTree";
-
+    public static String SAMPLE_SCANNER = "sample_scanner";
 }

@@ -30,9 +30,13 @@ public class PolygonCollider extends Collider {
     public void updateParamsOverride() {
         ArrayList<Vector3f> newTransformedVerts = new ArrayList<>();
         for(Vector3f vector : meshVertices) {
-            Vector3f temp = VectorHelper.rotateAroundZ(vector, (float)Math.toRadians(getRotation().z));
-            temp.x = temp.x * getScale().x + getTranslation().x;
-            temp.y = temp.y * getScale().y + getTranslation().y;
+            Vector3f temp = VectorHelper.copy(vector);
+            temp.x = temp.x * getScale().x;
+            temp.y = temp.y * getScale().y;
+            temp = VectorHelper.rotateAroundZ(temp, (float)Math.toRadians(getRotation().z));
+            temp.x += getTranslation().x;
+            temp.y += getTranslation().y;
+
             newTransformedVerts.add(temp);
         }
 
