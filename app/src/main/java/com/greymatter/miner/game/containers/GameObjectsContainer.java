@@ -3,6 +3,7 @@ package com.greymatter.miner.game.containers;
 import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 public class GameObjectsContainer {
     private static HashMapE<String, GameObject> gameObjects;
+    private static HashMapE<String, GameLight> gameLights;
     private static GroupMap<String, GameObject> groupedByShader;
 
     public static void add(GameObject gameObject) {
@@ -21,6 +23,14 @@ public class GameObjectsContainer {
 
         if(groupedByShader == null) {
             groupedByShader = new GroupMap<>();
+        }
+
+        if(gameLights == null) {
+            gameLights = new HashMapE<>();
+        }
+
+        if(gameObject instanceof GameLight) {
+            gameLights.put(gameObject.getId(), (GameLight)gameObject);
         }
 
         gameObjects.put(gameObject.getId(), gameObject);
@@ -38,28 +48,16 @@ public class GameObjectsContainer {
         }
     }
 
-    public static void onDrawFrame() {
-        gameObjects.forEach((id, gameObject) -> {
-            gameObject.onDrawFrame();
-        });
-    }
-
-    public static void onDrawFrameByShader(Camera camera) {
-        groupedByShader.forEach((shaderId, intGO) -> {
-            Shader toUse = ShaderContainer.get(shaderId);
-            ShaderHelper.useProgram(toUse);
-            ShaderHelper.setCameraProperties(toUse, camera);
-
-            intGO.forEach(GameObject::onDrawFrame);
-        });
-    }
-
     public static GameObject get(String id) {
         return gameObjects.get(id);
     }
 
     public static ArrayList<GameObject> getAll() {
         return gameObjects.toList();
+    }
+
+    public static ArrayList<GameLight> getAllGameLights() {
+        return gameLights.toList();
     }
 
     public static ArrayList<GameObject> getAllWithTag(String tag) {

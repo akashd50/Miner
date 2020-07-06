@@ -1,6 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -41,6 +42,7 @@ public class ToDrawContainer {
         gameObjects.toList().forEach((gameObject) -> {
             ShaderHelper.useProgram(gameObject.getDrawable().getShader());
             ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
+            ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), GameObjectsContainer.getAllGameLights());
             gameObject.onDrawFrame();
         });
     }

@@ -11,7 +11,6 @@ struct Material {
 uniform Material material;
 
 in vec2 out_uv;
-in vec3 out_ws_normal;
 
 out vec4 FragColor;
 void main() {

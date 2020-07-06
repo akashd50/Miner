@@ -13,6 +13,7 @@ public class Constants {
     public static final String SIMPLE_TRIANGLE_SHADER = "simple_triangle";
     public static final String QUAD_SHADER = "quad";
     public static final String THREE_D_OBJECT_SHADER = "three_d_object";
+    public static final String THREE_D_OBJECT_W_LIGHTING_SHADER = "three_d_object_w_lighting";
     public static final String LINE_SHADER = "line";
     public static final String CIRCLE_GRADIENT_SHADER = "circle_gradient";
 
@@ -44,7 +45,12 @@ public class Constants {
     public static final String U_COLOR = "u_color";
     public static final String CENTER_COLOR = "centerColor";
     public static final String EDGE_COLOR = "edgeColor";
-    public static final String RADIUS = "radius";
+    public static final String GRADIENT_RADIUS = "radius";
+    public static final String LIGHT_POS = "light_pos";
+    public static final String LIGHT_COLOR = "light_color";
+    public static final String LIGHT_RADIUS = "light_radius";
+    public static final String LIGHT_INNER_CUTOFF = "light_inner_cutoff";
+    public static final String LIGHT_OUTER_CUTOFF = "light_outer_cutoff";
 
     //attributes
     public static final String IN_POSITION = "in_position";

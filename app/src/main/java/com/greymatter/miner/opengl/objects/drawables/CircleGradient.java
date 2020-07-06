@@ -55,7 +55,7 @@ public class CircleGradient extends Gradient {
         ShaderHelper.setUniformVec4(super.getShader(), Constants.CENTER_COLOR, centerColor);
         ShaderHelper.setUniformVec4(super.getShader(), Constants.EDGE_COLOR, edgeColor);
         ShaderHelper.setUniformVec3(super.getShader(), Constants.TRANSLATION, super.getCollider().getTranslation());
-        ShaderHelper.setUniformFloat(super.getShader(), Constants.RADIUS, radius);
+        ShaderHelper.setUniformFloat(super.getShader(), Constants.GRADIENT_RADIUS, radius);
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 362);
 

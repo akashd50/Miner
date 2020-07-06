@@ -6,6 +6,7 @@ import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Planet;
@@ -23,6 +24,8 @@ import com.greymatter.miner.opengl.objects.materials.StaticMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
+
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import static com.greymatter.miner.game.GC.*;
 import static com.greymatter.miner.opengl.Constants.*;
@@ -45,6 +48,7 @@ class MainGLObjectsHelper {
         ShaderContainer.addShader(new Shader(THREE_D_OBJECT_SHADER));
         ShaderContainer.addShader(new Shader(LINE_SHADER));
         ShaderContainer.addShader(new Shader(GRADIENT_SHADERS_F +CIRCLE_GRADIENT_SHADER));
+        ShaderContainer.addShader(new Shader(THREE_D_OBJECT_W_LIGHTING_SHADER));
     }
 
     static void loadMaterials() {
@@ -80,13 +84,13 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.add(new MainBase(new Object3D(MAIN_BASE, UV_MAPPED_BOX,
                             MaterialContainer.get(MAIN_BASE_MATERIAL),
-                            ShaderContainer.get(THREE_D_OBJECT_SHADER)))
+                            ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)))
                             .withTag(STATIC)
                             .withTag(PLACABLE_GAME_BUILDING));
 
         GameObjectsContainer.add(new InteractiveObject(new Object3D(MAIN_CHARACTER,BOX,
                             MaterialContainer.get(GROUND_MATERIAL),
-                            ShaderContainer.get(THREE_D_OBJECT_SHADER))).withTag(PHYSICS_OBJECT));
+                            ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER))).withTag(PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new InteractiveObject(new Object3D(SAMPLE_SCANNER,CIRCLE_SUB_DIV_I,
                             MaterialContainer.get(GROUND_MATERIAL),
@@ -96,11 +100,17 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.add(new InteractiveObject(new Object3D(SAMPLE_TREE,UV_MAPPED_BOX,
                 MaterialContainer.get(TREE_MATERIAL),
-                ShaderContainer.get(THREE_D_OBJECT_SHADER))));
+                ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER))));
 
         GameObjectsContainer.add(new InteractiveObject(new TextureEdgedPolygon(PLANET_GRASS_LAYER,
                 ShaderContainer.get(QUAD_SHADER),MaterialContainer.get(PLANET_GRASS_MATERIAL_I))
                 .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.01f)));
+
+        GameObjectsContainer.add(new GameLight(new Object3D("light", UV_MAPPED_BOX,
+                                MaterialContainer.get(GROUND_MATERIAL),
+                                ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)))
+                                .withRadius(1f).withColor(1f,0f,0f,1f)
+                                .withInnerCutoff(0.2f).withOuterCutoff(0.8f).withLocation(new Vector2f(0f,0f)));
     }
 
     static void finishObjectsSetup() {

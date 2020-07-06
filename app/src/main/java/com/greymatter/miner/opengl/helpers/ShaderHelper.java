@@ -3,14 +3,16 @@ package com.greymatter.miner.opengl.helpers;
 import android.opengl.GLES30;
 import android.util.Log;
 
+import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.materials.Material;
-import com.greymatter.miner.opengl.objects.materials.StaticMaterial;
-
+import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
+
+import static com.greymatter.miner.opengl.Constants.*;
 
 public class ShaderHelper {
 
@@ -78,6 +80,19 @@ public class ShaderHelper {
 //        setUniformVec3(shader, "material.diffuse", material.getDiffuse());
 //        setUniformVec3(shader, "material.specular", material.getSpecular());
 //        setUniformVec3(shader, "material.ambient", material.getAmbient());
+    }
+
+    public static void setLightProperties(Shader shader, ArrayList<GameLight> lights) {
+        String lightIndS = "lights[";
+        String lightIndE = "].";
+        for(int i=0; i<lights.size(); i++) {
+            GameLight light = lights.get(i);
+            setUniformVec3(shader, lightIndS+i+lightIndE+LIGHT_POS, light.getLocation());
+            setUniformVec4(shader, lightIndS+i+lightIndE+LIGHT_COLOR, light.getLightColor());
+            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_RADIUS, light.getRadius());
+            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_INNER_CUTOFF, light.getInnerCutoff());
+            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_OUTER_CUTOFF, light.getOuterCutoff());
+        }
     }
 
 

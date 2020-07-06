@@ -5,9 +5,12 @@ import com.greymatter.miner.physics.objects.Collider;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector3f;
+
 public abstract class GameObject {
     private Drawable objectDrawable;
     private ArrayList<String> objectTags;
+    private boolean shouldDraw;
     private String id;
     public GameObject(String id, Drawable drawable) {
         this.id = id;
@@ -19,19 +22,13 @@ public abstract class GameObject {
         objectDrawable.onDrawFrame();
     }
 
-    public Drawable getDrawable() {
-        return objectDrawable;
-    }
-    public Collider getCollider() {
-        return objectDrawable.getCollider();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
     public GameObject withTag(String tag) {
         this.objectTags.add(tag);
+        return this;
+    }
+
+    public GameObject shouldDraw(boolean shouldDraw) {
+        this.shouldDraw = shouldDraw;
         return this;
     }
 
@@ -39,7 +36,27 @@ public abstract class GameObject {
         return this.objectTags.contains(tag);
     }
 
+    public String getId() {
+        return this.id;
+    }
+
+    public Drawable getDrawable() {
+        return objectDrawable;
+    }
+
+    public Collider getCollider() {
+        return objectDrawable.getCollider();
+    }
+
+    public Vector3f getLocation() {
+        return getCollider().getTranslation();
+    }
+
     public int getNumTags() {return this.objectTags.size();}
+
+    public boolean shouldDraw() {
+        return shouldDraw;
+    }
 
     public String toString() {
         return this.id;
