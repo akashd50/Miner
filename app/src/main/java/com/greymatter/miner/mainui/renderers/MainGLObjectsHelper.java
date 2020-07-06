@@ -4,13 +4,12 @@ import android.util.Log;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.ActiveObjectsContainer;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Planet;
-import com.greymatter.miner.game.objects.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -151,13 +150,13 @@ class MainGLObjectsHelper {
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
                         .getTransformedVertices()).build()));
 
-        ToDrawContainer.add(GameObjectsContainer.get(TEST_LINE));
-        ToDrawContainer.add(GameObjectsContainer.get(ATMOSPHERE));
-        ToDrawContainer.add(GameObjectsContainer.get(PLANET));
-        ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         //ToDrawContainer.add(GameObjectsContainer.get(TEST_BALL));
-        ToDrawContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
-        ToDrawContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
+        ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
     }
 
     static void loadPhysicsObjects() {

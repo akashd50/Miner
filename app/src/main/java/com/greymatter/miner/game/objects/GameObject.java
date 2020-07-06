@@ -61,4 +61,9 @@ public abstract class GameObject {
     public String toString() {
         return this.id;
     }
+
+    //typecasting
+    public GameBuilding asGameBuilding() {
+        return (GameBuilding)this;
+    }
 }

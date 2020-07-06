@@ -1,14 +1,13 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class ToDrawContainer {
+public class ActiveObjectsContainer {
     private static HashMapE<String, GameObject> gameObjects;
     private static Comparator<GameObject> comparator = new Comparator<GameObject>() {
         @Override
@@ -40,10 +39,12 @@ public class ToDrawContainer {
 
     public static synchronized void onDrawFrame(Camera camera) {
         gameObjects.toList().forEach((gameObject) -> {
-            ShaderHelper.useProgram(gameObject.getDrawable().getShader());
-            ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
-            ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), GameObjectsContainer.getAllGameLights());
-            gameObject.onDrawFrame();
+            if(gameObject.shouldDraw()) {
+                ShaderHelper.useProgram(gameObject.getDrawable().getShader());
+                ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
+                ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());
+                gameObject.onDrawFrame();
+            }
         });
     }
 

@@ -83,6 +83,8 @@ public class ShaderHelper {
     }
 
     public static void setLightProperties(Shader shader, ArrayList<GameLight> lights) {
+        if(lights==null) return;
+
         String lightIndS = "lights[";
         String lightIndE = "].";
         for(int i=0; i<lights.size(); i++) {

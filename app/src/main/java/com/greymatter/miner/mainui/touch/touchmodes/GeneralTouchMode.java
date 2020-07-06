@@ -6,9 +6,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
+import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.ActiveObjectsContainer;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.game.objects.GameBuilding;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -45,10 +47,16 @@ public class GeneralTouchMode extends AbstractTouchMode {
 
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
                     GameObject object = buildingArrayAdapter.getItem(position);
-                    ToDrawContainer.add(object);
+
+                    ActiveObjectsContainer.add(object);
+                    if(object instanceof GameBuilding && object.asGameBuilding().hasLights()) {
+                        ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
+                    }
+
                     if(object.hasTag(PHYSICS_OBJECT)) {
                         CollisionSystemContainer.add(object.getCollider());
                     }
+
                     TouchEventBundle touchEventBundle = new TouchEventBundle().setObject(object);
                     ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                     ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);

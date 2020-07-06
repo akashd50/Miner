@@ -1,10 +1,9 @@
 package com.greymatter.miner.mainui.renderers;
 
-import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.ActiveObjectsContainer;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
@@ -42,6 +41,6 @@ public class GeneralRenderer extends AbstractRenderer {
         testLine.getCollider().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);
     }
 }
