@@ -3,6 +3,7 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.View;
 import com.greymatter.miner.R;
 import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
@@ -63,10 +64,10 @@ public class BuildingTouchMode extends AbstractTouchMode {
     }
 
     private boolean doOnTouchMoveGLSurface() {
-        Drawable bundleDrawable = getTouchHelper() != null && getTouchEventBundle() != null
-                                ? getTouchEventBundle().getObject().getDrawable() : null;
-        if(bundleDrawable != null && bundleDrawable.isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
-            translateSelectedObject(bundleDrawable);
+        GameObject bundleObject = getTouchHelper() != null && getTouchEventBundle() != null
+                                ? getTouchEventBundle().getObject() : null;
+        if(bundleObject != null && bundleObject.getDrawable().isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
+            translateSelectedObject(bundleObject);
         }else{
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
             Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(PLANET).getCollider().getTranslation());
@@ -81,8 +82,8 @@ public class BuildingTouchMode extends AbstractTouchMode {
         return false;
     }
     /*-----------------------------------private helper functions---------------------------------*/
-    private void translateSelectedObject(Drawable selected) {
-        selected.getCollider().translateTo(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()));
-        selected.getCollider().rotateTo(0f,0f,VectorHelper.angleBetween(GameObjectsContainer.get(PLANET).getDrawable(), selected));
+    private void translateSelectedObject(GameObject selected) {
+        selected.moveTo(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()));
+        selected.getCollider().rotateTo(0f,0f,VectorHelper.angleBetween(GameObjectsContainer.get(PLANET).getDrawable(), selected.getDrawable()));
     }
 }

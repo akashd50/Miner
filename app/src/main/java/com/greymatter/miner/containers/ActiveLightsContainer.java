@@ -49,7 +49,7 @@ public class ActiveLightsContainer {
     }
 
     public static ArrayList<GameLight> getAll() {
-        return gameLights.toList();
+        return gameLights != null? gameLights.toList() : null;
     }
 
     public static ArrayList<GameLight> getAllWithTag(String tag) {

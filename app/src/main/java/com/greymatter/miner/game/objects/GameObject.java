@@ -5,6 +5,7 @@ import com.greymatter.miner.physics.objects.Collider;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GameObject {
@@ -16,6 +17,7 @@ public abstract class GameObject {
         this.id = id;
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
+        shouldDraw = true;
     }
 
     public void onDrawFrame() {
@@ -29,6 +31,41 @@ public abstract class GameObject {
 
     public GameObject shouldDraw(boolean shouldDraw) {
         this.shouldDraw = shouldDraw;
+        return this;
+    }
+
+    //object movement
+    public Vector3f getLocation() {
+        return getCollider().getTranslation();
+    }
+
+    public GameObject moveBy(Vector2f moveTo) {
+        getCollider().translateBy(moveTo);
+        return this;
+    }
+
+    public GameObject moveBy(float x, float y) {
+        getCollider().translateBy(x,y);
+        return this;
+    }
+
+    public GameObject moveBy(Vector3f moveTo) {
+        getCollider().translateBy(moveTo);
+        return this;
+    }
+
+    public GameObject moveTo(Vector2f moveTo) {
+        getCollider().translateTo(moveTo);
+        return this;
+    }
+
+    public GameObject moveTo(Vector3f moveTo) {
+        getCollider().translateTo(moveTo);
+        return this;
+    }
+
+    public GameObject moveTo(float x, float y) {
+        getCollider().translateTo(x,y);
         return this;
     }
 
@@ -46,10 +83,6 @@ public abstract class GameObject {
 
     public Collider getCollider() {
         return objectDrawable.getCollider();
-    }
-
-    public Vector3f getLocation() {
-        return getCollider().getTranslation();
     }
 
     public int getNumTags() {return this.objectTags.size();}

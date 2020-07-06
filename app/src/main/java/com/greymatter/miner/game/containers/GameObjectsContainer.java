@@ -14,15 +14,10 @@ import java.util.ArrayList;
 public class GameObjectsContainer {
     private static HashMapE<String, GameObject> gameObjects;
     private static HashMapE<String, GameLight> gameLights;
-    private static GroupMap<String, GameObject> groupedByShader;
 
     public static void add(GameObject gameObject) {
         if(gameObjects == null) {
             gameObjects = new HashMapE<>();
-        }
-
-        if(groupedByShader == null) {
-            groupedByShader = new GroupMap<>();
         }
 
         if(gameLights == null) {
@@ -34,17 +29,12 @@ public class GameObjectsContainer {
         }
 
         gameObjects.put(gameObject.getId(), gameObject);
-        groupedByShader.add(gameObject.getDrawable().getShader().getId(), gameObject);
     }
 
     public static void remove(String id) {
         GameObject removed = null;
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
-        }
-
-        if(groupedByShader != null && removed != null) {
-            groupedByShader.delete(id,removed);
         }
     }
 

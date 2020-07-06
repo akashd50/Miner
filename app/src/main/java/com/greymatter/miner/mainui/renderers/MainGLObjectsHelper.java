@@ -75,12 +75,6 @@ class MainGLObjectsHelper {
                             .withTag(STATIC)
                             .withTag(PHYSICS_OBJECT));
 
-//        GameObjectsContainer.add(new Scanner(new Object3D(SAMPLE_SCANNER, BOX,
-//                            MaterialContainer.get(GROUND_MATERIAL),
-//                            ShaderContainer.get(THREE_D_OBJECT_SHADER))
-//                            .withTag(PHYSICS_OBJECT)
-//                            .withTag(PLACABLE_GAME_BUILDING)));
-
         GameObjectsContainer.add(new MainBase(new Object3D(MAIN_BASE, UV_MAPPED_BOX,
                             MaterialContainer.get(MAIN_BASE_MATERIAL),
                             ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)))
@@ -105,11 +99,10 @@ class MainGLObjectsHelper {
                 ShaderContainer.get(QUAD_SHADER),MaterialContainer.get(PLANET_GRASS_MATERIAL_I))
                 .buildWith(GameObjectsContainer.get(PLANET).getCollider().asPolygonCollider().getMeshVertices(), 0.01f)));
 
-        GameObjectsContainer.add(new GameLight(new Object3D("light", UV_MAPPED_BOX,
-                                MaterialContainer.get(GROUND_MATERIAL),
-                                ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)))
+        GameObjectsContainer.add(new GameLight(new Object3D("light"))
                                 .withRadius(1f).withColor(1f,0f,0f,1f)
-                                .withInnerCutoff(0.2f).withOuterCutoff(0.8f).withLocation(new Vector2f(0f,0f)));
+                                .withInnerCutoff(0.2f).withOuterCutoff(0.8f)
+                                .attachTo(GameObjectsContainer.get(MAIN_BASE).asGameBuilding(), new Vector2f(-2.3f,0.3f)));
     }
 
     static void finishObjectsSetup() {
@@ -130,9 +123,9 @@ class MainGLObjectsHelper {
                             .scaleTo(0.6f,0.6f,1f)
                             .translateBy(new Vector3f(-0.5f,2f,0f));
 
-        GameObjectsContainer.get(MAIN_BASE).getCollider()
-                            .scaleTo(4f,2.7f,1f)
-                            .translateTo(new Vector3f(-2.4f,2f,-5f));
+        GameObjectsContainer.get(MAIN_BASE).moveTo(new Vector3f(-2.4f,2f,-5f))
+                                           .getCollider()
+                                           .scaleTo(4f,2.7f,1f);
 
         GameObjectsContainer.get(PLANET_GRASS_LAYER).getCollider()
                             .scaleTo(119.65f,119.65f,1f)
@@ -142,10 +135,6 @@ class MainGLObjectsHelper {
                             .scaleTo(1f,1.5f,1f)
                             .translateTo(new Vector3f(0f,0f, -6f));
 
-//        GameObjectsContainer.get(SAMPLE_SCANNER).getCollider()
-//                            .scaleTo(0.4f,0.7f,1f)
-//                            .translateTo(new Vector3f(0f,1f, 0f));
-
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE, ShaderContainer.get(LINE_SHADER))
                 .addVertices(mainCharacter.getCollider().asPolygonCollider()
                         .getTransformedVertices()).build()));
@@ -154,7 +143,6 @@ class MainGLObjectsHelper {
         ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET));
         ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
-        //ToDrawContainer.add(GameObjectsContainer.get(TEST_BALL));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
     }
@@ -162,7 +150,6 @@ class MainGLObjectsHelper {
     static void loadPhysicsObjects() {
         Drawable planet = GameObjectsContainer.get(PLANET).getDrawable();
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
-        //Drawable sampleScanner = GameObjectsContainer.get(SAMPLE_SCANNER).getDrawable();
         Drawable mainBase = GameObjectsContainer.get(MAIN_BASE).getDrawable();
         Drawable sampleScanner = GameObjectsContainer.get(SAMPLE_SCANNER).getDrawable().asObject3D().withOptimisedPolygonCollider(0.1f);
 
@@ -175,11 +162,6 @@ class MainGLObjectsHelper {
                                     .isStaticObject(false)
                                     .setMass(1f)
                                     .setRestitution(0.5f);
-
-//        sampleScanner.getCollider().updateTransformationsPerMovement(true)
-//                                    .isStaticObject(false)
-//                                    .setMass(1f)
-//                                    .setRestitution(1f);
 
         mainBase.getCollider().updateTransformationsPerMovement(true);
 
@@ -202,13 +184,11 @@ class MainGLObjectsHelper {
         //assign colliders and listeners
         mainCharacter.getCollider().setCollisionListener(listener);
         sampleScanner.getCollider().setCollisionListener(listener);
-        //sampleScanner.getCollider().setCollisionListener(listener);
     }
 
     static void initiatePhysicsSystem() {
         CollisionSystemContainer.add(GameObjectsContainer.get(PLANET).getCollider());
         CollisionSystemContainer.add(GameObjectsContainer.get(MAIN_CHARACTER).getCollider());
-        //CollisionSystemContainer.add(GameObjectsContainer.get(TEST_BALL).getCollider());
         CollisionDetectionSystem.initialize();
     }
 

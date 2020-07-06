@@ -20,6 +20,10 @@ public class Object3D extends Drawable {
 	private int normalBufferObject;
 	private int uvBufferObject;
 
+	public Object3D(String id) {
+		super(id);
+	}
+
 	public Object3D(String id, String file, Material material, Shader shader) {
 		super(id);
 		super.setShader(shader);
