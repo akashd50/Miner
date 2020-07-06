@@ -1,4 +1,4 @@
-package com.greymatter.miner.game.containers;
+package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;

@@ -1,14 +1,10 @@
 package com.greymatter.miner.mainui.touch;
 
-import android.graphics.drawable.DrawableContainer;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.greymatter.miner.game.containers.GameObjectsContainer;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class MainGLTouchHelper {
     private static Camera camera;

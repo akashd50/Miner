@@ -5,7 +5,7 @@ import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ActiveObjectsContainer;
-import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;

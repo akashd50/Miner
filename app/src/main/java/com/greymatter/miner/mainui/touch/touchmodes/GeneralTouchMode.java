@@ -9,7 +9,7 @@ import com.greymatter.miner.R;
 import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.ActiveObjectsContainer;
-import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameBuilding;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.generalhelpers.VectorHelper;

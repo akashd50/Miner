@@ -1,7 +1,7 @@
 package com.greymatter.miner.mainui.renderers;
 
 import com.greymatter.miner.containers.ActiveObjectsContainer;
-import com.greymatter.miner.game.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
