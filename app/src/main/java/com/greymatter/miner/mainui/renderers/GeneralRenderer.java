@@ -37,7 +37,7 @@ public class GeneralRenderer extends AbstractRenderer {
         accPoint.add(VectorHelper.multiply(mainCharacter.getCollider().getVelocity(),40f));
         vertexData.add(accPoint);
 
-        ((Line)testLine).withColor(new Vector4f(0f,1f,0f,1f)).updateVertexData(vertexData);
+        ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(vertexData).build();
         testLine.getCollider().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/

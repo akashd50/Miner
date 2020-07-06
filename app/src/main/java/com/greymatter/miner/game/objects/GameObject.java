@@ -36,36 +36,36 @@ public abstract class GameObject {
 
     //object movement
     public Vector3f getLocation() {
-        return getCollider().getTranslation();
+        return objectDrawable.getCollider().getTranslation();
     }
 
     public GameObject moveBy(Vector2f moveTo) {
-        getCollider().translateBy(moveTo);
+        objectDrawable.getCollider().translateBy(moveTo);
         return this;
     }
 
     public GameObject moveBy(float x, float y) {
-        getCollider().translateBy(x,y);
+        objectDrawable.getCollider().translateBy(x,y);
         return this;
     }
 
     public GameObject moveBy(Vector3f moveTo) {
-        getCollider().translateBy(moveTo);
+        objectDrawable.getCollider().translateBy(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector2f moveTo) {
-        getCollider().translateTo(moveTo);
+        objectDrawable.getCollider().translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector3f moveTo) {
-        getCollider().translateTo(moveTo);
+        objectDrawable.getCollider().translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(float x, float y) {
-        getCollider().translateTo(x,y);
+        objectDrawable.getCollider().translateTo(x,y);
         return this;
     }
 

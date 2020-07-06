@@ -1,7 +1,6 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.Matrix;
-
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -9,9 +8,6 @@ import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.physics.objects.Collider;
 import com.greymatter.miner.physics.objects.GeneralCollider;
-
-import java.util.ArrayList;
-
 import javax.vecmath.Vector2f;
 
 public abstract class Drawable implements Clickable {
@@ -23,6 +19,7 @@ public abstract class Drawable implements Clickable {
     private Collider collider;
     private String id;
     private TouchChecker touchChecker;
+
     public Drawable(String id) {
         this.id = id;
         this.transformationsUpdated = false;
@@ -67,33 +64,50 @@ public abstract class Drawable implements Clickable {
         return touchChecker != null && touchChecker.isClicked(touchPoint);
     }
 
-    public String toString() {
-        return this.id;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
     public void transformationsUpdated() {
         transformationsUpdated = true;
     }
 
-    public Shader getShader() {
-        return shader;
+    public Drawable setShader(Shader shader) {
+        this.shader = shader;
+        return this;
     }
 
-    public void setShader(Shader shader) {
-        this.shader = shader;
+    public Drawable setMaterial(Material material) {
+        this.material = material;
+        return this;
+    }
+
+    public Drawable setVertexArrayObject(int vertexArrayObject ) {
+        this.vertexArray = vertexArrayObject;
+        return this;
+    }
+
+    public Drawable setVertexBufferObject(int vertexBufferObject ) {
+        this.vertexBuffer = vertexBufferObject;
+        return this;
+    }
+
+    public Drawable setTouchChecker(TouchChecker touchChecker) {
+        this.touchChecker = touchChecker;
+        return this;
+    }
+
+    public Drawable setCollider(Collider collider) {
+        this.collider = collider;
+        if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
+        return this;
     }
 
     public Material getMaterial() {
         return this.material;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
+    public Shader getShader() {
+        return shader;
     }
+
+    public float[] getModelMatrix() { return this.modelMatrix; }
 
     public int getVertexArrayObject() {
         return this.vertexArray;
@@ -107,39 +121,31 @@ public abstract class Drawable implements Clickable {
         return this.touchChecker;
     }
 
-    public void setVertexArrayObject(int vertexArrayObject ) {
-        this.vertexArray = vertexArrayObject;
-    }
-
-    public void setVertexBufferObject(int vertexBufferObject ) {
-        this.vertexBuffer = vertexBufferObject;
-    }
-
-    public void setTouchChecker(TouchChecker touchChecker) {
-        this.touchChecker = touchChecker;
-    }
-
-    public float[] getModelMatrix() { return this.modelMatrix; }
-
     public Collider getCollider() {
         return collider;
-    }
-
-    public void setCollider(Collider collider) {
-        this.collider = collider;
-        if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
     }
 
     public Object3D asObject3D() {
         return (Object3D)this;
     }
+
     public Quad asQuad() {
         return (Quad) this;
     }
+
     public Line asLine() {
         return (Line) this;
     }
 
+    public String toString() {
+        return this.id;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
     public abstract Drawable withPolygonTouchChecker();
+
     public abstract Drawable withPolygonCollider();
 }

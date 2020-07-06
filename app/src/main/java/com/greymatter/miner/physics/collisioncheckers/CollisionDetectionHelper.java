@@ -41,7 +41,7 @@ public class CollisionDetectionHelper {
         float r = c1.getTransformedRadius();
         r *= r;
         for(Vector3f vector : c2.getTransformedVertices()) {
-            if(VectorHelper.getDistance(vector, c1.getTranslation()) <= r) {
+            if(VectorHelper.getDistanceWithoutSQRT(vector, c1.getTranslation()) <= r) {
                 return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
         }

@@ -58,8 +58,16 @@ public class VectorHelper {
         return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x)) - 90;
     }
 
-    public static double getDistance(Vector3f v1, Vector3f v2) {
-        return Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2);
+    public static float getDistanceWithoutSQRT(Vector3f v1, Vector3f v2) {
+        return (float)(Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2));
+    }
+
+    public static float getLength(Vector3f vector3f) {
+        return (float)Math.sqrt(vector3f.x * vector3f.x + vector3f.y * vector3f.y + vector3f.z * vector3f.z);
+    }
+
+    public static float getLength(Vector2f vector2f) {
+        return (float)Math.sqrt(vector2f.x * vector2f.x + vector2f.y * vector2f.y);
     }
 
     public static double getDistanceWithSQRT(Vector3f v1, Vector3f v2) {

@@ -25,8 +25,8 @@ public class BuildingRenderer extends AbstractRenderer {
         Drawable testLine = GameObjectsContainer.get(TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
-        ((Line)testLine).withColor(new Vector4f(0f,0f,1f,1f))
-                .updateVertexData(planet.getCollider().asPolygonCollider().getTransformedVertices());
+        ((Line)testLine).setColor(new Vector4f(0f,0f,1f,1f))
+                .setVertices(planet.getCollider().asPolygonCollider().getTransformedVertices()).build();
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);

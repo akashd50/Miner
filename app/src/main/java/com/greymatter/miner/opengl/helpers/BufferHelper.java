@@ -7,6 +7,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 
 public class BufferHelper {
     public static FloatBuffer asFloatBuffer(float[] data) {
@@ -26,5 +30,26 @@ public class BufferHelper {
 
         bitmap.copyPixelsToBuffer(buffer1);
         return buffer1;
+    }
+
+    public static float[] vec3AsFloatArray(ArrayList<Vector3f> arrayList) {
+        float[] toReturn = new float[arrayList.size() * 3];
+        int index = 0;
+        for(Vector3f vector3f : arrayList) {
+            toReturn[index++] = vector3f.x;
+            toReturn[index++] = vector3f.y;
+            toReturn[index++] = vector3f.z;
+        }
+        return toReturn;
+    }
+
+    public static float[] vec2AsFloatArray(ArrayList<Vector2f> arrayList) {
+        float[] toReturn = new float[arrayList.size() * 3];
+        int index = 0;
+        for(Vector2f vector2f : arrayList) {
+            toReturn[index++] = vector2f.x;
+            toReturn[index++] = vector2f.y;
+        }
+        return toReturn;
     }
 }

@@ -38,7 +38,7 @@ public class Quad extends Drawable {
 
 		float[] uvs = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
 
-		setVertexArrayObject(GLBufferHelper.glGenVertexArray());
+		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
 		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(vertices, 3, getShader(), Constants.IN_POSITION);

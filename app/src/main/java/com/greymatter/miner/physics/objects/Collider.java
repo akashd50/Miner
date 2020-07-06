@@ -65,8 +65,11 @@ public abstract class Collider {
             angularVel+=0.01f;
         }
         rotateBy(0f,0f,angularVel);
+    }
 
-        //upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(rotation.z));
+    public Vector3f getUpVectorFromRotation() {
+        upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(rotation.z - 90));
+        return upVector;
     }
 
     public void addOrUpdateCollisionEvent(CollisionEvent collisionEvent) {
@@ -81,6 +84,7 @@ public abstract class Collider {
         return lastCollisionEvents.get(against.getCollider().toString());
     }
     //<---------------------------------forces end -------------------------------------------->
+
     public void resetAcceleration() {
         this.acceleration.set(0f,0f,0f);
     }
@@ -204,12 +208,14 @@ public abstract class Collider {
     //rotation
     public Collider rotateTo(Vector3f rotation) {
         this.rotation = rotation;
+        restrictRotationRange();
         this.updateParams();
         return this;
     }
 
     public Collider rotateBy(Vector3f rotation) {
         this.rotation.add(rotation);
+        restrictRotationRange();
         this.updateParams();
         return this;
     }
@@ -218,6 +224,7 @@ public abstract class Collider {
         this.rotation.x+=x;
         this.rotation.y+=y;
         this.rotation.z+=z;
+        restrictRotationRange();
         this.updateParams();
         return this;
     }
@@ -226,8 +233,29 @@ public abstract class Collider {
         this.rotation.x = x;
         this.rotation.y = y;
         this.rotation.z = z;
+        restrictRotationRange();
         this.updateParams();
         return this;
+    }
+
+    private void restrictRotationRange() {
+        if(rotation.x > 360) {
+            rotation.x = rotation.x - 360;
+        } else if(rotation.x < -360) {
+            rotation.x = rotation.x + 360;
+        }
+
+        if(rotation.y > 360) {
+            rotation.y = rotation.y - 360;
+        } else if(rotation.y < -360) {
+            rotation.y = rotation.y + 360;
+        }
+
+        if(rotation.z > 360) {
+            rotation.z = rotation.z - 360;
+        } else if(rotation.z < -360) {
+            rotation.z = rotation.z + 360;
+        }
     }
 
     public Collider setUpVector(Vector3f vector) {
