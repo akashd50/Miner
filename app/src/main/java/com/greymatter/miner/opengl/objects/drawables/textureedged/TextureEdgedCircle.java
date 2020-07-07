@@ -106,12 +106,12 @@ public class TextureEdgedCircle extends Drawable {
     }
 
     @Override
-    public TextureEdgedCircle withPolygonTouchChecker() {
+    public TextureEdgedCircle attachPolygonTouchChecker() {
         return this;
     }
 
     @Override
-    public TextureEdgedCircle withPolygonCollider() {
+    public TextureEdgedCircle attachPolygonCollider() {
         return this;
     }
 }

@@ -24,28 +24,29 @@ public class Object3D extends Drawable {
 		super(id);
 	}
 
-	public Object3D(String id, String file, Material material, Shader shader) {
-		super(id);
-		super.setShader(shader);
-		super.setMaterial(material);
+	public Object3D load(String dataFile) {
+		object3DData = Object3DHelper.load(Constants.OBJECTS_F + dataFile);
+		return this;
+	}
 
-		object3DData = Object3DHelper.load(Constants.OBJECTS_F + file);
-
+	public Object3D build() {
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
 		int vertexBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayVertices, 3,
-																getShader(), Constants.IN_POSITION);
+				getShader(), Constants.IN_POSITION);
 		super.setVertexBufferObject(vertexBufferObject);
 
-		normalBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayNormals, 3,
-																getShader(), Constants.IN_NORMAL);
+//		normalBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayNormals, 3,
+//				getShader(), Constants.IN_NORMAL);
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayUvs, 2,
-																getShader(), Constants.IN_UV);
+				getShader(), Constants.IN_UV);
+
 		GLBufferHelper.glUnbindVertexArray();
 
-		withPolygonCollider();
-		withPolygonTouchChecker();
+		attachPolygonCollider();
+		attachPolygonTouchChecker();
+		return this;
 	}
 
 	public void onDrawFrame() {
@@ -74,19 +75,31 @@ public class Object3D extends Drawable {
 	}
 
 	@Override
-	public Object3D withPolygonTouchChecker() {
+	public Object3D attachPolygonTouchChecker() {
 		setTouchChecker(new PolygonTouchChecker(getCollider().asPolygonCollider()));
 		return this;
 	}
 
 	@Override
-	public Object3D withPolygonCollider() {
+	public Object3D attachPolygonCollider() {
 		this.setCollider(new PolygonCollider(this.getOuterMesh()));
 		return this;
 	}
 
-	public Object3D withOptimisedPolygonCollider(float optFac) {
+	public Object3D attachOptimisedPolygonCollider(float optFac) {
 		this.setCollider(new PolygonCollider(Object3DHelper.simplify(this.getOuterMesh(), optFac)));
+		return this;
+	}
+
+	@Override
+	public Object3D setShader(Shader shader) {
+		super.setShader(shader);
+		return this;
+	}
+
+	@Override
+	public Object3D setMaterial(Material material) {
+		super.setMaterial(material);
 		return this;
 	}
 }

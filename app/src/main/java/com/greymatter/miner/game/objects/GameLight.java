@@ -37,27 +37,27 @@ public class GameLight extends GameObject {
         return this;
     }
 
-    public GameLight withColor(Vector4f color) {
+    public GameLight setColor(Vector4f color) {
         this.lightColor = color;
         return this;
     }
 
-    public GameLight withColor(float r, float g, float b, float a) {
+    public GameLight setColor(float r, float g, float b, float a) {
         this.lightColor.set(r,g,b,a);
         return this;
     }
 
-    public GameLight withRadius(float radius) {
+    public GameLight setRadius(float radius) {
         this.radius = radius;
         return this;
     }
 
-    public GameLight withInnerCutoff(float innerCutoff) {
+    public GameLight setInnerCutoff(float innerCutoff) {
         this.innerCutoff = innerCutoff;
         return this;
     }
 
-    public GameLight withOuterCutoff(float outerCutoff) {
+    public GameLight setOuterCutoff(float outerCutoff) {
         this.outerCutoff = outerCutoff;
         return this;
     }

@@ -109,12 +109,12 @@ public class CircleGradient extends Gradient {
     }
 
     @Override
-    public CircleGradient withPolygonTouchChecker() {
+    public CircleGradient attachPolygonTouchChecker() {
         return this;
     }
 
     @Override
-    public CircleGradient withPolygonCollider() {
+    public CircleGradient attachPolygonCollider() {
         return this;
     }
 }

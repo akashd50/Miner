@@ -145,7 +145,7 @@ public abstract class Drawable implements Clickable {
         return this.id;
     }
 
-    public abstract Drawable withPolygonTouchChecker();
+    public abstract Drawable attachPolygonTouchChecker();
 
-    public abstract Drawable withPolygonCollider();
+    public abstract Drawable attachPolygonCollider();
 }

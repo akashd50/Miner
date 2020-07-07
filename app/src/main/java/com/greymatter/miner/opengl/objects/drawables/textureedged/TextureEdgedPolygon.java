@@ -19,23 +19,8 @@ public class TextureEdgedPolygon extends Drawable {
     private ArrayList<Vector3f> _vertices;
     private float[] _verticesArray, _uvsArray;
     private int _verticesIndex, _uvsIndex;
-    public TextureEdgedPolygon(String id , Shader shader, Material material) {
+    public TextureEdgedPolygon(String id) {
         super(id);
-        super.setShader(shader);
-        super.setMaterial(material);
-    }
-
-    public TextureEdgedPolygon buildWith(ArrayList<Vector3f> vertices, float edgeWidth) {
-        _vertices = vertices;
-        _edgeWidth = edgeWidth;
-        _verticesArray = new float[(_vertices.size()-1)*18];
-        _uvsArray = new float[(_vertices.size()-1)*12];
-        _verticesIndex = 0;
-        _uvsIndex = 0;
-        setUpVertexData();
-        _verticesArray = null;
-        _uvsArray = null;
-        return this;
     }
 
     public void onDrawFrame() {
@@ -48,6 +33,17 @@ public class TextureEdgedPolygon extends Drawable {
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, (_vertices.size()-1) * 2 /*triangles*/ * 3 /*vertices per triangle*/ );
 
         GLBufferHelper.glUnbindVertexArray();
+    }
+
+    public TextureEdgedPolygon load(ArrayList<Vector3f> vertices, float edgeWidth) {
+        _vertices = vertices;
+        _edgeWidth = edgeWidth;
+        _verticesArray = new float[(_vertices.size()-1)*18];
+        _uvsArray = new float[(_vertices.size()-1)*12];
+        _verticesIndex = 0;
+        _uvsIndex = 0;
+        setUpVertexData();
+        return this;
     }
 
     private void setUpVertexData() {
@@ -94,7 +90,9 @@ public class TextureEdgedPolygon extends Drawable {
             currentEdgeNormal = nextEdgeNormal;
             previousNetNormal = currentNetNormal;
         }
+    }
 
+    public TextureEdgedPolygon build() {
         int vertexArrayObj = GLBufferHelper.glGenVertexArray();
         GLBufferHelper.glBindVertexArray(vertexArrayObj);
         int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(_verticesArray, 3, super.getShader(), Constants.IN_POSITION);
@@ -103,6 +101,7 @@ public class TextureEdgedPolygon extends Drawable {
 
         super.setVertexArrayObject(vertexArrayObj);
         super.setVertexBufferObject(vertexBufferObj);
+        return this;
     }
 
     private void updateVerticesAndUvs(Vector3f currA, Vector3f currB, Vector3f currentNetNormal, Vector3f previousNetNormal) {
@@ -151,12 +150,24 @@ public class TextureEdgedPolygon extends Drawable {
     }
 
     @Override
-    public TextureEdgedPolygon withPolygonTouchChecker() {
+    public TextureEdgedPolygon attachPolygonTouchChecker() {
         return this;
     }
 
     @Override
-    public TextureEdgedPolygon withPolygonCollider() {
+    public TextureEdgedPolygon attachPolygonCollider() {
+        return this;
+    }
+
+    @Override
+    public TextureEdgedPolygon setShader(Shader shader) {
+        super.setShader(shader);
+        return this;
+    }
+
+    @Override
+    public TextureEdgedPolygon setMaterial(Material material) {
+        super.setMaterial(material);
         return this;
     }
 }

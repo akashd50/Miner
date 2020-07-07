@@ -18,9 +18,8 @@ public class Line extends Drawable {
     private ArrayList<Vector3f> lineVertices;
     private Vector4f lineColor;
     private boolean dataUpdated;
-    public Line(String id, Shader shader) {
+    public Line(String id) {
         super(id);
-        super.setShader(shader);
         lineVertices = new ArrayList<>();
         lineColor = new Vector4f(1f,1f,1f,1f);
         dataUpdated = false;
@@ -83,12 +82,18 @@ public class Line extends Drawable {
     }
 
     @Override
-    public Line withPolygonTouchChecker() {
+    public Line setShader(Shader shader) {
+        super.setShader(shader);
         return this;
     }
 
     @Override
-    public Line withPolygonCollider() {
+    public Line attachPolygonTouchChecker() {
+        return this;
+    }
+
+    @Override
+    public Line attachPolygonCollider() {
         return this;
     }
 

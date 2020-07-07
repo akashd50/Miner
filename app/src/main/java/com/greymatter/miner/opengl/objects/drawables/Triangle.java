@@ -39,12 +39,12 @@ public class Triangle extends Drawable {
     }
 
     @Override
-    public Triangle withPolygonTouchChecker() {
+    public Triangle attachPolygonTouchChecker() {
         return this;
     }
 
     @Override
-    public Triangle withPolygonCollider() {
+    public Triangle attachPolygonCollider() {
         return this;
     }
 }
