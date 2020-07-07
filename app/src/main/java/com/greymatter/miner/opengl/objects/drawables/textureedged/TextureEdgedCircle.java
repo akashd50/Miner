@@ -1,19 +1,18 @@
 package com.greymatter.miner.opengl.objects.drawables.textureedged;
 
-import android.opengl.GLES20;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class TextureEdgedCircle extends Drawable {
     private float radius, edgeWidth;
     private int numPoints;
-    public TextureEdgedCircle(String id , Shader shader, Material material) {
+    public TextureEdgedCircle(String id , Shader shader, TexturedMaterial material) {
         super(id);
         super.setShader(shader);
         super.setMaterial(material);

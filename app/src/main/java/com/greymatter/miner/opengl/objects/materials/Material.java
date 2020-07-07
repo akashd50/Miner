@@ -1,24 +1,20 @@
 package com.greymatter.miner.opengl.objects.materials;
 
-import com.greymatter.miner.opengl.objects.Texture;
+import com.greymatter.miner.opengl.objects.materials.colored.ColorMaterial;
+import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 
-public abstract class Material {
+public class Material {
     private String _id;
     public Material(String id) {
         _id = id;
     }
 
-    public abstract boolean hasDiffuseTexture();
-    public abstract boolean hasRoughnessTexture();
-    public abstract Texture getActiveDiffuseTexture();
-    public abstract Texture getActiveRoughnessTexture();
-
-    public StaticMaterial asStaticMaterial() {
-        return (StaticMaterial)this;
+    public TexturedMaterial asTexturedMaterial() {
+        return (TexturedMaterial) this;
     }
 
-    public AnimatedMaterial asAnimatedMaterial() {
-        return (AnimatedMaterial) this;
+    public ColorMaterial asColorMaterial() {
+        return (ColorMaterial) this;
     }
 
     public String getId() {

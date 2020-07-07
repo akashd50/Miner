@@ -5,7 +5,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import com.greymatter.miner.opengl.objects.Shader;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import javax.vecmath.Vector3f;
 public class Quad extends Drawable {
 	private float textureRatio;
 	private ArrayList<Vector3f> mesh;
-	public Quad(String id, Material material, Shader shader) {
+	public Quad(String id, TexturedMaterial material, Shader shader) {
 		super(id);
 		super.setShader(shader);
 		super.setMaterial(material);
@@ -24,7 +24,10 @@ public class Quad extends Drawable {
 	}
 
 	private void initialize() {
-		textureRatio = getMaterial().getActiveDiffuseTexture().getRatio();
+		if(getMaterial() instanceof TexturedMaterial) {
+			textureRatio = getMaterial().asTexturedMaterial().getActiveDiffuseTexture().getRatio();
+		}
+
 		if (textureRatio == 0.0f) {
 			textureRatio = 1.0f;
 		}

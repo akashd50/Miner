@@ -1,20 +1,22 @@
-package com.greymatter.miner.opengl.objects.materials;
+package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
+import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
+
 import java.util.ArrayList;
 
-public class AnimatedMaterial extends Material {
+public class AnimatedTexturedMaterial extends TexturedMaterial {
     private ArrayList<Texture> diffuseTextureFrames;
     private AnimationHandler _animationHandler;
-    public AnimatedMaterial(String id) {
+    public AnimatedTexturedMaterial(String id) {
         super(id);
         diffuseTextureFrames = new ArrayList<>();
     }
 
-    public AnimatedMaterial addDiffuseTextureFrame(String diffuseTexPath) {
+    public AnimatedTexturedMaterial addDiffuseTextureFrame(String diffuseTexPath) {
         if (diffuseTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, Constants.TEXTURES_F +diffuseTexPath);
@@ -25,7 +27,7 @@ public class AnimatedMaterial extends Material {
         return this;
     }
 
-    public AnimatedMaterial withAnimationHandler(AnimationHandler animationHandler) {
+    public AnimatedTexturedMaterial withAnimationHandler(AnimationHandler animationHandler) {
         this._animationHandler = animationHandler;
         return this;
     }

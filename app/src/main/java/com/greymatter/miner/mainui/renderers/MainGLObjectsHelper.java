@@ -13,13 +13,13 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.materials.AnimatedMaterial;
+import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedPolygon;
-import com.greymatter.miner.opengl.objects.materials.StaticMaterial;
+import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
@@ -51,11 +51,11 @@ class MainGLObjectsHelper {
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new StaticMaterial(GROUND_MATERIAL).attachDiffuseTexture(GROUND_I));
-        MaterialContainer.add(new StaticMaterial(ATMOSPHERE_MATERIAL).attachDiffuseTexture(ATM_RADIAL_II));
-        MaterialContainer.add(new StaticMaterial(MAIN_BASE_MATERIAL).attachDiffuseTexture(MAIN_BASE_FINAL));
-        MaterialContainer.add(new StaticMaterial(PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(GRASS_PATCH_I));
-        MaterialContainer.add(new AnimatedMaterial(TREE_MATERIAL)
+        MaterialContainer.add(new StaticTexturedMaterial(GROUND_MATERIAL).attachDiffuseTexture(GROUND_I));
+        MaterialContainer.add(new StaticTexturedMaterial(ATMOSPHERE_MATERIAL).attachDiffuseTexture(ATM_RADIAL_II));
+        MaterialContainer.add(new StaticTexturedMaterial(MAIN_BASE_MATERIAL).attachDiffuseTexture(MAIN_BASE_FINAL));
+        MaterialContainer.add(new StaticTexturedMaterial(PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(GRASS_PATCH_I));
+        MaterialContainer.add(new AnimatedTexturedMaterial(TREE_MATERIAL)
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_iii.png")

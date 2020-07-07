@@ -7,7 +7,9 @@ import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.Constants;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.materials.colored.ColorMaterial;
 import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
@@ -68,14 +70,23 @@ public class ShaderHelper {
     }
 
     public static void setMaterialProperties(Shader shader, Material material) {
+        if(material instanceof TexturedMaterial) {
+            setTexturedMaterialProperties(shader, material.asTexturedMaterial());
+        }else if(material instanceof ColorMaterial) {
+
+        }
+    }
+
+    private static void setTexturedMaterialProperties(Shader shader, TexturedMaterial texturedMaterial) {
         setUniformInt(shader, "material.diffuseTexture", 0);
         setUniformInt(shader, "material.specularTexture", 1);
-        if (material.hasDiffuseTexture()) {
-            setTextureUnit2D(0, material.getActiveDiffuseTexture().getTextureId());
+        if (texturedMaterial.hasDiffuseTexture()) {
+            setTextureUnit2D(0, texturedMaterial.getActiveDiffuseTexture().getTextureId());
         }
-        if (material.hasRoughnessTexture()) {
-            setTextureUnit2D(1, material.getActiveRoughnessTexture().getTextureId());
+        if (texturedMaterial.hasRoughnessTexture()) {
+            setTextureUnit2D(1, texturedMaterial.getActiveRoughnessTexture().getTextureId());
         }
+
 //        setUniformFloat(shader, "material.specMultiplier", material.getShinniness());
 //        setUniformVec3(shader, "material.diffuse", material.getDiffuse());
 //        setUniformVec3(shader, "material.specular", material.getSpecular());

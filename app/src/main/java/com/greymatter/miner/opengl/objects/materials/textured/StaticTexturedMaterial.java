@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects.materials;
+package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
 import com.greymatter.miner.opengl.Constants;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
-public class StaticMaterial extends Material {
+public class StaticTexturedMaterial extends TexturedMaterial {
     private Texture diffuseTexture;
     private Texture roughnessTexture;
 
@@ -21,7 +21,7 @@ public class StaticMaterial extends Material {
 
     private ArrayList<Vector4f> colors;
 
-    public StaticMaterial(String id) {
+    public StaticTexturedMaterial(String id) {
         super(id);
         ambient = new Vector3f(1.0f,1.0f,1.0f);
         diffuse = new Vector3f(1.0f,1.0f,1.0f);
@@ -29,7 +29,7 @@ public class StaticMaterial extends Material {
         shinniness = 1.0f;
     }
 
-    public StaticMaterial attachDiffuseTexture(String diffTexName) {
+    public StaticTexturedMaterial attachDiffuseTexture(String diffTexName) {
         if (diffTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, Constants.TEXTURES_F +diffTexName);
@@ -39,7 +39,7 @@ public class StaticMaterial extends Material {
         return this;
     }
 
-    public StaticMaterial attachRoughnessTexture(String roughTexName) {
+    public StaticTexturedMaterial attachRoughnessTexture(String roughTexName) {
         if (roughTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, Constants.TEXTURES_F +roughTexName);
