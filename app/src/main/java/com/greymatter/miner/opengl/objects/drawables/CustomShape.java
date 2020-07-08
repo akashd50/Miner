@@ -1,7 +1,8 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.opengl.helpers.BufferHelper;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
@@ -11,11 +12,9 @@ import javax.vecmath.Vector4f;
 
 public class CustomShape extends Drawable {
     private ArrayList<Vector3f> shapeVertices;
-    private ArrayList<Vector4f> vertexColors;
     public CustomShape(String id) {
         super(id);
         shapeVertices = new ArrayList<>();
-        vertexColors = new ArrayList<>();
     }
 
     @Override
@@ -23,13 +22,9 @@ public class CustomShape extends Drawable {
         super.onDrawFrame();
 
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), Constants.MODEL, getModelMatrix());
-        if(isSingleColor()) {
-            ShaderHelper.setUniformVec4(getShader(), Constants.U_COLOR, vertexColors.get(0));
-        }else{
 
-        }
-
+        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
+        ShaderHelper.setMaterialProperties(getShader(), getMaterial());
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, shapeVertices.size());
 
         GLBufferHelper.glUnbindVertexArray();
@@ -42,12 +37,12 @@ public class CustomShape extends Drawable {
 
     public CustomShape addVertex(Vector3f vert, Vector4f vertColor) {
         shapeVertices.add(vert);
-        vertexColors.add(vertColor);
+        getMaterial().asColoredMaterial().addColor(vertColor);
         return this;
     }
 
     public CustomShape setColor(Vector4f vertsColor) {
-        vertexColors.add(vertsColor);
+        getMaterial().asColoredMaterial().addColor(vertsColor);
         return this;
     }
 
@@ -56,15 +51,11 @@ public class CustomShape extends Drawable {
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
         int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(BufferHelper.vec3AsFloatArray(shapeVertices),
-                                                        3, getShader(), Constants.IN_POSITION);
+                                                        3, getShader(), ShaderConst.IN_POSITION);
         super.setVertexBufferObject(vertexBuffer);
 
         GLBufferHelper.glUnbindVertexArray();
         return this;
-    }
-
-    public boolean isSingleColor() {
-        return vertexColors.size() == 1 && shapeVertices.size()>1;
     }
 
     @Override

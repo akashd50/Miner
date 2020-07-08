@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 public class BufferHelper {
     public static FloatBuffer asFloatBuffer(float[] data) {
@@ -43,8 +44,20 @@ public class BufferHelper {
         return toReturn;
     }
 
+    public static float[] vec4AsFloatArray(ArrayList<Vector4f> arrayList) {
+        float[] toReturn = new float[arrayList.size() * 4];
+        int index = 0;
+        for(Vector4f vector4f : arrayList) {
+            toReturn[index++] = vector4f.x;
+            toReturn[index++] = vector4f.y;
+            toReturn[index++] = vector4f.z;
+            toReturn[index++] = vector4f.w;
+        }
+        return toReturn;
+    }
+
     public static float[] vec2AsFloatArray(ArrayList<Vector2f> arrayList) {
-        float[] toReturn = new float[arrayList.size() * 3];
+        float[] toReturn = new float[arrayList.size() * 2];
         int index = 0;
         for(Vector2f vector2f : arrayList) {
             toReturn[index++] = vector2f.x;

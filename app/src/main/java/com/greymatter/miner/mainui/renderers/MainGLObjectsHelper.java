@@ -13,6 +13,8 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.gradients.CircleGradient;
+import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
 import com.greymatter.miner.opengl.objects.drawables.Line;
@@ -26,8 +28,10 @@ import com.greymatter.miner.physics.objects.OnCollisionListener;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
+
 import static com.greymatter.miner.game.GC.*;
-import static com.greymatter.miner.opengl.Constants.*;
+import static com.greymatter.miner.Res.*;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -46,7 +50,7 @@ class MainGLObjectsHelper {
         ShaderContainer.addShader(new Shader(QUAD_SHADER));
         ShaderContainer.addShader(new Shader(THREE_D_OBJECT_SHADER));
         ShaderContainer.addShader(new Shader(LINE_SHADER));
-        ShaderContainer.addShader(new Shader(GRADIENT_SHADERS_F +CIRCLE_GRADIENT_SHADER));
+        ShaderContainer.addShader(new Shader(CIRCLE_GRADIENT_SHADER));
         ShaderContainer.addShader(new Shader(THREE_D_OBJECT_W_LIGHTING_SHADER));
     }
 
@@ -55,6 +59,7 @@ class MainGLObjectsHelper {
         MaterialContainer.add(new StaticTexturedMaterial(ATMOSPHERE_MATERIAL).attachDiffuseTexture(ATM_RADIAL_II));
         MaterialContainer.add(new StaticTexturedMaterial(MAIN_BASE_MATERIAL).attachDiffuseTexture(MAIN_BASE_FINAL));
         MaterialContainer.add(new StaticTexturedMaterial(PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(GRASS_PATCH_I));
+        MaterialContainer.add(new StaticColoredMaterial("color"));
         MaterialContainer.add(new AnimatedTexturedMaterial(TREE_MATERIAL)
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
@@ -65,6 +70,16 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
+
+        GameObjectsContainer.add(new Static(new CircleGradient("g")
+                                            .load(0.5f).setMidPoint(0.3f)
+                                            .setMaterial(MaterialContainer.get("color"))
+                                            .setShader(ShaderContainer.get(CIRCLE_GRADIENT_SHADER))
+                                            .setCenterColor(new Vector4f(1f,0f,0f,1f))
+                                            .setMidColor(new Vector4f(0f,0f,1f,1f))
+                                            .setEdgeColor(new Vector4f(0f,1f,0f,1f))
+                                            .build()));
+
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
                                             .load(ATM_SIMPLE_CIRCLE)
                                             .setMaterial(MaterialContainer.get(ATMOSPHERE_MATERIAL))
@@ -148,12 +163,15 @@ class MainGLObjectsHelper {
                             .addVertices(mainCharacter.getCollider().asPolygonCollider().getTransformedVertices())
                             .build()));
 
+        GameObjectsContainer.get("g").getCollider().translateTo(new Vector3f(-1,0.5f, 2f));
+
         ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET));
         ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
+        ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
     }
 
     static void loadPhysicsObjects() {

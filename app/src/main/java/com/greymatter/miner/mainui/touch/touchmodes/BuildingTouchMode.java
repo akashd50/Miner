@@ -8,9 +8,7 @@ import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
-
 import javax.vecmath.Vector3f;
-
 import static com.greymatter.miner.game.GC.*;
 
 public class BuildingTouchMode extends AbstractTouchMode {

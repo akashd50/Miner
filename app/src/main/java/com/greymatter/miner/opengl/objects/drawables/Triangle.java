@@ -2,11 +2,10 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
-import com.greymatter.miner.physics.objects.PolygonCollider;
 
 public class Triangle extends Drawable {
     static float triangleCoords[] =
@@ -22,7 +21,7 @@ public class Triangle extends Drawable {
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
         int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(triangleCoords, 3,
-                getShader(), Constants.IN_POSITION);
+                getShader(), ShaderConst.IN_POSITION);
 
         GLBufferHelper.glUnbindVertexArray();
     }

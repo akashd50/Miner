@@ -2,9 +2,9 @@ package com.greymatter.miner.opengl.objects;
 
 import com.greymatter.miner.opengl.helpers.ResourceLoader;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import static com.greymatter.miner.opengl.Constants.FRAG_SHADER_EXT;
-import static com.greymatter.miner.opengl.Constants.SHADERS_F;
-import static com.greymatter.miner.opengl.Constants.VERTEX_SHADER_EXT;
+import static com.greymatter.miner.Res.FRAG_SHADER_EXT;
+import static com.greymatter.miner.Res.SHADERS_F;
+import static com.greymatter.miner.Res.VERTEX_SHADER_EXT;
 
 public class Shader {
     private int program;

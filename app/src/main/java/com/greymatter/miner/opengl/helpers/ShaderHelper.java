@@ -3,18 +3,19 @@ package com.greymatter.miner.opengl.helpers;
 import android.opengl.GLES30;
 import android.util.Log;
 
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.materials.colored.ColorMaterial;
+import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
-import static com.greymatter.miner.opengl.Constants.*;
+import static com.greymatter.miner.Res.*;
 
 public class ShaderHelper {
 
@@ -64,16 +65,18 @@ public class ShaderHelper {
     }
 
     public static void setCameraProperties(Shader shader, Camera camera) {
-        setUniformMatrix4fv(shader, Constants.PROJECTION, camera.getProjectionMatrix());
-        setUniformMatrix4fv(shader,Constants.VIEW, camera.getViewMatrix());
+        setUniformMatrix4fv(shader, ShaderConst.PROJECTION, camera.getProjectionMatrix());
+        setUniformMatrix4fv(shader, ShaderConst.VIEW, camera.getViewMatrix());
         //setUniformVec3("cameraPosWS", *camera.getTranslation());
     }
 
     public static void setMaterialProperties(Shader shader, Material material) {
-        if(material instanceof TexturedMaterial) {
-            setTexturedMaterialProperties(shader, material.asTexturedMaterial());
-        }else if(material instanceof ColorMaterial) {
-
+        if(material.shouldSetOnDrawFrame()) {
+            if (material instanceof TexturedMaterial) {
+                setTexturedMaterialProperties(shader, material.asTexturedMaterial());
+            } else if (material instanceof ColoredMaterial) {
+                setColoredMaterialProperties(shader, material.asColoredMaterial());
+            }
         }
     }
 
@@ -86,11 +89,12 @@ public class ShaderHelper {
         if (texturedMaterial.hasRoughnessTexture()) {
             setTextureUnit2D(1, texturedMaterial.getActiveRoughnessTexture().getTextureId());
         }
+    }
 
-//        setUniformFloat(shader, "material.specMultiplier", material.getShinniness());
-//        setUniformVec3(shader, "material.diffuse", material.getDiffuse());
-//        setUniformVec3(shader, "material.specular", material.getSpecular());
-//        setUniformVec3(shader, "material.ambient", material.getAmbient());
+    private static void setColoredMaterialProperties(Shader shader, ColoredMaterial coloredMaterial) {
+        coloredMaterial.getColorsHashMap().forEach((id,color) -> {
+            setUniformVec4(shader, id, color);
+        });
     }
 
     public static void setLightProperties(Shader shader, ArrayList<GameLight> lights) {
@@ -100,14 +104,13 @@ public class ShaderHelper {
         String lightIndE = "].";
         for(int i=0; i<lights.size(); i++) {
             GameLight light = lights.get(i);
-            setUniformVec3(shader, lightIndS+i+lightIndE+LIGHT_POS, light.getLocation());
-            setUniformVec4(shader, lightIndS+i+lightIndE+LIGHT_COLOR, light.getLightColor());
-            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_RADIUS, light.getRadius());
-            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_INNER_CUTOFF, light.getInnerCutoff());
-            setUniformFloat(shader, lightIndS+i+lightIndE+LIGHT_OUTER_CUTOFF, light.getOuterCutoff());
+            setUniformVec3(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_POS, light.getLocation());
+            setUniformVec4(shader, lightIndS+i+lightIndE+ ShaderConst.LIGHT_COLOR, light.getLightColor());
+            setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_RADIUS, light.getRadius());
+            setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_INNER_CUTOFF, light.getInnerCutoff());
+            setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_OUTER_CUTOFF, light.getOuterCutoff());
         }
     }
-
 
     public static int generateShadersAndProgram(String vs, String fs){
         int vertexShad = loadShader(GLES30.GL_VERTEX_SHADER,

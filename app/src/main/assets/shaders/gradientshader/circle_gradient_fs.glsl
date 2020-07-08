@@ -2,14 +2,22 @@
 precision highp float;
 
 uniform mat4 model, view, projection;
-uniform vec4 centerColor, edgeColor;
-uniform vec3 translation;
-uniform float radius, offsetFromCenter, offsetFromEdge;
+uniform vec4 centerColor, midColor, edgeColor;
+uniform vec3 center;
+uniform float radius, midPoint;
+
+in vec3 out_vertex_pos_vs;
 
 out vec4 FragColor;
 void main() {
-    vec3 translationVS = (projection * view * model *  vec4(translation, 1.0)).xyz;
-    vec3 translationToPoint = gl_FragCoord.xyz - vec3(0.0,10.0,0.0);
-    float dist = length(translationToPoint)/radius;
-    FragColor = vec4(centerColor.x, centerColor.y, centerColor.z/dist, centerColor.w);//vec4(1.0,1.0,1.0,1.0);
+    vec3 centerCS = (view * model *  vec4(center, 1.0)).xyz;
+    vec3 translationToPoint = out_vertex_pos_vs - centerCS;
+    float distance = length(translationToPoint);
+    float unitDist = distance/radius;
+    float nUnitDist = (distance-midPoint)/(radius-midPoint);
+
+    vec4 lightColor = mix(centerColor, midColor, unitDist);
+    lightColor += mix(midColor, edgeColor, nUnitDist);
+
+    FragColor = lightColor;
 }

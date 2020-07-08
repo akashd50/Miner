@@ -2,8 +2,9 @@ package com.greymatter.miner.opengl.objects.drawables.object3d;
 
 import android.opengl.GLES30;
 
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -25,7 +26,7 @@ public class Object3D extends Drawable {
 	}
 
 	public Object3D load(String dataFile) {
-		object3DData = Object3DHelper.load(Constants.OBJECTS_F + dataFile);
+		object3DData = Object3DHelper.load(Res.OBJECTS_F + dataFile);
 		return this;
 	}
 
@@ -34,13 +35,13 @@ public class Object3D extends Drawable {
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
 		int vertexBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayVertices, 3,
-				getShader(), Constants.IN_POSITION);
+				getShader(), ShaderConst.IN_POSITION);
 		super.setVertexBufferObject(vertexBufferObject);
 
 //		normalBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayNormals, 3,
 //				getShader(), Constants.IN_NORMAL);
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayUvs, 2,
-				getShader(), Constants.IN_UV);
+				getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
 
@@ -56,7 +57,7 @@ public class Object3D extends Drawable {
 
 		if(getMaterial()!=null) { ShaderHelper.setMaterialProperties(getShader(), getMaterial()); }
 
-		ShaderHelper.setUniformMatrix4fv(getShader(), Constants.MODEL, getModelMatrix());
+		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
 
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, object3DData.faceConfiguration.size() * 3);
 

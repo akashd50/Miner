@@ -2,7 +2,8 @@ package com.greymatter.miner.opengl.objects.drawables.textureedged;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
@@ -30,7 +31,7 @@ public class TextureEdgedCircle extends Drawable {
         super.onDrawFrame();
 
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), Constants.MODEL, getModelMatrix());
+        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
         ShaderHelper.setMaterialProperties(getShader(), getMaterial());
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, numPoints * 2 /*triangles*/ * 3 /*vertices per triangle*/ );
@@ -96,8 +97,8 @@ public class TextureEdgedCircle extends Drawable {
 
         int vertexArrayObj = GLBufferHelper.glGenVertexArray();
         GLBufferHelper.glBindVertexArray(vertexArrayObj);
-        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(vertices, 3, super.getShader(), Constants.IN_POSITION);
-        int uvBufferObj = GLBufferHelper.putDataIntoArrayBuffer(uvs,2,super.getShader(), Constants.IN_UV);
+        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(vertices, 3, super.getShader(), ShaderConst.IN_POSITION);
+        int uvBufferObj = GLBufferHelper.putDataIntoArrayBuffer(uvs,2,super.getShader(), ShaderConst.IN_UV);
         GLBufferHelper.glUnbindVertexArray();
 
         super.setVertexArrayObject(vertexArrayObj);

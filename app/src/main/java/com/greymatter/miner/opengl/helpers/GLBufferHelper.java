@@ -3,7 +3,7 @@ package com.greymatter.miner.opengl.helpers;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.greymatter.miner.opengl.Constants;
+import com.greymatter.miner.Res;
 import com.greymatter.miner.opengl.objects.Shader;
 
 public class GLBufferHelper {
@@ -33,7 +33,7 @@ public class GLBufferHelper {
 
     public static void glBufferArrayData(int bufferObject, float[] data) {
         glBindArrayBuffer(bufferObject);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, Constants.SIZE_OF_FLOAT * data.length,
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, Res.SIZE_OF_FLOAT * data.length,
                 BufferHelper.asFloatBuffer(data), GLES30.GL_STATIC_DRAW);
         glBindArrayBuffer(0);
     }
@@ -47,7 +47,7 @@ public class GLBufferHelper {
         }
         GLES30.glEnableVertexAttribArray(attribLocation);
         GLES30.glVertexAttribPointer(attribLocation, coordsPerVertex, GLES30.GL_FLOAT, false,
-                coordsPerVertex * Constants.SIZE_OF_FLOAT, 0);
+                coordsPerVertex * Res.SIZE_OF_FLOAT, 0);
 
         glBindArrayBuffer(0);
     }
