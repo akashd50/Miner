@@ -7,6 +7,7 @@ import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
+import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,8 @@ public class GeneralRenderer extends AbstractRenderer {
 
         ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(vertexData).build();
         testLine.getCollider().translateTo(new Vector3f(0f,0f,2f));
+
+        ((RadialGradient)GameObjectsContainer.get("g").getDrawable()).updateMidPoint(0.01f);
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);

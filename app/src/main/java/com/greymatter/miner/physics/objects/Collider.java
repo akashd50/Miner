@@ -1,6 +1,7 @@
 package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.Transformation;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.HashMap;
@@ -9,17 +10,14 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class Collider {
-    private Vector3f translation, rotation, scale,
-            acceleration, velocity, gravity, friction, upVector;
+    private Vector3f acceleration, velocity, gravity, friction, upVector;
+    private Transformation transformation;
     private float mass, restitution, angularVel, angularAcc;
     private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
     public Collider() {
-        this.translation = new Vector3f(0f,0f,0f);
-        this.rotation = new Vector3f(0f,0f,0f);
-        this.scale = new Vector3f(1.0f,1.0f, 1.0f);
         this.acceleration = new Vector3f();
         this.velocity = new Vector3f();
         this.gravity = new Vector3f();
@@ -68,7 +66,7 @@ public abstract class Collider {
     }
 
     public Vector3f getUpVectorFromRotation() {
-        upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(rotation.z - 90));
+        upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(transformation.getRotation().z - 90));
         return upVector;
     }
 
@@ -140,122 +138,88 @@ public abstract class Collider {
     }
 
     public Collider scaleTo(Vector3f newScale) {
-        this.scale = newScale;
+        transformation.scaleTo(newScale);
         this.updateParams();
         return this;
     }
 
     public Collider scaleBy(Vector3f newScale) {
-        this.scale.add(newScale);
+        transformation.scaleBy(newScale);
         this.updateParams();
         return this;
     }
 
     public Collider scaleTo(float x, float y, float z) {
-        this.scale.set(x,y,z);
+        transformation.scaleTo(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider scaleBy(float x, float y, float z) {
-        this.scale.x+=x;
-        this.scale.y+=y;
-        this.scale.z+=z;
+        transformation.scaleBy(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(Vector3f position) {
-        this.translation = new Vector3f(position);
+        transformation.translateTo(position);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(Vector3f translation) {
-        this.translation.add(translation);
+        transformation.translateBy(translation);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(Vector2f position) {
-        this.translation.x = position.x;
-        this.translation.y = position.y;
+        transformation.translateTo(position);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(Vector2f translation) {
-        this.translation.x += translation.x;
-        this.translation.y += translation.y;
+        transformation.translateBy(translation);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(float x, float y) {
-        this.translation.x = x;
-        this.translation.y = y;
+        transformation.translateTo(x,y);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(float x, float y) {
-        this.translation.x += x;
-        this.translation.y += y;
+        transformation.translateBy(x,y);
         this.updateParams();
         return this;
     }
 
     //rotation
     public Collider rotateTo(Vector3f rotation) {
-        this.rotation = rotation;
-        restrictRotationRange();
+        transformation.rotateTo(rotation);
         this.updateParams();
         return this;
     }
 
     public Collider rotateBy(Vector3f rotation) {
-        this.rotation.add(rotation);
-        restrictRotationRange();
+        transformation.rotateBy(rotation);
         this.updateParams();
         return this;
     }
 
     public Collider rotateBy(float x, float y, float z) {
-        this.rotation.x+=x;
-        this.rotation.y+=y;
-        this.rotation.z+=z;
-        restrictRotationRange();
+       transformation.rotateBy(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider rotateTo(float x, float y, float z) {
-        this.rotation.x = x;
-        this.rotation.y = y;
-        this.rotation.z = z;
-        restrictRotationRange();
+        transformation.rotateTo(x,y,z);
         this.updateParams();
         return this;
-    }
-
-    private void restrictRotationRange() {
-        if(rotation.x > 360) {
-            rotation.x = rotation.x - 360;
-        } else if(rotation.x < -360) {
-            rotation.x = rotation.x + 360;
-        }
-
-        if(rotation.y > 360) {
-            rotation.y = rotation.y - 360;
-        } else if(rotation.y < -360) {
-            rotation.y = rotation.y + 360;
-        }
-
-        if(rotation.z > 360) {
-            rotation.z = rotation.z - 360;
-        } else if(rotation.z < -360) {
-            rotation.z = rotation.z + 360;
-        }
     }
 
     public Collider setUpVector(Vector3f vector) {
@@ -265,6 +229,11 @@ public abstract class Collider {
 
     public Collider isStaticObject(boolean isStatic) {
         this.isStaticObject = isStatic;
+        return this;
+    }
+
+    public Collider setTransformation(Transformation transformation) {
+        this.transformation = transformation;
         return this;
     }
 
@@ -311,15 +280,19 @@ public abstract class Collider {
     }
 
     public Vector3f getTranslation() {
-        return translation;
+        return transformation.getTranslation();
     }
 
     public Vector3f getRotation() {
-        return rotation;
+        return transformation.getRotation();
     }
 
     public Vector3f getScale() {
-        return scale;
+        return transformation.getScale();
+    }
+
+    public Transformation getTransformation() {
+        return transformation;
     }
 
     public Vector3f getVelocity() {

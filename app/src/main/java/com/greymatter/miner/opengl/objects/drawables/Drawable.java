@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 import android.opengl.Matrix;
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
+import com.greymatter.miner.opengl.objects.Transformation;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
@@ -19,12 +20,14 @@ public abstract class Drawable implements Clickable {
     private Collider collider;
     private String id;
     private TouchChecker touchChecker;
+    private Transformation transformation;
 
     public Drawable(String id) {
         this.id = id;
         this.transformationsUpdated = false;
         this.modelMatrix = new float[16];
         Matrix.setIdentityM(modelMatrix, 0);
+        transformation = new Transformation();
         this.setCollider(new GeneralCollider());
     }
 
@@ -46,15 +49,15 @@ public abstract class Drawable implements Clickable {
 
     public void applyTransformations(float[] modelMat) {
         if(collider != null) {
-            Matrix.translateM(modelMat, 0, collider.getTranslation().x,
-                                                        collider.getTranslation().y,
-                                                        collider.getTranslation().z);
-            Matrix.rotateM(modelMat, 0, collider.getRotation().x, 1, 0, 0);
-            Matrix.rotateM(modelMat, 0, collider.getRotation().y, 0, 1, 0);
-            Matrix.rotateM(modelMat, 0, collider.getRotation().z, 0, 0, 1);
-            Matrix.scaleM(modelMat, 0, collider.getScale().x,
-                                                    collider.getScale().y,
-                                                    collider.getScale().z);
+            Matrix.translateM(modelMat, 0, transformation.getTranslation().x,
+                                                    transformation.getTranslation().y,
+                                                    transformation.getTranslation().z);
+            Matrix.rotateM(modelMat, 0, transformation.getRotation().x, 1, 0, 0);
+            Matrix.rotateM(modelMat, 0, transformation.getRotation().y, 0, 1, 0);
+            Matrix.rotateM(modelMat, 0, transformation.getRotation().z, 0, 0, 1);
+            Matrix.scaleM(modelMat, 0, transformation.getScale().x,
+                                                transformation.getScale().y,
+                                                transformation.getScale().z);
             this.modelMatrix = modelMat;
         }
     }
@@ -95,7 +98,11 @@ public abstract class Drawable implements Clickable {
 
     public Drawable setCollider(Collider collider) {
         this.collider = collider;
-        if(this.collider.getDrawable()==null) this.collider.setDrawable(this);
+        if(this.collider.getDrawable()==null) {
+            this.collider.setDrawable(this);
+        }
+
+        collider.setTransformation(transformation);
         return this;
     }
 

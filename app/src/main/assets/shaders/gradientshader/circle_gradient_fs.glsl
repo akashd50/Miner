@@ -15,9 +15,11 @@ void main() {
     float distance = length(translationToPoint);
     float unitDist = distance/radius;
     float nUnitDist = (distance-midPoint)/(radius-midPoint);
-
-    vec4 lightColor = mix(centerColor, midColor, unitDist);
-    lightColor += mix(midColor, edgeColor, nUnitDist);
-
+    vec4 lightColor;
+    if(distance<midPoint) {
+        lightColor = mix(centerColor, midColor, unitDist);
+    }else {
+        lightColor = mix(midColor, edgeColor, nUnitDist);
+    }
     FragColor = lightColor;
 }

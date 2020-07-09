@@ -13,7 +13,8 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.gradients.CircleGradient;
+import com.greymatter.miner.opengl.objects.drawables.Shape;
+import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
@@ -70,14 +71,17 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
-
-        GameObjectsContainer.add(new Static(new CircleGradient("g")
-                                            .load(0.5f).setMidPoint(0.3f)
+        Shape shape = new Shape("tri").loadCircle(1f).build();
+        //Shape shape = new Shape("tri").loadPie(45f,1f).build();
+        GameObjectsContainer.add(new Static(new RadialGradient("g")
+                                            .setShape(shape).setRadius(1f)
+                                            //.load(0.5f,null)
+                                            .setMidPoint(0.01f)
                                             .setMaterial(MaterialContainer.get("color"))
                                             .setShader(ShaderContainer.get(CIRCLE_GRADIENT_SHADER))
-                                            .setCenterColor(new Vector4f(1f,0f,0f,1f))
-                                            .setMidColor(new Vector4f(0f,0f,1f,1f))
-                                            .setEdgeColor(new Vector4f(0f,1f,0f,1f))
+                                            .setCenterColor(new Vector4f(0f,0.2f,0.2f,0.6f))
+                                            .setMidColor(new Vector4f(0f,0.4f,0.3f,0.4f))
+                                            .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0f))
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
