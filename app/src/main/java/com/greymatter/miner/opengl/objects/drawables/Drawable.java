@@ -108,7 +108,7 @@ public abstract class Drawable implements Clickable {
     }
 
     public void onTransformsChanged() {
-
+        transformationsUpdated = true;
     }
 
     public Material getMaterial() {

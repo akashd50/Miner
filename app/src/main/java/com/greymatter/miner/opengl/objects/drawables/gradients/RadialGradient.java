@@ -111,6 +111,7 @@ public class RadialGradient extends Gradient {
 
     @Override
     public void onTransformsChanged() {
+        super.transformationsUpdated();
         radius = super.getTransforms().getScale().x * tRadius;
         midPoint = super.getTransforms().getScale().x * tMidPoint;
     }

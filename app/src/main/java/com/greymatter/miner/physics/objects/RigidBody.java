@@ -7,59 +7,25 @@ import java.util.HashMap;
 import javax.vecmath.Vector3f;
 
 public abstract class RigidBody {
-    private Vector3f acceleration, velocity, gravity, friction, upVector;
+    private Vector3f upVector;
     private Transforms transforms;
-    private float mass, restitution, angularVel, angularAcc;
+    private RBProps rbProps;
     private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
     public RigidBody() {
-        this.acceleration = new Vector3f();
-        this.velocity = new Vector3f();
-        this.gravity = new Vector3f();
-        this.friction = new Vector3f();
         this.upVector = new Vector3f(0f,1f,0f);
-        this.mass = 0;
         this.lastCollisionEvents = new HashMap<>();
         this.shouldUpdateGravity = true;
         this.shouldUpdateFriction = true;
-    }
-
-    //<---------------------------------forces start-------------------------------------------->
-    public void resetGravity() {
-        this.gravity.set(0f,0f,0f);
-    }
-
-    public void applyGravity(Vector3f gUpdate) {
-        this.gravity.add(gUpdate);
-    }
-
-    public void resetFriction() {
-        this.friction.set(0f,0f,0f);
-    }
-
-    public void applyFriction(Vector3f gUpdate) {
-        this.friction.add(gUpdate);
+        this.rbProps = new RBProps();
     }
 
     public void update() {
-        this.resetAcceleration();
-        this.updateAcceleration(gravity);
-
-        this.updateVelocity(friction);
-        this.updateVelocity(acceleration);
-
-        this.transforms.translateBy(velocity);
-
-        this.updateAngularVelocity(angularAcc);
-        //angular friction
-        if(angularVel > 0) {
-            angularVel-=0.01f;
-        }else if(angularVel < 0){
-            angularVel+=0.01f;
-        }
-        this.transforms.rotateBy(0f,0f,angularVel);
+        rbProps.update();
+        this.transforms.translateBy(rbProps.getVelocity());
+        this.transforms.rotateBy(0f,0f,rbProps.getAngularVelocity());
     }
 
     public Vector3f getUpVectorFromRotation() {
@@ -77,61 +43,6 @@ public abstract class RigidBody {
 
     public CollisionEvent getLastCollisionEvent(Drawable against) {
         return lastCollisionEvents.get(against.getRigidBody().toString());
-    }
-    //<---------------------------------forces end -------------------------------------------->
-
-    public void resetAcceleration() {
-        this.acceleration.set(0f,0f,0f);
-    }
-
-    public RigidBody setAngularAcceleration(float acceleration) {
-        this.angularAcc = acceleration;
-        return this;
-    }
-
-    public RigidBody setAngularVelocity(float vel) {
-        this.angularVel = vel;
-        return this;
-    }
-
-    public RigidBody updateAngularAcceleration(float acceleration) {
-        this.angularAcc += acceleration;
-        return this;
-    }
-
-    public RigidBody updateAngularVelocity(float vel) {
-        this.angularVel += vel;
-        return this;
-    }
-
-    public RigidBody setAcceleration(Vector3f acceleration) {
-        this.acceleration = acceleration;
-        return this;
-    }
-
-    public RigidBody setVelocity(Vector3f velocity) {
-        this.velocity = velocity;
-        return this;
-    }
-
-    public RigidBody updateAcceleration(Vector3f acceleration) {
-        this.acceleration.add(acceleration);
-        return this;
-    }
-
-    public RigidBody updateVelocity(Vector3f velocity) {
-        this.velocity.add(velocity);
-        return this;
-    }
-
-    public RigidBody setMass(float mass) {
-        this.mass = mass;
-        return this;
-    }
-
-    public RigidBody setRestitution(float restitution) {
-        this.restitution = restitution;
-        return this;
     }
 
     public RigidBody setUpVector(Vector3f vector) {
@@ -173,15 +84,6 @@ public abstract class RigidBody {
         if(dynamicallyUpdated) {
             this.updateParamsOverride();
         }
-        this.drawable.transformationsUpdated();
-    }
-
-    public float getAngularAcceleration() {
-        return angularAcc;
-    }
-
-    public float getAngularVelocity() {
-        return angularVel;
     }
 
     public boolean isStaticObject() {
@@ -208,20 +110,8 @@ public abstract class RigidBody {
         return transforms;
     }
 
-    public Vector3f getVelocity() {
-        return velocity;
-    }
-
-    public Vector3f getAcceleration() {
-        return acceleration;
-    }
-
-    public Vector3f getFriction() {
-        return friction;
-    }
-
-    public Vector3f getGravity() {
-        return gravity;
+    public RBProps getRBProps() {
+        return rbProps;
     }
 
     public Vector3f getUpVector() {
@@ -230,14 +120,6 @@ public abstract class RigidBody {
 
     public Drawable getDrawable() {
         return drawable;
-    }
-
-    public float getMass(){
-        return this.mass;
-    }
-
-    public float getRestitution() {
-        return restitution;
     }
 
     public CircleRigidBody asCircleCollider() {

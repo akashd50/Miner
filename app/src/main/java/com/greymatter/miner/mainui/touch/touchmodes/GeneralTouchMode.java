@@ -31,11 +31,11 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.move_left:
                 Vector3f left = VectorHelper.getNormal(getMainCamera().getUpVector());
-                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(left, 0.01f));
+                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().getRBProps().updateVelocity(VectorHelper.multiply(left, 0.01f));
                 break;
             case R.id.move_right:
                 Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().updateVelocity(VectorHelper.multiply(right, 0.01f));
+                GameObjectsContainer.get(MAIN_CHARACTER).getCollider().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             case R.id.items_menu:
                 View view = AppServices.getAppContextAsActivity().getLayoutInflater().inflate(R.layout.items_dialog, null);
@@ -134,10 +134,10 @@ public class GeneralTouchMode extends AbstractTouchMode {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
 
             GameObjectsContainer.get(MAIN_CHARACTER).getTransforms().translateTo(touchPoint);
-            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setVelocity(new Vector3f(0f, 0f, 0f));
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
             GameObjectsContainer.get(MAIN_CHARACTER).getTransforms().rotateTo(new Vector3f());
-            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setAngularAcceleration(0f);
-            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().setAngularVelocity(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().getRBProps().setAngularAcceleration(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER).getCollider().getRBProps().setAngularVelocity(0f);
             return true;
         }
         return false;

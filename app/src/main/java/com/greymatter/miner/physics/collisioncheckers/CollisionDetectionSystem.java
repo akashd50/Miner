@@ -36,15 +36,14 @@ public class CollisionDetectionSystem {
     public static void updateSystemObjectsForces() {
         for(RigidBody rigidBody : CollisionSystemContainer.getAll()) {
             if(!rigidBody.isStaticObject()) {
-                rigidBody.resetGravity();
-                rigidBody.resetFriction();
+                rigidBody.getRBProps().resetGravity().resetFriction();
                 for (RigidBody against : CollisionSystemContainer.getAllExcept(rigidBody)) {
                     if(against.isStaticObject()) {
-                        rigidBody.applyGravity(calculateGravitationalForce(rigidBody, against));
+                        rigidBody.getRBProps().applyGravity(calculateGravitationalForce(rigidBody, against));
                         angularAdjustmentDueToGravity(rigidBody,against);
                     }
                 }
-                rigidBody.applyFriction(VectorHelper.multiply(rigidBody.getVelocity(), -0.01f * rigidBody.getMass()));
+                rigidBody.getRBProps().applyFriction(VectorHelper.multiply(rigidBody.getRBProps().getVelocity(), -0.01f * rigidBody.getRBProps().getMass()));
                 rigidBody.update();
             }
         }
@@ -52,7 +51,7 @@ public class CollisionDetectionSystem {
 
     public static Vector3f calculateGravitationalForce(RigidBody current, RigidBody against) {
         Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
-        float force = (0.0000003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
+        float force = (0.0000003f * against.getRBProps().getMass() * current.getRBProps().getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
 
        //angularAdjustmentDueToGravity(current, against);
@@ -76,9 +75,9 @@ public class CollisionDetectionSystem {
         }
 
         if(magSumNegSide<magSumPosSide) {
-            current.updateAngularVelocity(0.01f);
+            current.getRBProps().updateAngularVelocity(0.01f);
         }else{
-            current.updateAngularVelocity(-0.01f);
+            current.getRBProps().updateAngularVelocity(-0.01f);
         }
     }
 

@@ -188,19 +188,19 @@ class MainGLObjectsHelper {
 
         planet.getRigidBody().updateTransformationsPerMovement(true)
                             .isStaticObject(true)
-                            .setMass(1000000f)
+                            .getRBProps().setMass(1000000f)
                             .setRestitution(0.3f);
 
         mainCharacter.getRigidBody().updateTransformationsPerMovement(true)
                                     .isStaticObject(false)
-                                    .setMass(1f)
+                                    .getRBProps().setMass(1f)
                                     .setRestitution(0.5f);
 
         mainBase.getRigidBody().updateTransformationsPerMovement(true);
 
         sampleScanner.getRigidBody().updateTransformationsPerMovement(true)
                             .isStaticObject(false)
-                            .setMass(2.0f)
+                            .getRBProps().setMass(2.0f)
                             .setRestitution(0.5f);
 
         OnCollisionListener listener = new OnCollisionListener() {
