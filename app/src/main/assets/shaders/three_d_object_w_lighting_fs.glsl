@@ -1,5 +1,5 @@
 #version 300 es
-precision mediump float;
+precision highp float;
 struct Material {
     sampler2D diffuseTexture;
     sampler2D specularTexture;
