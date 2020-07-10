@@ -53,7 +53,7 @@ public abstract class Collider {
         this.updateVelocity(friction);
         this.updateVelocity(acceleration);
 
-        this.translateBy(velocity);
+        this.transforms.translateBy(velocity);
 
         this.updateAngularVelocity(angularAcc);
         //angular friction
@@ -62,7 +62,7 @@ public abstract class Collider {
         }else if(angularVel < 0){
             angularVel+=0.01f;
         }
-        rotateBy(0f,0f,angularVel);
+        this.transforms.rotateBy(0f,0f,angularVel);
     }
 
     public Vector3f getUpVectorFromRotation() {
@@ -137,91 +137,6 @@ public abstract class Collider {
         return this;
     }
 
-    public Collider scaleTo(Vector3f newScale) {
-        transforms.scaleTo(newScale);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider scaleBy(Vector3f newScale) {
-        transforms.scaleBy(newScale);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider scaleTo(float x, float y, float z) {
-        transforms.scaleTo(x,y,z);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider scaleBy(float x, float y, float z) {
-        transforms.scaleBy(x,y,z);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateTo(Vector3f position) {
-        transforms.translateTo(position);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateBy(Vector3f translation) {
-        transforms.translateBy(translation);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateTo(Vector2f position) {
-        transforms.translateTo(position);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateBy(Vector2f translation) {
-        transforms.translateBy(translation);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateTo(float x, float y) {
-        transforms.translateTo(x,y);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider translateBy(float x, float y) {
-        transforms.translateBy(x,y);
-        this.updateParams();
-        return this;
-    }
-
-    //rotation
-    public Collider rotateTo(Vector3f rotation) {
-        transforms.rotateTo(rotation);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider rotateBy(Vector3f rotation) {
-        transforms.rotateBy(rotation);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider rotateBy(float x, float y, float z) {
-       transforms.rotateBy(x,y,z);
-        this.updateParams();
-        return this;
-    }
-
-    public Collider rotateTo(float x, float y, float z) {
-        transforms.rotateTo(x,y,z);
-        this.updateParams();
-        return this;
-    }
-
     public Collider setUpVector(Vector3f vector) {
         this.upVector = new Vector3f(vector);
         return this;
@@ -257,15 +172,11 @@ public abstract class Collider {
         if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
     }
 
-    public void updateParams() {
+    public void onTransformsChanged() {
         if(dynamicallyUpdated) {
             this.updateParamsOverride();
         }
         this.drawable.transformationsUpdated();
-    }
-
-    public void onTransformsChanged() {
-
     }
 
     public float getAngularAcceleration() {

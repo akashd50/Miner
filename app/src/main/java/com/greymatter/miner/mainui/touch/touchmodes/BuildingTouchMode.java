@@ -81,6 +81,6 @@ public class BuildingTouchMode extends AbstractTouchMode {
     /*-----------------------------------private helper functions---------------------------------*/
     private void translateSelectedObject(GameObject selected) {
         selected.moveTo(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()));
-        selected.getCollider().rotateTo(0f,0f,VectorHelper.angleBetween(GameObjectsContainer.get(PLANET).getDrawable(), selected.getDrawable()));
+        selected.getTransforms().rotateTo(0f,0f,VectorHelper.angleBetween(GameObjectsContainer.get(PLANET).getDrawable(), selected.getDrawable()));
     }
 }

@@ -81,7 +81,7 @@ public interface OnCollisionListener {
                 / (1/event.getLinkedObject().getMass() + 1/event.getAgainstObject().getMass()) * percent;
         Vector3f correctionVector = VectorHelper.multiply(event.getCollisionNormal(), correction);
         correctionVector = VectorHelper.multiply(correctionVector, 1/event.getLinkedObject().getMass());
-        event.getLinkedObject().translateBy(correctionVector);
+        event.getLinkedObject().getTransforms().translateBy(correctionVector);
     }
 
     void impulseResolution(CollisionEvent event);

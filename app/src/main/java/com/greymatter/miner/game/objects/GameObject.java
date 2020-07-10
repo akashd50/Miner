@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.Collider;
 
@@ -40,32 +41,32 @@ public abstract class GameObject {
     }
 
     public GameObject moveBy(Vector2f moveTo) {
-        objectDrawable.getCollider().translateBy(moveTo);
+        objectDrawable.getTransforms().translateBy(moveTo);
         return this;
     }
 
     public GameObject moveBy(float x, float y) {
-        objectDrawable.getCollider().translateBy(x,y);
+        objectDrawable.getTransforms().translateBy(x,y);
         return this;
     }
 
     public GameObject moveBy(Vector3f moveTo) {
-        objectDrawable.getCollider().translateBy(moveTo);
+        objectDrawable.getTransforms().translateBy(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector2f moveTo) {
-        objectDrawable.getCollider().translateTo(moveTo);
+        objectDrawable.getTransforms().translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector3f moveTo) {
-        objectDrawable.getCollider().translateTo(moveTo);
+        objectDrawable.getTransforms().translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(float x, float y) {
-        objectDrawable.getCollider().translateTo(x,y);
+        objectDrawable.getTransforms().translateTo(x,y);
         return this;
     }
 
@@ -79,6 +80,10 @@ public abstract class GameObject {
 
     public Drawable getDrawable() {
         return objectDrawable;
+    }
+
+    public Transforms getTransforms() {
+        return objectDrawable.getTransforms();
     }
 
     public Collider getCollider() {

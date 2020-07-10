@@ -134,31 +134,31 @@ class MainGLObjectsHelper {
     }
 
     static void finishObjectsSetup() {
-        GameObjectsContainer.get(ATMOSPHERE).getCollider()
+        GameObjectsContainer.get(ATMOSPHERE).getTransforms()
                             .scaleTo(190f,190f,1f)
                             .translateTo(new Vector3f(0f,-120.5f, -10f));
 
-        GameObjectsContainer.get(PLANET).getCollider()
+        GameObjectsContainer.get(PLANET).getTransforms()
                             .scaleTo(120f,120f,1f)
                             .translateTo(new Vector3f(0f,-120.5f, 0f));
 
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
-        mainCharacter.getCollider().scaleTo(0.5f,0.5f,1f)
+        mainCharacter.getTransforms().scaleTo(0.5f,0.5f,1f)
                                     .translateBy(new Vector3f(-0.5f,0f,0f));
 
-        GameObjectsContainer.get(SAMPLE_SCANNER).getCollider()
+        GameObjectsContainer.get(SAMPLE_SCANNER).getTransforms()
                             .scaleTo(0.6f,0.6f,1f)
                             .translateBy(new Vector3f(-0.5f,2f,0f));
 
         GameObjectsContainer.get(MAIN_BASE).moveTo(new Vector3f(-2.4f,2f,-5f))
-                                           .getCollider()
+                                           .getTransforms()
                                            .scaleTo(4f,2.7f,1f);
 
-        GameObjectsContainer.get(PLANET_GRASS_LAYER).getCollider()
+        GameObjectsContainer.get(PLANET_GRASS_LAYER).getTransforms()
                             .scaleTo(119.65f,119.65f,1f)
                             .translateTo(new Vector3f(0f,-120.5f, 1f));
 
-        GameObjectsContainer.get(SAMPLE_TREE).getCollider()
+        GameObjectsContainer.get(SAMPLE_TREE).getTransforms()
                             .scaleTo(1f,1.5f,1f)
                             .translateTo(new Vector3f(0f,0f, -6f));
 
@@ -167,7 +167,9 @@ class MainGLObjectsHelper {
                             .addVertices(mainCharacter.getCollider().asPolygonCollider().getTransformedVertices())
                             .build()));
 
-        GameObjectsContainer.get("g").getCollider().translateTo(new Vector3f(-1,0.5f, 2f)).scaleTo(3f,3f,1f);
+        GameObjectsContainer.get("g").getTransforms()
+                .translateTo(new Vector3f(-1,0.5f, 2f))
+                .scaleTo(3f,3f,1f);
 
         ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
