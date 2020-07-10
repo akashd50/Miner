@@ -71,8 +71,8 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
-        Shape shape = new Shape("tri").loadCircle(1f).build();
-        //Shape shape = new Shape("tri").loadPie(45f,1f).build();
+        //Shape shape = new Shape("tri").loadCircle(1f).build();
+        Shape shape = new Shape("tri").loadPie(45f,1f).build();
         GameObjectsContainer.add(new Static(new RadialGradient("g")
                                             .setShape(shape).setRadius(1f)
                                             //.load(0.5f,null)
@@ -167,7 +167,7 @@ class MainGLObjectsHelper {
                             .addVertices(mainCharacter.getCollider().asPolygonCollider().getTransformedVertices())
                             .build()));
 
-        GameObjectsContainer.get("g").getCollider().translateTo(new Vector3f(-1,0.5f, 2f));
+        GameObjectsContainer.get("g").getCollider().translateTo(new Vector3f(-1,0.5f, 2f)).scaleTo(3f,3f,1f);
 
         ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));

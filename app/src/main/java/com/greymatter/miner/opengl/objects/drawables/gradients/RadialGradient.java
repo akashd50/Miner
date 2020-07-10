@@ -15,6 +15,7 @@ import javax.vecmath.Vector4f;
 
 public class RadialGradient extends Gradient {
     private float radius, midPoint;
+    private float tRadius, tMidPoint;
     private Shape shape;
     public RadialGradient(String id) {
         super(id);
@@ -23,13 +24,14 @@ public class RadialGradient extends Gradient {
     @Override
     public void onDrawFrame() {
         super.onDrawFrame();
+
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 
         ShaderHelper.setUniformMatrix4fv(super.getShader(), ShaderConst.MODEL, super.getModelMatrix());
         ShaderHelper.setMaterialProperties(getShader(), getMaterial());
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_MID_POINT, midPoint);
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_RADIUS, radius);
-        ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getCollider().getTranslation());
+        ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getTransforms().getTranslation());
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, shape.getVerticesList().size());
 
@@ -62,12 +64,12 @@ public class RadialGradient extends Gradient {
     }
 
     public RadialGradient setRadius(float radius) {
-        this.radius = radius;
+        this.tRadius = radius;
         return this;
     }
 
     public RadialGradient setMidPoint(float midPoint) {
-        this.midPoint = super.getCollider().getScale().x * midPoint;
+        this.tMidPoint = midPoint;
         return this;
     }
 
@@ -105,6 +107,12 @@ public class RadialGradient extends Gradient {
     public RadialGradient setMaterial(Material material) {
         super.setMaterial(material);
         return this;
+    }
+
+    @Override
+    public void onTransformsChanged() {
+        radius = super.getTransforms().getScale().x * tRadius;
+        midPoint = super.getTransforms().getScale().x * tMidPoint;
     }
 
     @Override

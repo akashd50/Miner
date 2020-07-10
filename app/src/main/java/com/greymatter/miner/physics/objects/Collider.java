@@ -1,7 +1,7 @@
 package com.greymatter.miner.physics.objects;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.Transformation;
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class Collider {
     private Vector3f acceleration, velocity, gravity, friction, upVector;
-    private Transformation transformation;
+    private Transforms transforms;
     private float mass, restitution, angularVel, angularAcc;
     private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
     private Drawable drawable;
@@ -66,7 +66,7 @@ public abstract class Collider {
     }
 
     public Vector3f getUpVectorFromRotation() {
-        upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(transformation.getRotation().z - 90));
+        upVector = VectorHelper.rotateAroundZ(new Vector3f(0f,1f,0f), (float)Math.toRadians(transforms.getRotation().z - 90));
         return upVector;
     }
 
@@ -138,86 +138,86 @@ public abstract class Collider {
     }
 
     public Collider scaleTo(Vector3f newScale) {
-        transformation.scaleTo(newScale);
+        transforms.scaleTo(newScale);
         this.updateParams();
         return this;
     }
 
     public Collider scaleBy(Vector3f newScale) {
-        transformation.scaleBy(newScale);
+        transforms.scaleBy(newScale);
         this.updateParams();
         return this;
     }
 
     public Collider scaleTo(float x, float y, float z) {
-        transformation.scaleTo(x,y,z);
+        transforms.scaleTo(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider scaleBy(float x, float y, float z) {
-        transformation.scaleBy(x,y,z);
+        transforms.scaleBy(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(Vector3f position) {
-        transformation.translateTo(position);
+        transforms.translateTo(position);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(Vector3f translation) {
-        transformation.translateBy(translation);
+        transforms.translateBy(translation);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(Vector2f position) {
-        transformation.translateTo(position);
+        transforms.translateTo(position);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(Vector2f translation) {
-        transformation.translateBy(translation);
+        transforms.translateBy(translation);
         this.updateParams();
         return this;
     }
 
     public Collider translateTo(float x, float y) {
-        transformation.translateTo(x,y);
+        transforms.translateTo(x,y);
         this.updateParams();
         return this;
     }
 
     public Collider translateBy(float x, float y) {
-        transformation.translateBy(x,y);
+        transforms.translateBy(x,y);
         this.updateParams();
         return this;
     }
 
     //rotation
     public Collider rotateTo(Vector3f rotation) {
-        transformation.rotateTo(rotation);
+        transforms.rotateTo(rotation);
         this.updateParams();
         return this;
     }
 
     public Collider rotateBy(Vector3f rotation) {
-        transformation.rotateBy(rotation);
+        transforms.rotateBy(rotation);
         this.updateParams();
         return this;
     }
 
     public Collider rotateBy(float x, float y, float z) {
-       transformation.rotateBy(x,y,z);
+       transforms.rotateBy(x,y,z);
         this.updateParams();
         return this;
     }
 
     public Collider rotateTo(float x, float y, float z) {
-        transformation.rotateTo(x,y,z);
+        transforms.rotateTo(x,y,z);
         this.updateParams();
         return this;
     }
@@ -232,8 +232,9 @@ public abstract class Collider {
         return this;
     }
 
-    public Collider setTransformation(Transformation transformation) {
-        this.transformation = transformation;
+    public Collider setTransforms(Transforms transforms) {
+        this.transforms = transforms;
+        transforms.setLinkedCollider(this);
         return this;
     }
 
@@ -263,6 +264,10 @@ public abstract class Collider {
         this.drawable.transformationsUpdated();
     }
 
+    public void onTransformsChanged() {
+
+    }
+
     public float getAngularAcceleration() {
         return angularAcc;
     }
@@ -280,19 +285,19 @@ public abstract class Collider {
     }
 
     public Vector3f getTranslation() {
-        return transformation.getTranslation();
+        return transforms.getTranslation();
     }
 
     public Vector3f getRotation() {
-        return transformation.getRotation();
+        return transforms.getRotation();
     }
 
     public Vector3f getScale() {
-        return transformation.getScale();
+        return transforms.getScale();
     }
 
-    public Transformation getTransformation() {
-        return transformation;
+    public Transforms getTransforms() {
+        return transforms;
     }
 
     public Vector3f getVelocity() {
