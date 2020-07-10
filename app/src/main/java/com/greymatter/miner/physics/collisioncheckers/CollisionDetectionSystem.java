@@ -2,8 +2,7 @@ package com.greymatter.miner.physics.collisioncheckers;
 
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import javax.vecmath.Vector3f;
 
@@ -16,16 +15,16 @@ public class CollisionDetectionSystem {
             @Override
             public void run() {
                 while(isCollisionDetectionActive) {
-                    for (Collider collider : CollisionSystemContainer.getAll()) {
-                        if(!collider.isStaticObject()) {
-                            for (Collider toCheckAgainst : CollisionSystemContainer.getAllExcept(collider)) {
-                                CollisionEvent event = CollisionDetectionHelper.checkCollision(collider, toCheckAgainst);
+                    for (RigidBody rigidBody : CollisionSystemContainer.getAll()) {
+                        if(!rigidBody.isStaticObject()) {
+                            for (RigidBody toCheckAgainst : CollisionSystemContainer.getAllExcept(rigidBody)) {
+                                CollisionEvent event = CollisionDetectionHelper.checkCollision(rigidBody, toCheckAgainst);
 
                                 assert event != null;
-                                if (event.getCollisionStatus() && collider.getCollisionListener() != null) {
-                                    collider.getCollisionListener().onCollision(event);
+                                if (event.getCollisionStatus() && rigidBody.getCollisionListener() != null) {
+                                    rigidBody.getCollisionListener().onCollision(event);
                                 }
-                                collider.addOrUpdateCollisionEvent(event);
+                                rigidBody.addOrUpdateCollisionEvent(event);
                             }
                         }
                     }
@@ -35,23 +34,23 @@ public class CollisionDetectionSystem {
     }
 
     public static void updateSystemObjectsForces() {
-        for(Collider collider : CollisionSystemContainer.getAll()) {
-            if(!collider.isStaticObject()) {
-                collider.resetGravity();
-                collider.resetFriction();
-                for (Collider against : CollisionSystemContainer.getAllExcept(collider)) {
+        for(RigidBody rigidBody : CollisionSystemContainer.getAll()) {
+            if(!rigidBody.isStaticObject()) {
+                rigidBody.resetGravity();
+                rigidBody.resetFriction();
+                for (RigidBody against : CollisionSystemContainer.getAllExcept(rigidBody)) {
                     if(against.isStaticObject()) {
-                        collider.applyGravity(calculateGravitationalForce(collider, against));
-                        angularAdjustmentDueToGravity(collider,against);
+                        rigidBody.applyGravity(calculateGravitationalForce(rigidBody, against));
+                        angularAdjustmentDueToGravity(rigidBody,against);
                     }
                 }
-                collider.applyFriction(VectorHelper.multiply(collider.getVelocity(), -0.01f * collider.getMass()));
-                collider.update();
+                rigidBody.applyFriction(VectorHelper.multiply(rigidBody.getVelocity(), -0.01f * rigidBody.getMass()));
+                rigidBody.update();
             }
         }
     }
 
-    public static Vector3f calculateGravitationalForce(Collider current, Collider against) {
+    public static Vector3f calculateGravitationalForce(RigidBody current, RigidBody against) {
         Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
         float force = (0.0000003f * against.getMass() * current.getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
@@ -61,7 +60,7 @@ public class CollisionDetectionSystem {
         return VectorHelper.multiply(tDir, force);
     }
 
-    private static void angularAdjustmentDueToGravity(Collider current, Collider against) {
+    private static void angularAdjustmentDueToGravity(RigidBody current, RigidBody against) {
         Vector3f directionToObjectCenter = VectorHelper.sub(current.getTranslation(), against.getTranslation());
         Vector3f startP = against.getTranslation();
         Vector3f endP = VectorHelper.multiply(current.getTranslation(), 1);

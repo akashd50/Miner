@@ -2,7 +2,7 @@ package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.RigidBody;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public abstract class GameObject {
 
     //object movement
     public Vector3f getLocation() {
-        return objectDrawable.getCollider().getTranslation();
+        return objectDrawable.getRigidBody().getTranslation();
     }
 
     public GameObject moveBy(Vector2f moveTo) {
@@ -86,8 +86,8 @@ public abstract class GameObject {
         return objectDrawable.getTransforms();
     }
 
-    public Collider getCollider() {
-        return objectDrawable.getCollider();
+    public RigidBody getCollider() {
+        return objectDrawable.getRigidBody();
     }
 
     public int getNumTags() {return this.objectTags.size();}

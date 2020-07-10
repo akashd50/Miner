@@ -3,7 +3,7 @@ package com.greymatter.miner.physics.objects;
 import javax.vecmath.Vector3f;
 
 public class CollisionEvent {
-    private Collider linkedObject, againstObject;
+    private RigidBody linkedObject, againstObject;
     private Vector3f collisionNormal;
     private Vector3f linkedObjectCollisionPoint;
     private Vector3f againstObjectCollisionPoint;
@@ -13,13 +13,13 @@ public class CollisionEvent {
     private boolean collisionStatus;
     public CollisionEvent(){ }
 
-    public CollisionEvent withLinkedObject(Collider collider) {
-        this.linkedObject = collider;
+    public CollisionEvent withLinkedObject(RigidBody rigidBody) {
+        this.linkedObject = rigidBody;
         return this;
     }
 
-    public CollisionEvent againstObject(Collider collider) {
-        this.againstObject = collider;
+    public CollisionEvent againstObject(RigidBody rigidBody) {
+        this.againstObject = rigidBody;
         return this;
     }
 
@@ -86,11 +86,11 @@ public class CollisionEvent {
         return collisionStatus;
     }
 
-    public Collider getLinkedObject() {
+    public RigidBody getLinkedObject() {
         return linkedObject;
     }
 
-    public Collider getAgainstObject() {
+    public RigidBody getAgainstObject() {
         return againstObject;
     }
 }

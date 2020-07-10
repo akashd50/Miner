@@ -164,7 +164,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE)
                             .setShader(ShaderContainer.get(LINE_SHADER))
-                            .addVertices(mainCharacter.getCollider().asPolygonCollider().getTransformedVertices())
+                            .addVertices(mainCharacter.getRigidBody().asPolygonCollider().getTransformedVertices())
                             .build()));
 
         GameObjectsContainer.get("g").getTransforms()
@@ -186,19 +186,19 @@ class MainGLObjectsHelper {
         Drawable mainBase = GameObjectsContainer.get(MAIN_BASE).getDrawable();
         Drawable sampleScanner = GameObjectsContainer.get(SAMPLE_SCANNER).getDrawable().asObject3D().attachOptimisedPolygonCollider(0.1f);
 
-        planet.getCollider().updateTransformationsPerMovement(true)
+        planet.getRigidBody().updateTransformationsPerMovement(true)
                             .isStaticObject(true)
                             .setMass(1000000f)
                             .setRestitution(0.3f);
 
-        mainCharacter.getCollider().updateTransformationsPerMovement(true)
+        mainCharacter.getRigidBody().updateTransformationsPerMovement(true)
                                     .isStaticObject(false)
                                     .setMass(1f)
                                     .setRestitution(0.5f);
 
-        mainBase.getCollider().updateTransformationsPerMovement(true);
+        mainBase.getRigidBody().updateTransformationsPerMovement(true);
 
-        sampleScanner.getCollider().updateTransformationsPerMovement(true)
+        sampleScanner.getRigidBody().updateTransformationsPerMovement(true)
                             .isStaticObject(false)
                             .setMass(2.0f)
                             .setRestitution(0.5f);
@@ -215,8 +215,8 @@ class MainGLObjectsHelper {
         };
 
         //assign colliders and listeners
-        mainCharacter.getCollider().setCollisionListener(listener);
-        sampleScanner.getCollider().setCollisionListener(listener);
+        mainCharacter.getRigidBody().setCollisionListener(listener);
+        sampleScanner.getRigidBody().setCollisionListener(listener);
     }
 
     static void initiatePhysicsSystem() {

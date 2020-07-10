@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
 
-public class PolygonCollider extends Collider {
+public class PolygonRigidBody extends RigidBody {
     private ArrayList<Vector3f> meshVertices, transformedVertices;
 
-    public PolygonCollider(ArrayList<Vector3f> mesh) {
+    public PolygonRigidBody(ArrayList<Vector3f> mesh) {
         super();
         this.meshVertices = mesh;
         this.transformedVertices = new ArrayList<>();

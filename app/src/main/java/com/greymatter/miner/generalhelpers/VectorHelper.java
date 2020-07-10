@@ -54,7 +54,7 @@ public class VectorHelper {
     }
 
     public static float angleBetween(Drawable d1, Drawable d2) {
-        Vector3f d1Tod2 = VectorHelper.sub(d2.getCollider().getTranslation(), d1.getCollider().getTranslation());
+        Vector3f d1Tod2 = VectorHelper.sub(d2.getRigidBody().getTranslation(), d1.getRigidBody().getTranslation());
         return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x)) - 90;
     }
 

@@ -10,7 +10,7 @@ import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.PolygonCollider;
+import com.greymatter.miner.physics.objects.PolygonRigidBody;
 
 import java.util.*;
 
@@ -77,18 +77,18 @@ public class Object3D extends Drawable {
 
 	@Override
 	public Object3D attachPolygonTouchChecker() {
-		setTouchChecker(new PolygonTouchChecker(getCollider().asPolygonCollider()));
+		setTouchChecker(new PolygonTouchChecker(getRigidBody().asPolygonCollider()));
 		return this;
 	}
 
 	@Override
 	public Object3D attachPolygonCollider() {
-		this.setCollider(new PolygonCollider(this.getOuterMesh()));
+		this.setRigidBody(new PolygonRigidBody(this.getOuterMesh()));
 		return this;
 	}
 
 	public Object3D attachOptimisedPolygonCollider(float optFac) {
-		this.setCollider(new PolygonCollider(Object3DHelper.simplify(this.getOuterMesh(), optFac)));
+		this.setRigidBody(new PolygonRigidBody(Object3DHelper.simplify(this.getOuterMesh(), optFac)));
 		return this;
 	}
 

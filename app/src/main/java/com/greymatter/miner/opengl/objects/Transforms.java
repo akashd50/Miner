@@ -1,14 +1,14 @@
 package com.greymatter.miner.opengl.objects;
 
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.RigidBody;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Transforms {
     private Vector3f translation, rotation, scale;
     private Drawable linkedDrawable;
-    private Collider linkedCollider;
+    private RigidBody linkedRigidBody;
     private boolean hasChanged;
     public Transforms() {
         translation = new Vector3f();
@@ -147,8 +147,8 @@ public class Transforms {
         return scale;
     }
 
-    public void setLinkedCollider(Collider linkedCollider) {
-        this.linkedCollider = linkedCollider;
+    public void setLinkedRigidBody(RigidBody linkedRigidBody) {
+        this.linkedRigidBody = linkedRigidBody;
     }
 
     public void setLinkedDrawable(Drawable linkedDrawable) {
@@ -157,7 +157,7 @@ public class Transforms {
 
     public void onTransformsChanged() {
         hasChanged = true;
-        linkedCollider.onTransformsChanged();
+        linkedRigidBody.onTransformsChanged();
         linkedDrawable.onTransformsChanged();
     }
 }

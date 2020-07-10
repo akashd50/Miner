@@ -1,7 +1,7 @@
 package com.greymatter.miner.physics.objects;
 
-public class GeneralCollider extends Collider {
-    public GeneralCollider() {
+public class GeneralRigidBody extends RigidBody {
+    public GeneralRigidBody() {
         super();
     }
 

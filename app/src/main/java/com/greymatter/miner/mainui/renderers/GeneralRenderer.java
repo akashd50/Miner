@@ -33,9 +33,9 @@ public class GeneralRenderer extends AbstractRenderer {
 
         /*<---------------------------------------update----------------------------------------->*/
         ArrayList<Vector3f> vertexData = new ArrayList<>();
-        vertexData.add(mainCharacter.getCollider().getTranslation());
-        Vector3f accPoint = new Vector3f(mainCharacter.getCollider().getTranslation());
-        accPoint.add(VectorHelper.multiply(mainCharacter.getCollider().getVelocity(),40f));
+        vertexData.add(mainCharacter.getRigidBody().getTranslation());
+        Vector3f accPoint = new Vector3f(mainCharacter.getRigidBody().getTranslation());
+        accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getVelocity(),40f));
         vertexData.add(accPoint);
 
         ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(vertexData).build();

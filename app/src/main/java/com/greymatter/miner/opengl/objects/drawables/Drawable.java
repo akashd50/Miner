@@ -7,8 +7,8 @@ import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
-import com.greymatter.miner.physics.objects.Collider;
-import com.greymatter.miner.physics.objects.GeneralCollider;
+import com.greymatter.miner.physics.objects.RigidBody;
+import com.greymatter.miner.physics.objects.GeneralRigidBody;
 import javax.vecmath.Vector2f;
 
 public abstract class Drawable implements Clickable {
@@ -17,7 +17,7 @@ public abstract class Drawable implements Clickable {
     private Shader shader;
     private boolean transformationsUpdated;
     private int vertexArray, vertexBuffer;
-    private Collider collider;
+    private RigidBody rigidBody;
     private String id;
     private TouchChecker touchChecker;
     private Transforms transforms;
@@ -29,7 +29,7 @@ public abstract class Drawable implements Clickable {
         Matrix.setIdentityM(modelMatrix, 0);
         transforms = new Transforms();
         transforms.setLinkedDrawable(this);
-        this.setCollider(new GeneralCollider());
+        this.setRigidBody(new GeneralRigidBody());
     }
 
     public void onDrawFrame() {
@@ -49,7 +49,7 @@ public abstract class Drawable implements Clickable {
     }
 
     public void applyTransformations(float[] modelMat) {
-        if(collider != null) {
+        if(rigidBody != null) {
             Matrix.translateM(modelMat, 0, transforms.getTranslation().x,
                                                     transforms.getTranslation().y,
                                                     transforms.getTranslation().z);
@@ -97,13 +97,13 @@ public abstract class Drawable implements Clickable {
         return this;
     }
 
-    public Drawable setCollider(Collider collider) {
-        this.collider = collider;
-        if(this.collider.getDrawable()==null) {
-            this.collider.setDrawable(this);
+    public Drawable setRigidBody(RigidBody rigidBody) {
+        this.rigidBody = rigidBody;
+        if(this.rigidBody.getDrawable()==null) {
+            this.rigidBody.setDrawable(this);
         }
 
-        collider.setTransforms(transforms);
+        rigidBody.setTransforms(transforms);
         return this;
     }
 
@@ -135,8 +135,8 @@ public abstract class Drawable implements Clickable {
 
     public Transforms getTransforms() { return this.transforms; }
 
-    public Collider getCollider() {
-        return collider;
+    public RigidBody getRigidBody() {
+        return rigidBody;
     }
 
     public Object3D asObject3D() {

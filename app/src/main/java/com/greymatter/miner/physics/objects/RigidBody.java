@@ -3,13 +3,10 @@ package com.greymatter.miner.physics.objects;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-
 import java.util.HashMap;
-
-import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class Collider {
+public abstract class RigidBody {
     private Vector3f acceleration, velocity, gravity, friction, upVector;
     private Transforms transforms;
     private float mass, restitution, angularVel, angularAcc;
@@ -17,7 +14,7 @@ public abstract class Collider {
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
-    public Collider() {
+    public RigidBody() {
         this.acceleration = new Vector3f();
         this.velocity = new Vector3f();
         this.gravity = new Vector3f();
@@ -79,7 +76,7 @@ public abstract class Collider {
     }
 
     public CollisionEvent getLastCollisionEvent(Drawable against) {
-        return lastCollisionEvents.get(against.getCollider().toString());
+        return lastCollisionEvents.get(against.getRigidBody().toString());
     }
     //<---------------------------------forces end -------------------------------------------->
 
@@ -87,69 +84,69 @@ public abstract class Collider {
         this.acceleration.set(0f,0f,0f);
     }
 
-    public Collider setAngularAcceleration(float acceleration) {
+    public RigidBody setAngularAcceleration(float acceleration) {
         this.angularAcc = acceleration;
         return this;
     }
 
-    public Collider setAngularVelocity(float vel) {
+    public RigidBody setAngularVelocity(float vel) {
         this.angularVel = vel;
         return this;
     }
 
-    public Collider updateAngularAcceleration(float acceleration) {
+    public RigidBody updateAngularAcceleration(float acceleration) {
         this.angularAcc += acceleration;
         return this;
     }
 
-    public Collider updateAngularVelocity(float vel) {
+    public RigidBody updateAngularVelocity(float vel) {
         this.angularVel += vel;
         return this;
     }
 
-    public Collider setAcceleration(Vector3f acceleration) {
+    public RigidBody setAcceleration(Vector3f acceleration) {
         this.acceleration = acceleration;
         return this;
     }
 
-    public Collider setVelocity(Vector3f velocity) {
+    public RigidBody setVelocity(Vector3f velocity) {
         this.velocity = velocity;
         return this;
     }
 
-    public Collider updateAcceleration(Vector3f acceleration) {
+    public RigidBody updateAcceleration(Vector3f acceleration) {
         this.acceleration.add(acceleration);
         return this;
     }
 
-    public Collider updateVelocity(Vector3f velocity) {
+    public RigidBody updateVelocity(Vector3f velocity) {
         this.velocity.add(velocity);
         return this;
     }
 
-    public Collider setMass(float mass) {
+    public RigidBody setMass(float mass) {
         this.mass = mass;
         return this;
     }
 
-    public Collider setRestitution(float restitution) {
+    public RigidBody setRestitution(float restitution) {
         this.restitution = restitution;
         return this;
     }
 
-    public Collider setUpVector(Vector3f vector) {
+    public RigidBody setUpVector(Vector3f vector) {
         this.upVector = new Vector3f(vector);
         return this;
     }
 
-    public Collider isStaticObject(boolean isStatic) {
+    public RigidBody isStaticObject(boolean isStatic) {
         this.isStaticObject = isStatic;
         return this;
     }
 
-    public Collider setTransforms(Transforms transforms) {
+    public RigidBody setTransforms(Transforms transforms) {
         this.transforms = transforms;
-        transforms.setLinkedCollider(this);
+        transforms.setLinkedRigidBody(this);
         return this;
     }
 
@@ -157,19 +154,19 @@ public abstract class Collider {
         return onCollisionListener;
     }
 
-    public Collider setCollisionListener(OnCollisionListener collisionListener) {
+    public RigidBody setCollisionListener(OnCollisionListener collisionListener) {
         this.onCollisionListener = collisionListener;
         return this;
     }
 
-    public Collider updateTransformationsPerMovement(boolean dynamicallyUpdated) {
+    public RigidBody updateTransformationsPerMovement(boolean dynamicallyUpdated) {
         this.dynamicallyUpdated = dynamicallyUpdated;
         return this;
     }
 
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
-        if(this.drawable.getCollider()==null) this.drawable.setCollider(this);
+        if(this.drawable.getRigidBody()==null) this.drawable.setRigidBody(this);
     }
 
     public void onTransformsChanged() {
@@ -243,12 +240,12 @@ public abstract class Collider {
         return restitution;
     }
 
-    public CircleCollider asCircleCollider() {
-        return (CircleCollider)this;
+    public CircleRigidBody asCircleCollider() {
+        return (CircleRigidBody)this;
     }
 
-    public PolygonCollider asPolygonCollider() {
-        return (PolygonCollider) this;
+    public PolygonRigidBody asPolygonCollider() {
+        return (PolygonRigidBody) this;
     }
 
     public boolean shouldUpdateGravity() {

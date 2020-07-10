@@ -1,8 +1,8 @@
 package com.greymatter.miner.physics.objects;
 
-public class CircleCollider extends Collider {
+public class CircleRigidBody extends RigidBody {
     private float radius, transformedRadius;
-    public CircleCollider(float radius) {
+    public CircleRigidBody(float radius) {
         super();
         this.radius = radius;
     }

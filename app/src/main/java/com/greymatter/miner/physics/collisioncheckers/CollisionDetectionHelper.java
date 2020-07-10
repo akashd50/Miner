@@ -2,31 +2,31 @@ package com.greymatter.miner.physics.collisioncheckers;
 
 import com.greymatter.miner.generalhelpers.IntersectionEvent;
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.physics.objects.CircleCollider;
-import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.CircleRigidBody;
+import com.greymatter.miner.physics.objects.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;
-import com.greymatter.miner.physics.objects.PolygonCollider;
+import com.greymatter.miner.physics.objects.PolygonRigidBody;
 
 import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
 
 public class CollisionDetectionHelper {
-    public static synchronized CollisionEvent checkCollision(Collider c1, Collider c2) {
-        if(c1 instanceof CircleCollider && c2 instanceof  CircleCollider) {
+    public static synchronized CollisionEvent checkCollision(RigidBody c1, RigidBody c2) {
+        if(c1 instanceof CircleRigidBody && c2 instanceof CircleRigidBody) {
             return circleVCircle(c1.asCircleCollider(), c2.asCircleCollider());
-        }else if(c1 instanceof CircleCollider && c2 instanceof PolygonCollider) {
+        }else if(c1 instanceof CircleRigidBody && c2 instanceof PolygonRigidBody) {
             return circleVCustomAdvanced(c1.asCircleCollider(), c2.asPolygonCollider());
-        }else if(c1 instanceof PolygonCollider && c2 instanceof CircleCollider) {
+        }else if(c1 instanceof PolygonRigidBody && c2 instanceof CircleRigidBody) {
             return circleVCustomAdvanced(c2.asCircleCollider(), c1.asPolygonCollider());
-        }else if(c1 instanceof PolygonCollider && c2 instanceof PolygonCollider) {
+        }else if(c1 instanceof PolygonRigidBody && c2 instanceof PolygonRigidBody) {
             return customVCustomAdvanced(c1.asPolygonCollider(), c2.asPolygonCollider());
         }
         return null;
     }
 
     //static helper functions
-    private static synchronized CollisionEvent circleVCircle(CircleCollider c1, CircleCollider c2) {
+    private static synchronized CollisionEvent circleVCircle(CircleRigidBody c1, CircleRigidBody c2) {
         float marginOfError = 80f;
         float r = c1.getTransformedRadius() + c2.getTransformedRadius();
         r *= r;
@@ -37,7 +37,7 @@ public class CollisionDetectionHelper {
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized CollisionEvent circleVCustom(CircleCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent circleVCustom(CircleRigidBody c1, PolygonRigidBody c2) {
         float r = c1.getTransformedRadius();
         r *= r;
         for(Vector3f vector : c2.getTransformedVertices()) {
@@ -48,7 +48,7 @@ public class CollisionDetectionHelper {
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized CollisionEvent circleVCustomAdvanced(CircleCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent circleVCustomAdvanced(CircleRigidBody c1, PolygonRigidBody c2) {
         Vector3f circleTop = new Vector3f(c1.getTranslation());
         Vector3f circleBottom = new Vector3f(c1.getTranslation());
         Vector3f circleLeft = new Vector3f(c1.getTranslation());
@@ -73,7 +73,7 @@ public class CollisionDetectionHelper {
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }
 
-    private static synchronized CollisionEvent customVCustomAdvanced(PolygonCollider c1, PolygonCollider c2) {
+    private static synchronized CollisionEvent customVCustomAdvanced(PolygonRigidBody c1, PolygonRigidBody c2) {
         ArrayList<Vector3f> vertsC2 = c2.getTransformedVertices();
         ArrayList<Vector3f> vertsC1 = c1.getTransformedVertices();
 

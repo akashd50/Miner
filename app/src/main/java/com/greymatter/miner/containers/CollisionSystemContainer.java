@@ -1,39 +1,38 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.Collider;
+import com.greymatter.miner.physics.objects.RigidBody;
 
 import java.util.ArrayList;
 
 public class CollisionSystemContainer {
-    private static HashMapE<String, Collider> colliders;
+    private static HashMapE<String, RigidBody> colliders;
 
-    public synchronized static void add(Collider collider) {
+    public synchronized static void add(RigidBody rigidBody) {
         if(colliders == null) {
             colliders = new HashMapE<>();
         }
-        colliders.put(collider.getDrawable().getId(), collider);
+        colliders.put(rigidBody.getDrawable().getId(), rigidBody);
     }
 
     public synchronized static void remove(String id) {
-        Collider removed = null;
+        RigidBody removed = null;
         if(colliders !=null) {
             removed = colliders.remove(id);
         }
     }
 
-    public synchronized static ArrayList<Collider> getAllExcept(Collider collider) {
-        ArrayList<Collider> toReturn = new ArrayList<Collider>(colliders.toList());
-        toReturn.remove(collider);
+    public synchronized static ArrayList<RigidBody> getAllExcept(RigidBody rigidBody) {
+        ArrayList<RigidBody> toReturn = new ArrayList<RigidBody>(colliders.toList());
+        toReturn.remove(rigidBody);
         return toReturn;
     }
 
-    public synchronized static Collider get(String id) {
+    public synchronized static RigidBody get(String id) {
         return colliders.get(id);
     }
 
-    public synchronized static ArrayList<Collider> getAll() {
+    public synchronized static ArrayList<RigidBody> getAll() {
         return colliders.toList();
     }
 }

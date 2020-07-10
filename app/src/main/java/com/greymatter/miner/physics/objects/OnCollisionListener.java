@@ -1,9 +1,6 @@
 package com.greymatter.miner.physics.objects;
 
-import android.util.Log;
-
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import javax.vecmath.Vector3f;
 
@@ -43,7 +40,7 @@ public interface OnCollisionListener {
     }
 
     default void angularAdjustmentDueToGravity(CollisionEvent event, Vector3f impulse) {
-        Collider linked = event.getLinkedObject();
+        RigidBody linked = event.getLinkedObject();
 
         Vector3f directionToObjectCenter = VectorHelper.sub(event.getLinkedObjectCollisionPoint(), event.getAgainstObject().getTranslation());
         Vector3f startP = event.getAgainstObject().getTranslation();
@@ -65,7 +62,7 @@ public interface OnCollisionListener {
 
     default void matchSurfaceAngleDefault(CollisionEvent event, Vector3f impulse) {
         if (event.getCollisionStatus() && event.getAgainstObject().isStaticObject()) {
-            Collider linked = event.getLinkedObject();
+            RigidBody linked = event.getLinkedObject();
             float rotDir = (float)Math.atan2(event.getCollisionNormal().y, event.getCollisionNormal().x);
             float toDegrees = (float)Math.toDegrees(rotDir);
             linked.getRotation().z = toDegrees;
