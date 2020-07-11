@@ -4,13 +4,13 @@ import android.opengl.GLES30;
 import com.greymatter.miner.Res;
 import com.greymatter.miner.opengl.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
-import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
+import com.greymatter.miner.opengl.objects.IntegerValueAnimator;
 
 import java.util.ArrayList;
 
 public class AnimatedTexturedMaterial extends TexturedMaterial {
     private ArrayList<Texture> diffuseTextureFrames;
-    private AnimationHandler _animationHandler;
+    private IntegerValueAnimator _animationHandler;
     public AnimatedTexturedMaterial(String id) {
         super(id);
         diffuseTextureFrames = new ArrayList<>();
@@ -27,7 +27,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
         return this;
     }
 
-    public AnimatedTexturedMaterial withAnimationHandler(AnimationHandler animationHandler) {
+    public AnimatedTexturedMaterial withAnimationHandler(IntegerValueAnimator animationHandler) {
         this._animationHandler = animationHandler;
         return this;
     }
@@ -44,7 +44,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
 
     @Override
     public Texture getActiveDiffuseTexture() {
-        return diffuseTextureFrames.get(_animationHandler.updateActiveFrame());
+        return diffuseTextureFrames.get(_animationHandler.update().getInt());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
         return null;
     }
 
-    public AnimationHandler getAnimationHandler() {
+    public IntegerValueAnimator getAnimationHandler() {
         return _animationHandler;
     }
 

@@ -36,8 +36,6 @@ public class Scanner extends GameBuilding {
         super.onDrawFrame();
         Vector3f translation = getDrawable().getTransforms().getTranslation();
         rangeDrawable.getTransforms().translateTo(translation.x, translation.y);
-        ((RadialGradient)rangeDrawable).updateMidPoint(0.01f);
-        //rangeDrawable.onDrawFrame();
     }
 
     public float getRange() {

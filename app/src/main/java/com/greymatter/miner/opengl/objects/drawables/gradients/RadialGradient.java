@@ -7,6 +7,7 @@ import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.objects.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
@@ -17,6 +18,7 @@ public class RadialGradient extends Gradient {
     private float radius, midPoint;
     private float tRadius, tMidPoint;
     private Shape shape;
+    private ValueAnimator animator;
     public RadialGradient(String id) {
         super(id);
     }
@@ -24,6 +26,8 @@ public class RadialGradient extends Gradient {
     @Override
     public void onDrawFrame() {
         super.onDrawFrame();
+
+        midPoint = animator.update().getFloat();
 
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 
@@ -80,14 +84,8 @@ public class RadialGradient extends Gradient {
         return this;
     }
 
-    public RadialGradient updateMidPoint(float diff) {
-        this.midPoint+=diff;
-        if(midPoint>radius) {
-            midPoint = 0f;
-        }
-        if(midPoint < 0) {
-            midPoint = radius;
-        }
+    public RadialGradient setAnimator(ValueAnimator animator) {
+        this.animator = animator;
         return this;
     }
 
@@ -109,13 +107,6 @@ public class RadialGradient extends Gradient {
     public RadialGradient setMaterial(Material material) {
         super.setMaterial(material);
         return this;
-    }
-
-    @Override
-    public void onTransformsChanged() {
-        super.transformationsUpdated();
-//        radius = super.getTransforms().getScale().x * tRadius;
-//        midPoint = super.getTransforms().getScale().x * tMidPoint;
     }
 
     @Override

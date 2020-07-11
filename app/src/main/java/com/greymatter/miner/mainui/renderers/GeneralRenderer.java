@@ -41,8 +41,6 @@ public class GeneralRenderer extends AbstractRenderer {
         ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(vertexData).build();
         testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
 
-        ((RadialGradient)GameObjectsContainer.get("g").getDrawable()).updateMidPoint(0.01f);
-
         /*<-----------------------------------------draw----------------------------------------->*/
         ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);
     }
