@@ -10,6 +10,7 @@ import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Planet;
+import com.greymatter.miner.game.objects.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -17,7 +18,7 @@ import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
-import com.greymatter.miner.opengl.objects.materials.AnimationHandler;
+import com.greymatter.miner.opengl.objects.AnimationHandler;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.opengl.objects.Shader;
@@ -81,7 +82,7 @@ class MainGLObjectsHelper {
                                             .setShader(ShaderContainer.get(CIRCLE_GRADIENT_SHADER))
                                             .setCenterColor(new Vector4f(0f,0.2f,0.2f,0.6f))
                                             .setMidColor(new Vector4f(0f,0.4f,0.3f,0.4f))
-                                            .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0f))
+                                            .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0.4f))
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
@@ -110,10 +111,11 @@ class MainGLObjectsHelper {
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .withTag(PHYSICS_OBJECT));
 
-        GameObjectsContainer.add(new InteractiveObject(new Object3D(SAMPLE_SCANNER)
+        GameObjectsContainer.add(new Scanner(new Object3D(SAMPLE_SCANNER)
                                             .load(CIRCLE_SUB_DIV_I)
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
+                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build(),
+                                            GameObjectsContainer.get("g").getDrawable())
                                             .withTag(PLACABLE_GAME_BUILDING)
                                             .withTag(PHYSICS_OBJECT));
 
@@ -168,7 +170,7 @@ class MainGLObjectsHelper {
                             .build()));
 
         GameObjectsContainer.get("g").getTransforms()
-                .translateTo(new Vector3f(-1,0.5f, 2f))
+                .translateTo(new Vector3f(0,0f, 2f))
                 .scaleTo(3f,3f,1f);
 
         ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
@@ -177,7 +179,7 @@ class MainGLObjectsHelper {
         ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
-        ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
+        //ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
     }
 
     static void loadPhysicsObjects() {

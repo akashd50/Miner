@@ -3,13 +3,16 @@ package com.greymatter.miner.game.objects;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 
 import javax.vecmath.Vector3f;
 
 public class Scanner extends GameBuilding {
     private float _scannerRange, _scanningAngle;
-    public Scanner(Drawable drawable) {
+    private Drawable rangeDrawable;
+    public Scanner(Drawable drawable, Drawable rangeDrawable) {
         super(drawable.getId(), drawable);
+        this.rangeDrawable = rangeDrawable;
     }
     public Scanner(String id, Drawable drawable) {
         super(id, drawable);
@@ -26,6 +29,15 @@ public class Scanner extends GameBuilding {
             return angleBWResAndScanner > leftEdge && angleBWResAndScanner < rightEdge;
         }
         return false;
+    }
+
+    @Override
+    public void onDrawFrame() {
+        super.onDrawFrame();
+        Vector3f translation = getDrawable().getTransforms().getTranslation();
+        rangeDrawable.getTransforms().translateTo(translation.x, translation.y);
+        ((RadialGradient)rangeDrawable).updateMidPoint(0.01f);
+        //rangeDrawable.onDrawFrame();
     }
 
     public float getRange() {

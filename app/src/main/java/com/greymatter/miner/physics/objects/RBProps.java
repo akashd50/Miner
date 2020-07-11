@@ -113,6 +113,7 @@ public class RBProps {
     }
 
     public Vector3f getVelocity() {
+        velocity.z = 0f;
         return velocity;
     }
 

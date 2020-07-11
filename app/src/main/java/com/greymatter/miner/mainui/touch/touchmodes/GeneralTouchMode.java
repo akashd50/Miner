@@ -49,6 +49,9 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     GameObject object = buildingArrayAdapter.getItem(position);
 
                     ActiveObjectsContainer.add(object);
+                    if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
+
+
                     if(object instanceof GameBuilding && object.asGameBuilding().hasLights()) {
                         ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
                     }

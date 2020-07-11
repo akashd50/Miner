@@ -65,11 +65,13 @@ public class RadialGradient extends Gradient {
 
     public RadialGradient setRadius(float radius) {
         this.tRadius = radius;
+        this.radius = radius;
         return this;
     }
 
     public RadialGradient setMidPoint(float midPoint) {
         this.tMidPoint = midPoint;
+        this.midPoint = midPoint;
         return this;
     }
 
@@ -112,8 +114,8 @@ public class RadialGradient extends Gradient {
     @Override
     public void onTransformsChanged() {
         super.transformationsUpdated();
-        radius = super.getTransforms().getScale().x * tRadius;
-        midPoint = super.getTransforms().getScale().x * tMidPoint;
+//        radius = super.getTransforms().getScale().x * tRadius;
+//        midPoint = super.getTransforms().getScale().x * tMidPoint;
     }
 
     @Override

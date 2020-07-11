@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects.materials;
+package com.greymatter.miner.opengl.objects;
 
 public class AnimationHandler {
     private int _framesPerSecond, _totalFrames, _currentFrame;

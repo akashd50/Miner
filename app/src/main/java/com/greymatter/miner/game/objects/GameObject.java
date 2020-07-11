@@ -14,6 +14,7 @@ public abstract class GameObject {
     private ArrayList<String> objectTags;
     private boolean shouldDraw;
     private String id;
+
     public GameObject(String id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
