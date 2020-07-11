@@ -3,7 +3,6 @@ package com.greymatter.miner.opengl.objects.drawables.gradients;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Shader;
@@ -11,7 +10,6 @@ import com.greymatter.miner.opengl.objects.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
-import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 public class RadialGradient extends Gradient {
@@ -27,7 +25,7 @@ public class RadialGradient extends Gradient {
     public void onDrawFrame() {
         super.onDrawFrame();
 
-        midPoint = animator.update().getFloat();
+        midPoint = animator.update().getUpdatedFloat();
 
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 

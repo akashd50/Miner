@@ -197,14 +197,14 @@ class MainGLObjectsHelper {
 
         mainCharacter.getRigidBody().updateTransformationsPerMovement(true)
                                     .isStaticObject(false)
-                                    .getRBProps().setMass(1f)
+                                    .getRBProps().setMass(1.5f)
                                     .setRestitution(0.5f);
 
         mainBase.getRigidBody().updateTransformationsPerMovement(true);
 
         sampleScanner.getRigidBody().updateTransformationsPerMovement(true)
                             .isStaticObject(false)
-                            .getRBProps().setMass(2.0f)
+                            .getRBProps().setMass(1.0f)
                             .setRestitution(0.5f);
 
         OnCollisionListener listener = new OnCollisionListener() {

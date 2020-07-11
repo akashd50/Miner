@@ -9,8 +9,10 @@ public abstract class ValueAnimator {
 
     public ValueAnimator update() {
         if(System.currentTimeMillis() - _lastFrameDrawTime > _perFrameDelay) {
-            updateOverride();
+            updateOverridePositive();
             _lastFrameDrawTime = System.currentTimeMillis();
+        }else{
+            updateOverrideNegative();
         }
         return this;
     }
@@ -29,7 +31,18 @@ public abstract class ValueAnimator {
         this._perFrameDelay = _perFrameDelay;
     }
 
-    protected abstract void updateOverride();
-    public abstract int getInt();
-    public abstract float getFloat();
+    protected abstract void updateOverridePositive();
+    protected abstract void updateOverrideNegative();
+
+    public int getUpdatedInt(){
+        return 0;
+    }
+
+    public float getUpdatedFloat(){
+        return 0f;
+    }
+
+    public boolean getUpdatedBoolean() {
+        return false;
+    }
 }

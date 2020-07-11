@@ -11,7 +11,7 @@ public class FloatValueAnimator extends ValueAnimator {
     }
 
     @Override
-    protected void updateOverride() {
+    protected void updateOverridePositive() {
         currentValue+=perFrameIncrement;
         if(currentValue > upperBound) {
             currentValue = lowerBound;
@@ -22,12 +22,12 @@ public class FloatValueAnimator extends ValueAnimator {
     }
 
     @Override
-    public int getInt() {
-        return 0;
+    protected void updateOverrideNegative() {
+
     }
 
     @Override
-    public float getFloat() {
+    public float getUpdatedFloat() {
         return currentValue;
     }
 

@@ -8,7 +8,7 @@ public class IntegerValueAnimator extends ValueAnimator {
     }
 
     @Override
-    protected void updateOverride() {
+    protected void updateOverridePositive() {
         _currentFrame++;
         if (_currentFrame >= _totalFrames) {
             _currentFrame = 0;
@@ -16,13 +16,13 @@ public class IntegerValueAnimator extends ValueAnimator {
     }
 
     @Override
-    public int getInt() {
-        return _currentFrame;
+    protected void updateOverrideNegative() {
+
     }
 
     @Override
-    public float getFloat(){
-        return 0f;
+    public int getUpdatedInt() {
+        return _currentFrame;
     }
 
     @Override

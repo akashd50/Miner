@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class AnimatedTexturedMaterial extends TexturedMaterial {
     private ArrayList<Texture> diffuseTextureFrames;
-    private IntegerValueAnimator _animationHandler;
+    private IntegerValueAnimator intValueAnimator;
     public AnimatedTexturedMaterial(String id) {
         super(id);
         diffuseTextureFrames = new ArrayList<>();
@@ -28,7 +28,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
     }
 
     public AnimatedTexturedMaterial withAnimationHandler(IntegerValueAnimator animationHandler) {
-        this._animationHandler = animationHandler;
+        this.intValueAnimator = animationHandler;
         return this;
     }
 
@@ -44,7 +44,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
 
     @Override
     public Texture getActiveDiffuseTexture() {
-        return diffuseTextureFrames.get(_animationHandler.update().getInt());
+        return diffuseTextureFrames.get(intValueAnimator.update().getUpdatedInt());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
     }
 
     public IntegerValueAnimator getAnimationHandler() {
-        return _animationHandler;
+        return intValueAnimator;
     }
 
     public Texture getFrame(int index) {
