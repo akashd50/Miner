@@ -42,13 +42,13 @@ public abstract class Drawable implements Clickable {
         }
     }
 
-    public void onDrawFrame(boolean applyTransformations) {
-        if(applyTransformations) {
-            Matrix.setIdentityM(this.modelMatrix, 0);
-            applyTransformations(this.modelMatrix);
-            transformationsUpdated = false;
-        }
-    }
+//    public void onDrawFrame(boolean applyTransformations) {
+//        if(applyTransformations) {
+//            Matrix.setIdentityM(this.modelMatrix, 0);
+//            applyTransformations(this.modelMatrix);
+//            transformationsUpdated = false;
+//        }
+//    }
 
     public void applyTransformations(float[] modelMat) {
         if(rigidBody != null) {

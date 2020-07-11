@@ -5,7 +5,6 @@ import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
-
 import java.util.HashMap;
 import javax.vecmath.Vector3f;
 
@@ -21,6 +20,7 @@ public abstract class RigidBody {
         this.upVector = new Vector3f(0f,1f,0f);
         this.lastCollisionEvents = new HashMap<>();
         this.rbProps = new RBProps();
+        this.dynamicallyUpdated = true;
     }
 
     public void update() {

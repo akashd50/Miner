@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -56,6 +57,11 @@ public abstract class GameObject {
         return this;
     }
 
+    public GameObject moveBy(float x, float y, float z) {
+        objectDrawable.getTransforms().translateBy(x,y,z);
+        return this;
+    }
+
     public GameObject moveBy(Vector3f moveTo) {
         objectDrawable.getTransforms().translateBy(moveTo);
         return this;
@@ -73,6 +79,21 @@ public abstract class GameObject {
 
     public GameObject moveTo(float x, float y) {
         objectDrawable.getTransforms().translateTo(x,y);
+        return this;
+    }
+
+    public GameObject moveTo(float x, float y, float z) {
+        objectDrawable.getTransforms().translateTo(x,y,z);
+        return this;
+    }
+
+    public GameObject scaleTo(float x, float y) {
+        objectDrawable.getTransforms().scaleTo(x,y);
+        return this;
+    }
+
+    public GameObject scaleBy(float x, float y) {
+        objectDrawable.getTransforms().scaleBy(x,y);
         return this;
     }
 
@@ -117,5 +138,9 @@ public abstract class GameObject {
     //typecasting
     public GameBuilding asGameBuilding() {
         return (GameBuilding)this;
+    }
+
+    public ResourceBlock asResourceBlock() {
+        return (ResourceBlock) this;
     }
 }

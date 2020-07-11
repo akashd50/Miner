@@ -34,6 +34,12 @@ public class Transforms {
         return this;
     }
 
+    public Transforms scaleTo(float x, float y) {
+        this.scale.set(x,y,this.scale.z);
+        onTransformsChanged();
+        return this;
+    }
+
     public Transforms scaleBy(float x, float y, float z) {
         this.scale.x+=x;
         this.scale.y+=y;
@@ -42,8 +48,21 @@ public class Transforms {
         return this;
     }
 
+    public Transforms scaleBy(float x, float y) {
+        this.scale.x+=x;
+        this.scale.y+=y;
+        onTransformsChanged();
+        return this;
+    }
+
     public Transforms translateTo(Vector3f position) {
         this.translation.set(position);
+        onTransformsChanged();
+        return this;
+    }
+
+    public Transforms translateTo(float x, float y, float z) {
+        this.translation.set(x,y,z);
         onTransformsChanged();
         return this;
     }
@@ -78,6 +97,14 @@ public class Transforms {
     public Transforms translateBy(float x, float y) {
         this.translation.x += x;
         this.translation.y += y;
+        onTransformsChanged();
+        return this;
+    }
+
+    public Transforms translateBy(float x, float y, float z) {
+        this.translation.x += x;
+        this.translation.y += y;
+        this.translation.z += z;
         onTransformsChanged();
         return this;
     }

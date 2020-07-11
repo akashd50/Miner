@@ -5,6 +5,7 @@ public class GC {
     public static String PLACABLE_GAME_BUILDING = "placable_game_building";
     public static String STATIC = "static";
     public static String PHYSICS_OBJECT = "physics_object";
+    public static String RESOURCE_OBJECT = "resource_object";
 
     public static String GROUND_MATERIAL = "groundMat";
     public static String ATMOSPHERE_MATERIAL = "atmMat";

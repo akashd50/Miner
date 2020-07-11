@@ -1,6 +1,8 @@
 package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
+
+import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
@@ -12,6 +14,7 @@ import com.greymatter.miner.game.objects.MainBase;
 import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Scanner;
 import com.greymatter.miner.game.objects.Static;
+import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -73,7 +76,12 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
-        //Shape shape = new Shape("tri").loadCircle(1f).build();
+        GameObjectsContainer.add(new CoalBlock(new Object3D("coal")
+                                            .load(BOX)
+                                            .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
+                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .addTag(RESOURCE_OBJECT));
+
         Shape shape = new Shape("tri").loadPie(45f,1f).build();
         GameObjectsContainer.add(new Static(new RadialGradient("g")
                                             .setShape(shape).setRadius(1f)
@@ -140,42 +148,29 @@ class MainGLObjectsHelper {
     }
 
     static void finishObjectsSetup() {
-        GameObjectsContainer.get(ATMOSPHERE).getTransforms()
-                            .scaleTo(190f,190f,1f)
-                            .translateTo(new Vector3f(0f,-120.5f, -10f));
+        GameObjectsContainer.get("coal").scaleTo(0.2f,0.2f).moveTo(0f,-2f, 1f);
 
-        GameObjectsContainer.get(PLANET).getTransforms()
-                            .scaleTo(120f,120f,1f)
-                            .translateTo(new Vector3f(0f,-120.5f, 0f));
+        GameObjectsContainer.get(ATMOSPHERE).scaleTo(190f,190f).moveTo(0f,-120.5f, -10f);
+
+        GameObjectsContainer.get(PLANET).scaleTo(120f,120f).moveTo(0f,-120.5f, 0f);
+
+        GameObjectsContainer.get(MAIN_CHARACTER).scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f);
+
+        GameObjectsContainer.get(SAMPLE_SCANNER).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f);
+
+        GameObjectsContainer.get(MAIN_BASE).scaleTo(4f,2.7f).moveTo(-2.4f,2f,-5f);
+
+        GameObjectsContainer.get(PLANET_GRASS_LAYER).scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f);
+
+        GameObjectsContainer.get(SAMPLE_TREE).scaleTo(1f,1.5f).moveTo(0f,0f, -6f);
 
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
-        mainCharacter.getTransforms().scaleTo(0.5f,0.5f,1f)
-                                    .translateBy(new Vector3f(-0.5f,0f,0f));
-
-        GameObjectsContainer.get(SAMPLE_SCANNER).getTransforms()
-                            .scaleTo(0.6f,0.6f,1f)
-                            .translateBy(new Vector3f(-0.5f,2f,0f));
-
-        GameObjectsContainer.get(MAIN_BASE).moveTo(new Vector3f(-2.4f,2f,-5f))
-                                           .getTransforms()
-                                           .scaleTo(4f,2.7f,1f);
-
-        GameObjectsContainer.get(PLANET_GRASS_LAYER).getTransforms()
-                            .scaleTo(119.65f,119.65f,1f)
-                            .translateTo(new Vector3f(0f,-120.5f, 1f));
-
-        GameObjectsContainer.get(SAMPLE_TREE).getTransforms()
-                            .scaleTo(1f,1.5f,1f)
-                            .translateTo(new Vector3f(0f,0f, -6f));
-
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE)
                             .setShader(ShaderContainer.get(LINE_SHADER))
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
                             .build()));
 
-        GameObjectsContainer.get("g").getTransforms()
-                .translateTo(new Vector3f(0,0f, 2f))
-                .scaleTo(3f,3f,1f);
+        GameObjectsContainer.get("g").moveTo(0,0f, 2f).scaleTo(3f,3f);
 
         ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
         ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
@@ -183,6 +178,9 @@ class MainGLObjectsHelper {
         ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
         ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
+        ActiveObjectsContainer.add(GameObjectsContainer.get("coal"));
+
+        ActiveResourcesContainer.add(GameObjectsContainer.get("coal").asResourceBlock());
         //ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
     }
 
@@ -192,22 +190,14 @@ class MainGLObjectsHelper {
         Drawable mainBase = GameObjectsContainer.get(MAIN_BASE).getDrawable();
         Drawable sampleScanner = GameObjectsContainer.get(SAMPLE_SCANNER).getDrawable().asObject3D().attachOptimisedPolygonCollider(0.1f);
 
-        planet.getRigidBody().updateTransformationsPerMovement(true)
-                            .isStaticObject(true)
-                            .getRBProps().setMass(1000000f)
-                            .setRestitution(0.3f);
+        planet.getRigidBody().isStaticObject(true)
+                            .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
-        mainCharacter.getRigidBody().updateTransformationsPerMovement(true)
-                                    .isStaticObject(false)
-                                    .getRBProps().setMass(1.5f)
-                                    .setRestitution(0.5f);
+        mainCharacter.getRigidBody().isStaticObject(false)
+                                    .getRBProps().setMass(1.5f).setRestitution(0.5f);
 
-        mainBase.getRigidBody().updateTransformationsPerMovement(true);
-
-        sampleScanner.getRigidBody().updateTransformationsPerMovement(true)
-                            .isStaticObject(false)
-                            .getRBProps().setMass(1.0f)
-                            .setRestitution(0.5f);
+        sampleScanner.getRigidBody().isStaticObject(false)
+                                    .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
         OnCollisionListener listener = new OnCollisionListener() {
             @Override
