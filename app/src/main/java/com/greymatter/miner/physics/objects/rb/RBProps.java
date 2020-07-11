@@ -1,4 +1,4 @@
-package com.greymatter.miner.physics.objects;
+package com.greymatter.miner.physics.objects.rb;
 
 import javax.vecmath.Vector3f;
 

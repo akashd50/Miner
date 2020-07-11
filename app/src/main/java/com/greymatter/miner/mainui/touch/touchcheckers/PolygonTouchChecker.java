@@ -1,13 +1,13 @@
 package com.greymatter.miner.mainui.touch.touchcheckers;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.physics.objects.PolygonRigidBody;
+import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import javax.vecmath.Vector2f;
 
 public class PolygonTouchChecker extends TouchChecker {
-    private PolygonRigidBody polygonCollider;
-    public PolygonTouchChecker(PolygonRigidBody collider) {
+    private PolygonRB polygonCollider;
+    public PolygonTouchChecker(PolygonRB collider) {
         this.polygonCollider = collider;
     }
 

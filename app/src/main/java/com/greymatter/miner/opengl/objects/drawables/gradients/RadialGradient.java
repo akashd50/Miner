@@ -25,7 +25,7 @@ public class RadialGradient extends Gradient {
     public void onDrawFrame() {
         super.onDrawFrame();
 
-        midPoint = animator.update().getUpdatedFloat();
+        //midPoint = animator.update().getUpdatedFloat();
 
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 

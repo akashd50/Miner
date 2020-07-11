@@ -1,8 +1,11 @@
-package com.greymatter.miner.physics.objects;
+package com.greymatter.miner.physics.objects.rb;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.CollisionEvent;
+import com.greymatter.miner.physics.objects.OnCollisionListener;
+
 import java.util.HashMap;
 import javax.vecmath.Vector3f;
 
@@ -10,15 +13,13 @@ public abstract class RigidBody {
     private Vector3f upVector;
     private Transforms transforms;
     private RBProps rbProps;
-    private boolean isStaticObject, dynamicallyUpdated, shouldUpdateGravity, shouldUpdateFriction;
+    private boolean isStaticObject, dynamicallyUpdated;
     private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
     public RigidBody() {
         this.upVector = new Vector3f(0f,1f,0f);
         this.lastCollisionEvents = new HashMap<>();
-        this.shouldUpdateGravity = true;
-        this.shouldUpdateFriction = true;
         this.rbProps = new RBProps();
     }
 
@@ -122,28 +123,12 @@ public abstract class RigidBody {
         return drawable;
     }
 
-    public CircleRigidBody asCircleCollider() {
-        return (CircleRigidBody)this;
+    public CircularRB asCircularRB() {
+        return (CircularRB)this;
     }
 
-    public PolygonRigidBody asPolygonCollider() {
-        return (PolygonRigidBody) this;
-    }
-
-    public boolean shouldUpdateGravity() {
-        return shouldUpdateGravity;
-    }
-
-    public void shouldUpdateGravity(boolean shouldUpdateGravity) {
-        this.shouldUpdateGravity = shouldUpdateGravity;
-    }
-
-    public boolean shouldUpdateFriction() {
-        return shouldUpdateFriction;
-    }
-
-    public void shouldUpdateFriction(boolean shouldUpdateFriction) {
-        this.shouldUpdateFriction = shouldUpdateFriction;
+    public PolygonRB asPolygonRB() {
+        return (PolygonRB) this;
     }
 
     public abstract void updateParamsOverride();

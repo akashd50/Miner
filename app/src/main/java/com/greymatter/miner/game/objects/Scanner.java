@@ -12,11 +12,13 @@ import static com.greymatter.miner.game.GC.PLANET;
 
 public class Scanner extends GameBuilding {
     private float _scannerRange, _scanningAngle;
-    private Drawable rangeDrawable;
-    public Scanner(Drawable drawable, Drawable rangeDrawable) {
+    private RadialGradient rangeDrawable;
+
+    public Scanner(Drawable drawable, RadialGradient rangeDrawable) {
         super(drawable.getId(), drawable);
         this.rangeDrawable = rangeDrawable;
     }
+
     public Scanner(String id, Drawable drawable) {
         super(id, drawable);
     }
@@ -26,8 +28,8 @@ public class Scanner extends GameBuilding {
         float distance = VectorHelper.getLength(sub);
         if(distance < _scannerRange) {
             float angleBWResAndScanner = (float)Math.atan2(sub.y, sub.x);
-            float leftEdge = (getCollider().getRotation().z) + 270 - _scanningAngle/2;
-            float rightEdge = (getCollider().getRotation().z) + 270 + _scanningAngle/2;
+            float leftEdge = (getRigidBody().getRotation().z) + 270 - _scanningAngle/2;
+            float rightEdge = (getRigidBody().getRotation().z) + 270 + _scanningAngle/2;
 
             return angleBWResAndScanner > leftEdge && angleBWResAndScanner < rightEdge;
         }
@@ -35,13 +37,14 @@ public class Scanner extends GameBuilding {
     }
 
     @Override
-    public void onDrawFrame() {
-        super.onDrawFrame();
+    public void onFrameUpdate() {
         Vector3f translation = getDrawable().getTransforms().getTranslation();
         rangeDrawable.getTransforms().translateTo(translation.x, translation.y);
 
         Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(PLANET).getLocation(), this.getLocation());
         rangeDrawable.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
+
+        rangeDrawable.setMidPoint(getValueAnimator().update().getUpdatedFloat());
     }
 
     public float getRange() {

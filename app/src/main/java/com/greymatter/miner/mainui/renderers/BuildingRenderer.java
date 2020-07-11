@@ -26,7 +26,7 @@ public class BuildingRenderer extends AbstractRenderer {
 
         /*<---------------------------------------update----------------------------------------->*/
         ((Line)testLine).setColor(new Vector4f(0f,0f,1f,1f))
-                .setVertices(planet.getRigidBody().asPolygonCollider().getTransformedVertices()).build();
+                .setVertices(planet.getRigidBody().asPolygonRB().getTransformedVertices()).build();
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);

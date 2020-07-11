@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects;
 
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.RigidBody;
+import com.greymatter.miner.physics.objects.rb.RigidBody;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 

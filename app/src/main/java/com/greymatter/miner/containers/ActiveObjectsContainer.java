@@ -12,9 +12,9 @@ public class ActiveObjectsContainer {
     private static Comparator<GameObject> comparator = new Comparator<GameObject>() {
         @Override
         public int compare(GameObject o1, GameObject o2) {
-            if(o1.getCollider().getTranslation().z > o2.getCollider().getTranslation().z) {
+            if(o1.getRigidBody().getTranslation().z > o2.getRigidBody().getTranslation().z) {
                 return 1;
-            }else if(o2.getCollider().getTranslation().z > o1.getCollider().getTranslation().z){
+            }else if(o2.getRigidBody().getTranslation().z > o1.getRigidBody().getTranslation().z){
                 return -1;
             }else{
                 return 0;
@@ -40,6 +40,8 @@ public class ActiveObjectsContainer {
     public static synchronized void onDrawFrame(Camera camera) {
         gameObjects.toList().forEach((gameObject) -> {
             if(gameObject.shouldDraw()) {
+                gameObject.onFrameUpdate();
+
                 ShaderHelper.useProgram(gameObject.getDrawable().getShader());
                 ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
                 ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());

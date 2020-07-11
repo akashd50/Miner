@@ -67,7 +67,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
             translateSelectedObject(bundleObject);
         }else{
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(PLANET).getCollider().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(PLANET).getRigidBody().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }

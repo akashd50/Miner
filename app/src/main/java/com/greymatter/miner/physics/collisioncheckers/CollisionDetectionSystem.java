@@ -2,7 +2,7 @@ package com.greymatter.miner.physics.collisioncheckers;
 
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.physics.objects.RigidBody;
+import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import javax.vecmath.Vector3f;
 
@@ -66,7 +66,7 @@ public class CollisionDetectionSystem {
         float magSumNegSide = 0;
         float magSumPosSide = 0;
 
-        for(Vector3f point : current.asPolygonCollider().getTransformedVertices()) {
+        for(Vector3f point : current.asPolygonRB().getTransformedVertices()) {
             if(VectorHelper.pointOnLine(startP, endP, point) < 0 ) {
                 magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getTranslation(), point));
             }else {

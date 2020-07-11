@@ -1,8 +1,8 @@
-package com.greymatter.miner.physics.objects;
+package com.greymatter.miner.physics.objects.rb;
 
-public class CircleRigidBody extends RigidBody {
+public class CircularRB extends RigidBody {
     private float radius, transformedRadius;
-    public CircleRigidBody(float radius) {
+    public CircularRB(float radius) {
         super();
         this.radius = radius;
     }

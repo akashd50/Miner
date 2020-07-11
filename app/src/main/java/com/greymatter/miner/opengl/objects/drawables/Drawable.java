@@ -4,11 +4,13 @@ import android.opengl.Matrix;
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
+import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
+import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
-import com.greymatter.miner.physics.objects.RigidBody;
-import com.greymatter.miner.physics.objects.GeneralRigidBody;
+import com.greymatter.miner.physics.objects.rb.RigidBody;
+import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
 
 public abstract class Drawable implements Clickable {
@@ -29,7 +31,7 @@ public abstract class Drawable implements Clickable {
         Matrix.setIdentityM(modelMatrix, 0);
         transforms = new Transforms();
         transforms.setLinkedDrawable(this);
-        this.setRigidBody(new GeneralRigidBody());
+        this.setRigidBody(new GeneralRB());
     }
 
     public void onDrawFrame() {
@@ -139,6 +141,15 @@ public abstract class Drawable implements Clickable {
         return rigidBody;
     }
 
+    public String toString() {
+        return this.id;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    //typecasting
     public Object3D asObject3D() {
         return (Object3D)this;
     }
@@ -151,15 +162,15 @@ public abstract class Drawable implements Clickable {
         return (Line) this;
     }
 
-    public String toString() {
-        return this.id;
+    public Gradient asGradient() {
+        return (Gradient)this;
     }
 
-    public String getId() {
-        return this.id;
+    public RadialGradient asRadialGradient() {
+        return (RadialGradient)this;
     }
 
+    //abstract functions
     public abstract Drawable attachPolygonTouchChecker();
-
     public abstract Drawable attachPolygonCollider();
 }

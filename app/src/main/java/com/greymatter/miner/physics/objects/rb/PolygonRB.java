@@ -1,4 +1,4 @@
-package com.greymatter.miner.physics.objects;
+package com.greymatter.miner.physics.objects.rb;
 
 import com.greymatter.miner.generalhelpers.VectorHelper;
 
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import javax.vecmath.Vector3f;
 
-public class PolygonRigidBody extends RigidBody {
+public class PolygonRB extends RigidBody {
     private ArrayList<Vector3f> meshVertices, transformedVertices;
 
-    public PolygonRigidBody(ArrayList<Vector3f> mesh) {
+    public PolygonRB(ArrayList<Vector3f> mesh) {
         super();
         this.meshVertices = mesh;
         this.transformedVertices = new ArrayList<>();
