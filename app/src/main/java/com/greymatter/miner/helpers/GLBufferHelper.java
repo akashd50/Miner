@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.helpers;
+package com.greymatter.miner.helpers;
 
 import android.opengl.GLES30;
 import android.util.Log;

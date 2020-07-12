@@ -1,6 +1,6 @@
 package com.greymatter.miner.mainui.renderers;
 
-import com.greymatter.miner.containers.ActiveObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -29,6 +29,6 @@ public class BuildingRenderer extends AbstractRenderer {
                 .setVertices(planet.getRigidBody().asPolygonRB().getTransformedVertices()).build();
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
     }
 }

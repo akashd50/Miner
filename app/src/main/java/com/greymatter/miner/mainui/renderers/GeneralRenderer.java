@@ -1,13 +1,12 @@
 package com.greymatter.miner.mainui.renderers;
 
-import com.greymatter.miner.containers.ActiveObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Line;
-import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 
 import java.util.ArrayList;
 
@@ -42,6 +41,6 @@ public class GeneralRenderer extends AbstractRenderer {
         testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ActiveObjectsContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
     }
 }

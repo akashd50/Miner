@@ -1,13 +1,8 @@
 package com.greymatter.miner.containers;
 
-import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Shader;
 
 import java.util.ArrayList;
 

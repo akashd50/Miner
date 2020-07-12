@@ -9,11 +9,11 @@ import javax.vecmath.Vector3f;
 public class CollisionDetectionSystem {
     private static boolean isCollisionDetectionActive;
 
-    public static void initialize() {
+    public synchronized static void initialize() {
         isCollisionDetectionActive = true;
         new Thread(new Runnable() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 while(isCollisionDetectionActive) {
                     for (RigidBody rigidBody : CollisionSystemContainer.getAll()) {
                         if(!rigidBody.isStaticObject()) {

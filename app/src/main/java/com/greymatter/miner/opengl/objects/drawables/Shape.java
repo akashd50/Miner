@@ -1,6 +1,6 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
-import com.greymatter.miner.opengl.helpers.BufferHelper;
+import com.greymatter.miner.helpers.BufferHelper;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 

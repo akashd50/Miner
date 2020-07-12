@@ -6,7 +6,7 @@ import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.containers.ActiveObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
@@ -15,6 +15,7 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
+import com.greymatter.miner.opengl.objects.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -33,7 +34,6 @@ import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 import static com.greymatter.miner.game.GC.*;
@@ -125,9 +125,8 @@ class MainGLObjectsHelper {
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build(),
                                             GameObjectsContainer.get("g").getDrawable().asRadialGradient())
-                                            .setValueAnimator(new FloatValueAnimator()
-                                                                .setBounds(0f,1f)
-                                                                .setPerFrameIncrement(0.01f))
+                                            .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
+                                            .setValueAnimator(new BooleanAnimator().withFPS(10))
                                             .addTag(PLACABLE_GAME_BUILDING)
                                             .addTag(PHYSICS_OBJECT));
 
@@ -148,7 +147,7 @@ class MainGLObjectsHelper {
     }
 
     static void finishObjectsSetup() {
-        GameObjectsContainer.get("coal").scaleTo(0.2f,0.2f).moveTo(0f,-2f, 1f);
+        GameObjectsContainer.get("coal").scaleTo(0.2f,0.2f).moveTo(10f,-4f, 1f);
 
         GameObjectsContainer.get(ATMOSPHERE).scaleTo(190f,190f).moveTo(0f,-120.5f, -10f);
 
@@ -172,13 +171,13 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get("g").moveTo(0,0f, 2f).scaleTo(3f,3f);
 
-        ActiveObjectsContainer.add(GameObjectsContainer.get(TEST_LINE));
-        ActiveObjectsContainer.add(GameObjectsContainer.get(ATMOSPHERE));
-        ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET));
-        ActiveObjectsContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
-        ActiveObjectsContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
-        ActiveObjectsContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
-        ActiveObjectsContainer.add(GameObjectsContainer.get("coal"));
+        ToDrawContainer.add(GameObjectsContainer.get(TEST_LINE));
+        ToDrawContainer.add(GameObjectsContainer.get(ATMOSPHERE));
+        ToDrawContainer.add(GameObjectsContainer.get(PLANET));
+        ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER));
+        ToDrawContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
+        ToDrawContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
+        ToDrawContainer.add(GameObjectsContainer.get("coal"));
 
         ActiveResourcesContainer.add(GameObjectsContainer.get("coal").asResourceBlock());
         //ActiveObjectsContainer.add(GameObjectsContainer.get("g"));

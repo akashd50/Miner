@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects;
 
-import com.greymatter.miner.opengl.helpers.ResourceLoader;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
+import com.greymatter.miner.helpers.ResourceLoader;
+import com.greymatter.miner.helpers.ShaderHelper;
 import static com.greymatter.miner.Res.FRAG_SHADER_EXT;
 import static com.greymatter.miner.Res.SHADERS_F;
 import static com.greymatter.miner.Res.VERTEX_SHADER_EXT;

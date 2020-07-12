@@ -8,7 +8,7 @@ import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.ActiveObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.GameBuilding;
 import com.greymatter.miner.game.objects.GameObject;
@@ -45,11 +45,14 @@ public class GeneralTouchMode extends AbstractTouchMode {
                 ArrayAdapter<GameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
                 listView.setAdapter(buildingArrayAdapter);
 
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AppServices.getAppContext()).setView(view);
+                AlertDialog dialog = dialogBuilder.create();
+
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
                     GameObject object = buildingArrayAdapter.getItem(position);
 
-                    ActiveObjectsContainer.add(object);
-                    if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
+                    ToDrawContainer.add(object);
+                    if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ToDrawContainer.add(GameObjectsContainer.get("g"));
 
 
                     if(object instanceof GameBuilding && object.asGameBuilding().hasLights()) {
@@ -63,10 +66,9 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     TouchEventBundle touchEventBundle = new TouchEventBundle().setObject(object);
                     ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                     ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
-                });
 
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AppServices.getAppContext()).setView(view);
-                AlertDialog dialog = dialogBuilder.create();
+                    dialog.dismiss();
+                });
 
                 dialog.show();
 

@@ -2,12 +2,12 @@ package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.opengl.helpers.ShaderHelper;
+import com.greymatter.miner.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class ActiveObjectsContainer {
+public class ToDrawContainer {
     private static HashMapE<String, GameObject> gameObjects;
     private static Comparator<GameObject> comparator = new Comparator<GameObject>() {
         @Override
