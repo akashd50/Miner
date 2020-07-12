@@ -54,7 +54,7 @@ public class Quad extends Drawable {
 		super.onDrawFrame();
 
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
+		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
 		ShaderHelper.setMaterialProperties(getShader(), getMaterial());
 
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);

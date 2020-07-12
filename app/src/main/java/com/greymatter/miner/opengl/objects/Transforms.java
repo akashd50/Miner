@@ -1,5 +1,8 @@
 package com.greymatter.miner.opengl.objects;
 
+import android.opengl.Matrix;
+
+import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import javax.vecmath.Vector2f;
@@ -7,13 +10,41 @@ import javax.vecmath.Vector3f;
 
 public class Transforms {
     private Vector3f translation, rotation, scale;
+    private float[] modelMatrix;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
-    private boolean hasChanged;
+    private boolean transformationsUpdated, copyTranslationFromParent,
+                    copyRotationFromParent, copyScaleFromParent;
+    private Transforms parent;
     public Transforms() {
         translation = new Vector3f();
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
+        this.modelMatrix = new float[16];
+        this.copyTranslationFromParent = false;
+        this.copyRotationFromParent = false;
+        this.copyScaleFromParent = false;
+    }
+
+    public void applyTransformations() {
+        if(transformationsUpdated) {
+            Matrix.setIdentityM(this.modelMatrix, 0);
+            if(parent != null) applyTransformations(true);
+            applyTransformations(false);
+            transformationsUpdated = false;
+        }
+    }
+
+    private void applyTransformations(boolean applyParent) {
+        if(applyParent) {
+            if(copyTranslationFromParent) MatrixHelper.translateM(modelMatrix, parent.getTranslation());
+            if(copyRotationFromParent) MatrixHelper.rotateM(modelMatrix, parent.getRotation());
+            if(copyScaleFromParent) MatrixHelper.scaleM(modelMatrix, parent.getScale());
+        }else{
+            MatrixHelper.translateM(modelMatrix, translation);
+            MatrixHelper.rotateM(modelMatrix, rotation);
+            MatrixHelper.scaleM(modelMatrix, scale);
+        }
     }
 
     public Transforms scaleTo(Vector3f newScale) {
@@ -162,6 +193,42 @@ public class Transforms {
         }
     }
 
+    public Transforms getParent() {
+        return parent;
+    }
+
+    public Transforms setParent(Transforms parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    public boolean isCopyTranslationFromParent() {
+        return copyTranslationFromParent;
+    }
+
+    public Transforms setCopyTranslationFromParent(boolean copyTranslationFromParent) {
+        this.copyTranslationFromParent = copyTranslationFromParent;
+        return this;
+    }
+
+    public boolean isCopyRotationFromParent() {
+        return copyRotationFromParent;
+    }
+
+    public Transforms setCopyRotationFromParent(boolean copyRotationFromParent) {
+        this.copyRotationFromParent = copyRotationFromParent;
+        return this;
+    }
+
+    public boolean isCopyScaleFromParent() {
+        return copyScaleFromParent;
+    }
+
+    public Transforms setCopyScaleFromParent(boolean copyScaleFromParent) {
+        this.copyScaleFromParent = copyScaleFromParent;
+        return this;
+    }
+
     public Vector3f getTranslation() {
         return translation;
     }
@@ -174,6 +241,8 @@ public class Transforms {
         return scale;
     }
 
+    public float[] getModelMatrix() { return this.modelMatrix; }
+
     public void setLinkedRigidBody(RigidBody linkedRigidBody) {
         this.linkedRigidBody = linkedRigidBody;
     }
@@ -183,7 +252,7 @@ public class Transforms {
     }
 
     public void onTransformsChanged() {
-        hasChanged = true;
+        transformationsUpdated = true;
         linkedRigidBody.onTransformsChanged();
         linkedDrawable.onTransformsChanged();
     }

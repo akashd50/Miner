@@ -57,7 +57,7 @@ public class Object3D extends Drawable {
 
 		if(getMaterial()!=null) { ShaderHelper.setMaterialProperties(getShader(), getMaterial()); }
 
-		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
+		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
 
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, object3DData.faceConfiguration.size() * 3);
 

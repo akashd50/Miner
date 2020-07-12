@@ -27,7 +27,7 @@ public class TextureEdgedPolygon extends Drawable {
         super.onDrawFrame();
 
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
+        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
         ShaderHelper.setMaterialProperties(getShader(), getMaterial());
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, (_vertices.size()-1) * 2 /*triangles*/ * 3 /*vertices per triangle*/ );

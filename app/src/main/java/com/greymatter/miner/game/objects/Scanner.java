@@ -20,7 +20,7 @@ public class Scanner extends GameBuilding {
     public Scanner(Drawable drawable, RadialGradient rangeDrawable) {
         super(drawable.getId(), drawable);
         this.rangeDrawable = rangeDrawable;
-        rangeDrawable.setParent(getDrawable());
+        rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
     }
 
     public Scanner(String id, Drawable drawable) {

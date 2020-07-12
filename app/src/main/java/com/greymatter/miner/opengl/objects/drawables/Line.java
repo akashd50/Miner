@@ -29,7 +29,7 @@ public class Line extends Drawable {
         super.onDrawFrame();
 
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getModelMatrix());
+        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
         ShaderHelper.setUniformVec4(getShader(), ShaderConst.U_COLOR, lineColor);
 
         GLES30.glLineWidth(10f);

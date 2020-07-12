@@ -25,13 +25,13 @@ public class Bone {
         if(this.parent == null) {
             modelMat = new float[16];
             Matrix.setIdentityM(modelMat, 0);
-            drawable.applyTransformations(modelMat);
+            //drawable.applyTransformations(modelMat);
 
             for(Bone child : children) {
                 child.applyTransformations(modelMat);
             }
         }else{
-            drawable.applyTransformations(modelMat);
+            //drawable.applyTransformations(modelMat);
             for(Bone child : children) {
                 child.applyTransformations(modelMat);
             }

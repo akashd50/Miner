@@ -1,8 +1,5 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
-import android.opengl.Matrix;
-
-import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
@@ -14,67 +11,30 @@ import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public abstract class Drawable implements Clickable {
     private Material material;
-    private float[] modelMatrix;
     private Shader shader;
-    private boolean transformationsUpdated;
     private int vertexArray, vertexBuffer;
     private RigidBody rigidBody;
     private String id;
     private TouchChecker touchChecker;
     private Transforms transforms;
-    private Drawable parent;
     public Drawable(String id) {
         this.id = id;
-        this.transformationsUpdated = false;
-        this.modelMatrix = new float[16];
-        Matrix.setIdentityM(modelMatrix, 0);
+
         transforms = new Transforms();
         transforms.setLinkedDrawable(this);
         this.setRigidBody(new GeneralRB());
     }
 
     public void onDrawFrame() {
-        if(transformationsUpdated) {
-            Matrix.setIdentityM(this.modelMatrix, 0);
-            applyTransformations(this.modelMatrix);
-            transformationsUpdated = false;
-        }
-    }
-
-//    public void onDrawFrame(boolean applyTransformations) {
-//        if(applyTransformations) {
-//            Matrix.setIdentityM(this.modelMatrix, 0);
-//            applyTransformations(this.modelMatrix);
-//            transformationsUpdated = false;
-//        }
-//    }
-
-    public void applyTransformations(float[] modelMat) {
-        Vector3f pt = parent!=null? parent.getTransforms().getTranslation() : null;
-        if(pt != null) {
-            MatrixHelper.translateM(modelMat, pt.x + transforms.getTranslation().x,
-                                              pt.y + transforms.getTranslation().y,
-                                                 transforms.getTranslation().z);
-        }else{
-            MatrixHelper.translateM(modelMat, transforms.getTranslation());
-        }
-        MatrixHelper.rotateM(modelMat, transforms.getRotation());
-        MatrixHelper.scaleM(modelMat, transforms.getScale());
-
-        this.modelMatrix = modelMat;
+        transforms.applyTransformations();
     }
 
     @Override
     public boolean isClicked(Vector2f touchPoint) {
         return touchChecker != null && touchChecker.isClicked(touchPoint);
-    }
-
-    public void transformationsUpdated() {
-        transformationsUpdated = true;
     }
 
     public Drawable setShader(Shader shader) {
@@ -112,18 +72,7 @@ public abstract class Drawable implements Clickable {
         return this;
     }
 
-    public Drawable setParent(Drawable parent) {
-        this.parent = parent;
-        return this;
-    }
-
-    public Drawable getParent() {
-        return parent;
-    }
-
-    public void onTransformsChanged() {
-        transformationsUpdated = true;
-    }
+    public void onTransformsChanged() {}
 
     public Material getMaterial() {
         return this.material;
@@ -132,8 +81,6 @@ public abstract class Drawable implements Clickable {
     public Shader getShader() {
         return shader;
     }
-
-    public float[] getModelMatrix() { return this.modelMatrix; }
 
     public int getVertexArrayObject() {
         return this.vertexArray;
