@@ -1,51 +1,56 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.helpers.BufferHelper;
+import com.greymatter.miner.opengl.ShapesHelper;
+
 import java.util.ArrayList;
+
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Shape {
     private String id;
     private ArrayList<Vector3f> shapeVertices;
-    private float[] verticesArray;
+    private ArrayList<Vector2f> shapeUVs;
+    private float[] verticesArray, uvsArray;
     public Shape(String id) {
         this.id = id;
         shapeVertices = new ArrayList<>();
+        shapeUVs = new ArrayList<>();
     }
 
     public Shape loadCircle(float radius) {
-        shapeVertices.add(new Vector3f(0f,0f,0f));
-
-        for(int angle=0;angle<360;angle++) {
-            shapeVertices.add(new Vector3f(
-                             radius * (float)Math.cos(Math.toRadians(angle)),
-                            radius * (float)Math.sin(Math.toRadians(angle)),
-                            0f));
-        }
-
-        shapeVertices.add(new Vector3f(
-                radius * (float)Math.cos(Math.toRadians(0)),
-                radius * (float)Math.sin(Math.toRadians(0)),
-                0f));
-
+        ShapesHelper.loadCircle(this, radius);
         return this;
     }
 
     public Shape loadPie(float innerAngle, float radius) {
-        shapeVertices.add(new Vector3f(0f,0f,0f));
+        ShapesHelper.getPie(this, innerAngle, radius);
+        return this;
+    }
 
-        for(float angle=0-innerAngle/2;angle<innerAngle/2;angle++) {
-            shapeVertices.add(new Vector3f(
-                    radius * (float)Math.cos(Math.toRadians(angle)),
-                    radius * (float)Math.sin(Math.toRadians(angle)),
-                    0f));
-        }
-
+    public Shape loadQuad(float xyRatio) {
+        ShapesHelper.getQuad(this, xyRatio);
         return this;
     }
 
     public Shape addVertex(Vector3f vert) {
         shapeVertices.add(vert);
+        return this;
+    }
+
+    public Shape addVertex(float x, float y, float z) {
+        shapeVertices.add(new Vector3f(x,y,z));
+        return this;
+    }
+
+    public Shape addUV(Vector2f uv) {
+        shapeUVs.add(uv);
+        return this;
+    }
+
+    public Shape addUV(float x, float y) {
+        shapeUVs.add(new Vector2f(x,y));
         return this;
     }
 
@@ -55,16 +60,23 @@ public class Shape {
     }
 
     public Shape build() {
-        if(verticesArray==null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
+        if(verticesArray == null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
+        if(uvsArray == null) uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
         return this;
     }
 
     public float[] getVerticesArray() {
         return verticesArray;
     }
+    public float[] getUVsArray() {
+        return uvsArray;
+    }
 
     public ArrayList<Vector3f> getVerticesList() {
         return shapeVertices;
+    }
+    public ArrayList<Vector2f> getUvsList() {
+        return shapeUVs;
     }
 
     public String getId() {

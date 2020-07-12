@@ -5,6 +5,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import com.greymatter.miner.opengl.objects.Shader;
 
@@ -15,15 +16,17 @@ import javax.vecmath.Vector3f;
 public class Quad extends Drawable {
 	private float textureRatio;
 	private ArrayList<Vector3f> mesh;
-	public Quad(String id, TexturedMaterial material, Shader shader) {
+	private Shape shape;
+	public Quad(String id) {
 		super(id);
-		super.setShader(shader);
-		super.setMaterial(material);
-
-		initialize();
 	}
 
-	private void initialize() {
+	public Quad load(Shape shape) {
+		this.shape = shape;
+		return this;
+	}
+
+	public Quad build() {
 		if(getMaterial() instanceof TexturedMaterial) {
 			textureRatio = getMaterial().asTexturedMaterial().getActiveDiffuseTexture().getRatio();
 		}
@@ -31,23 +34,16 @@ public class Quad extends Drawable {
 		if (textureRatio == 0.0f) {
 			textureRatio = 1.0f;
 		}
-
-		float[] vertices = {1.0f * textureRatio, 1.0f, 0.0f,
-							-1.0f * textureRatio, 1.0f, 0.0f,
-							-1.0f * textureRatio, -1.0f, 0.0f,
-							1.0f * textureRatio, 1.0f, 0.0f,
-							-1.0f * textureRatio, -1.0f, 0.0f,
-							1.0f * textureRatio, -1.0f, 0.0f};
-
-		float[] uvs = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
+		textureRatio = 1.0f;
 
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(vertices, 3, getShader(), ShaderConst.IN_POSITION);
-		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(uvs, 2, getShader(), ShaderConst.IN_UV);
+		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(shape.getVerticesArray(), 3, getShader(), ShaderConst.IN_POSITION);
+		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(shape.getUVsArray(), 2, getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
+		return this;
 	}
 
 	public void onDrawFrame() {
@@ -57,7 +53,7 @@ public class Quad extends Drawable {
 		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
 		ShaderHelper.setMaterialProperties(getShader(), getMaterial());
 
-		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);
+		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 4);
 
 		GLBufferHelper.glUnbindVertexArray();
 	}
@@ -73,6 +69,18 @@ public class Quad extends Drawable {
 			mesh.add(new Vector3f(1.0f * textureRatio, 1.0f, 0.0f));
 		}
 		return mesh;
+	}
+
+	@Override
+	public Quad setShader(Shader shader) {
+		super.setShader(shader);
+		return this;
+	}
+
+	@Override
+	public Quad setMaterial(Material material) {
+		super.setMaterial(material);
+		return this;
 	}
 
 	@Override

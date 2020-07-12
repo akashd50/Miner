@@ -19,6 +19,7 @@ import com.greymatter.miner.opengl.objects.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
@@ -93,6 +94,11 @@ class MainGLObjectsHelper {
                                             .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0.4f))
                                             .build()));
 
+        GameObjectsContainer.add(new Static(new Quad("q").load(new Shape("quad").loadQuad(1.0f).build())
+                                            .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
+                                            .setShader(ShaderContainer.get(QUAD_SHADER))
+                                            .build()));
+
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
                                             .load(ATM_SIMPLE_CIRCLE)
                                             .setMaterial(MaterialContainer.get(ATMOSPHERE_MATERIAL))
@@ -162,6 +168,8 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(SAMPLE_TREE).scaleTo(1f,1.5f).moveTo(0f,0f, -6f);
 
+        GameObjectsContainer.get("q").moveTo(0f,0f, 2f);
+
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE)
                             .setShader(ShaderContainer.get(LINE_SHADER))
@@ -177,6 +185,7 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(SAMPLE_TREE));
         ToDrawContainer.add(GameObjectsContainer.get("coal"));
+        ToDrawContainer.add(GameObjectsContainer.get("q"));
 
         ActiveResourcesContainer.add(GameObjectsContainer.get("coal").asResourceBlock());
         //ActiveObjectsContainer.add(GameObjectsContainer.get("g"));
