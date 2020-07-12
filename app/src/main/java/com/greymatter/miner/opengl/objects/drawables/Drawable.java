@@ -13,18 +13,16 @@ import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
 
 public abstract class Drawable implements Clickable {
+    private String id;
     private Material material;
     private Shader shader;
     private int vertexArray, vertexBuffer;
     private RigidBody rigidBody;
-    private String id;
     private TouchChecker touchChecker;
     private Transforms transforms;
     public Drawable(String id) {
         this.id = id;
-
-        transforms = new Transforms();
-        transforms.setLinkedDrawable(this);
+        this.transforms = new Transforms().setLinkedDrawable(this);
         this.setRigidBody(new GeneralRB());
     }
 
@@ -94,7 +92,9 @@ public abstract class Drawable implements Clickable {
         return this.touchChecker;
     }
 
-    public Transforms getTransforms() { return this.transforms; }
+    public Transforms getTransforms() {
+        return this.transforms;
+    }
 
     public RigidBody getRigidBody() {
         return rigidBody;

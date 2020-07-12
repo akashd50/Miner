@@ -45,7 +45,14 @@ public class Scanner extends GameBuilding {
         }
     }
 
-    public boolean isResourceInRange(ResourceBlock resourceBlock) {
+    @Override
+    public void upgrade() {
+        super.upgrade();
+        float newRad = getObjectLevel() * rangeDrawable.getRadius();
+        rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+    }
+
+    private boolean isResourceInRange(ResourceBlock resourceBlock) {
         Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());
         float distance = VectorHelper.getLength(sub);
         if(distance < _scannerRange) {

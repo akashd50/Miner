@@ -17,19 +17,30 @@ public abstract class GameObject {
     private ArrayList<String> objectTags;
     private boolean shouldDraw;
     private String id;
-
+    private int objectLevel;
     public GameObject(String id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
         shouldDraw = true;
+        objectLevel = 1;
     }
 
     public void onDrawFrame() {
         objectDrawable.onDrawFrame();
     }
 
-    public void onFrameUpdate() {}
+    public void onFrameUpdate() {
+
+    }
+
+    public void upgrade() {
+        objectLevel++;
+    }
+
+    public void upgrade(int newLevel) {
+        objectLevel = newLevel;
+    }
 
     public GameObject addTag(String tag) {
         this.objectTags.add(tag);
@@ -97,6 +108,10 @@ public abstract class GameObject {
         return this;
     }
 
+    public int getObjectLevel() {
+        return objectLevel;
+    }
+
     public Vector3f getLocation() {
         return objectDrawable.getRigidBody().getTranslation();
     }
@@ -121,7 +136,9 @@ public abstract class GameObject {
         return objectDrawable.getRigidBody();
     }
 
-    public int getNumTags() {return this.objectTags.size();}
+    public int getNumTags() {
+        return this.objectTags.size();
+    }
 
     public boolean shouldDraw() {
         return shouldDraw;

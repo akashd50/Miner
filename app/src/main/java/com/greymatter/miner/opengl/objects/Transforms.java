@@ -202,6 +202,11 @@ public class Transforms {
         return this;
     }
 
+    public Transforms setLinkedDrawable(Drawable linkedDrawable) {
+        this.linkedDrawable = linkedDrawable;
+        return this;
+    }
+
     public boolean isCopyTranslationFromParent() {
         return copyTranslationFromParent;
     }
@@ -247,11 +252,7 @@ public class Transforms {
         this.linkedRigidBody = linkedRigidBody;
     }
 
-    public void setLinkedDrawable(Drawable linkedDrawable) {
-        this.linkedDrawable = linkedDrawable;
-    }
-
-    public void onTransformsChanged() {
+    private void onTransformsChanged() {
         transformationsUpdated = true;
         linkedRigidBody.onTransformsChanged();
         linkedDrawable.onTransformsChanged();

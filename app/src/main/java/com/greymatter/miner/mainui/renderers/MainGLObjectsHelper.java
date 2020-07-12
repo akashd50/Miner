@@ -91,7 +91,6 @@ class MainGLObjectsHelper {
                                             .setCenterColor(new Vector4f(0f,0.2f,0.2f,0.6f))
                                             .setMidColor(new Vector4f(0f,0.4f,0.3f,0.4f))
                                             .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0.4f))
-                                            //.setAnimator()
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
@@ -155,7 +154,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(MAIN_CHARACTER).scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f);
 
-        GameObjectsContainer.get(SAMPLE_SCANNER).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f);
+        GameObjectsContainer.get(SAMPLE_SCANNER).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f).upgrade();
 
         GameObjectsContainer.get(MAIN_BASE).scaleTo(4f,2.7f).moveTo(-2.4f,2f,-5f);
 
