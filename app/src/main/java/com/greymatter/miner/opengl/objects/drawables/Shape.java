@@ -11,7 +11,7 @@ import javax.vecmath.Vector3f;
 
 public class Shape {
     private String id;
-    private ArrayList<Vector3f> shapeVertices;
+    private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
     private ArrayList<Vector2f> shapeUVs;
     private RawObjData rawObjData;
     private float[] verticesArray, uvsArray;
@@ -38,6 +38,11 @@ public class Shape {
 
     public Shape loadObj(String fileName) {
         ShapesHelper.loadRawObj(this, fileName);
+        return this;
+    }
+
+    public Shape loadEdgeOutline(Shape toOutline, float edgeWidth) {
+        ShapesHelper.loadShapeOutline(this, toOutline.getOrderedOuterMesh(), edgeWidth);
         return this;
     }
 
@@ -71,6 +76,11 @@ public class Shape {
         return this;
     }
 
+    public Shape setOrderedOuterMesh(ArrayList<Vector3f> orderedOuterMesh) {
+        this.orderedOuterMesh = orderedOuterMesh;
+        return this;
+    }
+
     public Shape build() {
         if(verticesArray == null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
         if(uvsArray == null) uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
@@ -80,16 +90,23 @@ public class Shape {
     public float[] getVerticesArray() {
         return verticesArray;
     }
+
     public float[] getUVsArray() {
         return uvsArray;
     }
+
     public RawObjData getRawObjData() {
         return rawObjData;
+    }
+
+    public ArrayList<Vector3f> getOrderedOuterMesh() {
+        return orderedOuterMesh;
     }
 
     public ArrayList<Vector3f> getVerticesList() {
         return shapeVertices;
     }
+
     public ArrayList<Vector2f> getUvsList() {
         return shapeUVs;
     }

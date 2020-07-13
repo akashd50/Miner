@@ -32,17 +32,6 @@ public class ActiveLightsContainer {
         }
     }
 
-    public static synchronized void onDrawFrame(Camera camera) {
-        gameLights.toList().forEach((gameObject) -> {
-            if(gameObject.shouldDraw()) {
-                ShaderHelper.useProgram(gameObject.getDrawable().getShader());
-                ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
-                ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), gameLights.toList());
-                gameObject.onDrawFrame();
-            }
-        });
-    }
-
     public static GameLight get(String id) {
         return gameLights.get(id);
     }

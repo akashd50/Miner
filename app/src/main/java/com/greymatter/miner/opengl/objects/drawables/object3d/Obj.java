@@ -4,7 +4,6 @@ import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
-import com.greymatter.miner.Res;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
@@ -17,30 +16,25 @@ import java.util.*;
 
 import javax.vecmath.Vector3f;
 
-public class Object3D extends Drawable {
+public class Obj extends Drawable {
 	private int normalBufferObject;
 	private int uvBufferObject;
-	private Shape shape;
-	public Object3D(String id) {
+	public Obj(String id) {
 		super(id);
 	}
 
-	public Object3D load(Shape shape) {
-		this.shape = shape;
-		return this;
-	}
-
-	public Object3D build() {
+	@Override
+	public Obj build() {
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		int vertexBufferObject = GLBufferHelper.putDataIntoArrayBuffer(shape.getVerticesArray(), 3,
+		int vertexBufferObject = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3,
 				getShader(), ShaderConst.IN_POSITION);
 		super.setVertexBufferObject(vertexBufferObject);
 
 //		normalBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayNormals, 3,
 //				getShader(), Constants.IN_NORMAL);
-		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(shape.getUVsArray(), 2,
+		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2,
 				getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
@@ -55,52 +49,37 @@ public class Object3D extends Drawable {
 
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		if(getMaterial()!=null) { ShaderHelper.setMaterialProperties(getShader(), getMaterial()); }
+		ShaderHelper.setMaterialProperties(getShader(), getMaterial());
 
 		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
 
-		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, shape.getRawObjData().faceConfiguration.size() * 3);
+		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, getShape().getRawObjData().faceConfiguration.size() * 3);
 
 		GLBufferHelper.glUnbindVertexArray();
 	}
 
 	public ArrayList<Vector3f> getOuterMesh() {
-		if(shape.getRawObjData().outerMesh==null) {
-			shape.getRawObjData().outerMesh = ObjHelper.generateRoughMesh2(shape.getRawObjData());
-		}
-		return shape.getRawObjData().outerMesh;
+		return getShape().getOrderedOuterMesh();
 	}
 
 	public RawObjData getRawObjData() {
-		return shape.getRawObjData();
+		return getShape().getRawObjData();
 	}
 
 	@Override
-	public Object3D attachPolygonTouchChecker() {
+	public Obj attachPolygonTouchChecker() {
 		setTouchChecker(new PolygonTouchChecker(getRigidBody().asPolygonRB()));
 		return this;
 	}
 
 	@Override
-	public Object3D attachPolygonCollider() {
+	public Obj attachPolygonCollider() {
 		this.setRigidBody(new PolygonRB(this.getOuterMesh()));
 		return this;
 	}
 
-	public Object3D attachOptimisedPolygonCollider(float optFac) {
+	public Obj attachOptimisedPolygonCollider(float optFac) {
 		this.setRigidBody(new PolygonRB(ObjHelper.simplify(this.getOuterMesh(), optFac)));
-		return this;
-	}
-
-	@Override
-	public Object3D setShader(Shader shader) {
-		super.setShader(shader);
-		return this;
-	}
-
-	@Override
-	public Object3D setMaterial(Material material) {
-		super.setMaterial(material);
 		return this;
 	}
 }

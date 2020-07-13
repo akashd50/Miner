@@ -14,12 +14,6 @@ import javax.vecmath.Vector3f;
 public class ObjHelper {
     public static ArrayList<Vector3f> roughShape, verticesG;
 
-    public static RawObjData load(String file) {
-        RawObjData data = loadFromFile(file);
-        data.dataToFloatArray();
-        return data;
-    }
-
     public static RawObjData loadFromFile(String file) {
         RawObjData data = new RawObjData();
         try {
@@ -94,7 +88,7 @@ public class ObjHelper {
         }
     }
 
-    public static ArrayList<Vector3f> generateRoughMeshByNumFaces(Object3D object, ArrayList<Vector3f> vertices,
+    public static ArrayList<Vector3f> generateRoughMeshByNumFaces(Obj object, ArrayList<Vector3f> vertices,
                                                                   ArrayList<Config> faceConfiguration) {
         ArrayList<Vector3f> roughShape = new ArrayList<>();
 

@@ -7,7 +7,7 @@ import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.object3d.Object3D;
+import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
@@ -20,6 +20,7 @@ public abstract class Drawable implements Clickable {
     private RigidBody rigidBody;
     private TouchChecker touchChecker;
     private Transforms transforms;
+    private Shape shape;
     public Drawable(String id) {
         this.id = id;
         this.transforms = new Transforms().setLinkedDrawable(this);
@@ -28,6 +29,10 @@ public abstract class Drawable implements Clickable {
 
     public void onDrawFrame() {
         transforms.applyTransformations();
+    }
+
+    public Drawable build() {
+        return this;
     }
 
     @Override
@@ -70,6 +75,11 @@ public abstract class Drawable implements Clickable {
         return this;
     }
 
+    public Drawable setShape(Shape shape) {
+        this.shape = shape;
+        return this;
+    }
+
     public void onTransformsChanged() {}
 
     public Material getMaterial() {
@@ -100,6 +110,10 @@ public abstract class Drawable implements Clickable {
         return rigidBody;
     }
 
+    public Shape getShape() {
+        return shape;
+    }
+
     public String toString() {
         return this.id;
     }
@@ -109,8 +123,8 @@ public abstract class Drawable implements Clickable {
     }
 
     //typecasting
-    public Object3D asObject3D() {
-        return (Object3D)this;
+    public Obj asObject3D() {
+        return (Obj)this;
     }
 
     public Quad asQuad() {
