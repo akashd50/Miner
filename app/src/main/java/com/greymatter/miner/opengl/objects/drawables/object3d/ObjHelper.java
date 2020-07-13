@@ -11,18 +11,17 @@ import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class Object3DHelper {
+public class ObjHelper {
     public static ArrayList<Vector3f> roughShape, verticesG;
-    public static ArrayList<Config> faceConfigurationG;
 
-    public static Object3DData load(String file) {
-        Object3DData data = loadFromFile(file);
+    public static RawObjData load(String file) {
+        RawObjData data = loadFromFile(file);
         data.dataToFloatArray();
         return data;
     }
 
-    public static Object3DData loadFromFile(String file) {
-        Object3DData data = new Object3DData();
+    public static RawObjData loadFromFile(String file) {
+        RawObjData data = new RawObjData();
         try {
             InputStream stream = AppServices.getAssetManager().open(file);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
@@ -62,12 +61,12 @@ public class Object3DHelper {
                     c.n3 = Integer.parseInt(faceV3Tokens[2]) - 1;
 
                     data.faceConfiguration.add(c);
-                } else if (lineTokens[0].equals("vn")) {
+                }/* else if (lineTokens[0].equals("vn")) {
                     Vector3f normal = new Vector3f(Float.parseFloat(lineTokens[1]),
                             Float.parseFloat(lineTokens[2]),
                             Float.parseFloat(lineTokens[3]));
                     data.normals.add(normal);
-                }
+                }*/
             }
 
         } catch (IOException e) {
@@ -76,7 +75,7 @@ public class Object3DHelper {
         return data;
     }
 
-    public static void updateShapeParams(Object3DData data, Vector3f vector) {
+    public static void updateShapeParams(RawObjData data, Vector3f vector) {
         if(vector.y > data.top.y) {
             data.top = vector;
             data.topIndex = data.vertices.size();
@@ -116,10 +115,9 @@ public class Object3DHelper {
         return toReturn;
     }
 
-    public static ArrayList<Vector3f> generateRoughMesh2(Object3DData data) {
+    public static ArrayList<Vector3f> generateRoughMesh2(RawObjData data) {
         roughShape = new ArrayList<>();
         verticesG = data.vertices;
-        faceConfigurationG = data.faceConfiguration;
 
         int topIndex = data.topIndex;
         Vector3f topVertex = data.top;

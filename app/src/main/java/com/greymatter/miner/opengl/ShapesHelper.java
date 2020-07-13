@@ -1,10 +1,8 @@
 package com.greymatter.miner.opengl;
 
 import com.greymatter.miner.opengl.objects.drawables.Shape;
+import com.greymatter.miner.opengl.objects.drawables.object3d.ObjHelper;
 
-import java.util.ArrayList;
-
-import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class ShapesHelper {
@@ -24,7 +22,7 @@ public class ShapesHelper {
                 0f));
     }
 
-    public static void getPie(Shape shape, float innerAngle, float radius) {
+    public static void loadPie(Shape shape, float innerAngle, float radius) {
         shape.addVertex(new Vector3f(0f,0f,0f));
 
         for(float angle=0-innerAngle/2;angle<innerAngle/2;angle++) {
@@ -35,12 +33,17 @@ public class ShapesHelper {
         }
     }
 
-    public static void getQuad(Shape shape, float xyRatio) {
+    public static void loadQuad(Shape shape, float xyRatio) {
         shape.addVertex(1.0f * xyRatio, 1.0f, 0.0f)
                 .addVertex(-1.0f * xyRatio, 1.0f, 0.0f)
                 .addVertex(-1.0f * xyRatio, -1.0f, 0.0f)
                 .addVertex(1.0f * xyRatio, -1.0f, 0.0f);
 
         shape.addUV(1f,0f).addUV(0f,0f).addUV(0f,1f).addUV(1f,1f);
+    }
+
+    public static void loadRawObj(Shape shape, String fileName) {
+        shape.setRawObjData(ObjHelper.loadFromFile(fileName));
+        shape.getRawObjData().dataToShape(shape);
     }
 }

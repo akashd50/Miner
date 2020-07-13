@@ -2,6 +2,7 @@ package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
 
+import com.greymatter.miner.Res;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
@@ -77,8 +78,14 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
+        Shape boxShape = new Shape("box").loadObj(Res.OBJECTS_F + BOX).build();
+        Shape atmSimpleCircle = new Shape("atmSimple").loadObj(Res.OBJECTS_F + ATM_SIMPLE_CIRCLE).build();
+        Shape uvmapped = new Shape("uvMapped").loadObj(Res.OBJECTS_F + UV_MAPPED_BOX).build();
+        Shape circleSubDivIII = new Shape("c3").loadObj(Res.OBJECTS_F + CIRCLE_SUB_DIV_III).build();
+        Shape circleSubDivI = new Shape("c1").loadObj(Res.OBJECTS_F + CIRCLE_SUB_DIV_I).build();
+
         GameObjectsContainer.add(new CoalBlock(new Object3D("coal")
-                                            .load(BOX)
+                                            .load(boxShape)
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(RESOURCE_OBJECT));
@@ -100,33 +107,33 @@ class MainGLObjectsHelper {
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Object3D(ATMOSPHERE)
-                                            .load(ATM_SIMPLE_CIRCLE)
+                                            .load(atmSimpleCircle)
                                             .setMaterial(MaterialContainer.get(ATMOSPHERE_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
                                             .addTag(STATIC));
 
         GameObjectsContainer.add(new Planet(new Object3D(PLANET)
-                                            .load(CIRCLE_SUB_DIV_III)
+                                            .load(circleSubDivIII)
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
                                             .addTag(STATIC)
                                             .addTag(PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new MainBase(new Object3D(MAIN_BASE)
-                                            .load(UV_MAPPED_BOX)
+                                            .load(uvmapped)
                                             .setMaterial(MaterialContainer.get(MAIN_BASE_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(STATIC)
                                             .addTag(PLACABLE_GAME_BUILDING));
 
         GameObjectsContainer.add(new InteractiveObject(new Object3D(MAIN_CHARACTER)
-                                            .load(BOX)
+                                            .load(boxShape)
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new Scanner(new Object3D(SAMPLE_SCANNER)
-                                            .load(CIRCLE_SUB_DIV_I)
+                                            .load(circleSubDivI)
                                             .setMaterial(MaterialContainer.get(GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build(),
                                             GameObjectsContainer.get("g").getDrawable().asRadialGradient())
@@ -136,7 +143,7 @@ class MainGLObjectsHelper {
                                             .addTag(PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new InteractiveObject(new Object3D(SAMPLE_TREE)
-                                            .load(UV_MAPPED_BOX)
+                                            .load(uvmapped)
                                             .setMaterial(MaterialContainer.get(TREE_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build()));
 

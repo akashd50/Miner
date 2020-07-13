@@ -2,6 +2,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.opengl.ShapesHelper;
+import com.greymatter.miner.opengl.objects.drawables.object3d.RawObjData;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Shape {
     private String id;
     private ArrayList<Vector3f> shapeVertices;
     private ArrayList<Vector2f> shapeUVs;
+    private RawObjData rawObjData;
     private float[] verticesArray, uvsArray;
     public Shape(String id) {
         this.id = id;
@@ -25,12 +27,17 @@ public class Shape {
     }
 
     public Shape loadPie(float innerAngle, float radius) {
-        ShapesHelper.getPie(this, innerAngle, radius);
+        ShapesHelper.loadPie(this, innerAngle, radius);
         return this;
     }
 
     public Shape loadQuad(float xyRatio) {
-        ShapesHelper.getQuad(this, xyRatio);
+        ShapesHelper.loadQuad(this, xyRatio);
+        return this;
+    }
+
+    public Shape loadObj(String fileName) {
+        ShapesHelper.loadRawObj(this, fileName);
         return this;
     }
 
@@ -59,6 +66,11 @@ public class Shape {
         return this;
     }
 
+    public Shape setRawObjData(RawObjData data) {
+        this.rawObjData = data;
+        return this;
+    }
+
     public Shape build() {
         if(verticesArray == null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
         if(uvsArray == null) uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
@@ -70,6 +82,9 @@ public class Shape {
     }
     public float[] getUVsArray() {
         return uvsArray;
+    }
+    public RawObjData getRawObjData() {
+        return rawObjData;
     }
 
     public ArrayList<Vector3f> getVerticesList() {
