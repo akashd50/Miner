@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects;
+package com.greymatter.miner.opengl.objects.animators;
 
 public class IntegerValueAnimator extends ValueAnimator {
     private int _totalFrames, _currentFrame;

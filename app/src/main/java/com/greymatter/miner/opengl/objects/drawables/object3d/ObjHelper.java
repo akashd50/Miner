@@ -1,6 +1,7 @@
 package com.greymatter.miner.opengl.objects.drawables.object3d;
 
 import com.greymatter.miner.AppServices;
+import com.greymatter.miner.opengl.objects.drawables.Shape;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import javax.vecmath.Vector3f;
 public class ObjHelper {
     public static ArrayList<Vector3f> roughShape, verticesG;
 
-    public static RawObjData loadFromFile(String file) {
+    public static RawObjData loadFromFile(Shape shape, String file) {
         RawObjData data = new RawObjData();
         try {
             InputStream stream = AppServices.getAssetManager().open(file);
@@ -30,7 +31,7 @@ public class ObjHelper {
                     Vector3f vert = new Vector3f(Float.parseFloat(lineTokens[1]),
                             Float.parseFloat(lineTokens[2]),
                             Float.parseFloat(lineTokens[3]));
-                    updateShapeParams(data, vert);
+                    updateShapeParams(shape, data, vert);
                     data.vertices.add(vert);
                 } else if (lineTokens[0].equals("vt")) {
                     Vector2f uv = new Vector2f(Float.parseFloat(lineTokens[1]),
@@ -69,22 +70,22 @@ public class ObjHelper {
         return data;
     }
 
-    public static void updateShapeParams(RawObjData data, Vector3f vector) {
-        if(vector.y > data.top.y) {
-            data.top = vector;
+    public static void updateShapeParams(Shape shape, RawObjData data, Vector3f vector) {
+        if(vector.y > shape.getTop().y) {
+            shape.setTop(vector);
             data.topIndex = data.vertices.size();
         }
 
-        if(vector.y < data.bottom.y) {
-            data.bottom = vector;
+        if(vector.y < shape.getBottom().y) {
+            shape.setBottom(vector);
         }
 
-        if(vector.x > data.right.x) {
-            data.right = vector;
+        if(vector.x > shape.getRight().x) {
+            shape.setRight(vector);
         }
 
-        if(vector.x < data.left.x) {
-            data.left = vector;
+        if(vector.x < shape.getLeft().x) {
+            shape.setLeft(vector);
         }
     }
 
@@ -114,7 +115,6 @@ public class ObjHelper {
         verticesG = data.vertices;
 
         int topIndex = data.topIndex;
-        Vector3f topVertex = data.top;
         ArrayList<Integer> indexesToCheck = new ArrayList<>();
         indexesToCheck.add(topIndex);
 

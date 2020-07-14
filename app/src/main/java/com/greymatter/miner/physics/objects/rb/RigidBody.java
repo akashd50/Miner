@@ -1,6 +1,6 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.CollisionEvent;

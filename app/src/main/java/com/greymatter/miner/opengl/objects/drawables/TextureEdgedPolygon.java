@@ -1,18 +1,10 @@
-package com.greymatter.miner.opengl.objects.drawables.textureedged;
+package com.greymatter.miner.opengl.objects.drawables;
 
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.generalhelpers.VectorHelper;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.materials.Material;
-import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
-
-import java.util.ArrayList;
-
-import javax.vecmath.Vector3f;
 
 public class TextureEdgedPolygon extends Drawable {
     public TextureEdgedPolygon(String id) {

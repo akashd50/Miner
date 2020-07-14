@@ -3,6 +3,7 @@ package com.greymatter.miner.mainui.renderers;
 import android.util.Log;
 
 import com.greymatter.miner.Res;
+import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
@@ -16,28 +17,26 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
-import com.greymatter.miner.opengl.objects.BooleanAnimator;
+import com.greymatter.miner.opengl.objects.animators.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.FloatValueAnimator;
+import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
-import com.greymatter.miner.opengl.objects.IntegerValueAnimator;
+import com.greymatter.miner.opengl.objects.animators.IntegerValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.drawables.textureedged.TextureEdgedPolygon;
+import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
 import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
-
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
-
 import static com.greymatter.miner.game.GC.*;
 import static com.greymatter.miner.Res.*;
 
@@ -67,7 +66,11 @@ class MainGLObjectsHelper {
         MaterialContainer.add(new StaticTexturedMaterial(ATMOSPHERE_MATERIAL).attachDiffuseTexture(ATM_RADIAL_II));
         MaterialContainer.add(new StaticTexturedMaterial(MAIN_BASE_MATERIAL).attachDiffuseTexture(MAIN_BASE_FINAL));
         MaterialContainer.add(new StaticTexturedMaterial(PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(GRASS_PATCH_I));
-        MaterialContainer.add(new StaticColoredMaterial("color"));
+        MaterialContainer.add(new StaticColoredMaterial("color")
+                        .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
+                        .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.4f))
+                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0.4f)))
+        ;
         MaterialContainer.add(new AnimatedTexturedMaterial(TREE_MATERIAL)
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
@@ -92,13 +95,10 @@ class MainGLObjectsHelper {
                                             .addTag(RESOURCE_OBJECT));
 
         GameObjectsContainer.add(new Static(new RadialGradient("g")
-                                            .setShape(shape).setRadius(1f)
-                                            .setMidPoint(0.01f)
+                                            .setRadius(1f)
+                                            .setShape(shape)
                                             .setMaterial(MaterialContainer.get("color"))
                                             .setShader(ShaderContainer.get(CIRCLE_GRADIENT_SHADER))
-                                            .setCenterColor(new Vector4f(0f,0.2f,0.2f,0.6f))
-                                            .setMidColor(new Vector4f(0f,0.4f,0.3f,0.4f))
-                                            .setEdgeColor(new Vector4f(0f,0.7f,0.3f,0.4f))
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Quad("q").load(new Shape("quad").loadQuad(1.0f).build())

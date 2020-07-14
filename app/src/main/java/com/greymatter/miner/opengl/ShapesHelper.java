@@ -1,6 +1,6 @@
 package com.greymatter.miner.opengl;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.object3d.ObjHelper;
 
@@ -83,7 +83,7 @@ public class ShapesHelper {
                     (nextEdgeNormal.y + currentEdgeNormal.y)/2,0f);
 
             //set up vertices and uvs
-            updateVerticesAndUvs(shape, currA, currB, currentNetNormal, previousNetNormal);
+            addTriangles(shape, currA, currB, previousNetNormal, currentNetNormal);
 
             previousEdgeNormal = currentEdgeNormal;
             currentEdgeNormal = nextEdgeNormal;
@@ -92,21 +92,21 @@ public class ShapesHelper {
     }
 
     public static void loadRawObj(Shape shape, String fileName) {
-        shape.setRawObjData(ObjHelper.loadFromFile(fileName));
+        shape.setRawObjData(ObjHelper.loadFromFile(shape, fileName));
         shape.getRawObjData().dataToShape(shape);
         shape.setOrderedOuterMesh(ObjHelper.generateRoughMesh2(shape.getRawObjData()));
     }
 
-    private static void updateVerticesAndUvs(Shape shape, Vector3f currA, Vector3f currB, Vector3f currentNetNormal, Vector3f previousNetNormal) {
-        shape.addVertex(currB.x + currentNetNormal.x, currB.y + currentNetNormal.y, currentNetNormal.z)
-                .addVertex(currA.x + previousNetNormal.x, currA.y + previousNetNormal.y, previousNetNormal.z)
-                .addVertex(currA.x, currA.y, currA.z);
-        shape.addUV(1.0f, 0f).addUV(0f, 0f).addUV(0f, 1.0f);
+    private static void addTriangles(Shape shape, Vector3f a, Vector3f b, Vector3f c, Vector3f d) {
+        shape.addVertex(b.x + d.x, b.y + d.y, d.z)
+                .addVertex(a.x + c.x, a.y + c.y, c.z)
+                .addVertex(a.x, a.y, a.z)
+                .addUV(1.0f, 0f).addUV(0f, 0f).addUV(0f, 1.0f);
 
         //second
-        shape.addVertex(currB.x +currentNetNormal.x, currB.y +currentNetNormal.y, currentNetNormal.z)
-                .addVertex(currA.x, currA.y, currA.z)
-                .addVertex(currB.x, currB.y, currB.z);
-        shape.addUV(1.0f, 0f).addUV(0f, 1.0f).addUV(1.0f, 1.0f);
+        shape.addVertex(b.x +d.x, b.y +d.y, d.z)
+                .addVertex(a.x, a.y, a.z)
+                .addVertex(b.x, b.y, b.z)
+                .addUV(1.0f, 0f).addUV(0f, 1.0f).addUV(1.0f, 1.0f);
     }
 }

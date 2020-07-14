@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects;
+package com.greymatter.miner.opengl.objects.animators;
 
 public class FloatValueAnimator extends ValueAnimator {
     private float currentValue, perFrameIncrement, lowerBound, upperBound;

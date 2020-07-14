@@ -1,7 +1,7 @@
 package com.greymatter.miner.physics.collisioncheckers;
 
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import javax.vecmath.Vector3f;

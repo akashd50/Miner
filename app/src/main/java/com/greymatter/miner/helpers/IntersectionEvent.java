@@ -1,4 +1,4 @@
-package com.greymatter.miner.generalhelpers;
+package com.greymatter.miner.helpers;
 
 import javax.vecmath.Vector3f;
 

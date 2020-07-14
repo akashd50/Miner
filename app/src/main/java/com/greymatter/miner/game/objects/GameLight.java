@@ -1,6 +1,6 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;

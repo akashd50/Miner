@@ -1,6 +1,6 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 
 import java.util.ArrayList;
 

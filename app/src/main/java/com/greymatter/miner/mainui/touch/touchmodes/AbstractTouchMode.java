@@ -3,7 +3,7 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;

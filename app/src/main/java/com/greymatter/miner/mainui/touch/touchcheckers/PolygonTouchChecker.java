@@ -1,6 +1,6 @@
 package com.greymatter.miner.mainui.touch.touchcheckers;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import javax.vecmath.Vector2f;

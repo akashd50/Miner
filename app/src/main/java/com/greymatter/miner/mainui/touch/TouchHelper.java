@@ -2,9 +2,8 @@ package com.greymatter.miner.mainui.touch;
 
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 
-import com.greymatter.miner.generalhelpers.VectorHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import javax.vecmath.Vector2f;
 
 public class TouchHelper {

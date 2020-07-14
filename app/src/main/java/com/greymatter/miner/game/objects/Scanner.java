@@ -3,8 +3,8 @@ package com.greymatter.miner.game.objects;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
-import com.greymatter.miner.generalhelpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.FloatValueAnimator;
+import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 

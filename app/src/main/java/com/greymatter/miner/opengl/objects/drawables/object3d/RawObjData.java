@@ -9,19 +9,14 @@ import javax.vecmath.Vector3f;
 
 public class RawObjData {
     public ArrayList<Vector3f> vertices;
-    //public ArrayList<Vector3f> normals;
     public ArrayList<Vector2f> uvs;
     public ArrayList<Config> faceConfiguration;
-    public Vector3f top, bottom, left, right;
     public int topIndex;
     
     public RawObjData() {
         vertices = new ArrayList<>();
-        //normals = new ArrayList<>();
         uvs = new ArrayList<>();
         faceConfiguration = new ArrayList<>();
-        top = new Vector3f(); bottom = new Vector3f();
-        left = new Vector3f(); right = new Vector3f();
     }
 
     public void dataToShape(Shape shape) {

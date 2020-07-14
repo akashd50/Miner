@@ -6,8 +6,6 @@ import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Shader;
-import com.greymatter.miner.opengl.objects.ValueAnimator;
-import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
 import javax.vecmath.Vector4f;
@@ -15,8 +13,6 @@ import javax.vecmath.Vector4f;
 public class RadialGradient extends Gradient {
     private float radius, midPoint;
     private float tRadius, tMidPoint;
-    private Shape shape;
-    private ValueAnimator animator;
     public RadialGradient(String id) {
         super(id);
     }
@@ -24,8 +20,6 @@ public class RadialGradient extends Gradient {
     @Override
     public void onDrawFrame() {
         super.onDrawFrame();
-
-        //midPoint = animator.update().getUpdatedFloat();
 
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 
@@ -35,7 +29,7 @@ public class RadialGradient extends Gradient {
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_RADIUS, radius);
         ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getTransforms().getTranslation());
 
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, shape.getVerticesList().size());
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, getShape().getVerticesList().size());
 
         GLBufferHelper.glUnbindVertexArray();
     }
@@ -43,7 +37,7 @@ public class RadialGradient extends Gradient {
     public RadialGradient build() {
         int vertexArrayObj = GLBufferHelper.glGenVertexArray();
         GLBufferHelper.glBindVertexArray(vertexArrayObj);
-        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(shape.getVerticesArray(), 3, super.getShader(), ShaderConst.IN_POSITION);
+        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, super.getShader(), ShaderConst.IN_POSITION);
         GLBufferHelper.glUnbindVertexArray();
         super.setVertexArrayObject(vertexArrayObj);
         super.setVertexBufferObject(vertexBufferObj);
@@ -74,16 +68,6 @@ public class RadialGradient extends Gradient {
     public RadialGradient setMidPoint(float midPoint) {
         this.tMidPoint = midPoint;
         this.midPoint = midPoint;
-        return this;
-    }
-
-    public RadialGradient setShape(Shape shape) {
-        this.shape = shape;
-        return this;
-    }
-
-    public RadialGradient setAnimator(ValueAnimator animator) {
-        this.animator = animator;
         return this;
     }
 

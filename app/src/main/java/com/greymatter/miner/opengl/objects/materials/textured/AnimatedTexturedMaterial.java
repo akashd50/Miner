@@ -4,7 +4,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.Res;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
-import com.greymatter.miner.opengl.objects.IntegerValueAnimator;
+import com.greymatter.miner.opengl.objects.animators.IntegerValueAnimator;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.opengl.objects.Transforms;
-import com.greymatter.miner.opengl.objects.ValueAnimator;
+import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 

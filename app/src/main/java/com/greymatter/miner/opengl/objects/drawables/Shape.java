@@ -11,6 +11,7 @@ import javax.vecmath.Vector3f;
 
 public class Shape {
     private String id;
+    public Vector3f top, bottom, left, right;
     private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
     private ArrayList<Vector2f> shapeUVs;
     private RawObjData rawObjData;
@@ -19,6 +20,8 @@ public class Shape {
         this.id = id;
         shapeVertices = new ArrayList<>();
         shapeUVs = new ArrayList<>();
+        top = new Vector3f(); bottom = new Vector3f();
+        left = new Vector3f(); right = new Vector3f();
     }
 
     public Shape loadCircle(float radius) {
@@ -81,6 +84,26 @@ public class Shape {
         return this;
     }
 
+    public Shape setTop(Vector3f top) {
+        this.top = top;
+        return this;
+    }
+
+    public Shape setBottom(Vector3f bottom) {
+        this.bottom = bottom;
+        return this;
+    }
+
+    public Shape setLeft(Vector3f left) {
+        this.left = left;
+        return this;
+    }
+
+    public Shape setRight(Vector3f right) {
+        this.right = right;
+        return this;
+    }
+
     public Shape build() {
         if(verticesArray == null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
         if(uvsArray == null) uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
@@ -109,6 +132,22 @@ public class Shape {
 
     public ArrayList<Vector2f> getUvsList() {
         return shapeUVs;
+    }
+
+    public Vector3f getTop() {
+        return top;
+    }
+
+    public Vector3f getBottom() {
+        return bottom;
+    }
+
+    public Vector3f getLeft() {
+        return left;
+    }
+
+    public Vector3f getRight() {
+        return right;
     }
 
     public String getId() {
