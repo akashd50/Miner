@@ -10,7 +10,7 @@ import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.game.objects.GameBuilding;
+import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -52,7 +52,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     GameObject object = buildingArrayAdapter.getItem(position);
 
                     ToDrawContainer.add(object);
-                    if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ToDrawContainer.add(GameObjectsContainer.get("g"));
+                    //if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ToDrawContainer.add(GameObjectsContainer.get("g"));
 
 
                     if(object instanceof GameBuilding && object.asGameBuilding().hasLights()) {

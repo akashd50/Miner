@@ -1,5 +1,7 @@
-package com.greymatter.miner.game.objects;
+package com.greymatter.miner.game.objects.buildings;
 
+import com.greymatter.miner.game.objects.GameLight;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import java.util.ArrayList;
 import javax.vecmath.Vector2f;

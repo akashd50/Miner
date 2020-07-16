@@ -1,4 +1,4 @@
-package com.greymatter.miner.game.objects;
+package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;

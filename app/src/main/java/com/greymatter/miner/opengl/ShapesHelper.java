@@ -3,9 +3,7 @@ package com.greymatter.miner.opengl;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.object3d.ObjHelper;
-
 import java.util.ArrayList;
-
 import javax.vecmath.Vector3f;
 
 public class ShapesHelper {

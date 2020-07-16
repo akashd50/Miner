@@ -27,6 +27,10 @@ public class ToDrawContainer {
             gameObjects = new HashMapE<>();
         }
         gameObjects.put(gameObject.getId(), gameObject);
+        gameObject.getLinkedObjects().forEach((id, obj) -> {
+            gameObjects.put(id, obj);
+        });
+
         gameObjects.sort(comparator);
     }
 
@@ -35,6 +39,10 @@ public class ToDrawContainer {
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
         }
+    }
+
+    public static synchronized void runPostInitialization() {
+        gameObjects.toList().forEach(GameObject::runPostInitialization);
     }
 
     public static synchronized void onDrawFrame(Camera camera) {

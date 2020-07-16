@@ -1,4 +1,4 @@
-package com.greymatter.miner.game.objects;
+package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
@@ -17,14 +17,19 @@ public class Scanner extends GameBuilding {
     private RadialGradient rangeDrawable;
     private FloatValueAnimator rangeDrawableAnimator;
     private ResourceBlock currentlyTracking;
-    public Scanner(Drawable drawable, RadialGradient rangeDrawable) {
+    public Scanner(Drawable drawable) {
         super(drawable.getId(), drawable);
-        this.rangeDrawable = rangeDrawable;
-        rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
+        //this.rangeDrawable = rangeDrawable;
     }
 
     public Scanner(String id, Drawable drawable) {
         super(id, drawable);
+    }
+
+    @Override
+    public void runPostInitialization() {
+        rangeDrawable = getLinkedGameObject("range").getDrawable().asRadialGradient();
+        rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
     }
 
     @Override
@@ -51,6 +56,14 @@ public class Scanner extends GameBuilding {
         float newRad = getObjectLevel() * rangeDrawable.getRadius();
         rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
     }
+
+    @Override
+    public void upgrade(int newLevel) {
+        super.upgrade(newLevel);
+        float newRad = getObjectLevel() * rangeDrawable.getRadius();
+        rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+    }
+
 
     private boolean isResourceInRange(ResourceBlock resourceBlock) {
         Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());

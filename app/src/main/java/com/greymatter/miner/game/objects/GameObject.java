@@ -1,5 +1,7 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
@@ -12,18 +14,24 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GameObject {
-    private ValueAnimator valueAnimator;
-    private Drawable objectDrawable;
-    private ArrayList<String> objectTags;
     private boolean shouldDraw;
     private String id;
     private int objectLevel;
+    private ValueAnimator valueAnimator;
+    private Drawable objectDrawable;
+    private HashMapE<String, GameObject> linkedObjects;
+    private ArrayList<String> objectTags;
     public GameObject(String id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
+        this.linkedObjects = new HashMapE<>();
         shouldDraw = true;
         objectLevel = 1;
+    }
+
+    public void runPostInitialization() {
+
     }
 
     public void onDrawFrame() {
@@ -40,6 +48,19 @@ public abstract class GameObject {
 
     public void upgrade(int newLevel) {
         objectLevel = newLevel;
+    }
+
+    public GameObject addLinkedGameObject(GameObject object) {
+        linkedObjects.put(object.getId(), object);
+        return this;
+    }
+
+    public GameObject getLinkedGameObject(String id) {
+        return linkedObjects.get(id);
+    }
+
+    public HashMapE<String, GameObject> getLinkedObjects() {
+        return linkedObjects;
     }
 
     public GameObject addTag(String tag) {
