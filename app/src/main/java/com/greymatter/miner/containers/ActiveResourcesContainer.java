@@ -1,6 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
@@ -32,7 +33,7 @@ public class ActiveResourcesContainer {
         return gameResources.toList();
     }
 
-    public static ArrayList<ResourceBlock> getAllWithTag(String tag) {
+    public static ArrayList<ResourceBlock> getAllWithTag(Tag tag) {
         ArrayList<ResourceBlock> toReturn = new ArrayList<>();
         for(ResourceBlock d : getAll()) {
             if(d.hasTag(tag)) toReturn.add(d);
@@ -40,7 +41,7 @@ public class ActiveResourcesContainer {
         return toReturn;
     }
 
-    public static ArrayList<ResourceBlock> getAllWithOnlyTag(String tag) {
+    public static ArrayList<ResourceBlock> getAllWithOnlyTag(Tag tag) {
         ArrayList<ResourceBlock> toReturn = new ArrayList<>();
         for(ResourceBlock d : getAll()) {
             if(d.getNumTags() == 1 && d.hasTag(tag)) toReturn.add(d);

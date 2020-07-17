@@ -18,10 +18,10 @@ public class Shader {
                 ResourceLoader.loadFileResource(fsPath));
     }
 
-    public Shader(String id) {
-        this.id = id;
-        program = ShaderHelper.generateShadersAndProgram(ResourceLoader.loadFileResource(SHADERS_F + id + VERTEX_SHADER_EXT),
-                ResourceLoader.loadFileResource(SHADERS_F + id + FRAG_SHADER_EXT));
+    public Shader(String path) {
+        this.id = path;
+        program = ShaderHelper.generateShadersAndProgram(ResourceLoader.loadFileResource(SHADERS_F + path + VERTEX_SHADER_EXT),
+                ResourceLoader.loadFileResource(SHADERS_F + path + FRAG_SHADER_EXT));
     }
 
     public int getProgram() {

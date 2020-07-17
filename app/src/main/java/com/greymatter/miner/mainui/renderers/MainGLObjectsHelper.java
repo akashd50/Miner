@@ -10,6 +10,7 @@ import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.InteractiveObject;
@@ -69,8 +70,8 @@ class MainGLObjectsHelper {
         MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MAT)
                         .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
                         .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.4f))
-                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0.4f)))
-        ;
+                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0.4f)));
+
         MaterialContainer.add(new AnimatedTexturedMaterial(MatId.TREE_MATERIAL)
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
                 .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
@@ -92,7 +93,7 @@ class MainGLObjectsHelper {
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(RESOURCE_OBJECT));
+                                            .addTag(Tag.RESOURCE_OBJECT));
 
         GameObjectsContainer.add(new Animated(new RadialGradient("range")
                                             .setRadius(1f)
@@ -105,27 +106,27 @@ class MainGLObjectsHelper {
                                             .setShape(atmSimpleCircle)
                                             .setMaterial(MaterialContainer.get(MatId.ATMOSPHERE_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
-                                            .addTag(STATIC));
+                                            .addTag(Tag.STATIC));
 
         GameObjectsContainer.add(new Planet(new Obj(PLANET)
                                             .setShape(circleSubDivIII)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
-                                            .addTag(STATIC)
-                                            .addTag(PHYSICS_OBJECT));
+                                            .addTag(Tag.STATIC)
+                                            .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new MainBase(new Obj(MAIN_BASE)
                                             .setShape(uvmapped)
                                             .setMaterial(MaterialContainer.get(MatId.MAIN_BASE_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(STATIC)
-                                            .addTag(PLACABLE_GAME_BUILDING));
+                                            .addTag(Tag.STATIC)
+                                            .addTag(Tag.PLACABLE_GAME_BUILDING));
 
         GameObjectsContainer.add(new InteractiveObject(new Obj(MAIN_CHARACTER)
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(PHYSICS_OBJECT));
+                                            .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new Scanner(new Obj(SAMPLE_SCANNER)
                                             .setShape(circleSubDivI)
@@ -134,8 +135,8 @@ class MainGLObjectsHelper {
                                             .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setValueAnimator(new BooleanAnimator().withFPS(10))
                                             .addLinkedGameObject(GameObjectsContainer.get("range"))
-                                            .addTag(PLACABLE_GAME_BUILDING)
-                                            .addTag(PHYSICS_OBJECT));
+                                            .addTag(Tag.PLACABLE_GAME_BUILDING)
+                                            .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new Animated(new Obj(SAMPLE_TREE)
                                             .setShape(uvmapped)

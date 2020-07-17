@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.opengl.objects.Transforms;
@@ -20,7 +21,7 @@ public abstract class GameObject {
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
     private HashMapE<String, GameObject> linkedObjects;
-    private ArrayList<String> objectTags;
+    private ArrayList<Tag> objectTags;
     public GameObject(String id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
@@ -30,17 +31,13 @@ public abstract class GameObject {
         objectLevel = 1;
     }
 
-    public void runPostInitialization() {
-
-    }
+    public void runPostInitialization() {}
 
     public void onDrawFrame() {
         objectDrawable.onDrawFrame();
     }
 
-    public void onFrameUpdate() {
-
-    }
+    public void onFrameUpdate() {}
 
     public void upgrade() {
         objectLevel++;
@@ -63,7 +60,7 @@ public abstract class GameObject {
         return linkedObjects;
     }
 
-    public GameObject addTag(String tag) {
+    public GameObject addTag(Tag tag) {
         this.objectTags.add(tag);
         return this;
     }
@@ -137,7 +134,7 @@ public abstract class GameObject {
         return objectDrawable.getRigidBody().getTranslation();
     }
 
-    public boolean hasTag(String tag) {
+    public boolean hasTag(Tag tag) {
         return this.objectTags.contains(tag);
     }
 

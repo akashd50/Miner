@@ -10,6 +10,7 @@ import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -39,7 +40,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                 break;
             case R.id.items_menu:
                 View view = AppServices.getAppContextAsActivity().getLayoutInflater().inflate(R.layout.items_dialog, null);
-                ArrayList<GameObject> buildings = GameObjectsContainer.getAllWithTag(PLACABLE_GAME_BUILDING);
+                ArrayList<GameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
 
                 ListView listView = view.findViewById(R.id.temp_items_list);
                 ArrayAdapter<GameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
@@ -59,7 +60,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                         ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
                     }
 
-                    if(object.hasTag(PHYSICS_OBJECT)) {
+                    if(object.hasTag(Tag.PHYSICS_OBJECT)) {
                         CollisionSystemContainer.add(object.getRigidBody());
                     }
 
