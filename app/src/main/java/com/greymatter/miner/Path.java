@@ -1,6 +1,6 @@
 package com.greymatter.miner;
 
-public class Res {
+public class Path {
     public static int SIZE_OF_FLOAT = 4;
 
     //shader files

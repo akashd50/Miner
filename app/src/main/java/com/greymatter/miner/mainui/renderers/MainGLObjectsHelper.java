@@ -1,7 +1,6 @@
 package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
-import com.greymatter.miner.Res;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
@@ -10,6 +9,7 @@ import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.ShaderId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
@@ -39,7 +39,7 @@ import com.greymatter.miner.physics.objects.OnCollisionListener;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
 import static com.greymatter.miner.game.GC.*;
-import static com.greymatter.miner.Res.*;
+import com.greymatter.miner.Path;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -54,84 +54,84 @@ class MainGLObjectsHelper {
     }
 
     public static void loadShaders() {
-        ShaderContainer.addShader(new Shader(SIMPLE_TRIANGLE_SHADER));
-        ShaderContainer.addShader(new Shader(QUAD_SHADER));
-        ShaderContainer.addShader(new Shader(THREE_D_OBJECT_SHADER));
-        ShaderContainer.addShader(new Shader(LINE_SHADER));
-        ShaderContainer.addShader(new Shader(CIRCLE_GRADIENT_SHADER));
-        ShaderContainer.addShader(new Shader(THREE_D_OBJECT_W_LIGHTING_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.SIMPLE_TRIANGLE_SHADER).load(Path.SIMPLE_TRIANGLE_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.QUAD_SHADER).load(Path.QUAD_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.THREE_D_OBJECT_SHADER).load(Path.THREE_D_OBJECT_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.LINE_SHADER).load(Path.LINE_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.CIRCLE_GRADIENT_SHADER).load(Path.CIRCLE_GRADIENT_SHADER));
+        ShaderContainer.addShader(new Shader(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER).load(Path.THREE_D_OBJECT_W_LIGHTING_SHADER));
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.GROUND_MATERIAL).attachDiffuseTexture(GROUND_I));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.ATMOSPHERE_MATERIAL).attachDiffuseTexture(ATM_RADIAL_II));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.MAIN_BASE_MATERIAL).attachDiffuseTexture(MAIN_BASE_FINAL));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(GRASS_PATCH_I));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.GROUND_MATERIAL).attachDiffuseTexture(Path.GROUND_I));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.ATMOSPHERE_MATERIAL).attachDiffuseTexture(Path.ATM_RADIAL_II));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.MAIN_BASE_MATERIAL).attachDiffuseTexture(Path.MAIN_BASE_FINAL));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(Path.GRASS_PATCH_I));
         MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MAT)
                         .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
                         .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.4f))
                         .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0.4f)));
 
         MaterialContainer.add(new AnimatedTexturedMaterial(MatId.TREE_MATERIAL)
-                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_i.png")
-                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_ii.png")
-                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_iii.png")
-                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_iv.png")
-                .addDiffuseTextureFrame(TREE_ANIM_I_F + "c_tree_anim_v.png")
+                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_i.png")
+                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_ii.png")
+                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_iii.png")
+                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_iv.png")
+                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_v.png")
                 .withAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5)));
     }
 
     static void loadObjects() {
-        Shape boxShape = new Shape("box").loadObj(Res.OBJECTS_F + BOX).build();
-        Shape atmSimpleCircle = new Shape("atmSimple").loadObj(Res.OBJECTS_F + ATM_SIMPLE_CIRCLE).build();
-        Shape uvmapped = new Shape("uvMapped").loadObj(Res.OBJECTS_F + UV_MAPPED_BOX).build();
-        Shape circleSubDivIII = new Shape("c3").loadObj(Res.OBJECTS_F + CIRCLE_SUB_DIV_III).build();
-        Shape circleSubDivI = new Shape("c1").loadObj(Res.OBJECTS_F + CIRCLE_SUB_DIV_I).build();
+        Shape boxShape = new Shape("box").loadObj(Path.OBJECTS_F + Path.BOX).build();
+        Shape atmSimpleCircle = new Shape("atmSimple").loadObj(Path.OBJECTS_F + Path.ATM_SIMPLE_CIRCLE).build();
+        Shape uvmapped = new Shape("uvMapped").loadObj(Path.OBJECTS_F + Path.UV_MAPPED_BOX).build();
+        Shape circleSubDivIII = new Shape("c3").loadObj(Path.OBJECTS_F + Path.CIRCLE_SUB_DIV_III).build();
+        Shape circleSubDivI = new Shape("c1").loadObj(Path.OBJECTS_F + Path.CIRCLE_SUB_DIV_I).build();
         Shape shape = new Shape("tri").loadPie(45f,1f).build();
 
         GameObjectsContainer.add(new CoalBlock(new Obj("coal")
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.RESOURCE_OBJECT));
 
         GameObjectsContainer.add(new Animated(new RadialGradient("range")
                                             .setRadius(1f)
                                             .setShape(shape)
                                             .setMaterial(MaterialContainer.get(MatId.GRADIENT_COLOR_MAT))
-                                            .setShader(ShaderContainer.get(CIRCLE_GRADIENT_SHADER))
+                                            .setShader(ShaderContainer.get(ShaderId.CIRCLE_GRADIENT_SHADER))
                                             .build()));
 
         GameObjectsContainer.add(new Static(new Obj(ATMOSPHERE)
                                             .setShape(atmSimpleCircle)
                                             .setMaterial(MaterialContainer.get(MatId.ATMOSPHERE_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
                                             .addTag(Tag.STATIC));
 
         GameObjectsContainer.add(new Planet(new Obj(PLANET)
                                             .setShape(circleSubDivIII)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
                                             .addTag(Tag.STATIC)
                                             .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new MainBase(new Obj(MAIN_BASE)
                                             .setShape(uvmapped)
                                             .setMaterial(MaterialContainer.get(MatId.MAIN_BASE_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.STATIC)
                                             .addTag(Tag.PLACABLE_GAME_BUILDING));
 
         GameObjectsContainer.add(new InteractiveObject(new Obj(MAIN_CHARACTER)
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new Scanner(new Obj(SAMPLE_SCANNER)
                                             .setShape(circleSubDivI)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
                                             .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setValueAnimator(new BooleanAnimator().withFPS(10))
                                             .addLinkedGameObject(GameObjectsContainer.get("range"))
@@ -141,12 +141,12 @@ class MainGLObjectsHelper {
         GameObjectsContainer.add(new Animated(new Obj(SAMPLE_TREE)
                                             .setShape(uvmapped)
                                             .setMaterial(MaterialContainer.get(MatId.TREE_MATERIAL))
-                                            .setShader(ShaderContainer.get(THREE_D_OBJECT_W_LIGHTING_SHADER)).build()));
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build()));
 
         GameObjectsContainer.add(new Static(new TextureEdgedPolygon(PLANET_GRASS_LAYER)
                                             .setShape(new Shape("edge").loadEdgeOutline(circleSubDivIII, 0.01f).build())
                                             .setMaterial(MaterialContainer.get(MatId.PLANET_GRASS_MATERIAL_I))
-                                            .setShader(ShaderContainer.get(QUAD_SHADER)).build()));
+                                            .setShader(ShaderContainer.get(ShaderId.QUAD_SHADER)).build()));
 
         GameObjectsContainer.add(new GameLight(new Obj("light"))
                                                 .setRadius(1f)
@@ -174,7 +174,7 @@ class MainGLObjectsHelper {
 
         Drawable mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER).getDrawable();
         GameObjectsContainer.add(new InteractiveObject(new Line(TEST_LINE)
-                            .setShader(ShaderContainer.get(LINE_SHADER))
+                            .setShader(ShaderContainer.get(ShaderId.LINE_SHADER))
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
                             .build()));
 

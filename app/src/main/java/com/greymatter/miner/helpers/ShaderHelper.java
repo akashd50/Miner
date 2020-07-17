@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.Res;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Shader;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
@@ -14,8 +13,6 @@ import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
-
-import static com.greymatter.miner.Res.*;
 
 public class ShaderHelper {
 

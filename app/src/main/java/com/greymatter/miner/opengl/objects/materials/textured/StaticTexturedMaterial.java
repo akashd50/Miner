@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
-import com.greymatter.miner.Res;
+import com.greymatter.miner.Path;
 import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
@@ -33,7 +33,7 @@ public class StaticTexturedMaterial extends TexturedMaterial {
     public StaticTexturedMaterial attachDiffuseTexture(String diffTexName) {
         if (diffTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Res.TEXTURES_F +diffTexName);
+            TextureBuilder.attachImage(texture, Path.TEXTURES_F +diffTexName);
             TextureBuilder.finish(texture);
             diffuseTexture = texture;
         }
@@ -43,7 +43,7 @@ public class StaticTexturedMaterial extends TexturedMaterial {
     public StaticTexturedMaterial attachRoughnessTexture(String roughTexName) {
         if (roughTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Res.TEXTURES_F +roughTexName);
+            TextureBuilder.attachImage(texture, Path.TEXTURES_F +roughTexName);
             TextureBuilder.finish(texture);
             roughnessTexture = texture;
         }
