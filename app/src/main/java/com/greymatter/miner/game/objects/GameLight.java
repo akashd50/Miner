@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -17,7 +18,7 @@ public class GameLight extends GameObject {
         initialize();
     }
 
-    public GameLight(String id, Drawable drawable) {
+    public GameLight(ObjId id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }

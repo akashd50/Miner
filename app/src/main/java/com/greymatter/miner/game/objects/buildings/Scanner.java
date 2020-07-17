@@ -2,15 +2,13 @@ package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
-
 import javax.vecmath.Vector3f;
-
-import static com.greymatter.miner.game.GC.PLANET;
 
 public class Scanner extends GameBuilding {
     private float _scannerRange, _scanningAngle;
@@ -19,22 +17,21 @@ public class Scanner extends GameBuilding {
     private ResourceBlock currentlyTracking;
     public Scanner(Drawable drawable) {
         super(drawable.getId(), drawable);
-        //this.rangeDrawable = rangeDrawable;
     }
 
-    public Scanner(String id, Drawable drawable) {
+    public Scanner(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
 
     @Override
     public void runPostInitialization() {
-        rangeDrawable = getLinkedGameObject("range").getDrawable().asRadialGradient();
+        rangeDrawable = getLinkedGameObject(ObjId.SCANNER_I_RANGE).getDrawable().asRadialGradient();
         rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
     }
 
     @Override
     public void onFrameUpdate() {
-        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(PLANET).getLocation(), this.getLocation());
+        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
         rangeDrawable.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
 
         rangeDrawable.setMidPoint(rangeDrawableAnimator.update().getUpdatedFloat());

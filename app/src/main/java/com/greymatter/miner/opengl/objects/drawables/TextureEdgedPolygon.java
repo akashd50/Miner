@@ -3,11 +3,12 @@ package com.greymatter.miner.opengl.objects.drawables;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
 
 public class TextureEdgedPolygon extends Drawable {
-    public TextureEdgedPolygon(String id) {
+    public TextureEdgedPolygon(ObjId id) {
         super(id);
     }
 

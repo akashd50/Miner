@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.helpers.ShaderHelper;
@@ -17,7 +18,7 @@ public class Line extends Drawable {
     private ArrayList<Vector3f> lineVertices;
     private Vector4f lineColor;
     private boolean dataUpdated;
-    public Line(String id) {
+    public Line(ObjId id) {
         super(id);
         lineVertices = new ArrayList<>();
         lineColor = new Vector4f(1f,1f,1f,1f);

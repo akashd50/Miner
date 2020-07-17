@@ -1,15 +1,15 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 
 import java.util.ArrayList;
 
 public class ActiveResourcesContainer {
-    private static HashMapE<String, ResourceBlock> gameResources;
+    private static HashMapE<ObjId, ResourceBlock> gameResources;
 
     public static void add(ResourceBlock gameObject) {
         if(gameResources == null) {
@@ -18,14 +18,14 @@ public class ActiveResourcesContainer {
         gameResources.put(gameObject.getId(), gameObject);
     }
 
-    public static void remove(String id) {
+    public static void remove(ObjId id) {
         GameObject removed = null;
         if(gameResources !=null) {
             removed = gameResources.remove(id);
         }
     }
 
-    public static ResourceBlock get(String id) {
+    public static ResourceBlock get(ObjId id) {
         return gameResources.get(id);
     }
 

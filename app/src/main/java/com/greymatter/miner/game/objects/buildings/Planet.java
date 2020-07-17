@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
@@ -9,7 +10,7 @@ public class Planet extends GameBuilding {
     public Planet(Drawable drawable) {
         super(drawable.getId(), drawable);
     }
-    public Planet(String id, Drawable drawable) {
+    public Planet(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
 

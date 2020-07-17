@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 
@@ -8,7 +9,7 @@ public class GameNotification extends GameObject {
         super(drawable.getId(), drawable);
     }
 
-    public GameNotification(String id, Drawable drawable) {
+    public GameNotification(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
 

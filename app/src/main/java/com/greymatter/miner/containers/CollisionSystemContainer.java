@@ -1,12 +1,13 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;
 
 public class CollisionSystemContainer {
-    private static HashMapE<String, RigidBody> colliders;
+    private static HashMapE<ObjId, RigidBody> colliders;
 
     public synchronized static void add(RigidBody rigidBody) {
         if(colliders == null) {
@@ -15,7 +16,7 @@ public class CollisionSystemContainer {
         colliders.put(rigidBody.getDrawable().getId(), rigidBody);
     }
 
-    public synchronized static void remove(String id) {
+    public synchronized static void remove(ObjId id) {
         RigidBody removed = null;
         if(colliders !=null) {
             removed = colliders.remove(id);
@@ -28,7 +29,7 @@ public class CollisionSystemContainer {
         return toReturn;
     }
 
-    public synchronized static RigidBody get(String id) {
+    public synchronized static RigidBody get(ObjId id) {
         return colliders.get(id);
     }
 

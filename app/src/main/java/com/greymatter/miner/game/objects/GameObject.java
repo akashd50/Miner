@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
@@ -16,13 +17,13 @@ import javax.vecmath.Vector3f;
 
 public abstract class GameObject {
     private boolean shouldDraw;
-    private String id;
+    private ObjId id;
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
-    private HashMapE<String, GameObject> linkedObjects;
+    private HashMapE<ObjId, GameObject> linkedObjects;
     private ArrayList<Tag> objectTags;
-    public GameObject(String id, Drawable drawable) {
+    public GameObject(ObjId id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
@@ -52,11 +53,11 @@ public abstract class GameObject {
         return this;
     }
 
-    public GameObject getLinkedGameObject(String id) {
+    public GameObject getLinkedGameObject(ObjId id) {
         return linkedObjects.get(id);
     }
 
-    public HashMapE<String, GameObject> getLinkedObjects() {
+    public HashMapE<ObjId, GameObject> getLinkedObjects() {
         return linkedObjects;
     }
 
@@ -138,7 +139,7 @@ public abstract class GameObject {
         return this.objectTags.contains(tag);
     }
 
-    public String getId() {
+    public ObjId getId() {
         return this.id;
     }
 
@@ -167,7 +168,7 @@ public abstract class GameObject {
     }
 
     public String toString() {
-        return this.id;
+        return this.id.toString();
     }
 
     //typecasting

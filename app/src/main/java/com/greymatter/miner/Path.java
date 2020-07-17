@@ -30,7 +30,7 @@ public class Path {
 
     //obj files
     public static final String OBJECTS_F = "objects/";
-    public static final String ATM_SIMPLE_CIRCLE = "atm_simple_circle.obj";
+    public static final String CIRCLE_SIMPLE = "atm_simple_circle.obj";
     public static final String CIRCLE_SUB_DIV_III = "circle_sub_div_iii.obj";
     public static final String BOX = "box.obj";
     public static final String UV_MAPPED_BOX = "uv_mapped_box.obj";

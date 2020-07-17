@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects.buildings;
 
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -9,7 +10,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObject {
     private ArrayList<GameLight> buildingLights;
-    public GameBuilding(String id, Drawable drawable) {
+    public GameBuilding(ObjId id, Drawable drawable) {
         super(id, drawable);
         buildingLights = new ArrayList<>();
     }

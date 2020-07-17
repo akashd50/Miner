@@ -1,5 +1,6 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
@@ -13,7 +14,7 @@ import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
 
 public abstract class Drawable implements Clickable {
-    private String id;
+    private ObjId id;
     private Material material;
     private Shader shader;
     private int vertexArray, vertexBuffer;
@@ -21,7 +22,7 @@ public abstract class Drawable implements Clickable {
     private TouchChecker touchChecker;
     private Transforms transforms;
     private Shape shape;
-    public Drawable(String id) {
+    public Drawable(ObjId id) {
         this.id = id;
         this.transforms = new Transforms().setLinkedDrawable(this);
         this.setRigidBody(new GeneralRB());
@@ -115,10 +116,10 @@ public abstract class Drawable implements Clickable {
     }
 
     public String toString() {
-        return this.id;
+        return this.id.toString();
     }
 
-    public String getId() {
+    public ObjId getId() {
         return this.id;
     }
 
