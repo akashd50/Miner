@@ -1,13 +1,14 @@
 package com.greymatter.miner.opengl.objects.materials;
 
+import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 
 public class Material {
-    private String _id;
+    private MatId id;
     private boolean shouldSetOnDrawFrame;
-    public Material(String id) {
-        _id = id;
+    public Material(MatId id) {
+        this.id = id;
         shouldSetOnDrawFrame = true;
     }
 
@@ -28,7 +29,7 @@ public class Material {
         return shouldSetOnDrawFrame;
     }
 
-    public String getId() {
-        return _id;
+    public MatId getId() {
+        return id;
     }
 }

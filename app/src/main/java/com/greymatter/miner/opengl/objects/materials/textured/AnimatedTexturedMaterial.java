@@ -2,6 +2,7 @@ package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
 import com.greymatter.miner.Res;
+import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
 import com.greymatter.miner.opengl.objects.animators.IntegerValueAnimator;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class AnimatedTexturedMaterial extends TexturedMaterial {
     private ArrayList<Texture> diffuseTextureFrames;
     private IntegerValueAnimator intValueAnimator;
-    public AnimatedTexturedMaterial(String id) {
+    public AnimatedTexturedMaterial(MatId id) {
         super(id);
         diffuseTextureFrames = new ArrayList<>();
     }
