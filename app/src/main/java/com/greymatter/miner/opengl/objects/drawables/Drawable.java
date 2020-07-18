@@ -13,13 +13,12 @@ import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import javax.vecmath.Vector2f;
 
-public abstract class Drawable implements Clickable {
+public abstract class Drawable {
     private ObjId id;
     private Material material;
     private Shader shader;
     private int vertexArray, vertexBuffer;
     private RigidBody rigidBody;
-    private TouchChecker touchChecker;
     private Transforms transforms;
     private Shape shape;
     public Drawable(ObjId id) {
@@ -34,11 +33,6 @@ public abstract class Drawable implements Clickable {
 
     public Drawable build() {
         return this;
-    }
-
-    @Override
-    public boolean isClicked(Vector2f touchPoint) {
-        return touchChecker != null && touchChecker.isClicked(touchPoint);
     }
 
     public Drawable setShader(Shader shader) {
@@ -58,11 +52,6 @@ public abstract class Drawable implements Clickable {
 
     public Drawable setVertexBufferObject(int vertexBufferObject ) {
         this.vertexBuffer = vertexBufferObject;
-        return this;
-    }
-
-    public Drawable setTouchChecker(TouchChecker touchChecker) {
-        this.touchChecker = touchChecker;
         return this;
     }
 
@@ -97,10 +86,6 @@ public abstract class Drawable implements Clickable {
 
     public int getVertexBufferObject() {
         return this.vertexBuffer;
-    }
-
-    public TouchChecker getTouchChecker() {
-        return this.touchChecker;
     }
 
     public Transforms getTransforms() {
@@ -145,6 +130,5 @@ public abstract class Drawable implements Clickable {
     }
 
     //abstract functions
-    public abstract Drawable attachPolygonTouchChecker();
     public abstract Drawable attachPolygonCollider();
 }

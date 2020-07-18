@@ -85,11 +85,6 @@ public class Quad extends Drawable {
 	}
 
 	@Override
-	public Quad attachPolygonTouchChecker() {
-		return this;
-	}
-
-	@Override
 	public Quad attachPolygonCollider() {
 		return this;
 	}

@@ -5,9 +5,14 @@ import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
+import com.greymatter.miner.mainui.touch.Clickable;
+import com.greymatter.miner.mainui.touch.OnTouchListener;
+import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
+import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class GameObject {
+public abstract class GameObject implements Clickable {
     private boolean shouldDraw;
     private ObjId id;
     private int objectLevel;
@@ -23,6 +28,8 @@ public abstract class GameObject {
     private Drawable objectDrawable;
     private HashMapE<ObjId, GameObject> linkedObjects;
     private ArrayList<Tag> objectTags;
+    private TouchChecker touchChecker;
+    private OnTouchListener onTouchListener;
     public GameObject(ObjId id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
@@ -33,12 +40,10 @@ public abstract class GameObject {
     }
 
     public void runPostInitialization() {}
-
+    public void onFrameUpdate() {}
     public void onDrawFrame() {
         objectDrawable.onDrawFrame();
     }
-
-    public void onFrameUpdate() {}
 
     public void upgrade() {
         objectLevel++;
@@ -73,6 +78,29 @@ public abstract class GameObject {
 
     public GameObject setValueAnimator(ValueAnimator valueAnimator) {
         this.valueAnimator = valueAnimator;
+        return this;
+    }
+
+    public GameObject setTouchChecker(TouchChecker touchChecker) {
+        this.touchChecker = touchChecker;
+        return this;
+    }
+
+    public TouchChecker getTouchChecker() {
+        return this.touchChecker;
+    }
+
+    @Override
+    public boolean isClicked(Vector2f touchPoint) {
+        if(touchChecker != null && touchChecker.isClicked(touchPoint)) {
+            if(onTouchListener!=null) return onTouchListener.onTouchDown();
+            return true;
+        }
+        return false;
+    }
+
+    public GameObject attachPolygonTouchChecker() {
+        touchChecker = new PolygonTouchChecker(getRigidBody().asPolygonRB());
         return this;
     }
 

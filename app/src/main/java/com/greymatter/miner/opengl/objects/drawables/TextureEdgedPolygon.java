@@ -37,11 +37,6 @@ public class TextureEdgedPolygon extends Drawable {
     }
 
     @Override
-    public TextureEdgedPolygon attachPolygonTouchChecker() {
-        return this;
-    }
-
-    @Override
     public TextureEdgedPolygon attachPolygonCollider() {
         return this;
     }

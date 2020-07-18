@@ -121,6 +121,7 @@ class MainGLObjectsHelper {
                                             .setShape(uvmapped)
                                             .setMaterial(MaterialContainer.get(MatId.MAIN_BASE_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .attachPolygonTouchChecker()
                                             .addTag(Tag.STATIC)
                                             .addTag(Tag.PLACABLE_GAME_BUILDING));
 
@@ -128,6 +129,7 @@ class MainGLObjectsHelper {
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .attachPolygonTouchChecker()
                                             .addTag(Tag.PHYSICS_OBJECT));
 
         GameObjectsContainer.add(new Scanner(new Obj(ObjId.SCANNER_I)
@@ -137,6 +139,7 @@ class MainGLObjectsHelper {
                                             .setRangeDrawable(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                             .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setValueAnimator(new BooleanAnimator().withFPS(10))
+                                            .attachPolygonTouchChecker()
                                             .addTag(Tag.PLACABLE_GAME_BUILDING)
                                             .addTag(Tag.PHYSICS_OBJECT));
 

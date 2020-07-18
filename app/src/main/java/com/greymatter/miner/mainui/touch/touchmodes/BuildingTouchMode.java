@@ -63,7 +63,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         GameObject bundleObject = getTouchHelper() != null && getTouchEventBundle() != null
                                 ? getTouchEventBundle().getObject() : null;
-        if(bundleObject != null && bundleObject.getDrawable().isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
+        if(bundleObject != null && bundleObject.isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
             translateSelectedObject(bundleObject);
         }else{
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));

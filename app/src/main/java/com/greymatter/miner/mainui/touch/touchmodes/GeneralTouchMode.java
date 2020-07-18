@@ -121,7 +121,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-            if (getTouchHelper().isTouchPoint1Down() && GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getDrawable().isClicked(touchPoint)) {
+            if (getTouchHelper().isTouchPoint1Down() && GameObjectsContainer.get(ObjId.MAIN_CHARACTER).isClicked(touchPoint)) {
                 GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().translateTo(touchPoint);
             } else {
                 getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));

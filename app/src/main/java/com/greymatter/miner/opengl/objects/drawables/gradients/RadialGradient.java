@@ -13,7 +13,6 @@ import javax.vecmath.Vector4f;
 
 public class RadialGradient extends Gradient {
     private float radius, midPoint;
-    private float tRadius, tMidPoint;
     public RadialGradient(ObjId id) {
         super(id);
     }
@@ -61,13 +60,11 @@ public class RadialGradient extends Gradient {
     }
 
     public RadialGradient setRadius(float radius) {
-        this.tRadius = radius;
         this.radius = radius;
         return this;
     }
 
     public RadialGradient setMidPoint(float midPoint) {
-        this.tMidPoint = midPoint;
         this.midPoint = midPoint;
         return this;
     }
@@ -89,11 +86,6 @@ public class RadialGradient extends Gradient {
     @Override
     public RadialGradient setMaterial(Material material) {
         super.setMaterial(material);
-        return this;
-    }
-
-    @Override
-    public RadialGradient attachPolygonTouchChecker() {
         return this;
     }
 

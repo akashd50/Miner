@@ -47,7 +47,7 @@ public class Transforms {
                 -parent.getRotation().x,
                 -parent.getRotation().y,
                 -parent.getRotation().z);
-        if(!copyTranslationFromParent) MatrixHelper.rotateM(modelMatrix,
+        if(!copyTranslationFromParent) MatrixHelper.translateM(modelMatrix,
                 -parent.getTranslation().x,
                 -parent.getTranslation().y,
                 -parent.getTranslation().z);

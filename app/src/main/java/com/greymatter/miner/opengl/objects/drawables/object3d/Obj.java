@@ -38,7 +38,6 @@ public class Obj extends Drawable {
 		GLBufferHelper.glUnbindVertexArray();
 
 		attachPolygonCollider();
-		attachPolygonTouchChecker();
 		return this;
 	}
 
@@ -62,12 +61,6 @@ public class Obj extends Drawable {
 
 	public RawObjData getRawObjData() {
 		return getShape().getRawObjData();
-	}
-
-	@Override
-	public Obj attachPolygonTouchChecker() {
-		setTouchChecker(new PolygonTouchChecker(getRigidBody().asPolygonRB()));
-		return this;
 	}
 
 	@Override
