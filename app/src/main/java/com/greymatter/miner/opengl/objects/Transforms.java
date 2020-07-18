@@ -1,7 +1,6 @@
 package com.greymatter.miner.opengl.objects;
 
 import android.opengl.Matrix;
-
 import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -10,7 +9,7 @@ import javax.vecmath.Vector3f;
 
 public class Transforms {
     private Vector3f translation, rotation, scale;
-    private float[] modelMatrix;
+    private float[] modelMatrix, translationMat, translationRotMat;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
     private boolean transformationsUpdated, copyTranslationFromParent,
@@ -28,23 +27,51 @@ public class Transforms {
 
     public void applyTransformations() {
         if(transformationsUpdated) {
-            Matrix.setIdentityM(this.modelMatrix, 0);
-            if(parent != null) applyTransformations(true);
-            applyTransformations(false);
+            if(parent != null) {
+                checkParentTransformations();
+            }else{
+                Matrix.setIdentityM(this.modelMatrix, 0);
+            }
+
+            MatrixHelper.translateM(modelMatrix, translation);
+            MatrixHelper.rotateM(modelMatrix, rotation);
+            MatrixHelper.scaleM(modelMatrix, scale);
             transformationsUpdated = false;
         }
     }
 
-    private void applyTransformations(boolean applyParent) {
-        if(applyParent) {
-            if(copyTranslationFromParent) MatrixHelper.translateM(modelMatrix, parent.getTranslation());
-            if(copyRotationFromParent) MatrixHelper.rotateM(modelMatrix, parent.getRotation());
-            if(copyScaleFromParent) MatrixHelper.scaleM(modelMatrix, parent.getScale());
-        }else{
-            MatrixHelper.translateM(modelMatrix, translation);
-            MatrixHelper.rotateM(modelMatrix, rotation);
-            MatrixHelper.scaleM(modelMatrix, scale);
+    private void checkParentTransformations() {
+        this.modelMatrix = parent.getModelMatrix();
+        if(!copyScaleFromParent) MatrixHelper.scaleM(modelMatrix, 1f, 1f, 1f);
+        if(!copyRotationFromParent) MatrixHelper.rotateM(modelMatrix,
+                -parent.getRotation().x,
+                -parent.getRotation().y,
+                -parent.getRotation().z);
+        if(!copyTranslationFromParent) MatrixHelper.rotateM(modelMatrix,
+                -parent.getTranslation().x,
+                -parent.getTranslation().y,
+                -parent.getTranslation().z);
+    }
+
+    public void applyTransformationsOld() {
+        if(transformationsUpdated) {
+            Matrix.setIdentityM(this.modelMatrix, 0);
+            if(parent != null) applyParentTransformations();
+            applyOwnTransformations();
+            transformationsUpdated = false;
         }
+    }
+
+    private void applyOwnTransformations() {
+        MatrixHelper.translateM(modelMatrix, translation);
+        MatrixHelper.rotateM(modelMatrix, rotation);
+        MatrixHelper.scaleM(modelMatrix, scale);
+    }
+
+    private void applyParentTransformations() {
+        if(copyTranslationFromParent) MatrixHelper.translateM(modelMatrix, parent.getTranslation());
+        if(copyRotationFromParent) MatrixHelper.rotateM(modelMatrix, parent.getRotation());
+        if(copyScaleFromParent) MatrixHelper.scaleM(modelMatrix, parent.getScale());
     }
 
     public Transforms scaleTo(Vector3f newScale) {

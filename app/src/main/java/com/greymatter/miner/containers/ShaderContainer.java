@@ -2,7 +2,7 @@ package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ShaderId;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.Shader;
 
 import java.util.ArrayList;
 

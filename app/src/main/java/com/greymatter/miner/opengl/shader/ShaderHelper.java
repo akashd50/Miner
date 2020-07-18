@@ -1,4 +1,4 @@
-package com.greymatter.miner.helpers;
+package com.greymatter.miner.opengl.shader;
 
 import android.opengl.GLES30;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;

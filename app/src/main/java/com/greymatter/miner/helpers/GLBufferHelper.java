@@ -4,7 +4,7 @@ import android.opengl.GLES30;
 import android.util.Log;
 
 import com.greymatter.miner.Path;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.Shader;
 
 public class GLBufferHelper {
     public static int glGenVertexArray() {

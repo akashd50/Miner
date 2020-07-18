@@ -4,7 +4,7 @@ import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.helpers.ShaderHelper;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
 import java.util.Comparator;

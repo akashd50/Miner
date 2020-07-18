@@ -6,8 +6,8 @@ import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
+import com.greymatter.miner.opengl.shader.Shader;
 
 import java.util.ArrayList;
 
