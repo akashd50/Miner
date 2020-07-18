@@ -16,7 +16,10 @@ public enum ObjId {
     TREE_I,
 
     SCANNER_I,
-    SCANNER_I_RANGE,
+    PIE_GRADIENT_I,
+
+    SCANNER_RANGE,
+    OBJECT_NOTIFICATION,
 
     COAL_BLOCK_I,
 }

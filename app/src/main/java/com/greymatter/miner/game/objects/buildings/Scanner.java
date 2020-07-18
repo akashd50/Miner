@@ -3,6 +3,7 @@ package com.greymatter.miner.game.objects.buildings;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
@@ -25,7 +26,7 @@ public class Scanner extends GameBuilding {
 
     @Override
     public void runPostInitialization() {
-        rangeDrawable = getLinkedGameObject(ObjId.SCANNER_I_RANGE).getDrawable().asRadialGradient();
+        rangeDrawable = getLinkedGameObject(ObjId.SCANNER_RANGE).getDrawable().asRadialGradient();
         rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
     }
 
@@ -95,6 +96,11 @@ public class Scanner extends GameBuilding {
 
     public Scanner setAngle(float scanningAngle) {
         this._scanningAngle = scanningAngle;
+        return this;
+    }
+
+    public Scanner setRangeDrawable(GameObject rangeDrawable) {
+        addLinkedGameObject(ObjId.SCANNER_RANGE, rangeDrawable);
         return this;
     }
 

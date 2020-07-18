@@ -5,8 +5,8 @@ import android.opengl.GLES30;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.helpers.ShaderHelper;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
+import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
 import javax.vecmath.Vector4f;
@@ -25,7 +25,7 @@ public class RadialGradient extends Gradient {
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 
         ShaderHelper.setUniformMatrix4fv(super.getShader(), ShaderConst.MODEL, super.getTransforms().getModelMatrix());
-        ShaderHelper.setMaterialProperties(getShader(), getMaterial());
+        getMaterial().setShaderProperties(getShader());
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_MID_POINT, midPoint);
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_RADIUS, radius);
         ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getTransforms().getTranslation());

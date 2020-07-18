@@ -2,6 +2,8 @@ package com.greymatter.miner.opengl.objects.materials.colored;
 
 import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.helpers.BufferHelper;
+import com.greymatter.miner.opengl.shader.Shader;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

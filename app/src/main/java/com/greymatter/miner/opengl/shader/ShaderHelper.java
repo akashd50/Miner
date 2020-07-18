@@ -67,17 +67,17 @@ public class ShaderHelper {
         //setUniformVec3("cameraPosWS", *camera.getTranslation());
     }
 
-    public static void setMaterialProperties(Shader shader, Material material) {
-        if(material.shouldSetOnDrawFrame()) {
-            if (material instanceof TexturedMaterial) {
-                setTexturedMaterialProperties(shader, material.asTexturedMaterial());
-            } else if (material instanceof ColoredMaterial) {
-                setColoredMaterialProperties(shader, material.asColoredMaterial());
-            }
-        }
-    }
+//    public static void setMaterialProperties(Shader shader, Material material) {
+//        if(material.shouldSetOnDrawFrame()) {
+//            if (material instanceof TexturedMaterial) {
+//                setTexturedMaterialProperties(shader, material.asTexturedMaterial());
+//            } else if (material instanceof ColoredMaterial) {
+//                setColoredMaterialProperties(shader, material.asColoredMaterial());
+//            }
+//        }
+//    }
 
-    private static void setTexturedMaterialProperties(Shader shader, TexturedMaterial texturedMaterial) {
+    public static void setTexturedMaterialProperties(Shader shader, TexturedMaterial texturedMaterial) {
         setUniformInt(shader, "material.diffuseTexture", 0);
         setUniformInt(shader, "material.specularTexture", 1);
         if (texturedMaterial.hasDiffuseTexture()) {
@@ -88,7 +88,7 @@ public class ShaderHelper {
         }
     }
 
-    private static void setColoredMaterialProperties(Shader shader, ColoredMaterial coloredMaterial) {
+    public static void setColoredMaterialProperties(Shader shader, ColoredMaterial coloredMaterial) {
         coloredMaterial.getColorsHashMap().forEach((id,color) -> {
             setUniformVec4(shader, id, color);
         });

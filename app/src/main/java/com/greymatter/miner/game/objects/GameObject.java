@@ -48,12 +48,12 @@ public abstract class GameObject {
         objectLevel = newLevel;
     }
 
-    public GameObject addLinkedGameObject(GameObject object) {
-        linkedObjects.put(object.getId(), object);
+    protected GameObject addLinkedGameObject(ObjId id, GameObject object) {
+        linkedObjects.put(id, object);
         return this;
     }
 
-    public GameObject getLinkedGameObject(ObjId id) {
+    protected GameObject getLinkedGameObject(ObjId id) {
         return linkedObjects.get(id);
     }
 

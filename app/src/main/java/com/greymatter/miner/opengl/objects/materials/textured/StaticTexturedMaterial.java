@@ -5,6 +5,7 @@ import com.greymatter.miner.Path;
 import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
+import com.greymatter.miner.opengl.shader.Shader;
 
 import java.util.ArrayList;
 

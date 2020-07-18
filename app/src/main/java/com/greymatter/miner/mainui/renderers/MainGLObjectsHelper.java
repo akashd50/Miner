@@ -32,7 +32,7 @@ import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMa
 import com.greymatter.miner.opengl.objects.animators.IntegerValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
-import com.greymatter.miner.opengl.objects.Shader;
+import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
 import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
@@ -97,7 +97,7 @@ class MainGLObjectsHelper {
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.RESOURCE_OBJECT));
 
-        GameObjectsContainer.add(new Animated(new RadialGradient(ObjId.SCANNER_I_RANGE)
+        GameObjectsContainer.add(new Animated(new RadialGradient(ObjId.PIE_GRADIENT_I)
                                             .setRadius(1f)
                                             .setShape(shape)
                                             .setMaterial(MaterialContainer.get(MatId.GRADIENT_COLOR_MAT))
@@ -134,9 +134,9 @@ class MainGLObjectsHelper {
                                             .setShape(circleSubDivI)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
+                                            .setRangeDrawable(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                             .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setValueAnimator(new BooleanAnimator().withFPS(10))
-                                            .addLinkedGameObject(GameObjectsContainer.get(ObjId.SCANNER_I_RANGE))
                                             .addTag(Tag.PLACABLE_GAME_BUILDING)
                                             .addTag(Tag.PHYSICS_OBJECT));
 
@@ -180,7 +180,7 @@ class MainGLObjectsHelper {
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
                             .build()));
 
-        GameObjectsContainer.get(ObjId.SCANNER_I_RANGE).moveTo(0,0f, 2f).scaleTo(4f,3f);
+        GameObjectsContainer.get(ObjId.PIE_GRADIENT_I).moveTo(0,0f, 2f).scaleTo(4f,3f);
 
         GameObjectsContainer.runPostInitialization();
 

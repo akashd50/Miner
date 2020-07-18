@@ -6,7 +6,7 @@ import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.helpers.ShaderHelper;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
@@ -47,7 +47,7 @@ public class Obj extends Drawable {
 
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		ShaderHelper.setMaterialProperties(getShader(), getMaterial());
+		getMaterial().setShaderProperties(getShader());
 
 		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
 
