@@ -4,11 +4,11 @@ import android.view.View;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class BuildingTouchMode extends AbstractTouchMode {
@@ -31,6 +31,8 @@ public class BuildingTouchMode extends AbstractTouchMode {
     public boolean doOnTouchDown(View v) {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
+                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
                 return doOnTouchDownGLSurface();
         }
         return false;
@@ -40,6 +42,8 @@ public class BuildingTouchMode extends AbstractTouchMode {
     public boolean doOnTouchMove(View v) {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
+                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
                 return doOnTouchMoveGLSurface();
         }
         return false;
@@ -49,6 +53,8 @@ public class BuildingTouchMode extends AbstractTouchMode {
     public boolean doOnTouchUp(View v) {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
+                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
                 return doOnTouchUpGLSurface();
         }
         return false;
@@ -61,26 +67,15 @@ public class BuildingTouchMode extends AbstractTouchMode {
     }
 
     private boolean doOnTouchMoveGLSurface() {
-        GameObject bundleObject = getTouchHelper() != null && getTouchEventBundle() != null
-                                ? getTouchEventBundle().getObject() : null;
-        if(bundleObject != null && bundleObject.isClicked(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()))) {
-            translateSelectedObject(bundleObject);
-        }else{
-            getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getRigidBody().getTranslation());
-            fromCenterToCam.normalize();
-            getMainCamera().setUpVector(fromCenterToCam);
-        }
+        getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+        Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getRigidBody().getTranslation());
+        fromCenterToCam.normalize();
+        getMainCamera().setUpVector(fromCenterToCam);
         return true;
     }
 
     private boolean doOnTouchUpGLSurface() {
 
         return false;
-    }
-    /*-----------------------------------private helper functions---------------------------------*/
-    private void translateSelectedObject(GameObject selected) {
-        selected.moveTo(getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1()));
-        selected.getTransforms().rotateTo(0f,0f,VectorHelper.angleBetween(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), selected.getDrawable()));
     }
 }

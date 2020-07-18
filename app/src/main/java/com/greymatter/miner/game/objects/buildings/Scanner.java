@@ -49,17 +49,21 @@ public class Scanner extends GameBuilding {
     }
 
     @Override
-    public void upgrade() {
+    public Scanner upgrade() {
         super.upgrade();
         float newRad = getObjectLevel() * rangeDrawable.getRadius();
         rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+
+        return this;
     }
 
     @Override
-    public void upgrade(int newLevel) {
+    public Scanner upgrade(int newLevel) {
         super.upgrade(newLevel);
         float newRad = getObjectLevel() * rangeDrawable.getRadius();
         rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+
+        return this;
     }
 
 

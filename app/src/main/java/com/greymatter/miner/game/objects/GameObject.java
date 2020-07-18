@@ -6,6 +6,7 @@ import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.mainui.touch.Clickable;
+import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
@@ -30,6 +31,7 @@ public abstract class GameObject implements Clickable {
     private ArrayList<Tag> objectTags;
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
+    private OnClickListener onClickListener;
     public GameObject(ObjId id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
@@ -45,12 +47,14 @@ public abstract class GameObject implements Clickable {
         objectDrawable.onDrawFrame();
     }
 
-    public void upgrade() {
+    public GameObject upgrade() {
         objectLevel++;
+        return this;
     }
 
-    public void upgrade(int newLevel) {
+    public GameObject upgrade(int newLevel) {
         objectLevel = newLevel;
+        return this;
     }
 
     protected GameObject addLinkedGameObject(ObjId id, GameObject object) {
@@ -90,13 +94,43 @@ public abstract class GameObject implements Clickable {
         return this.touchChecker;
     }
 
+    public boolean onTouchDownEvent(Vector2f pointer) {
+        boolean isClicked = isClicked(pointer);
+
+        return isClicked;
+    }
+
+    public boolean onTouchMoveEvent(Vector2f pointer) {
+        if(onTouchListener!=null) {
+            if (isClicked(pointer)) {
+                if (onTouchListener != null) onTouchListener.onTouchMove(this, pointer);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean onTouchUpEvent(Vector2f pointer) {
+        boolean isClicked = isClicked(pointer);
+        if(isClicked) {
+            if(onClickListener!=null) onClickListener.onClick();
+            if(onTouchListener!=null) onTouchListener.onTouchUp(this, pointer);
+        }
+        return isClicked;
+    }
+
     @Override
-    public boolean isClicked(Vector2f touchPoint) {
-        if(touchChecker != null && touchChecker.isClicked(touchPoint)) {
-            if(onTouchListener!=null) return onTouchListener.onTouchDown();
+    public boolean isClicked(Vector2f pointer) {
+        if(touchChecker != null && touchChecker.isClicked(pointer)) {
+            //if(onTouchListener!=null) return onTouchListener.onTouchDown(this, );
             return true;
         }
         return false;
+    }
+
+    public GameObject setOnTouchListener(OnTouchListener onTouchListener) {
+        this.onTouchListener = onTouchListener;
+        return this;
     }
 
     public GameObject attachPolygonTouchChecker() {

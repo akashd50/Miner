@@ -11,6 +11,12 @@ public class FloatValueAnimator extends ValueAnimator {
     }
 
     @Override
+    public FloatValueAnimator withFPS(int fps) {
+        super.withFPS(fps);
+        return this;
+    }
+
+    @Override
     protected void updateOverridePositive() {
         currentValue+=perFrameIncrement;
         if(currentValue > upperBound) {

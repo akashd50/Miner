@@ -15,12 +15,14 @@ import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
+import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.animators.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
@@ -123,25 +125,31 @@ class MainGLObjectsHelper {
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .attachPolygonTouchChecker()
                                             .addTag(Tag.STATIC)
-                                            .addTag(Tag.PLACABLE_GAME_BUILDING));
+                                            .addTag(Tag.PLACABLE_GAME_BUILDING)
+                                            .setOnTouchListener(new GeneralTouchListener()));
 
         GameObjectsContainer.add(new InteractiveObject(new Obj(ObjId.MAIN_CHARACTER)
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .attachPolygonTouchChecker()
-                                            .addTag(Tag.PHYSICS_OBJECT));
+                                            .addTag(Tag.PHYSICS_OBJECT)
+                                            .setOnTouchListener(new GeneralTouchListener()));
 
         GameObjectsContainer.add(new Scanner(new Obj(ObjId.SCANNER_I)
                                             .setShape(circleSubDivI)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
-                                            .setRangeDrawable(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
-                                            .setRangeDrawableAnimator(new FloatValueAnimator().setBounds(0f,1f).setPerFrameIncrement(0.01f))
-                                            .setValueAnimator(new BooleanAnimator().withFPS(10))
-                                            .attachPolygonTouchChecker()
-                                            .addTag(Tag.PLACABLE_GAME_BUILDING)
-                                            .addTag(Tag.PHYSICS_OBJECT));
+                                .setRangeDrawable(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
+                                .setRangeDrawableAnimator(new FloatValueAnimator()
+                                                            .withFPS(60)
+                                                            .setBounds(0f,1f)
+                                                            .setPerFrameIncrement(0.01f))
+                                .setValueAnimator(new BooleanAnimator().withFPS(10))
+                                .attachPolygonTouchChecker()
+                                .addTag(Tag.PLACABLE_GAME_BUILDING)
+                                .addTag(Tag.PHYSICS_OBJECT)
+                                .setOnTouchListener(new GeneralTouchListener()));
 
         GameObjectsContainer.add(new Animated(new Obj(ObjId.TREE_I)
                                             .setShape(uvmapped)
@@ -213,20 +221,9 @@ class MainGLObjectsHelper {
         sampleScanner.getRigidBody().isStaticObject(false)
                                     .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
-        OnCollisionListener listener = new OnCollisionListener() {
-            @Override
-            public void impulseResolution(CollisionEvent event) {
-                OnCollisionListener.super.impulseResolutionDefault(event);
-            }
-            @Override
-            public void positionalCorrection(CollisionEvent event) {
-                OnCollisionListener.super.positionalCorrectionDefault(event);
-            }
-        };
-
         //assign colliders and listeners
-        mainCharacter.getRigidBody().setCollisionListener(listener);
-        sampleScanner.getRigidBody().setCollisionListener(listener);
+        mainCharacter.getRigidBody().setCollisionListener(new GeneralCollisionListener());
+        sampleScanner.getRigidBody().setCollisionListener(new GeneralCollisionListener());
     }
 
     static void initiatePhysicsSystem() {
@@ -238,5 +235,50 @@ class MainGLObjectsHelper {
     static void onDestroy() {
         Log.v("On Destroy","Closing all background threads");
         CollisionDetectionSystem.onDestroy();
+    }
+}
+
+class GeneralCollisionListener implements OnCollisionListener {
+    @Override
+    public void impulseResolution(CollisionEvent event) {
+        OnCollisionListener.super.impulseResolutionDefault(event);
+    }
+    @Override
+    public void positionalCorrection(CollisionEvent event) {
+        OnCollisionListener.super.positionalCorrectionDefault(event);
+    }
+}
+
+class GeneralTouchListener implements OnTouchListener {
+    @Override
+    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
+
+    }
+
+    @Override
+    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
+        OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
+    }
+
+    @Override
+    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
+
+    }
+}
+
+class BuildingModeTouchListener implements OnTouchListener {
+    @Override
+    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
+
+    }
+
+    @Override
+    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
+        OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
+    }
+
+    @Override
+    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
+
     }
 }
