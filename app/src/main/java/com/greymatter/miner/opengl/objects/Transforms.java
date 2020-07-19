@@ -22,6 +22,8 @@ public class Transforms {
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
         this.modelMatrix = new float[16];
+        Matrix.setIdentityM(this.modelMatrix, 0);
+
         this.copyTranslationFromParent = false;
         this.copyRotationFromParent = false;
         this.copyScaleFromParent = false;
@@ -37,7 +39,7 @@ public class Transforms {
     }
 
     public void applyTransformations() {
-        if(transformationsUpdated) {
+        //if(transformationsUpdated) {
             if(parent != null) {
                 checkParentTransformations();
             }else{
@@ -48,12 +50,17 @@ public class Transforms {
             MatrixHelper.rotateM(modelMatrix, rotation);
             MatrixHelper.scaleM(modelMatrix, scale);
             transformationsUpdated = false;
-        }
+        //}
     }
 
     private void checkParentTransformations() {
-        this.modelMatrix = parent.getModelMatrix();
-        if(!copyScaleFromParent) MatrixHelper.scaleM(modelMatrix, 1f, 1f, 1f);
+        this.modelMatrix = parent.getModelMatrix().clone();
+
+        if(!copyScaleFromParent) {
+            Vector3f ps = parent.getScale();
+            MatrixHelper.scaleM(modelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
+        }
+
         if(!copyRotationFromParent) MatrixHelper.rotateM(modelMatrix,
                 -parent.getRotation().x,
                 -parent.getRotation().y,

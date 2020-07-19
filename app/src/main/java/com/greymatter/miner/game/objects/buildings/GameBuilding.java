@@ -16,10 +16,10 @@ public abstract class GameBuilding extends GameObject {
     }
 
     @Override
-    public void onDrawFrame() {
-        super.onDrawFrame();
+    public void onFrameUpdate() {
+        super.onFrameUpdate();
         buildingLights.forEach(light -> {
-            light.getDrawable().getTransforms().addTransformsFromParent();
+            light.getDrawable().getTransforms().applyTransformations();
         });
     }
 
@@ -27,7 +27,7 @@ public abstract class GameBuilding extends GameObject {
         light.getTransforms().setParent(this.getTransforms())
                             .copyTranslationFromParent(true)
                             .copyRotationFromParent(true)
-                            .copyScaleFromParent(true);
+                            .copyScaleFromParent(false);
         buildingLights.add(light);
     }
 

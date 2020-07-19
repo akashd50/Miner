@@ -44,6 +44,7 @@ public abstract class GameObject {
     public void runPostInitialization() {}
 
     public void onFrameUpdate() {
+        objectDrawable.getTransforms().applyTransformations();
     }
 
     public void onDrawFrame() {
@@ -192,7 +193,7 @@ public abstract class GameObject {
     }
 
     public Vector3f getLocation() {
-        return objectDrawable.getRigidBody().getTranslation();
+        return objectDrawable.getTransforms().getTranslation();
     }
 
     public boolean hasTag(Tag tag) {

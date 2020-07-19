@@ -11,6 +11,7 @@ struct Material {
 
 #define MAX_LIGHTS 5
 struct Light {
+    mat4 model;
     vec3 light_pos;
     vec4 light_color;
     float light_radius, light_inner_cutoff, light_outer_cutoff;
@@ -52,7 +53,7 @@ void main() {
 }
 
 void calculateLight(int index) {
-    vec3 light_pos_cs = vec3(view * vec4(lights[index].light_pos,1.0));
+    vec3 light_pos_cs = vec3(view * lights[index].model * vec4(lights[index].light_pos,1.0));
     vec2 lightVertexDirWS = light_pos_cs.xy - out_vertex_pos_vs.xy;
     float distance = length(lightVertexDirWS);
 

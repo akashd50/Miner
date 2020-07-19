@@ -110,17 +110,16 @@ public class VectorHelper {
     }
 
     public static boolean isPointInPolygon(Vector2f point, ArrayList<Vector3f> polygonVertices) {
-        boolean isClicked = false;
+        int numIntersections = 0;
         for(int i = 0; i < polygonVertices.size() - 1; i++) {
             Vector2f currC1 = VectorHelper.toVector2f(polygonVertices.get(i));
             Vector2f nextC1 = VectorHelper.toVector2f(polygonVertices.get(i + 1));
 
             if(VectorHelper.checkIntersection(point, new Vector2f(point.x+1000f,point.y), currC1, nextC1).intersected) {
-                isClicked = true;
-                break;
+                numIntersections++;
             }
         }
-        return isClicked;
+        return numIntersections % 2 != 0;
     }
 
     public static IntersectionEvent checkIntersection(Vector2f line1A, Vector2f line1B,

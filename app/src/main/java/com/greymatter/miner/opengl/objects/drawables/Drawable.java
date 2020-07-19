@@ -28,7 +28,7 @@ public abstract class Drawable {
     }
 
     public void onDrawFrame() {
-        transforms.applyTransformations();
+        //transforms.applyTransformations();
     }
 
     public Drawable build() {

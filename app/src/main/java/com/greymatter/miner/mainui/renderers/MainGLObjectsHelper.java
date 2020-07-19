@@ -167,7 +167,7 @@ class MainGLObjectsHelper {
                                                 .setRadius(1f)
                                                 .setColor(1f,0f,0f,1f)
                                                 .setInnerCutoff(0.2f).setOuterCutoff(0.8f)
-                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo( new Vector2f(-2.3f,0.3f)));
+                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo(new Vector2f(-1.3f,0.3f)));
     }
 
     static void finishObjectsSetup() {
@@ -181,7 +181,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(ObjId.SCANNER_I).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f)/*.upgrade(4)*/;
 
-        GameObjectsContainer.get(ObjId.MAIN_BASE).scaleTo(4f,2.7f).moveTo(-2.4f,2f,-5f);
+        GameObjectsContainer.get(ObjId.MAIN_BASE).scaleTo(4f,2.7f).moveTo(0f,0f,-5f);
 
         GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER).scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f);
 

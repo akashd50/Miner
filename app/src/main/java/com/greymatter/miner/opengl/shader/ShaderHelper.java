@@ -101,6 +101,7 @@ public class ShaderHelper {
         String lightIndE = "].";
         for(int i=0; i<lights.size(); i++) {
             GameLight light = lights.get(i);
+            setUniformMatrix4fv(shader, lightIndS+i+lightIndE+ShaderConst.MODEL, light.getTransforms().getModelMatrix());
             setUniformVec3(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_POS, light.getLocation());
             setUniformVec4(shader, lightIndS+i+lightIndE+ ShaderConst.LIGHT_COLOR, light.getLightColor());
             setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_RADIUS, light.getRadius());
