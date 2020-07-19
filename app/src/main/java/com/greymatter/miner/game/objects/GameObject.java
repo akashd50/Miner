@@ -5,7 +5,6 @@ import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
-import com.greymatter.miner.mainui.touch.Clickable;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
@@ -13,7 +12,6 @@ import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;

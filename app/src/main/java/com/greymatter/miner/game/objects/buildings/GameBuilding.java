@@ -19,7 +19,7 @@ public abstract class GameBuilding extends GameObject {
     public void onFrameUpdate() {
         super.onFrameUpdate();
         buildingLights.forEach(light -> {
-            light.getDrawable().getTransforms().applyTransformations();
+            light.getDrawable().getTransforms().applyTransformationsForced();
         });
     }
 

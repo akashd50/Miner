@@ -1,8 +1,6 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.mainui.touch.Clickable;
-import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
@@ -11,7 +9,6 @@ import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
-import javax.vecmath.Vector2f;
 
 public abstract class Drawable {
     private ObjId id;
