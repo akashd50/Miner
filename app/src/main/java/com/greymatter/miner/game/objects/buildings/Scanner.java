@@ -3,43 +3,35 @@ package com.greymatter.miner.game.objects.buildings;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
+
 import javax.vecmath.Vector3f;
 
 public class Scanner extends GameBuilding {
     private float _scannerRange, _scanningAngle;
-    private RadialGradient rangeDrawable;
-    private FloatValueAnimator rangeDrawableAnimator;
+    private Animated rangeObject;
     private ResourceBlock currentlyTracking;
+
     public Scanner(Drawable drawable) {
         super(drawable.getId(), drawable);
     }
-
     public Scanner(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
 
     @Override
-    public void runPostInitialization() {
-        rangeDrawable = getLinkedGameObject(ObjId.SCANNER_RANGE).getDrawable().asRadialGradient();
-        rangeDrawable.getTransforms().setParent(this.getTransforms()).copyTranslationFromParent(true);
-    }
-
-    @Override
     public void onFrameUpdate() {
+        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
+        rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
+        rangeObject.animate();
+
         super.onFrameUpdate();
 
-        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
-        rangeDrawable.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
-
-        rangeDrawable.setMidPoint(rangeDrawableAnimator.update().getUpdatedFloat());
-
-        if(getValueAnimator().update().getUpdatedBoolean()) {
+        if(getAnimator().update().getUpdatedBoolean()) {
             currentlyTracking = currentlyTracking==null? findClosestResource() : currentlyTracking;
             if(!isResourceInRange(currentlyTracking)) {
                 Vector3f dir = VectorHelper.sub(currentlyTracking.getLocation(), this.getLocation());
@@ -53,8 +45,8 @@ public class Scanner extends GameBuilding {
     @Override
     public Scanner upgrade() {
         super.upgrade();
-        float newRad = getObjectLevel() * rangeDrawable.getRadius();
-        rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+        float newRad = getObjectLevel() * rangeObject.getDrawable().asRadialGradient().getRadius();
+        rangeObject.getTransforms().scaleTo(rangeObject.getTransforms().getScale().x, newRad);
 
         return this;
     }
@@ -62,8 +54,8 @@ public class Scanner extends GameBuilding {
     @Override
     public Scanner upgrade(int newLevel) {
         super.upgrade(newLevel);
-        float newRad = getObjectLevel() * rangeDrawable.getRadius();
-        rangeDrawable.getTransforms().scaleTo(rangeDrawable.getTransforms().getScale().x, newRad);
+        float newRad = getObjectLevel() * rangeObject.getDrawable().asRadialGradient().getRadius();
+        rangeObject.getTransforms().scaleTo(rangeObject.getTransforms().getScale().x, newRad);
 
         return this;
     }
@@ -105,13 +97,10 @@ public class Scanner extends GameBuilding {
         return this;
     }
 
-    public Scanner setRangeDrawable(GameObject rangeDrawable) {
-        addLinkedGameObject(ObjId.SCANNER_RANGE, rangeDrawable);
-        return this;
-    }
-
-    public Scanner setRangeDrawableAnimator(FloatValueAnimator rangeDrawableAnimator) {
-        this.rangeDrawableAnimator = rangeDrawableAnimator;
+    public Scanner setRangeObject(GameObject rangeObject) {
+        this.rangeObject = rangeObject.asAnimatedObject();
+        this.rangeObject.getTransforms().setParent(this.getTransforms()).copyTranslationFromParent(true);
+        this.addLinkedGameObject(ObjId.SCANNER_RANGE, rangeObject);
         return this;
     }
 

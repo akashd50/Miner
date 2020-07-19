@@ -5,6 +5,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
+import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -15,6 +16,11 @@ public class RadialGradient extends Gradient {
     private float radius, midPoint;
     public RadialGradient(ObjId id) {
         super(id);
+    }
+
+    @Override
+    public void animate(ValueAnimator animator) {
+        setMidPoint(animator.update().getUpdatedFloat());
     }
 
     @Override

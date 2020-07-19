@@ -1,6 +1,8 @@
 package com.greymatter.miner.mainui.renderers;
 
 import android.util.Log;
+
+import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
@@ -15,7 +17,6 @@ import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
@@ -24,7 +25,6 @@ import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
-import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.animators.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.animators.FloatValueAnimator;
@@ -40,8 +40,7 @@ import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
 import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
-import com.greymatter.miner.physics.objects.CollisionEvent;
-import com.greymatter.miner.physics.objects.OnCollisionListener;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
 import com.greymatter.miner.Path;
@@ -52,6 +51,7 @@ class MainGLObjectsHelper {
     static void onSurfaceChanged(int width, int height) {
         if(initialSetup) {
             camera = new Camera(width, height);
+            AppServices.setCamera(camera);
             initialSetup = false;
         }else{
             camera.onSurfaceChanged(width,height);
@@ -106,7 +106,10 @@ class MainGLObjectsHelper {
                                             .setShape(shape)
                                             .setMaterial(MaterialContainer.get(MatId.GRADIENT_COLOR_MAT))
                                             .setShader(ShaderContainer.get(ShaderId.CIRCLE_GRADIENT_SHADER))
-                                            .build()));
+                                            .build()).setAnimator(new FloatValueAnimator()
+                                                                .withFPS(60)
+                                                                .setBounds(0f,1f)
+                                                                .setPerFrameIncrement(0.01f)));
 
         GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)
                                             .setShape(atmSimpleCircle)
@@ -142,12 +145,8 @@ class MainGLObjectsHelper {
                                             .setShape(circleSubDivI)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
-                                .setRangeDrawable(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
-                                .setRangeDrawableAnimator(new FloatValueAnimator()
-                                                            .withFPS(60)
-                                                            .setBounds(0f,1f)
-                                                            .setPerFrameIncrement(0.01f))
-                                .setValueAnimator(new BooleanAnimator().withFPS(10))
+                                .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
+                                .setAnimator(new BooleanAnimator().withFPS(10))
                                 .attachPolygonTouchChecker()
                                 .addTag(Tag.PLACABLE_GAME_BUILDING)
                                 .addTag(Tag.PHYSICS_OBJECT)

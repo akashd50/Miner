@@ -2,6 +2,7 @@ package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Transforms;
+import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -24,9 +25,9 @@ public abstract class Drawable {
         this.setRigidBody(new GeneralRB());
     }
 
-    public void onDrawFrame() {
-        //transforms.applyTransformations();
-    }
+    public void animate(ValueAnimator animator) {}
+
+    public void onDrawFrame() {}
 
     public Drawable build() {
         return this;

@@ -43,6 +43,9 @@ public abstract class GameObject {
 
     public void onFrameUpdate() {
         objectDrawable.getTransforms().applyTransformations();
+        linkedObjects.forEach((id, object) -> {
+            object.getDrawable().getTransforms().applyTransformationsForced();
+        });
     }
 
     public void onDrawFrame() {
@@ -78,7 +81,7 @@ public abstract class GameObject {
         return this;
     }
 
-    public GameObject setValueAnimator(ValueAnimator valueAnimator) {
+    public GameObject setAnimator(ValueAnimator valueAnimator) {
         this.valueAnimator = valueAnimator;
         return this;
     }
@@ -231,7 +234,7 @@ public abstract class GameObject {
         return shouldDraw;
     }
 
-    public ValueAnimator getValueAnimator() {
+    public ValueAnimator getAnimator() {
         return valueAnimator;
     }
 
@@ -246,6 +249,10 @@ public abstract class GameObject {
 
     public GameLight asGameLight() {
         return (GameLight) this;
+    }
+
+    public Animated asAnimatedObject() {
+        return (Animated) this;
     }
 
     public ResourceBlock asResourceBlock() {

@@ -30,7 +30,6 @@ public class Transforms {
     public void applyTransformations() {
         if(transformationsUpdated) {
             applyTransformationsForced();
-            transformationsUpdated = false;
         }
     }
 
@@ -44,6 +43,7 @@ public class Transforms {
         MatrixHelper.translateM(modelMatrix, translation);
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
+        transformationsUpdated = false;
     }
 
     private void applyParentTransformations() {

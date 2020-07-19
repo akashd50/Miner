@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        AppServices.init(this, surface, glRenderer);
+        AppServices.setContext(this);
+        AppServices.setGLSurfaceView(surface);
+        AppServices.setMainGLRenderer(glRenderer);
+
         left = findViewById(R.id.move_left);
         right = findViewById(R.id.move_right);
     }
