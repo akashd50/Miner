@@ -68,10 +68,6 @@ public abstract class GameObject {
         return linkedObjects.get(id);
     }
 
-    public HashMapE<ObjId, GameObject> getLinkedObjects() {
-        return linkedObjects;
-    }
-
     public GameObject addTag(Tag tag) {
         this.objectTags.add(tag);
         return this;
@@ -92,14 +88,14 @@ public abstract class GameObject {
         return this;
     }
 
-    public TouchChecker getTouchChecker() {
-        return this.touchChecker;
-    }
-
     public boolean onTouchDownEvent(Vector2f pointer) {
-        boolean isClicked = isClicked(pointer);
-
-        return isClicked;
+        if(onTouchListener!=null) {
+            if (isClicked(pointer)) {
+                onTouchListener.onTouchDown(this, pointer);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean onTouchMoveEvent(Vector2f pointer) {
@@ -127,6 +123,11 @@ public abstract class GameObject {
 
     public GameObject setOnTouchListener(OnTouchListener onTouchListener) {
         this.onTouchListener = onTouchListener;
+        return this;
+    }
+
+    public GameObject setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
         return this;
     }
 
@@ -186,6 +187,14 @@ public abstract class GameObject {
         return this;
     }
 
+    public HashMapE<ObjId, GameObject> getLinkedObjects() {
+        return linkedObjects;
+    }
+
+    public TouchChecker getTouchChecker() {
+        return this.touchChecker;
+    }
+
     public int getObjectLevel() {
         return objectLevel;
     }
@@ -233,6 +242,10 @@ public abstract class GameObject {
     //typecasting
     public GameBuilding asGameBuilding() {
         return (GameBuilding)this;
+    }
+
+    public GameLight asGameLight() {
+        return (GameLight) this;
     }
 
     public ResourceBlock asResourceBlock() {
