@@ -22,6 +22,8 @@ import com.greymatter.miner.game.objects.buildings.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
+import com.greymatter.miner.helpers.GeneralCollisionListener;
+import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.animators.BooleanAnimator;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -165,7 +167,7 @@ class MainGLObjectsHelper {
                                                 .setRadius(1f)
                                                 .setColor(1f,0f,0f,1f)
                                                 .setInnerCutoff(0.2f).setOuterCutoff(0.8f)
-                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding(), new Vector2f(-2.3f,0.3f)));
+                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo( new Vector2f(-2.3f,0.3f)));
     }
 
     static void finishObjectsSetup() {
@@ -235,50 +237,5 @@ class MainGLObjectsHelper {
     static void onDestroy() {
         Log.v("On Destroy","Closing all background threads");
         CollisionDetectionSystem.onDestroy();
-    }
-}
-
-class GeneralCollisionListener implements OnCollisionListener {
-    @Override
-    public void impulseResolution(CollisionEvent event) {
-        OnCollisionListener.super.impulseResolutionDefault(event);
-    }
-    @Override
-    public void positionalCorrection(CollisionEvent event) {
-        OnCollisionListener.super.positionalCorrectionDefault(event);
-    }
-}
-
-class GeneralTouchListener implements OnTouchListener {
-    @Override
-    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
-
-    }
-
-    @Override
-    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
-        OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
-    }
-
-    @Override
-    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
-
-    }
-}
-
-class BuildingModeTouchListener implements OnTouchListener {
-    @Override
-    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
-
-    }
-
-    @Override
-    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
-        OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
-    }
-
-    @Override
-    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
-
     }
 }

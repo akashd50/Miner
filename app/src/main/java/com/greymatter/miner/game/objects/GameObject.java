@@ -42,7 +42,10 @@ public abstract class GameObject {
     }
 
     public void runPostInitialization() {}
-    public void onFrameUpdate() {}
+
+    public void onFrameUpdate() {
+    }
+
     public void onDrawFrame() {
         objectDrawable.onDrawFrame();
     }

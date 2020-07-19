@@ -22,6 +22,7 @@ public class GameNotification extends GameObject {
                     .copyScaleFromParent(true));
         });
     }
+
     @Override
     public void onFrameUpdate() {
         super.onFrameUpdate();
