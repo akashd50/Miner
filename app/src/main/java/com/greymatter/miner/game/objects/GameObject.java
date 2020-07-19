@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class GameObject implements Clickable {
+public abstract class GameObject {
     private boolean shouldDraw;
     private ObjId id;
     private int objectLevel;
@@ -119,13 +119,8 @@ public abstract class GameObject implements Clickable {
         return isClicked;
     }
 
-    @Override
-    public boolean isClicked(Vector2f pointer) {
-        if(touchChecker != null && touchChecker.isClicked(pointer)) {
-            //if(onTouchListener!=null) return onTouchListener.onTouchDown(this, );
-            return true;
-        }
-        return false;
+    private boolean isClicked(Vector2f pointer) {
+        return touchChecker != null && touchChecker.isClicked(pointer);
     }
 
     public GameObject setOnTouchListener(OnTouchListener onTouchListener) {

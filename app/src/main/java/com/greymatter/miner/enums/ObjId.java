@@ -19,6 +19,9 @@ public enum ObjId {
     PIE_GRADIENT_I,
 
     SCANNER_RANGE,
+    NOT_BUTTON_I,
+    NOT_BUTTON_II,
+    NOT_BUTTON_III,
     OBJECT_NOTIFICATION,
 
     COAL_BLOCK_I,

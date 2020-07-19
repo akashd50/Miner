@@ -27,7 +27,7 @@ public class Scanner extends GameBuilding {
     @Override
     public void runPostInitialization() {
         rangeDrawable = getLinkedGameObject(ObjId.SCANNER_RANGE).getDrawable().asRadialGradient();
-        rangeDrawable.getTransforms().setParent(getDrawable().getTransforms()).setCopyTranslationFromParent(true);
+        rangeDrawable.getTransforms().setParent(this.getTransforms()).copyTranslationFromParent(true);
     }
 
     @Override

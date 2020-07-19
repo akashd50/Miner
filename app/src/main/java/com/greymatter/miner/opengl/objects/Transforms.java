@@ -238,7 +238,7 @@ public class Transforms {
         return copyTranslationFromParent;
     }
 
-    public Transforms setCopyTranslationFromParent(boolean copyTranslationFromParent) {
+    public Transforms copyTranslationFromParent(boolean copyTranslationFromParent) {
         this.copyTranslationFromParent = copyTranslationFromParent;
         return this;
     }
@@ -247,7 +247,7 @@ public class Transforms {
         return copyRotationFromParent;
     }
 
-    public Transforms setCopyRotationFromParent(boolean copyRotationFromParent) {
+    public Transforms copyRotationFromParent(boolean copyRotationFromParent) {
         this.copyRotationFromParent = copyRotationFromParent;
         return this;
     }
@@ -256,7 +256,7 @@ public class Transforms {
         return copyScaleFromParent;
     }
 
-    public Transforms setCopyScaleFromParent(boolean copyScaleFromParent) {
+    public Transforms copyScaleFromParent(boolean copyScaleFromParent) {
         this.copyScaleFromParent = copyScaleFromParent;
         return this;
     }
