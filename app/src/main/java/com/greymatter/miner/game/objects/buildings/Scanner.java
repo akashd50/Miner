@@ -27,7 +27,6 @@ public class Scanner extends GameBuilding {
     public void onFrameUpdate() {
         Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
         rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
-        rangeObject.animate();
 
         super.onFrameUpdate();
 

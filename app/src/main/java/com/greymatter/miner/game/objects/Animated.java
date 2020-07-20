@@ -1,8 +1,6 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.game.objects.buildings.GameBuilding;
-import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class Animated extends GameObject {
@@ -13,7 +11,9 @@ public class Animated extends GameObject {
         super(id, drawable);
     }
 
-    public void animate() {
+    @Override
+    public void onFrameUpdate() {
+        super.onFrameUpdate();
         getDrawable().animate(getAnimator());
     }
 }

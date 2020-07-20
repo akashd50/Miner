@@ -5,7 +5,7 @@ import android.opengl.GLES30;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
+import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.Material;

@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects.animators;
+package com.greymatter.miner.animators;
 
 public class BooleanAnimator extends ValueAnimator {
     private boolean shouldUpdate;

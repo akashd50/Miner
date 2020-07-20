@@ -1,4 +1,4 @@
-package com.greymatter.miner.opengl.objects.animators;
+package com.greymatter.miner.animators;
 
 public abstract class ValueAnimator {
     private long _perFrameDelay, _lastFrameDrawTime;

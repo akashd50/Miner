@@ -10,7 +10,7 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
-import com.greymatter.miner.opengl.objects.animators.ValueAnimator;
+import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
