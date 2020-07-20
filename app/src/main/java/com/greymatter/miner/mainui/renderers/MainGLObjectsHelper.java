@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
+import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
@@ -17,6 +18,7 @@ import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
@@ -106,10 +108,11 @@ class MainGLObjectsHelper {
                                             .setShape(shape)
                                             .setMaterial(MaterialContainer.get(MatId.GRADIENT_COLOR_MAT))
                                             .setShader(ShaderContainer.get(ShaderId.CIRCLE_GRADIENT_SHADER))
-                                            .build()).setAnimator(new FloatValueAnimator()
-                                                                .withFPS(60)
-                                                                .setBounds(0f,1f)
-                                                                .setPerFrameIncrement(0.01f)));
+                                            .build())
+                                            .setAnimator(new FloatValueAnimator().withFPS(60).setBounds(0f,1f).setPerFrameIncrement(0.01f))
+                                            .setOnAnimationFrameHandler((object, animator) -> {
+                                                object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
+                                            }));
 
         GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)
                                             .setShape(atmSimpleCircle)

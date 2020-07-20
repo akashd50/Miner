@@ -25,8 +25,6 @@ public abstract class Drawable {
         this.setRigidBody(new GeneralRB());
     }
 
-    public void animate(ValueAnimator animator) {}
-
     public void onDrawFrame() {}
 
     public Drawable build() {

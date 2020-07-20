@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
@@ -30,6 +31,7 @@ public abstract class GameObject {
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
+    private OnAnimationFrameHandler onAnimationFrameHandler;
     public GameObject(ObjId id, Drawable drawable) {
         this.id = id;
         this.objectDrawable = drawable;
@@ -42,6 +44,10 @@ public abstract class GameObject {
     public void runPostInitialization() {}
 
     public void onFrameUpdate() {
+        if(onAnimationFrameHandler != null && valueAnimator != null) {
+            onAnimationFrameHandler.animate(this, valueAnimator);
+        }
+
         objectDrawable.getTransforms().applyTransformations();
         linkedObjects.forEach((id, object) -> {
             object.getDrawable().getTransforms().applyTransformationsForced();
@@ -59,6 +65,11 @@ public abstract class GameObject {
 
     public GameObject upgrade(int newLevel) {
         objectLevel = newLevel;
+        return this;
+    }
+
+    public GameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler) {
+        this.onAnimationFrameHandler = handler;
         return this;
     }
 

@@ -10,10 +10,4 @@ public class Animated extends GameObject {
     public Animated(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
-
-    @Override
-    public void onFrameUpdate() {
-        super.onFrameUpdate();
-        getDrawable().animate(getAnimator());
-    }
 }

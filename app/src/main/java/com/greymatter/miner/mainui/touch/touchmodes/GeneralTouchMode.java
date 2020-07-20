@@ -56,7 +56,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     //if(object.getId().compareTo(SAMPLE_SCANNER) == 0) ToDrawContainer.add(GameObjectsContainer.get("g"));
 
 
-                    if(object instanceof GameBuilding && object.asGameBuilding().hasLights()) {
+                    if(object instanceof GameBuilding /*&& object.asGameBuilding().hasLights()*/) {
                         ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
                     }
 

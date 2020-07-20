@@ -19,11 +19,6 @@ public class RadialGradient extends Gradient {
     }
 
     @Override
-    public void animate(ValueAnimator animator) {
-        setMidPoint(animator.update().getUpdatedFloat());
-    }
-
-    @Override
     public void onDrawFrame() {
         super.onDrawFrame();
 
