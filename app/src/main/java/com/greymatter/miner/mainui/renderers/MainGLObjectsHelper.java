@@ -5,6 +5,7 @@ import android.util.Log;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.animators.OnAnimationFrameHandler;
+import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
@@ -112,6 +113,7 @@ class MainGLObjectsHelper {
                                             .setAnimator(new FloatValueAnimator().withFPS(60).setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setOnAnimationFrameHandler((object, animator) -> {
                                                 object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
+
                                             }));
 
         GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)
@@ -150,6 +152,7 @@ class MainGLObjectsHelper {
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
                                 .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                 .setAnimator(new BooleanAnimator().withFPS(10))
+                                .setOnAnimationFrameHandler(new ScannerAnimationHandler())
                                 .attachPolygonTouchChecker()
                                 .addTag(Tag.PLACABLE_GAME_BUILDING)
                                 .addTag(Tag.PHYSICS_OBJECT)

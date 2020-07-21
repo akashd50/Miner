@@ -29,7 +29,7 @@ public class ToDrawContainer {
             gameObjects = new HashMapE<>();
         }
         gameObjects.put(gameObject.getId(), gameObject);
-        gameObject.getLinkedObjects().forEach((id, obj) -> {
+        gameObject.getChildren().forEach((id, obj) -> {
             gameObjects.put(id, obj);
         });
 

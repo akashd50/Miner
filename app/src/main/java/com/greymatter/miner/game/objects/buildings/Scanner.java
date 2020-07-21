@@ -25,20 +25,9 @@ public class Scanner extends GameBuilding {
 
     @Override
     public void onFrameUpdate() {
+        super.onFrameUpdate();
         Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
         rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
-
-        super.onFrameUpdate();
-
-        if(getAnimator().update().getUpdatedBoolean()) {
-            currentlyTracking = currentlyTracking==null? findClosestResource() : currentlyTracking;
-            if(!isResourceInRange(currentlyTracking)) {
-                Vector3f dir = VectorHelper.sub(currentlyTracking.getLocation(), this.getLocation());
-                dir.normalize();
-                dir.z = 0f;
-                this.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));
-            }
-        }
     }
 
     @Override
@@ -59,8 +48,7 @@ public class Scanner extends GameBuilding {
         return this;
     }
 
-
-    private boolean isResourceInRange(ResourceBlock resourceBlock) {
+    public boolean isResourceInRange(ResourceBlock resourceBlock) {
         Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());
         float distance = VectorHelper.getLength(sub);
         if(distance < _scannerRange) {
@@ -73,7 +61,7 @@ public class Scanner extends GameBuilding {
         return false;
     }
 
-    private ResourceBlock findClosestResource() {
+    public ResourceBlock findClosestResource() {
         float prevLength = 999999;
         ResourceBlock toReturn = null;
         for(ResourceBlock resourceBlock : ActiveResourcesContainer.getAll()) {
@@ -99,8 +87,17 @@ public class Scanner extends GameBuilding {
     public Scanner setRangeObject(GameObject rangeObject) {
         this.rangeObject = rangeObject.asAnimatedObject();
         this.rangeObject.getTransforms().setParent(this.getTransforms()).copyTranslationFromParent(true);
-        this.addLinkedGameObject(ObjId.SCANNER_RANGE, rangeObject);
+        this.addChild(ObjId.SCANNER_RANGE, rangeObject);
         return this;
+    }
+
+    public Scanner setCurrentlyTracking(ResourceBlock currentlyTracking) {
+        this.currentlyTracking = currentlyTracking;
+        return this;
+    }
+
+    public ResourceBlock getCurrentlyTracking() {
+        return currentlyTracking;
     }
 
     public float getRange() {

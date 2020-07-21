@@ -21,12 +21,12 @@ public abstract class GameBuilding extends GameObject {
                             .copyTranslationFromParent(true)
                             .copyRotationFromParent(true)
                             .copyScaleFromParent(false);
-        addLinkedGameObject(light.getId(), light);
+        addChild(light.getId(), light);
     }
 
     public ArrayList<GameLight> getAllLights() {
         ArrayList<GameLight> toReturn = new ArrayList<>();
-        getLinkedObjects().forEach((id,object) -> {
+        getChildren().forEach((id, object) -> {
             if(object instanceof GameLight) toReturn.add(object.asGameLight());
         });
         return toReturn;

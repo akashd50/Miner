@@ -26,7 +26,7 @@ public abstract class GameObject {
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
-    private HashMapE<ObjId, GameObject> linkedObjects;
+    private HashMapE<ObjId, GameObject> children;
     private ArrayList<Tag> objectTags;
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
@@ -36,7 +36,7 @@ public abstract class GameObject {
         this.id = id;
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
-        this.linkedObjects = new HashMapE<>();
+        this.children = new HashMapE<>();
         shouldDraw = true;
         objectLevel = 1;
     }
@@ -49,7 +49,7 @@ public abstract class GameObject {
         }
 
         objectDrawable.getTransforms().applyTransformations();
-        linkedObjects.forEach((id, object) -> {
+        children.forEach((id, object) -> {
             object.getDrawable().getTransforms().applyTransformationsForced();
         });
     }
@@ -73,13 +73,13 @@ public abstract class GameObject {
         return this;
     }
 
-    protected GameObject addLinkedGameObject(ObjId id, GameObject object) {
-        linkedObjects.put(id, object);
+    protected GameObject addChild(ObjId id, GameObject object) {
+        children.put(id, object);
         return this;
     }
 
-    protected GameObject getLinkedGameObject(ObjId id) {
-        return linkedObjects.get(id);
+    protected GameObject getChild(ObjId id) {
+        return children.get(id);
     }
 
     public GameObject addTag(Tag tag) {
@@ -201,8 +201,8 @@ public abstract class GameObject {
         return this;
     }
 
-    public HashMapE<ObjId, GameObject> getLinkedObjects() {
-        return linkedObjects;
+    public HashMapE<ObjId, GameObject> getChildren() {
+        return children;
     }
 
     public TouchChecker getTouchChecker() {

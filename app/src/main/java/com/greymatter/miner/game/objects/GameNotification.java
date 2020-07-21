@@ -15,7 +15,7 @@ public class GameNotification extends GameObject {
 
     @Override
     public void runPostInitialization() {
-        getLinkedObjects().forEach((id,object) -> {
+        getChildren().forEach((id, object) -> {
             object.getTransforms().setParent(this.getTransforms()
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
@@ -34,7 +34,7 @@ public class GameNotification extends GameObject {
     }
 
     public GameNotification setButton(ObjId index, GameButton button) {
-        addLinkedGameObject(index, button);
+        addChild(index, button);
         return this;
     }
 }
