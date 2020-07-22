@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
@@ -18,8 +17,9 @@ import com.greymatter.miner.enums.ShaderId;
 import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
+import com.greymatter.miner.game.objects.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.GameNotification;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
@@ -34,6 +34,7 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
+import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.animators.IntegerValueAnimator;
@@ -98,6 +99,16 @@ class MainGLObjectsHelper {
         Shape shape = new Shape(ShapeId.PIE_45).loadPie(45f,1f).build();
         Shape circleEdge = new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(circleSubDivIII, 0.01f).build();
 
+
+
+        GameObjectsContainer.add(new GameNotification(new Obj(ObjId.OBJECT_NOTIFICATION)
+                                            .setShape(uvmapped)
+                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
+                                            .setButtonI(new GameButton(getNewObj(ObjId.NOT_BUTTON_I, uvmapped, MaterialContainer.get(MatId.MAIN_BASE_MATERIAL), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
+                                            .setButtonII(new GameButton(getNewObj(ObjId.NOT_BUTTON_II, uvmapped, MaterialContainer.get(MatId.MAIN_BASE_MATERIAL), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
+                                            .addTag(Tag.NOTIFICATION));
+
         GameObjectsContainer.add(new CoalBlock(new Obj(ObjId.COAL_BLOCK_I)
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
@@ -119,7 +130,7 @@ class MainGLObjectsHelper {
         GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)
                                             .setShape(atmSimpleCircle)
                                             .setMaterial(MaterialContainer.get(MatId.ATMOSPHERE_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
+                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.STATIC));
 
         GameObjectsContainer.add(new Planet(new Obj(ObjId.PLANET)
@@ -171,8 +182,8 @@ class MainGLObjectsHelper {
         GameObjectsContainer.add(new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
                                                 .setRadius(1f)
                                                 .setColor(1f,0f,0f,1f)
-                                                .setInnerCutoff(0.2f).setOuterCutoff(0.8f)
-                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo(new Vector2f(-1.3f,0.3f)));
+                                                .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
+                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo(new Vector2f(-0.33f,0.08f)));
     }
 
     static void finishObjectsSetup() {
@@ -192,6 +203,8 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(ObjId.TREE_I).scaleTo(1f,1.5f).moveTo(0f,0f, -6f);
 
+        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).scaleTo(1f,0.7f).moveTo(-2f,0.6f, 2f);
+
         Drawable mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getDrawable();
         GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
                             .setShader(ShaderContainer.get(ShaderId.LINE_SHADER))
@@ -209,6 +222,7 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
+        ToDrawContainer.add(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION));
 
         ActiveResourcesContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I).asResourceBlock());
     }
@@ -242,5 +256,12 @@ class MainGLObjectsHelper {
     static void onDestroy() {
         Log.v("On Destroy","Closing all background threads");
         CollisionDetectionSystem.onDestroy();
+    }
+
+    static Drawable getNewObj(ObjId id,Shape shape, Material material, Shader shader) {
+        return new Obj(id)
+                .setShape(shape)
+                .setMaterial(material)
+                .setShader(shader).build();
     }
 }

@@ -20,7 +20,7 @@ public abstract class GameBuilding extends GameObject {
         light.getTransforms().setParent(this.getTransforms())
                             .copyTranslationFromParent(true)
                             .copyRotationFromParent(true)
-                            .copyScaleFromParent(false);
+                            .copyScaleFromParent(true);
         addChild(light.getId(), light);
     }
 
