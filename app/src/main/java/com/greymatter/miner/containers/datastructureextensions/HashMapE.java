@@ -3,12 +3,13 @@ package com.greymatter.miner.containers.datastructureextensions;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
 public class HashMapE<K,V> extends HashMap<K,V> {
     private boolean hasDataChanged;
-    private ArrayList<V> toList;
+    private ArrayList<V> toList, reversedList;
     public HashMapE(){
         super();
         hasDataChanged = false;
@@ -29,9 +30,16 @@ public class HashMapE<K,V> extends HashMap<K,V> {
                 toList.add(obj);
             });
 
+            reversedList = new ArrayList<>(toList);
+            Collections.reverse(reversedList);
+
             hasDataChanged = false;
         }
         return toList;
+    }
+
+    public ArrayList<V> toReversedList() {
+        return reversedList;
     }
 
     public void sort(Comparator<V> comparator) {

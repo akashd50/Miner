@@ -71,21 +71,21 @@ public class ObjHelper {
     }
 
     public static void updateShapeParams(Shape shape, RawObjData data, Vector3f vector) {
-        if(vector.y > shape.getTop().y) {
-            shape.setTop(vector);
+        if(vector.y > shape.getTop()) {
+            shape.setTop(vector.y);
             data.topIndex = data.vertices.size();
         }
 
-        if(vector.y < shape.getBottom().y) {
-            shape.setBottom(vector);
+        if(vector.y < shape.getBottom()) {
+            shape.setBottom(vector.y);
         }
 
-        if(vector.x > shape.getRight().x) {
-            shape.setRight(vector);
+        if(vector.x > shape.getRight()) {
+            shape.setRight(vector.x);
         }
 
-        if(vector.x < shape.getLeft().x) {
-            shape.setLeft(vector);
+        if(vector.x < shape.getLeft()) {
+            shape.setLeft(vector.x);
         }
     }
 

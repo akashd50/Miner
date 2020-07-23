@@ -7,6 +7,7 @@ import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class ToDrawContainer {
@@ -66,6 +67,10 @@ public class ToDrawContainer {
 
     public static ArrayList<GameObject> getAll() {
         return gameObjects.toList();
+    }
+
+    public static ArrayList<GameObject> getAllReversed() {
+        return gameObjects.toReversedList();
     }
 
     public static ArrayList<GameObject> getAllWithTag(Tag tag) {

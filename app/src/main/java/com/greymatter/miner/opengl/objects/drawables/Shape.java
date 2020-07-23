@@ -11,7 +11,7 @@ import javax.vecmath.Vector3f;
 
 public class Shape {
     private ShapeId id;
-    public Vector3f top, bottom, left, right;
+    public float top, bottom, left, right;
     private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
     private ArrayList<Vector2f> shapeUVs;
     private RawObjData rawObjData;
@@ -20,8 +20,6 @@ public class Shape {
         this.id = id;
         shapeVertices = new ArrayList<>();
         shapeUVs = new ArrayList<>();
-        top = new Vector3f(); bottom = new Vector3f();
-        left = new Vector3f(); right = new Vector3f();
     }
 
     public Shape loadCircle(float radius) {
@@ -84,22 +82,22 @@ public class Shape {
         return this;
     }
 
-    public Shape setTop(Vector3f top) {
+    public Shape setTop(float top) {
         this.top = top;
         return this;
     }
 
-    public Shape setBottom(Vector3f bottom) {
+    public Shape setBottom(float bottom) {
         this.bottom = bottom;
         return this;
     }
 
-    public Shape setLeft(Vector3f left) {
+    public Shape setLeft(float left) {
         this.left = left;
         return this;
     }
 
-    public Shape setRight(Vector3f right) {
+    public Shape setRight(float right) {
         this.right = right;
         return this;
     }
@@ -123,6 +121,9 @@ public class Shape {
     }
 
     public ArrayList<Vector3f> getOrderedOuterMesh() {
+        if(orderedOuterMesh == null) {
+            ShapesHelper.loadSimpleOuterMesh(this);
+        }
         return orderedOuterMesh;
     }
 
@@ -134,19 +135,19 @@ public class Shape {
         return shapeUVs;
     }
 
-    public Vector3f getTop() {
+    public float getTop() {
         return top;
     }
 
-    public Vector3f getBottom() {
+    public float getBottom() {
         return bottom;
     }
 
-    public Vector3f getLeft() {
+    public float getLeft() {
         return left;
     }
 
-    public Vector3f getRight() {
+    public float getRight() {
         return right;
     }
 

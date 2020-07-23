@@ -30,8 +30,6 @@ public class Obj extends Drawable {
 				getShader(), ShaderConst.IN_POSITION);
 		super.setVertexBufferObject(vertexBufferObject);
 
-//		normalBufferObject = GLBufferHelper.putDataIntoArrayBuffer(object3DData.arrayNormals, 3,
-//				getShader(), Constants.IN_NORMAL);
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2,
 				getShader(), ShaderConst.IN_UV);
 

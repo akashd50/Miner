@@ -21,6 +21,11 @@ public class ShapesHelper {
                 radius * (float)Math.cos(Math.toRadians(0)),
                 radius * (float)Math.sin(Math.toRadians(0)),
                 0f));
+
+        shape.setTop(radius);
+        shape.setBottom(-radius);
+        shape.setLeft(-radius);
+        shape.setRight(radius);
     }
 
     public static void loadPie(Shape shape, float innerAngle, float radius) {
@@ -32,6 +37,10 @@ public class ShapesHelper {
                     radius * (float)Math.sin(Math.toRadians(angle)),
                     0f));
         }
+        shape.setTop(shape.getVerticesList().get(shape.getVerticesList().size()-1).y);
+        shape.setBottom(shape.getVerticesList().get(1).y);
+        shape.setLeft(0f);
+        shape.setRight(radius);
     }
 
     public static void loadQuad(Shape shape, float xyRatio) {
@@ -41,6 +50,11 @@ public class ShapesHelper {
                 .addVertex(1.0f * xyRatio, -1.0f, 0.0f);
 
         shape.addUV(1f,0f).addUV(0f,0f).addUV(0f,1f).addUV(1f,1f);
+
+        shape.setTop(1f);
+        shape.setBottom(-1f);
+        shape.setLeft(-1f * xyRatio);
+        shape.setRight(1f * xyRatio);
     }
 
     public static void loadShapeOutline(Shape shape, ArrayList<Vector3f> toOutline, float edgeWidth) {
@@ -106,5 +120,19 @@ public class ShapesHelper {
                 .addVertex(a.x, a.y, a.z)
                 .addVertex(b.x, b.y, b.z)
                 .addUV(1.0f, 0f).addUV(0f, 1.0f).addUV(1.0f, 1.0f);
+    }
+
+    public static void loadSimpleOuterMesh(Shape shape) {
+        ArrayList<Vector3f> outerMesh = new ArrayList<>();
+        float top = shape.getTop();
+        float bottom = shape.getBottom();
+        float left = shape.getLeft();
+        float right = shape.getRight();
+
+        outerMesh.add(new Vector3f(left, top, 0f));
+        outerMesh.add(new Vector3f(right, top, 0f));
+        outerMesh.add(new Vector3f(right, bottom, 0f));
+        outerMesh.add(new Vector3f(left, bottom, 0f));
+        outerMesh.add(new Vector3f(left, top, 0f));
     }
 }
