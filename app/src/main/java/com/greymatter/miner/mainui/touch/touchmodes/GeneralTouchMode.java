@@ -140,7 +140,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getRigidBody().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{

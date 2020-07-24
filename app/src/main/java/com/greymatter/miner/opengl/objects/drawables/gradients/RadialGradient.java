@@ -89,9 +89,4 @@ public class RadialGradient extends Gradient {
         super.setMaterial(material);
         return this;
     }
-
-    @Override
-    public RadialGradient attachPolygonCollider() {
-        return this;
-    }
 }

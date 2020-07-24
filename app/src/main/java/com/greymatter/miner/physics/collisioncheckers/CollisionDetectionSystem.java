@@ -50,27 +50,26 @@ public class CollisionDetectionSystem {
     }
 
     public static Vector3f calculateGravitationalForce(RigidBody current, RigidBody against) {
-        Vector3f tDir = VectorHelper.sub(against.getTranslation(), current.getTranslation());
+        Vector3f tDir = VectorHelper.sub(against.getTransforms().getTranslation(), current.getTransforms().getTranslation());
         float force = (0.0000003f * against.getRBProps().getMass() * current.getRBProps().getMass())/(float)(Math.sqrt(tDir.x*tDir.x + tDir.y*tDir.y));
         tDir.normalize();
-
-       //angularAdjustmentDueToGravity(current, against);
-
         return VectorHelper.multiply(tDir, force);
     }
 
     private static void angularAdjustmentDueToGravity(RigidBody current, RigidBody against) {
-        Vector3f directionToObjectCenter = VectorHelper.sub(current.getTranslation(), against.getTranslation());
-        Vector3f startP = against.getTranslation();
-        Vector3f endP = VectorHelper.multiply(current.getTranslation(), 1);
+        Vector3f currentTranslation = current.getTransforms().getTranslation();
+        Vector3f againstTranslation = against.getTransforms().getTranslation();
+
+        Vector3f startP = againstTranslation;
+        Vector3f endP = VectorHelper.multiply(currentTranslation, 1);
         float magSumNegSide = 0;
         float magSumPosSide = 0;
 
         for(Vector3f point : current.asPolygonRB().getTransformedVertices()) {
             if(VectorHelper.pointOnLine(startP, endP, point) < 0 ) {
-                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getTranslation(), point));
+                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
             }else {
-                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(against.getTranslation(), point));
+                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
             }
         }
 

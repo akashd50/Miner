@@ -13,6 +13,10 @@ import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
+import com.greymatter.miner.opengl.objects.drawables.object3d.ObjHelper;
+import com.greymatter.miner.physics.objects.rb.GeneralRB;
+import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ public abstract class GameObject {
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
+    private RigidBody rigidBody;
     private HashMapE<ObjId, GameObject> children;
     private ArrayList<Tag> objectTags;
     private TouchChecker touchChecker;
@@ -37,8 +42,9 @@ public abstract class GameObject {
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
         this.children = new HashMapE<>();
-        shouldDraw = true;
-        objectLevel = 1;
+        this.shouldDraw = true;
+        this.objectLevel = 1;
+        this.setGeneralRB();
     }
 
     public void runPostInitialization() {}
@@ -145,8 +151,27 @@ public abstract class GameObject {
         return this;
     }
 
-    public GameObject attachPolygonTouchChecker() {
-        touchChecker = new PolygonTouchChecker(getRigidBody().asPolygonRB());
+    public GameObject setRigidBody(RigidBody rigidBody) {
+        this.rigidBody = rigidBody;
+        this.objectDrawable.getTransforms().setLinkedRigidBody(rigidBody);
+        this.rigidBody.setTransforms(objectDrawable.getTransforms());
+        return this;
+    }
+
+    public GameObject setPolygonRB() {
+        this.setRigidBody(new PolygonRB(id, objectDrawable.getShape().getOrderedOuterMesh()));
+        this.setPolygonTC();
+        return this;
+    }
+
+    public GameObject setGeneralRB() {
+        this.setRigidBody(new GeneralRB(id));
+        return this;
+    }
+
+    public GameObject setPolygonTC() {
+        touchChecker = new PolygonTouchChecker(getRigidBody()==null ?
+                new PolygonRB(id, objectDrawable.getOrderedOuterMesh()) : getRigidBody().asPolygonRB());
         return this;
     }
 
@@ -234,7 +259,7 @@ public abstract class GameObject {
     }
 
     public RigidBody getRigidBody() {
-        return objectDrawable.getRigidBody();
+        return rigidBody;
     }
 
     public int getNumTags() {

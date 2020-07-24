@@ -35,9 +35,4 @@ public class TextureEdgedPolygon extends Drawable {
         super.setVertexBufferObject(vertexBufferObj);
         return this;
     }
-
-    @Override
-    public TextureEdgedPolygon attachPolygonCollider() {
-        return this;
-    }
 }

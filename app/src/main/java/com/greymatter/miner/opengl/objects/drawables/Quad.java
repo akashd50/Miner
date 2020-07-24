@@ -83,9 +83,4 @@ public class Quad extends Drawable {
 		super.setMaterial(material);
 		return this;
 	}
-
-	@Override
-	public Quad attachPolygonCollider() {
-		return this;
-	}
 }

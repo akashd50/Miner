@@ -20,6 +20,7 @@ import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameNotification;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
@@ -48,6 +49,7 @@ import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
 import com.greymatter.miner.Path;
+import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -144,7 +146,6 @@ class MainGLObjectsHelper {
                                             .setShape(uvmapped)
                                             .setMaterial(MaterialContainer.get(MatId.MAIN_BASE_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .attachPolygonTouchChecker()
                                             .addTag(Tag.STATIC)
                                             .addTag(Tag.PLACABLE_GAME_BUILDING)
                                             .setOnTouchListener(new GeneralTouchListener()));
@@ -153,7 +154,6 @@ class MainGLObjectsHelper {
                                             .setShape(boxShape)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .attachPolygonTouchChecker()
                                             .addTag(Tag.PHYSICS_OBJECT)
                                             .setOnTouchListener(new GeneralTouchListener()));
 
@@ -164,7 +164,6 @@ class MainGLObjectsHelper {
                                 .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                 .setAnimator(new BooleanAnimator().withFPS(10))
                                 .setOnAnimationFrameHandler(new ScannerAnimationHandler())
-                                .attachPolygonTouchChecker()
                                 .addTag(Tag.PLACABLE_GAME_BUILDING)
                                 .addTag(Tag.PHYSICS_OBJECT)
                                 .setOnTouchListener(new GeneralTouchListener()));
@@ -205,7 +204,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).scaleTo(1f,0.7f).moveTo(-2f,0.6f, 2f);
 
-        Drawable mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getDrawable();
+        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
                             .setShader(ShaderContainer.get(ShaderId.LINE_SHADER))
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
@@ -228,10 +227,11 @@ class MainGLObjectsHelper {
     }
 
     static void loadPhysicsObjects() {
-        Drawable planet = GameObjectsContainer.get(ObjId.PLANET).getDrawable();
-        Drawable mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getDrawable();
-        Drawable mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).getDrawable();
-        Drawable sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I).getDrawable().asObject3D().attachOptimisedPolygonCollider(0.1f);
+        GameObject planet = GameObjectsContainer.get(ObjId.PLANET).setPolygonRB();
+        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB();
+        GameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
+        GameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
+        sampleScanner.setRigidBody(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
 
         planet.getRigidBody().isStaticObject(true)
                             .getRBProps().setMass(1000000f).setRestitution(0.3f);

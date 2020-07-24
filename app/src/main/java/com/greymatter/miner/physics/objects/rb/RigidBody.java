@@ -1,5 +1,6 @@
 package com.greymatter.miner.physics.objects.rb;
 
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -9,14 +10,15 @@ import java.util.HashMap;
 import javax.vecmath.Vector3f;
 
 public abstract class RigidBody {
+    private ObjId id;
     private Vector3f upVector;
     private Transforms transforms;
     private RBProps rbProps;
     private boolean isStaticObject, dynamicallyUpdated;
-    private Drawable drawable;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
-    public RigidBody() {
+    public RigidBody(ObjId id) {
+        this.id = id;
         this.upVector = new Vector3f(0f,1f,0f);
         this.lastCollisionEvents = new HashMap<>();
         this.rbProps = new RBProps();
@@ -42,8 +44,8 @@ public abstract class RigidBody {
         }
     }
 
-    public CollisionEvent getLastCollisionEvent(Drawable against) {
-        return lastCollisionEvents.get(against.getRigidBody().toString());
+    public CollisionEvent getLastCollisionEvent(RigidBody against) {
+        return lastCollisionEvents.get(against.toString());
     }
 
     public RigidBody setUpVector(Vector3f vector) {
@@ -76,16 +78,13 @@ public abstract class RigidBody {
         return this;
     }
 
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
-        if(this.drawable.getRigidBody()==null) this.drawable.setRigidBody(this);
-    }
-
     public void onTransformsChanged() {
         if(dynamicallyUpdated) {
             this.updateParamsOverride();
         }
     }
+
+    public abstract void updateParamsOverride();
 
     public boolean isStaticObject() {
         return isStaticObject;
@@ -95,17 +94,17 @@ public abstract class RigidBody {
         return dynamicallyUpdated;
     }
 
-    public Vector3f getTranslation() {
-        return transforms.getTranslation();
-    }
-
-    public Vector3f getRotation() {
-        return transforms.getRotation();
-    }
-
-    public Vector3f getScale() {
-        return transforms.getScale();
-    }
+//    public Vector3f getTranslation() {
+//        return transforms.getTranslation();
+//    }
+//
+//    public Vector3f getRotation() {
+//        return transforms.getRotation();
+//    }
+//
+//    public Vector3f getScale() {
+//        return transforms.getScale();
+//    }
 
     public Transforms getTransforms() {
         return transforms;
@@ -119,8 +118,8 @@ public abstract class RigidBody {
         return upVector;
     }
 
-    public Drawable getDrawable() {
-        return drawable;
+    public ObjId getId() {
+        return this.id;
     }
 
     public CircularRB asCircularRB() {
@@ -130,6 +129,4 @@ public abstract class RigidBody {
     public PolygonRB asPolygonRB() {
         return (PolygonRB) this;
     }
-
-    public abstract void updateParamsOverride();
 }

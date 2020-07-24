@@ -15,7 +15,6 @@ import java.util.*;
 import javax.vecmath.Vector3f;
 
 public class Obj extends Drawable {
-	private int normalBufferObject;
 	private int uvBufferObject;
 	public Obj(ObjId id) {
 		super(id);
@@ -34,8 +33,6 @@ public class Obj extends Drawable {
 				getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
-
-		attachPolygonCollider();
 		return this;
 	}
 
@@ -59,16 +56,5 @@ public class Obj extends Drawable {
 
 	public RawObjData getRawObjData() {
 		return getShape().getRawObjData();
-	}
-
-	@Override
-	public Obj attachPolygonCollider() {
-		this.setRigidBody(new PolygonRB(this.getOuterMesh()));
-		return this;
-	}
-
-	public Obj attachOptimisedPolygonCollider(float optFac) {
-		this.setRigidBody(new PolygonRB(ObjHelper.simplify(this.getOuterMesh(), optFac)));
-		return this;
 	}
 }

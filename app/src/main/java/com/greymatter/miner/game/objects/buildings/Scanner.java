@@ -7,6 +7,7 @@ import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import javax.vecmath.Vector3f;
@@ -52,9 +53,10 @@ public class Scanner extends GameBuilding {
         Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());
         float distance = VectorHelper.getLength(sub);
         if(distance < _scannerRange) {
+            float rotationZ = getTransforms().getRotation().z;
             float angleBWResAndScanner = (float)Math.atan2(sub.y, sub.x);
-            float leftEdge = (getRigidBody().getRotation().z) + 270 - _scanningAngle/2;
-            float rightEdge = (getRigidBody().getRotation().z) + 270 + _scanningAngle/2;
+            float leftEdge = (rotationZ) + 270 - _scanningAngle/2;
+            float rightEdge = (rotationZ) + 270 + _scanningAngle/2;
 
             return angleBWResAndScanner > leftEdge && angleBWResAndScanner < rightEdge;
         }

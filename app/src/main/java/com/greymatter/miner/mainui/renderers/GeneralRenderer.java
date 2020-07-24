@@ -3,6 +3,7 @@ package com.greymatter.miner.mainui.renderers;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -22,13 +23,13 @@ public class GeneralRenderer extends AbstractRenderer {
         super.onDrawFrame();
 
         Drawable planet = GameObjectsContainer.get(ObjId.PLANET).getDrawable();
-        Drawable mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getDrawable();
+        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
         ArrayList<Vector3f> vertexData = new ArrayList<>();
-        vertexData.add(mainCharacter.getRigidBody().getTranslation());
-        Vector3f accPoint = new Vector3f(mainCharacter.getRigidBody().getTranslation());
+        vertexData.add(mainCharacter.getTransforms().getTranslation());
+        Vector3f accPoint = new Vector3f(mainCharacter.getTransforms().getTranslation());
         accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getRBProps().getVelocity(),40f));
         vertexData.add(accPoint);
 

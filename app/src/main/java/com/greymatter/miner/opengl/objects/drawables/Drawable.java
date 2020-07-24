@@ -11,18 +11,20 @@ import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 
+import java.util.ArrayList;
+
+import javax.vecmath.Vector3f;
+
 public abstract class Drawable {
     private ObjId id;
     private Material material;
     private Shader shader;
     private int vertexArray, vertexBuffer;
-    private RigidBody rigidBody;
     private Transforms transforms;
     private Shape shape;
     public Drawable(ObjId id) {
         this.id = id;
         this.transforms = new Transforms().setLinkedDrawable(this);
-        this.setRigidBody(new GeneralRB());
     }
 
     public void onDrawFrame() {}
@@ -48,16 +50,6 @@ public abstract class Drawable {
 
     public Drawable setVertexBufferObject(int vertexBufferObject ) {
         this.vertexBuffer = vertexBufferObject;
-        return this;
-    }
-
-    public Drawable setRigidBody(RigidBody rigidBody) {
-        this.rigidBody = rigidBody;
-        if(this.rigidBody.getDrawable()==null) {
-            this.rigidBody.setDrawable(this);
-        }
-
-        rigidBody.setTransforms(transforms);
         return this;
     }
 
@@ -88,12 +80,16 @@ public abstract class Drawable {
         return this.transforms;
     }
 
-    public RigidBody getRigidBody() {
-        return rigidBody;
-    }
-
     public Shape getShape() {
         return shape;
+    }
+
+    public ArrayList<Vector3f> getOrderedOuterMesh() {
+        return shape.getOrderedOuterMesh();
+    }
+
+    public ArrayList<Vector3f> getOptimizedOOMesh(float opt) {
+        return shape.getOptimizedOuterMesh(opt);
     }
 
     public String toString() {
@@ -124,7 +120,4 @@ public abstract class Drawable {
     public RadialGradient asRadialGradient() {
         return (RadialGradient)this;
     }
-
-    //abstract functions
-    public abstract Drawable attachPolygonCollider();
 }

@@ -86,10 +86,4 @@ public class Line extends Drawable {
         super.setShader(shader);
         return this;
     }
-
-    @Override
-    public Line attachPolygonCollider() {
-        return this;
-    }
-
 }

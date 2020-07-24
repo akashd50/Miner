@@ -15,9 +15,9 @@ public class ToDrawContainer {
     private static Comparator<GameObject> comparator = new Comparator<GameObject>() {
         @Override
         public int compare(GameObject o1, GameObject o2) {
-            if(o1.getRigidBody().getTranslation().z > o2.getRigidBody().getTranslation().z) {
+            if(o1.getTransforms().getTranslation().z > o2.getTransforms().getTranslation().z) {
                 return 1;
-            }else if(o2.getRigidBody().getTranslation().z > o1.getRigidBody().getTranslation().z){
+            }else if(o2.getTransforms().getTranslation().z > o1.getTransforms().getTranslation().z){
                 return -1;
             }else{
                 return 0;

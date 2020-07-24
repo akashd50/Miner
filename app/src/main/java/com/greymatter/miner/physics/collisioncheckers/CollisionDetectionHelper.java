@@ -29,9 +29,11 @@ public class CollisionDetectionHelper {
     private static synchronized CollisionEvent circleVCircle(CircularRB c1, CircularRB c2) {
         float marginOfError = 80f;
         float r = c1.getTransformedRadius() + c2.getTransformedRadius();
+        Vector3f c1Translation = c1.getTransforms().getTranslation();
+        Vector3f c2Translation = c2.getTransforms().getTranslation();
         r *= r;
-        if(r < Math.pow((c1.getTranslation().x + c2.getTranslation().x),2)
-                + Math.pow((c1.getTranslation().y + c2.getTranslation().y),2) - marginOfError) {
+        if(r < Math.pow((c1Translation.x + c2Translation.x),2)
+                + Math.pow((c1Translation.y + c2Translation.y),2) - marginOfError) {
             return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
@@ -41,7 +43,7 @@ public class CollisionDetectionHelper {
         float r = c1.getTransformedRadius();
         r *= r;
         for(Vector3f vector : c2.getTransformedVertices()) {
-            if(VectorHelper.getDistanceWithoutSQRT(vector, c1.getTranslation()) <= r) {
+            if(VectorHelper.getDistanceWithoutSQRT(vector, c1.getTransforms().getTranslation()) <= r) {
                 return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(true);
             }
         }
@@ -49,10 +51,11 @@ public class CollisionDetectionHelper {
     }
 
     private static synchronized CollisionEvent circleVCustomAdvanced(CircularRB c1, PolygonRB c2) {
-        Vector3f circleTop = new Vector3f(c1.getTranslation());
-        Vector3f circleBottom = new Vector3f(c1.getTranslation());
-        Vector3f circleLeft = new Vector3f(c1.getTranslation());
-        Vector3f circleRight = new Vector3f(c1.getTranslation());
+        Vector3f c1Translation = c1.getTransforms().getTranslation();
+        Vector3f circleTop = new Vector3f(c1Translation);
+        Vector3f circleBottom = new Vector3f(c1Translation);
+        Vector3f circleLeft = new Vector3f(c1Translation);
+        Vector3f circleRight = new Vector3f(c1Translation);
 
         circleTop.add(new Vector3f(0f,c1.getTransformedRadius(),0f));
         circleBottom.sub(new Vector3f(0f,c1.getTransformedRadius(),0f));
@@ -89,9 +92,10 @@ public class CollisionDetectionHelper {
                 if (intersection.intersected) {
 
                     //calculate pen depth
-                    float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2.getTranslation(), currC1),
-                                                            VectorHelper.getDistanceWithSQRT(c2.getTranslation(), nextC1));
-                    float collPointDist = (float)VectorHelper.getDistanceWithSQRT(c2.getTranslation(), intersection.intPoint);
+                    Vector3f c2Translation = c2.getTransforms().getTranslation();
+                    float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2Translation, currC1),
+                                                            VectorHelper.getDistanceWithSQRT(c2Translation, nextC1));
+                    float collPointDist = (float)VectorHelper.getDistanceWithSQRT(c2Translation, intersection.intPoint);
 
                     float penDepth = 0f;
                     if(collPointDist>linkedObjVertDist) penDepth = collPointDist - linkedObjVertDist;

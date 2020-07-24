@@ -127,6 +127,19 @@ public class Shape {
         return orderedOuterMesh;
     }
 
+    public ArrayList<Vector3f> getOptimizedOuterMesh(float simplificationFactor) {
+        getOrderedOuterMesh();
+
+        int reducedVerticesSize = (int)Math.ceil(orderedOuterMesh.size() * simplificationFactor);
+        ArrayList<Vector3f> toReturn = new ArrayList<>();
+        for(int i=0;i<orderedOuterMesh.size();i+=(int)(orderedOuterMesh.size()/reducedVerticesSize)) {
+            toReturn.add(orderedOuterMesh.get(i));
+        }
+
+        orderedOuterMesh = toReturn;
+        return orderedOuterMesh;
+    }
+
     public ArrayList<Vector3f> getVerticesList() {
         return shapeVertices;
     }

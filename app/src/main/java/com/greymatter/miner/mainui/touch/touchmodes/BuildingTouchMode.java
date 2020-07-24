@@ -68,7 +68,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
 
     private boolean doOnTouchMoveGLSurface() {
         getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-        Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getRigidBody().getTranslation());
+        Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
         fromCenterToCam.normalize();
         getMainCamera().setUpVector(fromCenterToCam);
         return true;

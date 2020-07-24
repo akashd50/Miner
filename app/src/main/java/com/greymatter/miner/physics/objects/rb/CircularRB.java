@@ -1,9 +1,11 @@
 package com.greymatter.miner.physics.objects.rb;
 
+import com.greymatter.miner.enums.ObjId;
+
 public class CircularRB extends RigidBody {
     private float radius, transformedRadius;
-    public CircularRB(float radius) {
-        super();
+    public CircularRB(ObjId id, float radius) {
+        super(id);
         this.radius = radius;
     }
 
@@ -24,6 +26,6 @@ public class CircularRB extends RigidBody {
 
     @Override
     public void updateParamsOverride() {
-        transformedRadius = getScale().x * radius;
+        transformedRadius = getTransforms().getScale().x * radius;
     }
 }

@@ -13,7 +13,7 @@ public class CollisionSystemContainer {
         if(colliders == null) {
             colliders = new HashMapE<>();
         }
-        colliders.put(rigidBody.getDrawable().getId(), rigidBody);
+        colliders.put(rigidBody.getId(), rigidBody);
     }
 
     public synchronized static void remove(ObjId id) {
