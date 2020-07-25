@@ -27,6 +27,7 @@ public class Path {
     public static final String ATM_RADIAL_II = "atm_radial_ii.png";
     public static final String ATM_RADIAL_I = "atm_radial_i.png";
     public static final String GRASS_PATCH_I = "grass_patch_gimp.png";
+    public static final String BUTTON_I = "button_i.png";
 
     //obj files
     public static final String OBJECTS_F = "objects/";

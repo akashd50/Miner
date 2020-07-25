@@ -30,9 +30,11 @@ import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.animators.BooleanAnimator;
+import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -78,6 +80,7 @@ class MainGLObjectsHelper {
         MaterialContainer.add(new StaticTexturedMaterial(MatId.ATMOSPHERE_MATERIAL).attachDiffuseTexture(Path.ATM_RADIAL_II));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.MAIN_BASE_MATERIAL).attachDiffuseTexture(Path.MAIN_BASE_FINAL));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(Path.GRASS_PATCH_I));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.BUTTON_MAT_I).attachDiffuseTexture(Path.BUTTON_I));
         MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MAT)
                         .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
                         .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.4f))
@@ -100,16 +103,24 @@ class MainGLObjectsHelper {
         Shape circleSubDivI = new Shape(ShapeId.CIRCLE_SUB_I).loadObj(Path.CIRCLE_SUB_DIV_I).build();
         Shape shape = new Shape(ShapeId.PIE_45).loadPie(45f,1f).build();
         Shape circleEdge = new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(circleSubDivIII, 0.01f).build();
+        Shape simpleQuad = new Shape(ShapeId.SIMPLE_QUAD).loadQuad(1.2f).build();
 
 
 
-        GameObjectsContainer.add(new GameNotification(new Obj(ObjId.OBJECT_NOTIFICATION)
-                                            .setShape(uvmapped)
+        GameObjectsContainer.add(new GameNotification(new Quad(ObjId.OBJECT_NOTIFICATION)
+                                            .setShape(simpleQuad)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .setButtonI(new GameButton(getNewObj(ObjId.NOT_BUTTON_I, uvmapped, MaterialContainer.get(MatId.MAIN_BASE_MATERIAL), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
-                                            .setButtonII(new GameButton(getNewObj(ObjId.NOT_BUTTON_II, uvmapped, MaterialContainer.get(MatId.MAIN_BASE_MATERIAL), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
+                                            .setShader(ShaderContainer.get(ShaderId.QUAD_SHADER)).build())
+                                            .setButtonI(new GameButton(getNewObj(ObjId.NOT_BUTTON_I, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
+                                            .setButtonII(new GameButton(getNewObj(ObjId.NOT_BUTTON_II, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
                                             .addTag(Tag.NOTIFICATION));
+
+        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.NOT_BUTTON_I).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(GameObject object) {
+                System.out.println("NOT I - Button Click -> " + object);
+            }
+        });
 
         GameObjectsContainer.add(new CoalBlock(new Obj(ObjId.COAL_BLOCK_I)
                                             .setShape(boxShape)
@@ -126,7 +137,6 @@ class MainGLObjectsHelper {
                                             .setAnimator(new FloatValueAnimator().withFPS(60).setBounds(0f,1f).setPerFrameIncrement(0.01f))
                                             .setOnAnimationFrameHandler((object, animator) -> {
                                                 object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
-
                                             }));
 
         GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)

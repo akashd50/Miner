@@ -12,7 +12,7 @@ public class HashMapE<K,V> extends HashMap<K,V> {
     private ArrayList<V> toList, reversedList;
     public HashMapE(){
         super();
-        hasDataChanged = false;
+        hasDataChanged = true;
     }
 
     @Nullable

@@ -17,14 +17,8 @@ import javax.vecmath.Vector3f;
 public class Quad extends Drawable {
 	private float textureRatio;
 	private ArrayList<Vector3f> mesh;
-	private Shape shape;
 	public Quad(ObjId id) {
 		super(id);
-	}
-
-	public Quad load(Shape shape) {
-		this.shape = shape;
-		return this;
 	}
 
 	public Quad build() {
@@ -40,8 +34,8 @@ public class Quad extends Drawable {
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(shape.getVerticesArray(), 3, getShader(), ShaderConst.IN_POSITION);
-		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(shape.getUVsArray(), 2, getShader(), ShaderConst.IN_UV);
+		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, getShader(), ShaderConst.IN_POSITION);
+		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2, getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
 		return this;
@@ -57,19 +51,6 @@ public class Quad extends Drawable {
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 4);
 
 		GLBufferHelper.glUnbindVertexArray();
-	}
-
-	public ArrayList<Vector3f> getObjectMesh() {
-		if(mesh==null){
-			mesh = new ArrayList<>();
-			mesh.add(new Vector3f(1.0f * textureRatio, 1.0f, 0.0f));
-			mesh.add(new Vector3f(-1.0f * textureRatio, 1.0f, 0.0f));
-			mesh.add(new Vector3f(-1.0f * textureRatio, -1.0f, 0.0f));
-			mesh.add(new Vector3f(1.0f * textureRatio, -1.0f, 0.0f));
-			//add the first point again to complete the mesh
-			mesh.add(new Vector3f(1.0f * textureRatio, 1.0f, 0.0f));
-		}
-		return mesh;
 	}
 
 	@Override

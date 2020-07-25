@@ -101,6 +101,11 @@ public class ShapesHelper {
             currentEdgeNormal = nextEdgeNormal;
             previousNetNormal = currentNetNormal;
         }
+
+        shape.setTop(0f);
+        shape.setBottom(0f);
+        shape.setLeft(0f);
+        shape.setRight(0f);
     }
 
     public static void loadRawObj(Shape shape, String fileName) {
@@ -134,5 +139,6 @@ public class ShapesHelper {
         outerMesh.add(new Vector3f(right, bottom, 0f));
         outerMesh.add(new Vector3f(left, bottom, 0f));
         outerMesh.add(new Vector3f(left, top, 0f));
+        shape.setOrderedOuterMesh(outerMesh);
     }
 }

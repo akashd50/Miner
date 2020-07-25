@@ -7,5 +7,6 @@ public enum ShapeId {
     CIRCLE_SUB_III,
     CIRCLE_SUB_I,
     PIE_45,
-    CIRCLE_EDGE
+    CIRCLE_EDGE,
+    SIMPLE_QUAD
 }

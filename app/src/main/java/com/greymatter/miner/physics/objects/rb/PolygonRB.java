@@ -1,5 +1,7 @@
 package com.greymatter.miner.physics.objects.rb;
 
+import android.opengl.Matrix;
+
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;

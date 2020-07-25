@@ -47,7 +47,13 @@ public abstract class GameObject {
         this.objectLevel = 1;
         this.transforms = new Transforms();
         this.objectDrawable.setTransforms(transforms);
-        this.setGeneralRB();
+
+        try{
+            this.setPolygonRB();
+            this.setPolygonTC();
+        }catch (NullPointerException e) {
+            this.setGeneralRB();
+        }
     }
 
     public void runPostInitialization() {}
@@ -58,7 +64,7 @@ public abstract class GameObject {
         }
 
         objectDrawable.getTransforms().applyTransformations();
-        children.forEach((id, object) -> {
+        children.toList().forEach(object -> {
             object.getDrawable().getTransforms().applyTransformationsForced();
         });
     }
@@ -87,7 +93,7 @@ public abstract class GameObject {
         return this;
     }
 
-    protected GameObject getChild(ObjId id) {
+    public GameObject getChild(ObjId id) {
         return children.get(id);
     }
 
@@ -134,10 +140,16 @@ public abstract class GameObject {
     public boolean onTouchUpEvent(Vector2f pointer) {
         boolean isClicked = isClicked(pointer);
         if(isClicked) {
-            if(onClickListener!=null) onClickListener.onClick();
-            if(onTouchListener!=null) onTouchListener.onTouchUp(this, pointer);
+            if(onClickListener!=null) {
+                onClickListener.onClick(this);
+                return true;
+            }
+            if(onTouchListener!=null) {
+                onTouchListener.onTouchUp(this, pointer);
+                return true;
+            }
         }
-        return isClicked;
+        return false;
     }
 
     private boolean isClicked(Vector2f pointer) {
