@@ -7,6 +7,7 @@ public class GameButton extends GameObject {
 
     public GameButton(Drawable drawable) {
         super(drawable.getId(), drawable);
+        getRigidBody().isStaticObject(true);
     }
 
     public GameButton(ObjId id, Drawable drawable) {

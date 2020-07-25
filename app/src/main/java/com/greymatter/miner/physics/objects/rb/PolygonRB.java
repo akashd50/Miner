@@ -1,7 +1,5 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import android.opengl.Matrix;
-
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
@@ -17,6 +15,9 @@ public class PolygonRB extends RigidBody {
         super(id);
         this.meshVertices = mesh;
         this.transformedVertices = new ArrayList<>();
+        for(Vector3f vec : mesh) {
+            transformedVertices.add(new Vector3f(vec));
+        }
     }
 
     public ArrayList<Vector3f> getMeshVertices() {
@@ -24,7 +25,7 @@ public class PolygonRB extends RigidBody {
     }
 
     public ArrayList<Vector3f> getTransformedVertices() {
-        if(!isUpdatedPerMovement()) {
+        if(!isDynamicallyUpdated()) {
             updateParamsOverride();
         }
         return transformedVertices;
@@ -47,6 +48,19 @@ public class PolygonRB extends RigidBody {
 
         synchronized (transformedVertices) {
             transformedVertices = newTransformedVerts;
+        }
+       // transformByMat();
+    }
+
+    public void transformByMat() {
+        //getTransforms().applyLastTransformationsForced();
+        if(isStaticObject()) {
+            getTransforms().applyTransformationsForced();
+        }
+
+        float[] modelMat = getTransforms().getLastModelMatrix();
+        for(int i=0;i<meshVertices.size();i++) {
+            VectorHelper.multiply(transformedVertices.get(i), meshVertices.get(i), modelMat);
         }
     }
 }

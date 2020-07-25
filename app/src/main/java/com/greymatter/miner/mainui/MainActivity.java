@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         surface.setRenderer(glRenderer);
         setOnTouchListener();
         setOnClickListener();
-
-
     }
 
     private void init() {

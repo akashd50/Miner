@@ -90,7 +90,7 @@ public abstract class RigidBody {
         return isStaticObject;
     }
 
-    public boolean isUpdatedPerMovement() {
+    public boolean isDynamicallyUpdated() {
         return dynamicallyUpdated;
     }
 

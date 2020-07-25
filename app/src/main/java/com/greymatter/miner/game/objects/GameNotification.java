@@ -7,6 +7,7 @@ public class GameNotification extends GameObject {
 
     public GameNotification(Drawable drawable) {
         super(drawable.getId(), drawable);
+        getRigidBody().isStaticObject(true);
     }
 
     public GameNotification(ObjId id, Drawable drawable) {

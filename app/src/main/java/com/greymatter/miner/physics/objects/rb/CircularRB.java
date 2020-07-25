@@ -18,7 +18,7 @@ public class CircularRB extends RigidBody {
     }
 
     public float getTransformedRadius() {
-        if(!isUpdatedPerMovement()) {
+        if(!isDynamicallyUpdated()) {
             updateParamsOverride();
         }
         return transformedRadius;

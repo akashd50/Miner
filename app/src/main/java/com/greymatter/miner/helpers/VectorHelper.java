@@ -105,6 +105,23 @@ public class VectorHelper {
         return rotatedAngle;
     }
 
+    public static Vector3f multiply(Vector3f setTo, Vector3f toMult, float[] mat) {
+        setTo.x = mat[0] * toMult.x + mat[4] * toMult.y + mat[8] * toMult.z + mat[12] * 1f;
+        setTo.y = mat[1] * toMult.x + mat[5] * toMult.y + mat[9] * toMult.z + mat[13] * 1f;
+//        toRet[2] = mat[2] * vec[0] + mat[6] * vec[1] + mat[10] * vec[2] + mat[14] * vec[3];
+
+        return setTo;
+    }
+
+    public static Vector3f multiply(Vector3f toMult, float[] mat) {
+        Vector3f toRet = new Vector3f();
+        toRet.x = mat[0] * toMult.x + mat[4] * toMult.y + mat[8] * toMult.z + mat[12] * 1f;
+        toRet.y = mat[1] * toMult.x + mat[5] * toMult.y + mat[9] * toMult.z + mat[13] * 1f;
+//        toRet[2] = mat[2] * vec[0] + mat[6] * vec[1] + mat[10] * vec[2] + mat[14] * vec[3];
+
+        return toRet;
+    }
+
     public static float pointOnLine(Vector3f lineA, Vector3f lineB, Vector3f point) {
         return (lineB.x - lineA.x) * (point.y - lineA.y) - (lineB.y - lineA.y) * (point.x - lineA.x);
     }

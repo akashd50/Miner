@@ -9,7 +9,7 @@ import javax.vecmath.Vector3f;
 
 public class Transforms {
     private Vector3f translation, rotation, scale;
-    private float[] modelMatrix;
+    private float[] modelMatrix, lastModelMatrix;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
     private boolean transformationsUpdated, copyTranslationFromParent,
@@ -20,6 +20,7 @@ public class Transforms {
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
         this.modelMatrix = new float[16];
+        this.lastModelMatrix = modelMatrix.clone();
         Matrix.setIdentityM(this.modelMatrix, 0);
 
         this.copyTranslationFromParent = false;
@@ -44,6 +45,7 @@ public class Transforms {
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
         transformationsUpdated = false;
+        lastModelMatrix = modelMatrix;
     }
 
     private void applyParentTransformations() {
@@ -54,15 +56,41 @@ public class Transforms {
             MatrixHelper.scaleM(modelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
         }
 
-        if(!copyRotationFromParent) MatrixHelper.rotateM(modelMatrix,
-                -parent.getRotation().x,
-                -parent.getRotation().y,
-                -parent.getRotation().z);
-        if(!copyTranslationFromParent) MatrixHelper.translateM(modelMatrix,
-                -parent.getTranslation().x,
-                -parent.getTranslation().y,
-                -parent.getTranslation().z);
+        if(!copyRotationFromParent) {
+            Vector3f pr = parent.getRotation();
+            MatrixHelper.rotateM(modelMatrix, -pr.x, -pr.y, -pr.z);
+        }
+
+        if(!copyTranslationFromParent){
+            Vector3f pt = parent.getTranslation();
+            MatrixHelper.translateM(modelMatrix, -pt.x, -pt.y, -pt.z);
+        }
     }
+
+//    public void applyLastTransformationsForced() {
+//        if(parent != null) {
+//            parent.applyLastTransformationsForced();
+//            this.lastModelMatrix = parent.getLastModelMatrix().clone();
+//            if(!copyScaleFromParent) {
+//                Vector3f ps = parent.getScale();
+//                MatrixHelper.scaleM(lastModelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
+//            }
+//            if(!copyRotationFromParent) {
+//                Vector3f pr = parent.getRotation();
+//                MatrixHelper.rotateM(lastModelMatrix, -pr.x, -pr.y, -pr.z);
+//            }
+//            if(!copyTranslationFromParent){
+//                Vector3f pt = parent.getTranslation();
+//                MatrixHelper.translateM(lastModelMatrix, -pt.x, -pt.y, -pt.z);
+//            }
+//        }else{
+//            Matrix.setIdentityM(this.lastModelMatrix, 0);
+//        }
+//
+//        MatrixHelper.translateM(lastModelMatrix, translation);
+//        MatrixHelper.rotateM(lastModelMatrix, rotation);
+//        MatrixHelper.scaleM(lastModelMatrix, scale);
+//    }
 
     public Transforms scaleTo(Vector3f newScale) {
         this.scale.set(newScale);
@@ -264,6 +292,7 @@ public class Transforms {
     }
 
     public float[] getModelMatrix() { return this.modelMatrix; }
+    public float[] getLastModelMatrix() { return this.lastModelMatrix; }
 
     public void setLinkedRigidBody(RigidBody linkedRigidBody) {
         this.linkedRigidBody = linkedRigidBody;
