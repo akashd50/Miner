@@ -200,7 +200,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(ObjId.ATMOSPHERE).scaleTo(190f,190f).moveTo(0f,-120.5f, -10f);
 
-        GameObjectsContainer.get(ObjId.PLANET).scaleTo(120f,120f).moveTo(0f,-120.5f, 0f);
+        GameObjectsContainer.get(ObjId.PLANET).scaleTo(120f,120f).moveTo(0f,-120.5f, -1f);
 
         GameObjectsContainer.get(ObjId.MAIN_CHARACTER).scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f);
 
@@ -221,8 +221,6 @@ class MainGLObjectsHelper {
                             .build()));
 
         GameObjectsContainer.get(ObjId.PIE_GRADIENT_I).moveTo(0,0f, 2f).scaleTo(4f,3f);
-
-        GameObjectsContainer.runPostInitialization();
 
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));

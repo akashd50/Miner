@@ -52,15 +52,15 @@ public class PolygonRB extends RigidBody {
        // transformByMat();
     }
 
-    public void transformByMat() {
-        //getTransforms().applyLastTransformationsForced();
-        if(isStaticObject()) {
-            getTransforms().applyTransformationsForced();
-        }
-
-        float[] modelMat = getTransforms().getLastModelMatrix();
-        for(int i=0;i<meshVertices.size();i++) {
-            VectorHelper.multiply(transformedVertices.get(i), meshVertices.get(i), modelMat);
-        }
-    }
+//    public void transformByMat() {
+//        //getTransforms().applyLastTransformationsForced();
+//        if(isStaticObject()) {
+//            getTransforms().applyTransformationsForced();
+//        }
+//
+//        float[] modelMat = getTransforms().getLastModelMatrix();
+//        for(int i=0;i<meshVertices.size();i++) {
+//            VectorHelper.multiply(transformedVertices.get(i), meshVertices.get(i), modelMat);
+//        }
+//    }
 }

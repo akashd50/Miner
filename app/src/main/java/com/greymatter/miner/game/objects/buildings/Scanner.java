@@ -88,7 +88,7 @@ public class Scanner extends GameBuilding {
 
     public Scanner setRangeObject(GameObject rangeObject) {
         this.rangeObject = rangeObject.asAnimatedObject();
-        this.rangeObject.getTransforms().setParent(this.getTransforms()).copyTranslationFromParent(true);
+        this.rangeObject.getTransforms().copyTranslationFromParent(true);
         this.addChild(ObjId.SCANNER_RANGE, rangeObject);
         return this;
     }

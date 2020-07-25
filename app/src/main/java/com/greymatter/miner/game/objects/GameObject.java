@@ -13,8 +13,6 @@ import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
-import com.greymatter.miner.opengl.objects.drawables.object3d.ObjHelper;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -56,17 +54,10 @@ public abstract class GameObject {
         }
     }
 
-    public void runPostInitialization() {}
-
     public void onFrameUpdate() {
         if(onAnimationFrameHandler != null && valueAnimator != null) {
             onAnimationFrameHandler.animate(this, valueAnimator);
         }
-
-        objectDrawable.getTransforms().applyTransformations();
-        children.toList().forEach(object -> {
-            object.getDrawable().getTransforms().applyTransformationsForced();
-        });
     }
 
     public void onDrawFrame() {
@@ -89,7 +80,8 @@ public abstract class GameObject {
     }
 
     protected GameObject addChild(ObjId id, GameObject object) {
-        children.put(id, object);
+        this.children.put(id, object);
+        this.transforms.addChild(object.getTransforms());
         return this;
     }
 

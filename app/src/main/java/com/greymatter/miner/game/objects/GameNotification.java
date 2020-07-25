@@ -26,7 +26,7 @@ public class GameNotification extends GameObject {
 
     public GameNotification setButtonI(GameButton button) {
         addChild(ObjId.NOT_BUTTON_I, button);
-        button.getTransforms().setParent(this.getTransforms())
+        button.getTransforms()
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
                     .copyScaleFromParent(true);
@@ -36,7 +36,7 @@ public class GameNotification extends GameObject {
 
     public GameNotification setButtonII(GameButton button) {
         addChild(ObjId.NOT_BUTTON_II, button);
-        button.getTransforms().setParent(this.getTransforms())
+        button.getTransforms()
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
                 .copyScaleFromParent(true);

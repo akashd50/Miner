@@ -30,10 +30,6 @@ public class ToDrawContainer {
             gameObjects = new HashMapE<>();
         }
         gameObjects.put(gameObject.getId(), gameObject);
-        gameObject.getChildren().forEach((id, obj) -> {
-            gameObjects.put(id, obj);
-        });
-
         gameObjects.sort(comparator);
     }
 
@@ -44,19 +40,25 @@ public class ToDrawContainer {
         }
     }
 
-    public static synchronized void runPostInitialization() {
-        gameObjects.toList().forEach(GameObject::runPostInitialization);
-    }
-
     public static synchronized void onDrawFrame(Camera camera) {
         gameObjects.toList().forEach((gameObject) -> {
             if(gameObject.shouldDraw()) {
                 gameObject.onFrameUpdate();
-
+                gameObject.getTransforms().applyTransformations();
                 ShaderHelper.useProgram(gameObject.getDrawable().getShader());
                 ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
                 ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());
                 gameObject.onDrawFrame();
+
+                gameObject.getChildren().toList().forEach(child -> {
+                    if(child.shouldDraw()) {
+                        child.onFrameUpdate();
+                        ShaderHelper.useProgram(child.getDrawable().getShader());
+                        ShaderHelper.setCameraProperties(child.getDrawable().getShader(), camera);
+                        ShaderHelper.setLightProperties(child.getDrawable().getShader(), ActiveLightsContainer.getAll());
+                        child.onDrawFrame();
+                    }
+                });
             }
         });
     }

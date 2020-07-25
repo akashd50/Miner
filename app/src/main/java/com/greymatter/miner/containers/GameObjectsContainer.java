@@ -35,10 +35,6 @@ public class GameObjectsContainer {
         }
     }
 
-    public static synchronized void runPostInitialization() {
-        gameObjects.toList().forEach(GameObject::runPostInitialization);
-    }
-
     public static GameObject get(ObjId id) {
         return gameObjects.get(id);
     }

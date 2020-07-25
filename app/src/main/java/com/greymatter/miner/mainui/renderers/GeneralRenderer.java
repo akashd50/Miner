@@ -48,6 +48,6 @@ public class GeneralRenderer extends AbstractRenderer {
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
 
-        //System.out.println("FPS: " + mainFPS);
+        System.out.println("FPS: " + mainFPS);
     }
 }

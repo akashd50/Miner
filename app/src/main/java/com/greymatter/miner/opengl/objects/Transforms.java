@@ -4,23 +4,24 @@ import android.opengl.Matrix;
 import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
+import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Transforms {
     private Vector3f translation, rotation, scale;
-    private float[] modelMatrix, lastModelMatrix;
+    private float[] modelMatrix;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
     private boolean transformationsUpdated, copyTranslationFromParent,
                     copyRotationFromParent, copyScaleFromParent;
-    private Transforms parent;
+    private ArrayList<Transforms> children;
     public Transforms() {
         translation = new Vector3f();
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
+        this.children = new ArrayList<>();
         this.modelMatrix = new float[16];
-        this.lastModelMatrix = modelMatrix.clone();
         Matrix.setIdentityM(this.modelMatrix, 0);
 
         this.copyTranslationFromParent = false;
@@ -30,27 +31,24 @@ public class Transforms {
 
     public void applyTransformations() {
         if(transformationsUpdated) {
-            applyTransformationsForced();
+            applyTransformationsHelper();
+            children.forEach(child -> {
+                child.applyWithParentTransformationsHelper(this);
+            });
         }
     }
 
-    public void applyTransformationsForced() {
-        if(parent != null) {
-            applyParentTransformations();
-        }else{
-            Matrix.setIdentityM(this.modelMatrix, 0);
-        }
-
+    public void applyTransformationsHelper() {
+        Matrix.setIdentityM(this.modelMatrix, 0);
         MatrixHelper.translateM(modelMatrix, translation);
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
         transformationsUpdated = false;
-        lastModelMatrix = modelMatrix;
     }
 
-    private void applyParentTransformations() {
+    public void applyWithParentTransformationsHelper(Transforms parent) {
+        //parent.applyTransformations();
         this.modelMatrix = parent.getModelMatrix().clone();
-
         if(!copyScaleFromParent) {
             Vector3f ps = parent.getScale();
             MatrixHelper.scaleM(modelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
@@ -65,32 +63,14 @@ public class Transforms {
             Vector3f pt = parent.getTranslation();
             MatrixHelper.translateM(modelMatrix, -pt.x, -pt.y, -pt.z);
         }
-    }
 
-//    public void applyLastTransformationsForced() {
-//        if(parent != null) {
-//            parent.applyLastTransformationsForced();
-//            this.lastModelMatrix = parent.getLastModelMatrix().clone();
-//            if(!copyScaleFromParent) {
-//                Vector3f ps = parent.getScale();
-//                MatrixHelper.scaleM(lastModelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
-//            }
-//            if(!copyRotationFromParent) {
-//                Vector3f pr = parent.getRotation();
-//                MatrixHelper.rotateM(lastModelMatrix, -pr.x, -pr.y, -pr.z);
-//            }
-//            if(!copyTranslationFromParent){
-//                Vector3f pt = parent.getTranslation();
-//                MatrixHelper.translateM(lastModelMatrix, -pt.x, -pt.y, -pt.z);
-//            }
-//        }else{
-//            Matrix.setIdentityM(this.lastModelMatrix, 0);
-//        }
-//
-//        MatrixHelper.translateM(lastModelMatrix, translation);
-//        MatrixHelper.rotateM(lastModelMatrix, rotation);
-//        MatrixHelper.scaleM(lastModelMatrix, scale);
-//    }
+        MatrixHelper.translateM(modelMatrix, translation);
+        MatrixHelper.rotateM(modelMatrix, rotation);
+        MatrixHelper.scaleM(modelMatrix, scale);
+        transformationsUpdated = false;
+
+        //apply to this object's... child
+    }
 
     public Transforms scaleTo(Vector3f newScale) {
         this.scale.set(newScale);
@@ -238,12 +218,8 @@ public class Transforms {
         }
     }
 
-    public Transforms getParent() {
-        return parent;
-    }
-
-    public Transforms setParent(Transforms parent) {
-        this.parent = parent;
+    public Transforms addChild(Transforms child) {
+        children.add(child);
         return this;
     }
 
@@ -292,7 +268,6 @@ public class Transforms {
     }
 
     public float[] getModelMatrix() { return this.modelMatrix; }
-    public float[] getLastModelMatrix() { return this.lastModelMatrix; }
 
     public void setLinkedRigidBody(RigidBody linkedRigidBody) {
         this.linkedRigidBody = linkedRigidBody;
