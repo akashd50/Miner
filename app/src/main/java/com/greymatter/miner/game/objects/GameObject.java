@@ -29,6 +29,7 @@ public abstract class GameObject {
     private ObjId id;
     private int objectLevel;
     private ValueAnimator valueAnimator;
+    private Transforms transforms;
     private Drawable objectDrawable;
     private RigidBody rigidBody;
     private HashMapE<ObjId, GameObject> children;
@@ -44,6 +45,8 @@ public abstract class GameObject {
         this.children = new HashMapE<>();
         this.shouldDraw = true;
         this.objectLevel = 1;
+        this.transforms = new Transforms();
+        this.objectDrawable.setTransforms(transforms);
         this.setGeneralRB();
     }
 
@@ -153,8 +156,7 @@ public abstract class GameObject {
 
     public GameObject setRigidBody(RigidBody rigidBody) {
         this.rigidBody = rigidBody;
-        this.objectDrawable.getTransforms().setLinkedRigidBody(rigidBody);
-        this.rigidBody.setTransforms(objectDrawable.getTransforms());
+        this.rigidBody.setTransforms(transforms);
         return this;
     }
 
@@ -177,52 +179,52 @@ public abstract class GameObject {
 
     //object movement
     public GameObject moveBy(Vector2f moveTo) {
-        objectDrawable.getTransforms().translateBy(moveTo);
+        transforms.translateBy(moveTo);
         return this;
     }
 
     public GameObject moveBy(float x, float y) {
-        objectDrawable.getTransforms().translateBy(x,y);
+        transforms.translateBy(x,y);
         return this;
     }
 
     public GameObject moveBy(float x, float y, float z) {
-        objectDrawable.getTransforms().translateBy(x,y,z);
+        transforms.translateBy(x,y,z);
         return this;
     }
 
     public GameObject moveBy(Vector3f moveTo) {
-        objectDrawable.getTransforms().translateBy(moveTo);
+        transforms.translateBy(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector2f moveTo) {
-        objectDrawable.getTransforms().translateTo(moveTo);
+        transforms.translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(Vector3f moveTo) {
-        objectDrawable.getTransforms().translateTo(moveTo);
+        transforms.translateTo(moveTo);
         return this;
     }
 
     public GameObject moveTo(float x, float y) {
-        objectDrawable.getTransforms().translateTo(x,y);
+        transforms.translateTo(x,y);
         return this;
     }
 
     public GameObject moveTo(float x, float y, float z) {
-        objectDrawable.getTransforms().translateTo(x,y,z);
+        transforms.translateTo(x,y,z);
         return this;
     }
 
     public GameObject scaleTo(float x, float y) {
-        objectDrawable.getTransforms().scaleTo(x,y);
+        transforms.scaleTo(x,y);
         return this;
     }
 
     public GameObject scaleBy(float x, float y) {
-        objectDrawable.getTransforms().scaleBy(x,y);
+        transforms.scaleBy(x,y);
         return this;
     }
 
@@ -239,15 +241,11 @@ public abstract class GameObject {
     }
 
     public Vector3f getLocation() {
-        return objectDrawable.getTransforms().getTranslation();
+        return transforms.getTranslation();
     }
 
     public boolean hasTag(Tag tag) {
         return this.objectTags.contains(tag);
-    }
-
-    public ObjId getId() {
-        return this.id;
     }
 
     public Drawable getDrawable() {
@@ -255,7 +253,7 @@ public abstract class GameObject {
     }
 
     public Transforms getTransforms() {
-        return objectDrawable.getTransforms();
+        return transforms;
     }
 
     public RigidBody getRigidBody() {
@@ -276,6 +274,10 @@ public abstract class GameObject {
 
     public String toString() {
         return this.id.toString();
+    }
+
+    public ObjId getId() {
+        return this.id;
     }
 
     //typecasting

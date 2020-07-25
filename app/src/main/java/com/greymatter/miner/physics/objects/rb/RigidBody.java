@@ -94,18 +94,6 @@ public abstract class RigidBody {
         return dynamicallyUpdated;
     }
 
-//    public Vector3f getTranslation() {
-//        return transforms.getTranslation();
-//    }
-//
-//    public Vector3f getRotation() {
-//        return transforms.getRotation();
-//    }
-//
-//    public Vector3f getScale() {
-//        return transforms.getScale();
-//    }
-
     public Transforms getTransforms() {
         return transforms;
     }

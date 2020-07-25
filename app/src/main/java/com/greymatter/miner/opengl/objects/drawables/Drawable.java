@@ -24,7 +24,6 @@ public abstract class Drawable {
     private Shape shape;
     public Drawable(ObjId id) {
         this.id = id;
-        this.transforms = new Transforms().setLinkedDrawable(this);
     }
 
     public void onDrawFrame() {}
@@ -55,6 +54,12 @@ public abstract class Drawable {
 
     public Drawable setShape(Shape shape) {
         this.shape = shape;
+        return this;
+    }
+
+    public Drawable setTransforms(Transforms transforms) {
+        this.transforms = transforms;
+        this.transforms.setLinkedDrawable(this);
         return this;
     }
 
