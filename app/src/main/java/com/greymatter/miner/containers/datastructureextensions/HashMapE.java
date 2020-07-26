@@ -29,10 +29,6 @@ public class HashMapE<K,V> extends HashMap<K,V> {
             forEach((key, obj) -> {
                 toList.add(obj);
             });
-
-            reversedList = new ArrayList<>(toList);
-            Collections.reverse(reversedList);
-
             hasDataChanged = false;
         }
         return toList;
@@ -45,5 +41,9 @@ public class HashMapE<K,V> extends HashMap<K,V> {
     public void sort(Comparator<V> comparator) {
         toList();
         toList.sort(comparator);
+        reversedList = new ArrayList<>(toList);
+        for(int i = toList.size()-1; i >= 0; i--) {
+            reversedList.add(toList.get(i));
+        }
     }
 }

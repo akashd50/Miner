@@ -140,6 +140,10 @@ public abstract class GameObject {
                 onTouchListener.onTouchUp(this, pointer);
                 return true;
             }
+            for(GameObject child : children.toList()) {
+                boolean res = child.onTouchUpEvent(pointer);
+                if(res) return res;
+            }
         }
         return false;
     }

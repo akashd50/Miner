@@ -67,6 +67,9 @@ public class Transforms {
         MatrixHelper.translateM(modelMatrix, translation);
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
+
+        onTransformsChanged();
+
         transformationsUpdated = false;
 
         //apply to this object's... child

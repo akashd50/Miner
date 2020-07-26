@@ -19,7 +19,7 @@ import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.game.objects.GameNotification;
+import com.greymatter.miner.game.objects.GameDialog;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
@@ -52,6 +52,7 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
 import com.greymatter.miner.Path;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
+import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -107,20 +108,23 @@ class MainGLObjectsHelper {
 
 
 
-        GameObjectsContainer.add(new GameNotification(new Quad(ObjId.OBJECT_NOTIFICATION)
+        GameObjectsContainer.add(new GameDialog(new Quad(ObjId.OBJECT_NOTIFICATION)
                                             .setShape(simpleQuad)
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.QUAD_SHADER)).build())
                                             .setButtonI(new GameButton(getNewObj(ObjId.NOT_BUTTON_I, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
                                             .setButtonII(new GameButton(getNewObj(ObjId.NOT_BUTTON_II, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
-                                            .addTag(Tag.NOTIFICATION));
-
-        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.NOT_BUTTON_I).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(GameObject object) {
-                System.out.println("NOT I - Button Click -> " + object);
-            }
-        });
+                                            .setButtonIClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(GameObject object) {
+                                                    System.out.println("NOT I - Button Click -> " + object);
+                                                }
+                                            }).setButtonIIClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(GameObject object) {
+                                                    System.out.println("NOT II - Button Click -> " + object);
+                                                }
+                                            }).addTag(Tag.NOTIFICATION));
 
         GameObjectsContainer.add(new CoalBlock(new Obj(ObjId.COAL_BLOCK_I)
                                             .setShape(boxShape)
@@ -240,6 +244,9 @@ class MainGLObjectsHelper {
         GameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
         GameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRigidBody(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
+
+//        GameObject buttonI = GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.NOT_BUTTON_I);
+//        buttonI.setRigidBody(new PolygonRbTRViaMat(ObjId.NOT_BUTTON_I, buttonI.getDrawable().getOrderedOuterMesh())).setPolygonTC();
 
         planet.getRigidBody().isStaticObject(true)
                             .getRBProps().setMass(1000000f).setRestitution(0.3f);

@@ -1,16 +1,17 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class GameNotification extends GameObject {
+public class GameDialog extends GameObject {
 
-    public GameNotification(Drawable drawable) {
+    public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
         getRigidBody().isStaticObject(true);
     }
 
-    public GameNotification(ObjId id, Drawable drawable) {
+    public GameDialog(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
 
@@ -24,7 +25,7 @@ public class GameNotification extends GameObject {
         super.onDrawFrame();
     }
 
-    public GameNotification setButtonI(GameButton button) {
+    public GameDialog setButtonI(GameButton button) {
         addChild(ObjId.NOT_BUTTON_I, button);
         button.getTransforms()
                     .copyTranslationFromParent(true)
@@ -34,7 +35,17 @@ public class GameNotification extends GameObject {
         return this;
     }
 
-    public GameNotification setButtonII(GameButton button) {
+    public GameDialog setButtonIClickListener(OnClickListener listener) {
+        getChild(ObjId.NOT_BUTTON_I).setOnClickListener(listener);
+        return this;
+    }
+
+    public GameDialog setButtonIIClickListener(OnClickListener listener) {
+        getChild(ObjId.NOT_BUTTON_II).setOnClickListener(listener);
+        return this;
+    }
+
+    public GameDialog setButtonII(GameButton button) {
         addChild(ObjId.NOT_BUTTON_II, button);
         button.getTransforms()
                 .copyTranslationFromParent(true)
