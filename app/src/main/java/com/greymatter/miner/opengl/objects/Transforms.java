@@ -73,6 +73,9 @@ public class Transforms {
         transformationsUpdated = false;
 
         //apply to this object's... child
+        children.forEach(child -> {
+            child.applyWithParentTransformationsHelper(this);
+        });
     }
 
     public Transforms scaleTo(Vector3f newScale) {

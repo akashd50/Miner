@@ -124,7 +124,9 @@ class MainGLObjectsHelper {
                                                 public void onClick(GameObject object) {
                                                     System.out.println("NOT II - Button Click -> " + object);
                                                 }
-                                            }).addTag(Tag.NOTIFICATION));
+                                            }).addTag(Tag.NOTIFICATION).shouldDraw(false));
+
+        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getTransforms().copyTranslationFromParent(true);
 
         GameObjectsContainer.add(new CoalBlock(new Obj(ObjId.COAL_BLOCK_I)
                                             .setShape(boxShape)
@@ -169,7 +171,14 @@ class MainGLObjectsHelper {
                                             .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
                                             .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
                                             .addTag(Tag.PHYSICS_OBJECT)
-                                            .setOnTouchListener(new GeneralTouchListener()));
+                                            .setOnTouchListener(new GeneralTouchListener())
+                                            .addChild(ObjId.OBJECT_NOTIFICATION, GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION))
+                                            .setOnClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(GameObject object) {
+                                                    object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw());
+                                                }
+                                            }));
 
         GameObjectsContainer.add(new Scanner(new Obj(ObjId.SCANNER_I)
                                             .setShape(circleSubDivI)
@@ -216,7 +225,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.get(ObjId.TREE_I).scaleTo(1f,1.5f).moveTo(0f,0f, -6f);
 
-        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).scaleTo(1f,0.7f).moveTo(-2f,0.6f, 2f);
+        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).scaleTo(2f,1.5f).moveTo(0f,2.1f, 1.5f);
 
         GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
@@ -233,7 +242,7 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION));
+        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION));
 
         ActiveResourcesContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I).asResourceBlock());
     }

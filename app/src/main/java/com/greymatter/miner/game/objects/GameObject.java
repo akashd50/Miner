@@ -79,7 +79,7 @@ public abstract class GameObject {
         return this;
     }
 
-    protected GameObject addChild(ObjId id, GameObject object) {
+    public GameObject addChild(ObjId id, GameObject object) {
         this.children.put(id, object);
         this.transforms.addChild(object.getTransforms());
         return this;
@@ -96,6 +96,7 @@ public abstract class GameObject {
 
     public GameObject shouldDraw(boolean shouldDraw) {
         this.shouldDraw = shouldDraw;
+        children.toList().forEach(child -> { child.shouldDraw(shouldDraw); });
         return this;
     }
 
@@ -140,16 +141,18 @@ public abstract class GameObject {
                 onTouchListener.onTouchUp(this, pointer);
                 return true;
             }
-            for(GameObject child : children.toList()) {
-                boolean res = child.onTouchUpEvent(pointer);
-                if(res) return res;
-            }
         }
+
+        for(GameObject child : children.toList()) {
+            boolean res = child.onTouchUpEvent(pointer);
+            if(res) return res;
+        }
+
         return false;
     }
 
     private boolean isClicked(Vector2f pointer) {
-        return touchChecker != null && touchChecker.isClicked(pointer);
+        return shouldDraw && touchChecker != null && touchChecker.isClicked(pointer);
     }
 
     public GameObject setOnTouchListener(OnTouchListener onTouchListener) {

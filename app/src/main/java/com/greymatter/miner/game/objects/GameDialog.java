@@ -3,11 +3,15 @@ package com.greymatter.miner.game.objects;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
+
+import javax.vecmath.Vector3f;
 
 public class GameDialog extends GameObject {
-
+    private Vector3f defaultScale;
     public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
+        this.setRigidBody(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
         getRigidBody().isStaticObject(true);
     }
 
@@ -17,7 +21,7 @@ public class GameDialog extends GameObject {
 
     @Override
     public void onFrameUpdate() {
-        super.onFrameUpdate();
+
     }
 
     @Override
@@ -52,6 +56,11 @@ public class GameDialog extends GameObject {
                 .copyRotationFromParent(true)
                 .copyScaleFromParent(true);
         button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.7f, 2f);
+        return this;
+    }
+
+    public GameDialog setDefaultScale(Vector3f scale) {
+        this.defaultScale.set(scale);
         return this;
     }
 }

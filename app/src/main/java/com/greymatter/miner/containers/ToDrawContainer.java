@@ -51,16 +51,25 @@ public class ToDrawContainer {
                 gameObject.onDrawFrame();
 
                 gameObject.getChildren().toList().forEach(child -> {
-                    if(child.shouldDraw()) {
-                        child.onFrameUpdate();
-                        ShaderHelper.useProgram(child.getDrawable().getShader());
-                        ShaderHelper.setCameraProperties(child.getDrawable().getShader(), camera);
-                        ShaderHelper.setLightProperties(child.getDrawable().getShader(), ActiveLightsContainer.getAll());
-                        child.onDrawFrame();
-                    }
+                    onDrawFrame(child, camera);
                 });
+
             }
         });
+    }
+
+    private static synchronized void onDrawFrame(GameObject gameObject, Camera camera) {
+        if(gameObject.shouldDraw()) {
+            gameObject.onFrameUpdate();
+            ShaderHelper.useProgram(gameObject.getDrawable().getShader());
+            ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
+            ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());
+            gameObject.onDrawFrame();
+
+            gameObject.getChildren().toList().forEach(child -> {
+                onDrawFrame(child, camera);
+            });
+        }
     }
 
     public static GameObject get(ObjId id) {

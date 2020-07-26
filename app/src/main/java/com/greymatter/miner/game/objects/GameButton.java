@@ -8,7 +8,7 @@ public class GameButton extends GameObject {
 
     public GameButton(Drawable drawable) {
         super(drawable.getId(), drawable);
-        this.setRigidBody(new PolygonRbTRViaMat(ObjId.NOT_BUTTON_I, this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
+        this.setRigidBody(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
         getRigidBody().isStaticObject(true);
     }
 
