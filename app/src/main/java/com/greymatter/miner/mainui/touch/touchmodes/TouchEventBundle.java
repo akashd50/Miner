@@ -1,16 +1,16 @@
 package com.greymatter.miner.mainui.touch.touchmodes;
 
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 
 public class TouchEventBundle {
-    private GameObject gameObject;
+    private IGameObject gameObject;
 
-    public TouchEventBundle setObject(GameObject go) {
-        this.gameObject = go;
+    public TouchEventBundle setObject(IGameObject IGameObject) {
+        this.gameObject = IGameObject;
         return this;
     }
 
-    public GameObject getObject() {
+    public IGameObject getObject() {
         return gameObject;
     }
 }

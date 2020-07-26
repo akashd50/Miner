@@ -9,6 +9,7 @@ import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
+import com.greymatter.miner.containers.ShapeContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
@@ -22,6 +23,7 @@ import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameDialog;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.buildings.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
@@ -30,21 +32,17 @@ import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.animators.BooleanAnimator;
+import com.greymatter.miner.mainui.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
-import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
-import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.animators.IntegerValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.opengl.shader.Shader;
-import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
 import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
@@ -52,7 +50,6 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector4f;
 import com.greymatter.miner.Path;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
-import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 
 class MainGLObjectsHelper {
     static Camera camera;
@@ -106,134 +103,99 @@ class MainGLObjectsHelper {
         Shape circleEdge = new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(circleSubDivIII, 0.01f).build();
         Shape simpleQuad = new Shape(ShapeId.SIMPLE_QUAD).loadQuad(1.2f).build();
 
+        ShapeContainer.add(simpleQuad);
+        ShapeContainer.add(atmSimpleCircle);
+        ShapeContainer.add(boxShape);
+        ShapeContainer.add(uvmapped);
+        ShapeContainer.add(circleSubDivIII);
+        ShapeContainer.add(circleSubDivI);
+        ShapeContainer.add(shape);
+        ShapeContainer.add(circleEdge);
 
-
-        GameObjectsContainer.add(new GameDialog(new Quad(ObjId.OBJECT_NOTIFICATION)
-                                            .setShape(simpleQuad)
-                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.QUAD_SHADER)).build())
-                                            .setButtonI(new GameButton(getNewObj(ObjId.NOT_BUTTON_I, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
-                                            .setButtonII(new GameButton(getNewObj(ObjId.NOT_BUTTON_II, uvmapped, MaterialContainer.get(MatId.BUTTON_MAT_I), ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER))))
-                                            .setButtonIClickListener(new OnClickListener() {
-                                                @Override
-                                                public void onClick(GameObject object) {
-                                                    System.out.println("NOT I - Button Click -> " + object);
-                                                }
-                                            }).setButtonIIClickListener(new OnClickListener() {
-                                                @Override
-                                                public void onClick(GameObject object) {
-                                                    System.out.println("NOT II - Button Click -> " + object);
-                                                }
-                                            }).addTag(Tag.NOTIFICATION).shouldDraw(false));
+        GameObjectsContainer.add(new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
+                                .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
+                                .setButtonII(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_II)))
+                                .setButtonIClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(GameObject object) {
+                                        System.out.println("NOT I - Button Click -> " + object);
+                                    }
+                                }).setButtonIIClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(GameObject object) {
+                                        System.out.println("NOT II - Button Click -> " + object);
+                                    }
+                                }).addTag(Tag.NOTIFICATION).shouldDraw(false)
+                                .scaleTo(2f,1.5f).moveTo(0f,2.1f, 1.5f));
 
         GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getTransforms().copyTranslationFromParent(true);
 
-        GameObjectsContainer.add(new CoalBlock(new Obj(ObjId.COAL_BLOCK_I)
-                                            .setShape(boxShape)
-                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(Tag.RESOURCE_OBJECT));
+        GameObjectsContainer.add(new CoalBlock(DrawableDef.create(ObjId.COAL_BLOCK_I))
+                                .addTag(Tag.RESOURCE_OBJECT)
+                                .scaleTo(0.2f,0.2f).moveTo(10f,-4f, 1f));
 
-        GameObjectsContainer.add(new Animated(new RadialGradient(ObjId.PIE_GRADIENT_I)
-                                            .setRadius(1f)
-                                            .setShape(shape)
-                                            .setMaterial(MaterialContainer.get(MatId.GRADIENT_COLOR_MAT))
-                                            .setShader(ShaderContainer.get(ShaderId.CIRCLE_GRADIENT_SHADER))
-                                            .build())
-                                            .setAnimator(new FloatValueAnimator().withFPS(60).setBounds(0f,1f).setPerFrameIncrement(0.01f))
-                                            .setOnAnimationFrameHandler((object, animator) -> {
-                                                object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
-                                            }));
+        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PIE_GRADIENT_I))
+                                .moveTo(0,0f, 2f).scaleTo(4f,3f)
+                                .setAnimator(new FloatValueAnimator().withFPS(60).setBounds(0f,1f).setPerFrameIncrement(0.01f))
+                                .setOnAnimationFrameHandler((object, animator) -> {
+                                    object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
+                                }));
 
-        GameObjectsContainer.add(new Static(new Obj(ObjId.ATMOSPHERE)
-                                            .setShape(atmSimpleCircle)
-                                            .setMaterial(MaterialContainer.get(MatId.ATMOSPHERE_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(Tag.STATIC));
+        GameObjectsContainer.add(new Static(DrawableDef.create(ObjId.ATMOSPHERE))
+                                .addTag(Tag.STATIC)
+                                .scaleTo(190f,190f).moveTo(0f,-120.5f, -10f));
 
-        GameObjectsContainer.add(new Planet(new Obj(ObjId.PLANET)
-                                            .setShape(circleSubDivIII)
-                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
-                                            .addTag(Tag.STATIC)
-                                            .addTag(Tag.PHYSICS_OBJECT));
+        GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
+                                .addTag(Tag.STATIC).addTag(Tag.PHYSICS_OBJECT)
+                                .scaleTo(120f,120f).moveTo(0f,-120.5f, -1f));
 
-        GameObjectsContainer.add(new MainBase(new Obj(ObjId.MAIN_BASE)
-                                            .setShape(uvmapped)
-                                            .setMaterial(MaterialContainer.get(MatId.MAIN_BASE_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(Tag.STATIC)
-                                            .addTag(Tag.PLACABLE_GAME_BUILDING)
-                                            .setOnTouchListener(new GeneralTouchListener()));
+        GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
+                                .addTag(Tag.STATIC)
+                                .addTag(Tag.PLACABLE_GAME_BUILDING)
+                                .scaleTo(4f,2.7f).moveTo(0f,0f,-5f)
+                                .setOnTouchListener(new GeneralTouchListener()));
 
-        GameObjectsContainer.add(new InteractiveObject(new Obj(ObjId.MAIN_CHARACTER)
-                                            .setShape(boxShape)
-                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build())
-                                            .addTag(Tag.PHYSICS_OBJECT)
-                                            .setOnTouchListener(new GeneralTouchListener())
-                                            .addChild(ObjId.OBJECT_NOTIFICATION, GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION))
-                                            .setOnClickListener(new OnClickListener() {
-                                                @Override
-                                                public void onClick(GameObject object) {
-                                                    object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw());
-                                                }
-                                            }));
+        GameObjectsContainer.add(new InteractiveObject(DrawableDef.create(ObjId.MAIN_CHARACTER))
+                                .addTag(Tag.PHYSICS_OBJECT)
+                                .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f)
+                                .setOnTouchListener(new GeneralTouchListener())
+                                .addChild(ObjId.OBJECT_NOTIFICATION, GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION))
+                                .setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(GameObject object) {
+                                        object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw());
+                                    }
+                                }));
 
-        GameObjectsContainer.add(new Scanner(new Obj(ObjId.SCANNER_I)
-                                            .setShape(circleSubDivI)
-                                            .setMaterial(MaterialContainer.get(MatId.GROUND_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_SHADER)).build())
+        GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
                                 .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                 .setAnimator(new BooleanAnimator().withFPS(10))
                                 .setOnAnimationFrameHandler(new ScannerAnimationHandler())
                                 .addTag(Tag.PLACABLE_GAME_BUILDING)
                                 .addTag(Tag.PHYSICS_OBJECT)
+                                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f)
                                 .setOnTouchListener(new GeneralTouchListener()));
 
-        GameObjectsContainer.add(new Animated(new Obj(ObjId.TREE_I)
-                                            .setShape(uvmapped)
-                                            .setMaterial(MaterialContainer.get(MatId.TREE_MATERIAL))
-                                            .setShader(ShaderContainer.get(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER)).build()));
+        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.TREE_I))
+                                .scaleTo(1f,1.5f).moveTo(0f,0f, -6f));
 
-        GameObjectsContainer.add(new Static(new TextureEdgedPolygon(ObjId.PLANET_GRASS_LAYER)
-                                            .setShape(circleEdge)
-                                            .setMaterial(MaterialContainer.get(MatId.PLANET_GRASS_MATERIAL_I))
-                                            .setShader(ShaderContainer.get(ShaderId.QUAD_SHADER)).build()));
+        GameObjectsContainer.add(new Static(DrawableDef.create(ObjId.PLANET_GRASS_LAYER))
+                                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f));
 
         GameObjectsContainer.add(new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
-                                                .setRadius(1f)
-                                                .setColor(1f,0f,0f,1f)
-                                                .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
-                                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding()).moveTo(new Vector2f(-0.33f,0.08f)));
+                                .setRadius(1f)
+                                .setColor(1f,0f,0f,1f)
+                                .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
+                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding())
+                                .moveTo(new Vector2f(-0.33f,0.08f)));
     }
 
     static void finishObjectsSetup() {
-        GameObjectsContainer.get(ObjId.COAL_BLOCK_I).scaleTo(0.2f,0.2f).moveTo(10f,-4f, 1f);
-
-        GameObjectsContainer.get(ObjId.ATMOSPHERE).scaleTo(190f,190f).moveTo(0f,-120.5f, -10f);
-
-        GameObjectsContainer.get(ObjId.PLANET).scaleTo(120f,120f).moveTo(0f,-120.5f, -1f);
-
-        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f);
-
-        GameObjectsContainer.get(ObjId.SCANNER_I).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f)/*.upgrade(4)*/;
-
-        GameObjectsContainer.get(ObjId.MAIN_BASE).scaleTo(4f,2.7f).moveTo(0f,0f,-5f);
-
-        GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER).scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f);
-
-        GameObjectsContainer.get(ObjId.TREE_I).scaleTo(1f,1.5f).moveTo(0f,0f, -6f);
-
-        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).scaleTo(2f,1.5f).moveTo(0f,2.1f, 1.5f);
-
-        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
+        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
                             .setShader(ShaderContainer.get(ShaderId.LINE_SHADER))
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
                             .build()));
-
-        GameObjectsContainer.get(ObjId.PIE_GRADIENT_I).moveTo(0,0f, 2f).scaleTo(4f,3f);
 
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));
@@ -248,14 +210,11 @@ class MainGLObjectsHelper {
     }
 
     static void loadPhysicsObjects() {
-        GameObject planet = GameObjectsContainer.get(ObjId.PLANET).setPolygonRB();
-        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB();
-        GameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
-        GameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
+        IGameObject planet = GameObjectsContainer.get(ObjId.PLANET).setPolygonRB();
+        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB();
+        IGameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
+        IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRigidBody(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
-
-//        GameObject buttonI = GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.NOT_BUTTON_I);
-//        buttonI.setRigidBody(new PolygonRbTRViaMat(ObjId.NOT_BUTTON_I, buttonI.getDrawable().getOrderedOuterMesh())).setPolygonTC();
 
         planet.getRigidBody().isStaticObject(true)
                             .getRBProps().setMass(1000000f).setRestitution(0.3f);
@@ -280,12 +239,5 @@ class MainGLObjectsHelper {
     static void onDestroy() {
         Log.v("On Destroy","Closing all background threads");
         CollisionDetectionSystem.onDestroy();
-    }
-
-    static Drawable getNewObj(ObjId id,Shape shape, Material material, Shader shader) {
-        return new Obj(id)
-                .setShape(shape)
-                .setMaterial(material)
-                .setShader(shader).build();
     }
 }

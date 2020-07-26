@@ -24,5 +24,5 @@ public enum ObjId {
     NOT_BUTTON_III,
     OBJECT_NOTIFICATION,
 
-    COAL_BLOCK_I,
+    COAL_BLOCK_I;
 }

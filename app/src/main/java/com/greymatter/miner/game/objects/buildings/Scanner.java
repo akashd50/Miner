@@ -4,10 +4,9 @@ import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.game.objects.Animated;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import javax.vecmath.Vector3f;
@@ -86,7 +85,7 @@ public class Scanner extends GameBuilding {
         return this;
     }
 
-    public Scanner setRangeObject(GameObject rangeObject) {
+    public Scanner setRangeObject(IGameObject rangeObject) {
         this.rangeObject = rangeObject.asAnimatedObject();
         this.rangeObject.getTransforms().copyTranslationFromParent(true);
         this.addChild(ObjId.SCANNER_RANGE, rangeObject);

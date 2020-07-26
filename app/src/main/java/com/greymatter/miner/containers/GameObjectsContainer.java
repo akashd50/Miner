@@ -4,15 +4,15 @@ import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 
 import java.util.ArrayList;
 
 public class GameObjectsContainer {
-    private static HashMapE<ObjId, GameObject> gameObjects;
+    private static HashMapE<ObjId, IGameObject> gameObjects;
     private static HashMapE<ObjId, GameLight> gameLights;
 
-    public static void add(GameObject gameObject) {
+    public static void add(IGameObject gameObject) {
         if(gameObjects == null) {
             gameObjects = new HashMapE<>();
         }
@@ -29,17 +29,17 @@ public class GameObjectsContainer {
     }
 
     public static void remove(ObjId id) {
-        GameObject removed = null;
+        IGameObject removed = null;
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
         }
     }
 
-    public static GameObject get(ObjId id) {
+    public static IGameObject get(ObjId id) {
         return gameObjects.get(id);
     }
 
-    public static ArrayList<GameObject> getAll() {
+    public static ArrayList<IGameObject> getAll() {
         return gameObjects.toList();
     }
 
@@ -47,17 +47,17 @@ public class GameObjectsContainer {
         return gameLights.toList();
     }
 
-    public static ArrayList<GameObject> getAllWithTag(Tag tag) {
-        ArrayList<GameObject> toReturn = new ArrayList<>();
-        for(GameObject d : getAll()) {
+    public static ArrayList<IGameObject> getAllWithTag(Tag tag) {
+        ArrayList<IGameObject> toReturn = new ArrayList<>();
+        for(IGameObject d : getAll()) {
             if(d.hasTag(tag)) toReturn.add(d);
         }
         return toReturn;
     }
 
-    public static ArrayList<GameObject> getAllWithOnlyTag(Tag tag) {
-        ArrayList<GameObject> toReturn = new ArrayList<>();
-        for(GameObject d : getAll()) {
+    public static ArrayList<IGameObject> getAllWithOnlyTag(Tag tag) {
+        ArrayList<IGameObject> toReturn = new ArrayList<>();
+        for(IGameObject d : getAll()) {
             if(d.getNumTags() == 1 && d.hasTag(tag)) toReturn.add(d);
         }
         return toReturn;

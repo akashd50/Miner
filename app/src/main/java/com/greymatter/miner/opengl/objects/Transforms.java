@@ -279,7 +279,7 @@ public class Transforms {
         this.linkedRigidBody = linkedRigidBody;
     }
 
-    private void onTransformsChanged() {
+    public void onTransformsChanged() {
         transformationsUpdated = true;
         linkedRigidBody.onTransformsChanged();
         linkedDrawable.onTransformsChanged();

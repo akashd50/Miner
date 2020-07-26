@@ -6,6 +6,8 @@ import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.animators.ValueAnimator;
+import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.Material;
@@ -57,6 +59,13 @@ public class RadialGradient extends Gradient {
 
     public RadialGradient setMidColor(Vector4f midColor) {
         getMaterial().asColoredMaterial().addColor(ShaderConst.GRADIENT_MID_COLOR, midColor);
+        return this;
+    }
+
+    @Override
+    public RadialGradient setShape(Shape shape) {
+        super.setShape(shape);
+        this.radius = shape.getRadius();
         return this;
     }
 

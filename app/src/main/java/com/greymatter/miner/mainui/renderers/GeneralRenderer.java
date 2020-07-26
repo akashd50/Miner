@@ -3,15 +3,10 @@ package com.greymatter.miner.mainui.renderers;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.Line;
-import java.util.ArrayList;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Vector4f;
 
 public class GeneralRenderer extends AbstractRenderer {
     private long prevCountFinishTime;
@@ -29,10 +24,12 @@ public class GeneralRenderer extends AbstractRenderer {
             fps = 0;
         }
 
+        long currentFrameStartTime = System.currentTimeMillis();
+
         super.onDrawFrame();
 
         Drawable planet = GameObjectsContainer.get(ObjId.PLANET).getDrawable();
-        GameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
+        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
@@ -48,6 +45,7 @@ public class GeneralRenderer extends AbstractRenderer {
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
 
-        //System.out.println("FPS: " + mainFPS);
+        System.out.println("FPS: " + mainFPS);
+        System.out.println("FRAME TIME: " + (System.currentTimeMillis() - currentFrameStartTime));
     }
 }

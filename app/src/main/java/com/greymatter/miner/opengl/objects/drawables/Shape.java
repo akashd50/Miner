@@ -12,6 +12,7 @@ import javax.vecmath.Vector3f;
 public class Shape {
     private ShapeId id;
     public float top, bottom, left, right;
+    public float radius, innerAngle, xyRatio;
     private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
     private ArrayList<Vector2f> shapeUVs;
     private RawObjData rawObjData;
@@ -24,16 +25,20 @@ public class Shape {
 
     public Shape loadCircle(float radius) {
         ShapesHelper.loadCircle(this, radius);
+        this.radius = radius;
         return this;
     }
 
     public Shape loadPie(float innerAngle, float radius) {
         ShapesHelper.loadPie(this, innerAngle, radius);
+        this.radius = radius;
+        this.innerAngle = innerAngle;
         return this;
     }
 
     public Shape loadQuad(float xyRatio) {
         ShapesHelper.loadQuad(this, xyRatio);
+        this.xyRatio = xyRatio;
         return this;
     }
 
@@ -162,6 +167,18 @@ public class Shape {
 
     public float getRight() {
         return right;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public float getInnerAngle() {
+        return innerAngle;
+    }
+
+    public float getXyRatio() {
+        return xyRatio;
     }
 
     public ShapeId getId() {

@@ -13,8 +13,8 @@ import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
@@ -41,10 +41,10 @@ public class GeneralTouchMode extends AbstractTouchMode {
                 break;
             case R.id.items_menu:
                 View view = AppServices.getAppContextAsActivity().getLayoutInflater().inflate(R.layout.items_dialog, null);
-                ArrayList<GameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
+                ArrayList<IGameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
 
                 ListView listView = view.findViewById(R.id.temp_items_list);
-                ArrayAdapter<GameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
+                ArrayAdapter<IGameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
                 listView.setAdapter(buildingArrayAdapter);
 
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AppServices.getAppContext()).setView(view);
@@ -53,7 +53,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                 dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
-                    GameObject object = buildingArrayAdapter.getItem(position);
+                    IGameObject object = buildingArrayAdapter.getItem(position);
 
                     ToDrawContainer.add(object);
 
@@ -96,7 +96,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
                 Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                for(GameObject gameObject : ToDrawContainer.getAllReversed()) {
+                for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
                     if(gameObject.onTouchDownEvent(touchPoint)) return true;
                 }
                 return doOnTouchDownGLSurface();
@@ -109,7 +109,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
                 Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                for(GameObject gameObject : ToDrawContainer.getAllReversed()) {
+                for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
                     if(gameObject.onTouchMoveEvent(touchPoint)) return true;
                 }
                 return doOnTouchMoveGLSurface();
@@ -122,7 +122,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
                 Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                for(GameObject gameObject : ToDrawContainer.getAllReversed()) {
+                for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
                     if(gameObject.onTouchUpEvent(touchPoint)) return true;
                 }
                 return doOnTouchUpGLSurface();
