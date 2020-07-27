@@ -74,6 +74,21 @@ public abstract class GTransformable extends GHierarchical {
         return this;
     }
 
+    public IGameObject translationFromParent(boolean val) {
+        transforms.copyTranslationFromParent(val);
+        return this;
+    }
+
+    public IGameObject rotationFromParent(boolean val) {
+        transforms.copyRotationFromParent(val);
+        return this;
+    }
+
+    public IGameObject scaleFromParent(boolean val) {
+        transforms.copyScaleFromParent(val);
+        return this;
+    }
+
     public Vector3f getLocation() {
         return transforms.getTranslation();
     }

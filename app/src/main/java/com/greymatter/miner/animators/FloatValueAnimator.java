@@ -33,6 +33,13 @@ public class FloatValueAnimator extends ValueAnimator {
     }
 
     @Override
+    public FloatValueAnimator reset() {
+        super.reset();
+        currentValue = lowerBound;
+        return this;
+    }
+
+    @Override
     public float getUpdatedFloat() {
         return currentValue;
     }

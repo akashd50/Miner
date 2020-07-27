@@ -26,9 +26,13 @@ public class HashMapE<K,V> extends HashMap<K,V> {
         if(hasDataChanged) {
             toList = toList == null? new ArrayList<>() : toList;
             toList.clear();
-            forEach((key, obj) -> {
-                toList.add(obj);
-            });
+//            forEach((key, obj) -> {
+//                toList.add(obj);
+//            });
+
+            for (K key : this.keySet()) {
+                toList.add(this.get(key));
+            }
             hasDataChanged = false;
         }
         return toList;

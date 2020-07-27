@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.view.ScaleGestureDetector;
 
 import com.greymatter.miner.mainui.renderers.MainGLRenderer;
+import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 
 public class AppServices {
@@ -15,9 +16,14 @@ public class AppServices {
     private static GLSurfaceView surfaceView;
     private static MainGLRenderer glRenderer;
     private static Camera mainCamera;
+    private static TouchHelper touchHelper;
     public static void setContext(Context ctx) {
         context = ctx;
         assetManager = ctx.getAssets();
+    }
+
+    public static void setTouchHelper(TouchHelper th) {
+        touchHelper = th;
     }
 
     public static void setGLSurfaceView(GLSurfaceView surface) {
@@ -54,5 +60,9 @@ public class AppServices {
 
     public static AssetManager getAssetManager() {
         return assetManager;
+    }
+
+    public static TouchHelper getTouchHelper() {
+        return touchHelper;
     }
 }

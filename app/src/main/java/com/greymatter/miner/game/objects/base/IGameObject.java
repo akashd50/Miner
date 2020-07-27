@@ -36,6 +36,9 @@ public interface IGameObject {
     IGameObject moveTo(float x, float y, float z);
     IGameObject scaleTo(float x, float y);
     IGameObject scaleBy(float x, float y);
+    IGameObject translationFromParent(boolean val);
+    IGameObject rotationFromParent(boolean val);
+    IGameObject scaleFromParent(boolean val);
     Vector3f getLocation();
 
     void onFrameUpdate();

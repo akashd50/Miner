@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects;
 
+import com.greymatter.miner.AppServices;
 import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
@@ -118,8 +119,10 @@ public abstract class GameObject extends GTransformable {
         boolean isClicked = isClicked(pointer);
         if(isClicked) {
             if(onClickListener!=null) {
-                onClickListener.onClick(this);
-                return true;
+                if(!AppServices.getTouchHelper().isTouchPoint1Drag()) {
+                    onClickListener.onClick(this);
+                    return true;
+                }
             }
             if(onTouchListener!=null) {
                 onTouchListener.onTouchUp(this, pointer);

@@ -52,7 +52,6 @@ public class ToDrawContainer {
                 gameObject.getChildren().toList().forEach(child -> {
                     onDrawFrame(child, camera);
                 });
-
             }
         });
     }

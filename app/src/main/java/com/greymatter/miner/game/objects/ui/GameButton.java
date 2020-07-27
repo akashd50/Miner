@@ -1,15 +1,12 @@
-package com.greymatter.miner.game.objects;
+package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 
-public class GameButton extends GameObject {
+public class GameButton extends GameUI {
 
     public GameButton(Drawable drawable) {
         super(drawable.getId(), drawable);
-        this.setRigidBody(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
-        getRigidBody().isStaticObject(true);
     }
 
     public GameButton(ObjId id, Drawable drawable) {

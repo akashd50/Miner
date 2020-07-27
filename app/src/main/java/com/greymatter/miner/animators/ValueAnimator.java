@@ -23,6 +23,11 @@ public abstract class ValueAnimator {
         return this;
     }
 
+    public ValueAnimator reset() {
+        _lastFrameDrawTime = 0;
+        return this;
+    }
+
     public long getPerFrameDelay() {
         return _perFrameDelay;
     }

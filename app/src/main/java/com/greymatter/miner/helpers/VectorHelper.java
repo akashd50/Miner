@@ -47,6 +47,13 @@ public class VectorHelper {
         return toMult;
     }
 
+    public static Vector2f multiply(Vector2f v1, float f) {
+        Vector2f toMult = copy(v1);
+        toMult.x *= f;
+        toMult.y *= f;
+        return toMult;
+    }
+
     public static float angle(Vector3f v1, Vector3f v2) {
         float dot = v1.dot(v2);
         float angle = (float)Math.acos(dot/(getMagnitude(v1) * getMagnitude(v2)));

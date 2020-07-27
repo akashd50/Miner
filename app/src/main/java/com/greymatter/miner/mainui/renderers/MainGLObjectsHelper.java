@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
+import com.greymatter.miner.animators.impl.DialogAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
@@ -18,9 +19,9 @@ import com.greymatter.miner.enums.ShaderId;
 import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
-import com.greymatter.miner.game.objects.GameButton;
+import com.greymatter.miner.game.objects.ui.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
-import com.greymatter.miner.game.objects.GameDialog;
+import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -47,6 +48,7 @@ import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMate
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 import com.greymatter.miner.Path;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
@@ -75,14 +77,15 @@ class MainGLObjectsHelper {
 
     static void loadMaterials() {
         MaterialContainer.add(new StaticTexturedMaterial(MatId.GROUND_MATERIAL).attachDiffuseTexture(Path.GROUND_I));
+        MaterialContainer.add(new StaticTexturedMaterial(MatId.HARMAN).attachDiffuseTexture(Path.HARMAN));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.ATMOSPHERE_MATERIAL).attachDiffuseTexture(Path.ATM_RADIAL_II));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.MAIN_BASE_MATERIAL).attachDiffuseTexture(Path.MAIN_BASE_FINAL));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(Path.GRASS_PATCH_I));
         MaterialContainer.add(new StaticTexturedMaterial(MatId.BUTTON_MAT_I).attachDiffuseTexture(Path.BUTTON_I));
         MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MAT)
                         .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
-                        .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.4f))
-                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0.4f)));
+                        .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.2f))
+                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0f)));
 
         MaterialContainer.add(new AnimatedTexturedMaterial(MatId.TREE_MATERIAL)
                 .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_i.png")
@@ -94,27 +97,19 @@ class MainGLObjectsHelper {
     }
 
     static void loadObjects() {
-        Shape boxShape = new Shape(ShapeId.COLLISION_BOX).loadObj(Path.BOX).build();
-        Shape atmSimpleCircle = new Shape(ShapeId.CIRCLE_SIMPLE).loadObj(Path.CIRCLE_SIMPLE).build();
-        Shape uvmapped = new Shape(ShapeId.UV_MAPPED_BOX).loadObj(Path.UV_MAPPED_BOX).build();
-        Shape circleSubDivIII = new Shape(ShapeId.CIRCLE_SUB_III).loadObj(Path.CIRCLE_SUB_DIV_III).build();
-        Shape circleSubDivI = new Shape(ShapeId.CIRCLE_SUB_I).loadObj(Path.CIRCLE_SUB_DIV_I).build();
-        Shape shape = new Shape(ShapeId.PIE_45).loadPie(45f,1f).build();
-        Shape circleEdge = new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(circleSubDivIII, 0.01f).build();
-        Shape simpleQuad = new Shape(ShapeId.SIMPLE_QUAD).loadQuad(1.2f).build();
-
-        ShapeContainer.add(simpleQuad);
-        ShapeContainer.add(atmSimpleCircle);
-        ShapeContainer.add(boxShape);
-        ShapeContainer.add(uvmapped);
-        ShapeContainer.add(circleSubDivIII);
-        ShapeContainer.add(circleSubDivI);
-        ShapeContainer.add(shape);
-        ShapeContainer.add(circleEdge);
+        ShapeContainer.add(new Shape(ShapeId.COLLISION_BOX).loadObj(Path.BOX).build());
+        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SIMPLE).loadObj(Path.CIRCLE_SIMPLE).build());
+        ShapeContainer.add(new Shape(ShapeId.UV_MAPPED_BOX).loadObj(Path.UV_MAPPED_BOX).build());
+        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SUB_III).loadObj(Path.CIRCLE_SUB_DIV_III).build());
+        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SUB_I).loadObj(Path.CIRCLE_SUB_DIV_I).build());
+        ShapeContainer.add(new Shape(ShapeId.PIE_45).loadPie(45f,1f).build());
+        ShapeContainer.add(new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(ShapeContainer.get(ShapeId.CIRCLE_SUB_III), 0.01f).build());
+        ShapeContainer.add(new Shape(ShapeId.SIMPLE_QUAD).loadQuad(1.2f).build());
 
         GameObjectsContainer.add(new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
                                 .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
                                 .setButtonII(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_II)))
+                                .setDefaultScale(new Vector3f(2f,1.5f,1f))
                                 .setButtonIClickListener(new OnClickListener() {
                                     @Override
                                     public void onClick(GameObject object) {
@@ -126,13 +121,12 @@ class MainGLObjectsHelper {
                                         System.out.println("NOT II - Button Click -> " + object);
                                     }
                                 }).addTag(Tag.NOTIFICATION).shouldDraw(false)
-                                .scaleTo(2f,1.5f).moveTo(0f,2.1f, 1.5f));
-
-        GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getTransforms().copyTranslationFromParent(true);
+                                .moveTo(0f,2.1f, 1.5f)
+                                .translationFromParent(true));
 
         GameObjectsContainer.add(new CoalBlock(DrawableDef.create(ObjId.COAL_BLOCK_I))
                                 .addTag(Tag.RESOURCE_OBJECT)
-                                .scaleTo(0.2f,0.2f).moveTo(10f,-4f, 1f));
+                                .scaleTo(0.2f,0.2f).moveTo(10f,-4f, -2f));
 
         GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PIE_GRADIENT_I))
                                 .moveTo(0,0f, 2f).scaleTo(4f,3f)
@@ -147,7 +141,7 @@ class MainGLObjectsHelper {
 
         GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
                                 .addTag(Tag.STATIC).addTag(Tag.PHYSICS_OBJECT)
-                                .scaleTo(120f,120f).moveTo(0f,-120.5f, -1f));
+                                .scaleTo(120f,120f).moveTo(0f,-120.5f, 0f));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
                                 .addTag(Tag.STATIC)
@@ -163,7 +157,11 @@ class MainGLObjectsHelper {
                                 .setOnClickListener(new OnClickListener() {
                                     @Override
                                     public void onClick(GameObject object) {
-                                        object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw());
+                                        if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
+                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                        }else{
+                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
+                                        }
                                     }
                                 }));
 
@@ -173,8 +171,36 @@ class MainGLObjectsHelper {
                                 .setOnAnimationFrameHandler(new ScannerAnimationHandler())
                                 .addTag(Tag.PLACABLE_GAME_BUILDING)
                                 .addTag(Tag.PHYSICS_OBJECT)
-                                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f)
-                                .setOnTouchListener(new GeneralTouchListener()));
+                                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
+                                .setOnTouchListener(new GeneralTouchListener())
+                                .addChild(ObjId.OBJECT_NOTIFICATION,
+                                        new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
+                                        .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
+                                        .setButtonII(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_II)))
+                                        .setDefaultScale(new Vector3f(2f,1.5f, 1f))
+                                        .setButtonIClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(GameObject object) {
+                                                System.out.println("NOT I - Button Click -> " + object);
+                                            }
+                                        }).setButtonIIClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(GameObject object) {
+                                                System.out.println("NOT II - Button Click -> " + object);
+                                            }
+                                        }).addTag(Tag.NOTIFICATION).shouldDraw(false)
+                                        .moveTo(0f,2.1f, 1.5f)
+                                        .translationFromParent(true))
+                                        .setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(GameObject object) {
+                                                if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
+                                                    ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                                }else{
+                                                    ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
+                                                }
+                                            }
+                                        }));
 
         GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.TREE_I))
                                 .scaleTo(1f,1.5f).moveTo(0f,0f, -6f));
@@ -188,6 +214,8 @@ class MainGLObjectsHelper {
                                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
                                 .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding())
                                 .moveTo(new Vector2f(-0.33f,0.08f)));
+
+        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(0f,0f,90);
     }
 
     static void finishObjectsSetup() {
@@ -215,12 +243,13 @@ class MainGLObjectsHelper {
         IGameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
         IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRigidBody(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
+        sampleScanner.setPolygonTC();
 
         planet.getRigidBody().isStaticObject(true)
                             .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
         mainCharacter.getRigidBody().isStaticObject(false)
-                                    .getRBProps().setMass(1.5f).setRestitution(0.5f);
+                                    .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
         sampleScanner.getRigidBody().isStaticObject(false)
                                     .getRBProps().setMass(1.0f).setRestitution(0.5f);

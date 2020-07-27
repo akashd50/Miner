@@ -1,27 +1,23 @@
-package com.greymatter.miner.game.objects;
+package com.greymatter.miner.game.objects.ui;
 
+import com.greymatter.miner.animators.impl.DialogAnimator;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
-
 import javax.vecmath.Vector3f;
 
-public class GameDialog extends GameObject {
+public class GameDialog extends GameUI {
     private Vector3f defaultScale;
+    private boolean isAnimationComplete;
     public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
-        this.setRigidBody(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
-        getRigidBody().isStaticObject(true);
+        isAnimationComplete = true;
+        defaultScale = new Vector3f();
+        setOnAnimationFrameHandler(new DialogAnimator());
     }
 
     public GameDialog(ObjId id, Drawable drawable) {
         super(id, drawable);
-    }
-
-    @Override
-    public void onFrameUpdate() {
-
     }
 
     @Override
@@ -39,16 +35,6 @@ public class GameDialog extends GameObject {
         return this;
     }
 
-    public GameDialog setButtonIClickListener(OnClickListener listener) {
-        getChild(ObjId.NOT_BUTTON_I).setOnClickListener(listener);
-        return this;
-    }
-
-    public GameDialog setButtonIIClickListener(OnClickListener listener) {
-        getChild(ObjId.NOT_BUTTON_II).setOnClickListener(listener);
-        return this;
-    }
-
     public GameDialog setButtonII(GameButton button) {
         addChild(ObjId.NOT_BUTTON_II, button);
         button.getTransforms()
@@ -59,8 +45,44 @@ public class GameDialog extends GameObject {
         return this;
     }
 
+    public GameDialog setButtonIClickListener(OnClickListener listener) {
+        getChild(ObjId.NOT_BUTTON_I).setOnClickListener(listener);
+        return this;
+    }
+
+    public GameDialog setButtonIIClickListener(OnClickListener listener) {
+        getChild(ObjId.NOT_BUTTON_II).setOnClickListener(listener);
+        return this;
+    }
+
+    public GameDialog show() {
+        isAnimationComplete = false;
+        getTransforms().scaleTo(0f,0f);
+        this.shouldDraw(true);
+        return this;
+    }
+
+    public GameDialog hide() {
+        isAnimationComplete = true;
+        this.shouldDraw(false);
+        return this;
+    }
+
+    public GameDialog isAnimationComplete(boolean isAnimationComplete) {
+        this.isAnimationComplete = isAnimationComplete;
+        return this;
+    }
+
     public GameDialog setDefaultScale(Vector3f scale) {
         this.defaultScale.set(scale);
         return this;
+    }
+
+    public boolean isAnimationComplete() {
+        return isAnimationComplete;
+    }
+
+    public Vector3f getDefaultScale() {
+        return defaultScale;
     }
 }
