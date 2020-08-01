@@ -16,6 +16,7 @@ public class ShaderConst {
     public static final String LIGHT_POS = "light_pos";
     public static final String LIGHT_COLOR = "light_color";
     public static final String LIGHT_RADIUS = "light_radius";
+    public static final String LIGHT_INTENSITY = "intensity";
     public static final String LIGHT_INNER_CUTOFF = "light_inner_cutoff";
     public static final String LIGHT_OUTER_CUTOFF = "light_outer_cutoff";
 

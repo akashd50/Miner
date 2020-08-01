@@ -17,9 +17,4 @@ public class GameButton extends GameUI {
     public void onDrawFrame() {
         super.onDrawFrame();
     }
-
-    @Override
-    public void onFrameUpdate() {
-        super.onFrameUpdate();
-    }
 }

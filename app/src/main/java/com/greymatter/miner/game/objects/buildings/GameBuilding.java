@@ -11,11 +11,6 @@ public abstract class GameBuilding extends GameObject {
         super(id, drawable);
     }
 
-    @Override
-    public void onFrameUpdate() {
-        super.onFrameUpdate();
-    }
-
     public void addLight(GameLight light) {
         light.getTransforms().copyTranslationFromParent(true)
                             .copyRotationFromParent(true)

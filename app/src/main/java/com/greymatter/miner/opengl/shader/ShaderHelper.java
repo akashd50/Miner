@@ -107,6 +107,7 @@ public class ShaderHelper {
             setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_RADIUS, light.getRadius());
             setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_INNER_CUTOFF, light.getInnerCutoff());
             setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_OUTER_CUTOFF, light.getOuterCutoff());
+            setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_INTENSITY, light.getIntensity());
         }
     }
 

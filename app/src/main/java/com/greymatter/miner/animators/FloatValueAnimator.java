@@ -18,12 +18,19 @@ public class FloatValueAnimator extends ValueAnimator {
 
     @Override
     protected void updateOverridePositive() {
-        currentValue+=perFrameIncrement;
+        if(isTo()) {
+            currentValue += perFrameIncrement;
+        }else{
+            currentValue -= perFrameIncrement;
+        }
+
         if(currentValue > upperBound) {
-            currentValue = lowerBound;
+            currentValue = toAndFro()? upperBound : lowerBound;
+            to(!toAndFro());
         }
         if(currentValue < lowerBound) {
-            currentValue = upperBound;
+            currentValue = toAndFro()? lowerBound : upperBound;
+            to(true);
         }
     }
 

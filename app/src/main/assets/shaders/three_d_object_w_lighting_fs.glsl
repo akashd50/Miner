@@ -14,7 +14,7 @@ struct Light {
     mat4 model;
     vec3 light_pos;
     vec4 light_color;
-    float light_radius, light_inner_cutoff, light_outer_cutoff;
+    float light_radius, light_inner_cutoff, light_outer_cutoff, intensity;
 };
 
 //uniforms
@@ -59,7 +59,7 @@ void calculateLight(int index) {
 
     if(distance < lights[index].light_radius) {
         float epsilon = lights[index].light_inner_cutoff - lights[index].light_outer_cutoff;
-        total_light_intensity += clamp((distance - lights[index].light_outer_cutoff) / epsilon, 0.0, 1.0);
+        total_light_intensity += clamp((distance - lights[index].light_outer_cutoff) / epsilon, 0.0, 1.0) * lights[index].intensity;
         total_light_color += lights[index].light_color;
     }
 }

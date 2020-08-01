@@ -31,7 +31,7 @@ public class GameDialog extends GameUI {
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
                     .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.7f, 2f);
+        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.4f, 2f);
         return this;
     }
 
@@ -41,7 +41,7 @@ public class GameDialog extends GameUI {
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
                 .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.7f, 2f);
+        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.4f, 2f);
         return this;
     }
 

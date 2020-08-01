@@ -3,8 +3,10 @@ package com.greymatter.miner.animators;
 public abstract class ValueAnimator {
     private long _perFrameDelay, _lastFrameDrawTime;
     private int _framesPerSecond;
+    private boolean toAndFro, isTo;
     public ValueAnimator() {
         _lastFrameDrawTime = 0;
+        isTo = true;
     }
 
     public ValueAnimator update() {
@@ -26,6 +28,24 @@ public abstract class ValueAnimator {
     public ValueAnimator reset() {
         _lastFrameDrawTime = 0;
         return this;
+    }
+
+    public ValueAnimator toAndFro(boolean val) {
+        this.toAndFro = val;
+        return this;
+    }
+
+    protected ValueAnimator to(boolean val) {
+        this.isTo = val;
+        return this;
+    }
+
+    public boolean isTo() {
+        return isTo;
+    }
+
+    public boolean toAndFro() {
+        return toAndFro;
     }
 
     public long getPerFrameDelay() {

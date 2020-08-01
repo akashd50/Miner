@@ -4,6 +4,7 @@ public enum ObjId {
     ATMOSPHERE,
     PLANET,
     PLANET_GRASS_LAYER,
+    PLANET_TREE_LAYER,
 
     MAIN_BASE,
     MAIN_BASE_LIGHT_I,

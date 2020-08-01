@@ -9,7 +9,7 @@ import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 public class GameLight extends GameObject {
-    private float radius, innerCutoff, outerCutoff;
+    private float radius, innerCutoff, outerCutoff, intensity;
     private Vector4f lightColor;
     public GameLight(Drawable drawable) {
         super(drawable.getId(), drawable);
@@ -27,6 +27,7 @@ public class GameLight extends GameObject {
         radius = 0f;
         innerCutoff = 0f;
         outerCutoff = 0f;
+        intensity = 0.3f;
     }
 
     public GameLight attachTo(GameBuilding building) {
@@ -57,6 +58,15 @@ public class GameLight extends GameObject {
     public GameLight setOuterCutoff(float outerCutoff) {
         this.outerCutoff = outerCutoff;
         return this;
+    }
+
+    public GameLight setIntensity(float intensity) {
+        this.intensity = intensity;
+        return this;
+    }
+
+    public float getIntensity() {
+        return intensity;
     }
 
     public float getInnerCutoff() {

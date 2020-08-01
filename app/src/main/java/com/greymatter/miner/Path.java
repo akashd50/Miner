@@ -21,6 +21,7 @@ public class Path {
     public static final String TEXTURES_F = "textures/";
     public static final String TREE_ANIM_I_F = "tree_anim_i/";
     public static final String GROUND_I = "ground_i.png";
+    public static final String DIALOG_I = "dialog_i.png";
     public static final String HARMAN = "harman.jpg";
     public static final String MAIN_BASE_P = "main_base_p.jpg";
     public static final String MAIN_BASE_FINAL = "main_base.png";
