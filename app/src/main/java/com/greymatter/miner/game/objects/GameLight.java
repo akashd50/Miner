@@ -27,7 +27,7 @@ public class GameLight extends GameObject {
         radius = 0f;
         innerCutoff = 0f;
         outerCutoff = 0f;
-        intensity = 0.3f;
+        intensity = 1f;
     }
 
     public GameLight attachTo(GameBuilding building) {

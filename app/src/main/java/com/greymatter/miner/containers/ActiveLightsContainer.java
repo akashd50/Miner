@@ -9,13 +9,9 @@ import com.greymatter.miner.game.objects.GameObject;
 import java.util.ArrayList;
 
 public class ActiveLightsContainer {
-    private static HashMapE<ObjId, GameLight> gameLights;
+    private static HashMapE<ObjId, GameLight> gameLights = new HashMapE<ObjId, GameLight>();
 
     public static synchronized void add(GameLight gameLight) {
-        if(gameLights == null) {
-            gameLights = new HashMapE<>();
-        }
-
         gameLights.put(gameLight.getId(), gameLight);
     }
 
@@ -23,6 +19,10 @@ public class ActiveLightsContainer {
         for(GameLight g : gameLight) {
             add(g);
         }
+    }
+
+    public static synchronized void onFrameUpdate() {
+        gameLights.toList().forEach(GameObject::onFrameUpdate);
     }
 
     public static synchronized void remove(ObjId id) {

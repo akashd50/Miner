@@ -1,4 +1,4 @@
-package com.greymatter.miner.enums;
+package com.greymatter.miner.enums.definitions;
 
 public enum DrawableType {
     OBJ,

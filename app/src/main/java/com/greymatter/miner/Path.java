@@ -18,18 +18,19 @@ public class Path {
     public static final String CIRCLE_GRADIENT_SHADER = GRADIENT_SHADERS_F + "circle_gradient";
 
     //textures
-    public static final String TEXTURES_F = "textures/";
-    public static final String TREE_ANIM_I_F = "tree_anim_i/";
-    public static final String GROUND_I = "ground_i.png";
-    public static final String DIALOG_I = "dialog_i.png";
-    public static final String HARMAN = "harman.jpg";
-    public static final String MAIN_BASE_P = "main_base_p.jpg";
-    public static final String MAIN_BASE_FINAL = "main_base.png";
-    public static final String SCANNER_P = "scanner_p.jpg";
-    public static final String ATM_RADIAL_II = "atm_radial_ii.png";
-    public static final String ATM_RADIAL_I = "atm_radial_i.png";
-    public static final String GRASS_PATCH_I = "grass_patch_gimp.png";
-    public static final String BUTTON_I = "button_i.png";
+    public static final String SLASH =              "/";
+    public static final String TEXTURES_DIR =       "textures";
+    public static final String TREE_ANIM_I_DIR =    TEXTURES_DIR + SLASH + "tree_anim_i";
+    public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
+    public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
+    public static final String HARMAN =             TEXTURES_DIR + SLASH + "harman.jpg";
+    public static final String MAIN_BASE_P =        TEXTURES_DIR + SLASH + "main_base_p.jpg";
+    public static final String MAIN_BASE_FINAL =    TEXTURES_DIR + SLASH + "main_base.png";
+    public static final String SCANNER_P =          TEXTURES_DIR + SLASH + "scanner_p.jpg";
+    public static final String ATM_RADIAL_II =      TEXTURES_DIR + SLASH + "atm_radial_ii.png";
+    public static final String ATM_RADIAL_I =       TEXTURES_DIR + SLASH + "atm_radial_i.png";
+    public static final String GRASS_PATCH_I =      TEXTURES_DIR + SLASH + "grass_patch_gimp.png";
+    public static final String BUTTON_I =           TEXTURES_DIR + SLASH + "button_i.png";
 
     //obj files
     public static final String OBJECTS_F = "objects/";

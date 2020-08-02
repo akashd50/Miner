@@ -21,7 +21,7 @@ public abstract class ValueAnimator {
 
     public ValueAnimator withFPS(int fps) {
         _framesPerSecond = fps;
-        _perFrameDelay = 1000/fps;
+        _perFrameDelay = 1000/_framesPerSecond;
         return this;
     }
 

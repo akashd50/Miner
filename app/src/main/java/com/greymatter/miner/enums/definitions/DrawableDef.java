@@ -1,9 +1,8 @@
-package com.greymatter.miner.mainui;
+package com.greymatter.miner.enums.definitions;
 
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ShapeContainer;
-import com.greymatter.miner.enums.DrawableType;
 import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.ShaderId;
@@ -29,12 +28,12 @@ public enum DrawableDef {
     TREE_I(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.TREE_MATERIAL, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
 
     SCANNER_I(DrawableType.OBJ, ShapeId.CIRCLE_SUB_I, MatId.GROUND_MATERIAL, ShaderId.QUAD_SHADER),
-    PIE_GRADIENT_I(DrawableType.RADIANT_GRADIENT, ShapeId.PIE_45, MatId.GRADIENT_COLOR_MAT, ShaderId.CIRCLE_GRADIENT_SHADER),
+    PIE_GRADIENT_I(DrawableType.RADIANT_GRADIENT, ShapeId.PIE_45, MatId.GRADIENT_COLOR_MATERIAL, ShaderId.CIRCLE_GRADIENT_SHADER),
 
-    NOT_BUTTON_I(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MAT_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
-    NOT_BUTTON_II(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MAT_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
-    NOT_BUTTON_III(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MAT_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
-    OBJECT_NOTIFICATION(DrawableType.QUAD, ShapeId.SIMPLE_QUAD, MatId.DIALOG, ShaderId.QUAD_SHADER),
+    NOT_BUTTON_I(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MATERIAL_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
+    NOT_BUTTON_II(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MATERIAL_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
+    NOT_BUTTON_III(DrawableType.OBJ, ShapeId.UV_MAPPED_BOX, MatId.BUTTON_MATERIAL_I, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER),
+    OBJECT_NOTIFICATION(DrawableType.QUAD, ShapeId.SIMPLE_QUAD, MatId.DIALOG_MATERIAL, ShaderId.QUAD_SHADER),
 
     COAL_BLOCK_I(DrawableType.OBJ, ShapeId.COLLISION_BOX, MatId.GROUND_MATERIAL, ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER);
 

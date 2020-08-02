@@ -17,10 +17,17 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
         diffuseTextureFrames = new ArrayList<>();
     }
 
+    public AnimatedTexturedMaterial addDiffuseTextureFrames(String dirPath, String[] files) {
+        for (int i = 0; i < files.length; i++) {
+            addDiffuseTextureFrame(dirPath +"/" + files[i]);
+        }
+        return this;
+    }
+
     public AnimatedTexturedMaterial addDiffuseTextureFrame(String diffuseTexPath) {
         if (diffuseTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, Path.TEXTURES_F +diffuseTexPath);
+            TextureBuilder.attachImage(texture, diffuseTexPath);
             TextureBuilder.finish(texture);
 
             diffuseTextureFrames.add(texture);
@@ -28,7 +35,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
         return this;
     }
 
-    public AnimatedTexturedMaterial withAnimationHandler(IntegerValueAnimator animationHandler) {
+    public AnimatedTexturedMaterial setAnimationHandler(IntegerValueAnimator animationHandler) {
         this.intValueAnimator = animationHandler;
         return this;
     }

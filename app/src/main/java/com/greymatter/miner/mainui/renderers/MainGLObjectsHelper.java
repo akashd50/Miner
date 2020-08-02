@@ -4,7 +4,8 @@ import android.util.Log;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.animators.impl.DialogAnimator;
+import com.greymatter.miner.animators.OnAnimationFrameHandler;
+import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
@@ -18,6 +19,7 @@ import com.greymatter.miner.enums.MatId;
 import com.greymatter.miner.enums.ShaderId;
 import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.ui.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
@@ -33,18 +35,16 @@ import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.animators.BooleanAnimator;
-import com.greymatter.miner.mainui.DrawableDef;
+import com.greymatter.miner.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
-import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.animators.IntegerValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.opengl.shader.Shader;
-import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 import javax.vecmath.Vector2f;
@@ -76,24 +76,19 @@ class MainGLObjectsHelper {
     }
 
     static void loadMaterials() {
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.GROUND_MATERIAL).attachDiffuseTexture(Path.GROUND_I));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.DIALOG).attachDiffuseTexture(Path.DIALOG_I));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.ATMOSPHERE_MATERIAL).attachDiffuseTexture(Path.ATM_RADIAL_II));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.MAIN_BASE_MATERIAL).attachDiffuseTexture(Path.MAIN_BASE_FINAL));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.PLANET_GRASS_MATERIAL_I).attachDiffuseTexture(Path.GRASS_PATCH_I));
-        MaterialContainer.add(new StaticTexturedMaterial(MatId.BUTTON_MAT_I).attachDiffuseTexture(Path.BUTTON_I));
-        MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MAT)
+        MaterialContainer.add(MaterialDef.create(MatId.GROUND_MATERIAL));
+        MaterialContainer.add(MaterialDef.create(MatId.DIALOG_MATERIAL));
+        MaterialContainer.add(MaterialDef.create(MatId.ATMOSPHERE_MATERIAL));
+        MaterialContainer.add(MaterialDef.create(MatId.MAIN_BASE_MATERIAL));
+        MaterialContainer.add(MaterialDef.create(MatId.PLANET_GRASS_MATERIAL_I));
+        MaterialContainer.add(MaterialDef.create(MatId.BUTTON_MATERIAL_I));
+        MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MATERIAL)
                         .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
                         .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.2f))
                         .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0f)));
 
-        MaterialContainer.add(new AnimatedTexturedMaterial(MatId.TREE_MATERIAL)
-                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_i.png")
-                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_ii.png")
-                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_iii.png")
-                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_iv.png")
-                .addDiffuseTextureFrame(Path.TREE_ANIM_I_F + "c_tree_anim_v.png")
-                .withAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5)));
+        MaterialContainer.add(MaterialDef.create(MatId.TREE_MATERIAL).asAnimatedTexturedMaterial()
+                .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5)));
     }
 
     static void loadObjects() {
@@ -217,7 +212,14 @@ class MainGLObjectsHelper {
                                 .setColor(1f,0f,0f,1f)
                                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
                                 .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding())
-                                .moveTo(new Vector2f(-0.33f,0.08f)));
+                                .moveTo(new Vector2f(-0.33f,0.08f))
+                                .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60))
+                                .setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
+                                    @Override
+                                    public void animate(GameObject object, ValueAnimator animator) {
+                                        object.asGameLight().setIntensity(animator.update().getUpdatedFloat());
+                                    }
+                                }));
 
         GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(0f,0f,90);
     }
@@ -237,7 +239,6 @@ class MainGLObjectsHelper {
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
         //ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_TREE_LAYER));
-        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION));
 
         ActiveResourcesContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I).asResourceBlock());
     }

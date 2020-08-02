@@ -3,6 +3,7 @@ package com.greymatter.miner.containers;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ToDrawContainer {
-    private static HashMapE<ObjId, IGameObject> gameObjects;
+    private static HashMapE<ObjId, IGameObject> gameObjects = new HashMapE<>();
     private static Comparator<IGameObject> comparator = new Comparator<IGameObject>() {
         @Override
         public int compare(IGameObject o1, IGameObject o2) {
@@ -25,9 +26,6 @@ public class ToDrawContainer {
     };
 
     public static synchronized void add(IGameObject gameObject) {
-        if(gameObjects == null) {
-            gameObjects = new HashMapE<>();
-        }
         gameObjects.put(gameObject.getId(), gameObject);
         gameObjects.sort(comparator);
     }
@@ -39,20 +37,20 @@ public class ToDrawContainer {
         }
     }
 
-    public static synchronized void onDrawFrame(Camera camera) {
-        gameObjects.toList().forEach((gameObject) -> {
-            if(gameObject.shouldDraw()) {
-                gameObject.onFrameUpdate();
-                gameObject.getTransforms().applyTransformations();
-                ShaderHelper.useProgram(gameObject.getDrawable().getShader());
-                ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
-                ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());
-                gameObject.onDrawFrame();
+    public static synchronized void onFrameUpdate() {
+        gameObjects.toList().forEach(IGameObject::onFrameUpdate);
+    }
 
-                gameObject.getChildren().toList().forEach(child -> {
-                    onDrawFrame(child, camera);
-                });
-            }
+    public static synchronized void applyTransformations() {
+        gameObjects.toList().forEach(object -> {object.getTransforms().applyTransformations();});
+    }
+
+    public static synchronized void onDrawFrame(Camera camera) {
+        ActiveLightsContainer.onFrameUpdate();
+        ToDrawContainer.applyTransformations();
+
+        gameObjects.toList().forEach((gameObject) -> {
+                onDrawFrame(gameObject, camera);
         });
     }
 
