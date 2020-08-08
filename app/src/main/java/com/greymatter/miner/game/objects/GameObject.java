@@ -152,7 +152,7 @@ public abstract class GameObject extends GTransformable {
         return this;
     }
 
-    public GameObject setRigidBody(RigidBody rigidBody) {
+    public GameObject setRB(RigidBody rigidBody) {
         this.rigidBody = rigidBody;
         this.rigidBody.setTransforms(getTransforms());
         getTransforms().onTransformsChanged();
@@ -160,13 +160,13 @@ public abstract class GameObject extends GTransformable {
     }
 
     public GameObject setPolygonRB() {
-        this.setRigidBody(new PolygonRB(getId(), objectDrawable.getShape().getOrderedOuterMesh()));
+        this.setRB(new PolygonRB(getId(), objectDrawable.getShape().getOrderedOuterMesh()));
         this.setPolygonTC();
         return this;
     }
 
     public GameObject setGeneralRB() {
-        this.setRigidBody(new GeneralRB(getId()));
+        this.setRB(new GeneralRB(getId()));
         return this;
     }
 

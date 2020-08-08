@@ -1,15 +1,15 @@
 package com.greymatter.miner.opengl.objects.materials;
 
-import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import com.greymatter.miner.opengl.shader.Shader;
 
 public abstract class Material {
-    private MatId id;
+    private MaterialDef id;
     private boolean shouldSetOnDrawFrame;
-    public Material(MatId id) {
+    public Material(MaterialDef id) {
         this.id = id;
         shouldSetOnDrawFrame = true;
     }
@@ -28,6 +28,7 @@ public abstract class Material {
     public TexturedMaterial asTexturedMaterial() {
         return (TexturedMaterial) this;
     }
+
     public AnimatedTexturedMaterial asAnimatedTexturedMaterial() {
         return (AnimatedTexturedMaterial) this;
     }
@@ -42,7 +43,7 @@ public abstract class Material {
 
     protected abstract void setShaderPropertiesHelper(Shader shader);
 
-    public MatId getId() {
+    public MaterialDef getId() {
         return id;
     }
 }

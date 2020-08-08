@@ -1,9 +1,7 @@
 package com.greymatter.miner.opengl.objects.materials.colored;
 
-import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.helpers.BufferHelper;
-import com.greymatter.miner.opengl.shader.Shader;
-import com.greymatter.miner.opengl.shader.ShaderHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +9,7 @@ import javax.vecmath.Vector4f;
 
 public class StaticColoredMaterial extends ColoredMaterial {
 
-    public StaticColoredMaterial(MatId id) {
+    public StaticColoredMaterial(MaterialDef id) {
         super(id);
     }
 

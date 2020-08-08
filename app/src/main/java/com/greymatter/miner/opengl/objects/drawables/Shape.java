@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.Path;
-import com.greymatter.miner.enums.ShapeId;
+import com.greymatter.miner.enums.definitions.ShapeDef;
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.opengl.ShapesHelper;
 import com.greymatter.miner.opengl.objects.drawables.object3d.RawObjData;
@@ -10,14 +10,14 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Shape {
-    private ShapeId id;
+    private ShapeDef id;
     public float top, bottom, left, right;
     public float radius, innerAngle, xyRatio;
     private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
     private ArrayList<Vector2f> shapeUVs;
     private RawObjData rawObjData;
     private float[] verticesArray, uvsArray;
-    public Shape(ShapeId id) {
+    public Shape(ShapeDef id) {
         this.id = id;
         shapeVertices = new ArrayList<>();
         shapeUVs = new ArrayList<>();
@@ -181,7 +181,7 @@ public class Shape {
         return xyRatio;
     }
 
-    public ShapeId getId() {
+    public ShapeDef getId() {
         return id;
     }
 }

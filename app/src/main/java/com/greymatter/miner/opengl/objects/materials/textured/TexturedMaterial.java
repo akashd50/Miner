@@ -1,13 +1,13 @@
 package com.greymatter.miner.opengl.objects.materials.textured;
 
-import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.Texture;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 
 public abstract class TexturedMaterial extends Material {
-    public TexturedMaterial(MatId id) {
+    public TexturedMaterial(MaterialDef id) {
         super(id);
     }
 

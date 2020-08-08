@@ -9,7 +9,7 @@ import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 public class GameUI extends GameObject {
     public GameUI(ObjId id, Drawable drawable) {
         super(id, drawable);
-        this.setRigidBody(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
+        this.setRB(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh())).setPolygonTC();
         this.getRigidBody().isStaticObject(true);
         this.setAnimator(new FloatValueAnimator().setBounds(0f,1f).withFPS(60).setPerFrameIncrement(0.1f));
     }

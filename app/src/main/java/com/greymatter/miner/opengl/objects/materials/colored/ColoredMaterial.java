@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects.materials.colored;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.enums.MatId;
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
@@ -13,7 +13,7 @@ import javax.vecmath.Vector4f;
 public abstract class ColoredMaterial extends Material {
     private int colorsIndex;
     private ArrayList<HashMapE<String,Vector4f>> colors;
-    public ColoredMaterial(MatId id) {
+    public ColoredMaterial(MaterialDef id) {
         super(id);
         colorsIndex = 0;
         colors = new ArrayList<>();

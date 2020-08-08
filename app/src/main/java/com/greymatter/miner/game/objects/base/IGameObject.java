@@ -49,7 +49,7 @@ public interface IGameObject {
     IGameObject setAnimator(ValueAnimator valueAnimator);
     IGameObject setOnTouchListener(OnTouchListener onTouchListener);
     IGameObject setOnClickListener(OnClickListener onClickListener);
-    IGameObject setRigidBody(RigidBody rigidBody);
+    IGameObject setRB(RigidBody rigidBody);
     IGameObject setPolygonRB();
     IGameObject setGeneralRB();
     IGameObject setPolygonTC();

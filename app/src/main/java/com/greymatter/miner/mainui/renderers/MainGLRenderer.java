@@ -19,8 +19,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
         GLES30.glEnable(GLES20.GL_DEPTH_TEST);
 
-        MainGLObjectsHelper.loadShaders();
-        MainGLObjectsHelper.loadMaterials();
         MainGLObjectsHelper.loadObjects();
         MainGLObjectsHelper.loadPhysicsObjects();
         MainGLObjectsHelper.finishObjectsSetup();

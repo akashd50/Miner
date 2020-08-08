@@ -1,8 +1,8 @@
 package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
-import com.greymatter.miner.Path;
-import com.greymatter.miner.enums.MatId;
+
+import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
 
@@ -22,7 +22,7 @@ public class StaticTexturedMaterial extends TexturedMaterial {
 
     private ArrayList<Vector4f> colors;
 
-    public StaticTexturedMaterial(MatId id) {
+    public StaticTexturedMaterial(MaterialDef id) {
         super(id);
         ambient = new Vector3f(1.0f,1.0f,1.0f);
         diffuse = new Vector3f(1.0f,1.0f,1.0f);

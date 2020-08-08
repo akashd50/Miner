@@ -11,15 +11,13 @@ import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.containers.ShapeContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.MatId;
-import com.greymatter.miner.enums.ShaderId;
-import com.greymatter.miner.enums.ShapeId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.enums.definitions.MaterialDef;
+import com.greymatter.miner.enums.definitions.ShaderDef;
+import com.greymatter.miner.enums.definitions.ShapeDef;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.ui.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
@@ -39,18 +37,15 @@ import com.greymatter.miner.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.opengl.objects.drawables.Shape;
-import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.animators.IntegerValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
-import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
-import com.greymatter.miner.Path;
+
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 class MainGLObjectsHelper {
@@ -66,41 +61,18 @@ class MainGLObjectsHelper {
         }
     }
 
-    public static void loadShaders() {
-        ShaderContainer.addShader(new Shader(ShaderId.SIMPLE_TRIANGLE_SHADER).load(Path.SIMPLE_TRIANGLE_SHADER));
-        ShaderContainer.addShader(new Shader(ShaderId.QUAD_SHADER).load(Path.QUAD_SHADER));
-        ShaderContainer.addShader(new Shader(ShaderId.THREE_D_OBJECT_SHADER).load(Path.THREE_D_OBJECT_SHADER));
-        ShaderContainer.addShader(new Shader(ShaderId.LINE_SHADER).load(Path.LINE_SHADER));
-        ShaderContainer.addShader(new Shader(ShaderId.CIRCLE_GRADIENT_SHADER).load(Path.CIRCLE_GRADIENT_SHADER));
-        ShaderContainer.addShader(new Shader(ShaderId.THREE_D_OBJECT_W_LIGHTING_SHADER).load(Path.THREE_D_OBJECT_W_LIGHTING_SHADER));
-    }
-
-    static void loadMaterials() {
-        MaterialContainer.add(MaterialDef.create(MatId.GROUND_MATERIAL));
-        MaterialContainer.add(MaterialDef.create(MatId.DIALOG_MATERIAL));
-        MaterialContainer.add(MaterialDef.create(MatId.ATMOSPHERE_MATERIAL));
-        MaterialContainer.add(MaterialDef.create(MatId.MAIN_BASE_MATERIAL));
-        MaterialContainer.add(MaterialDef.create(MatId.PLANET_GRASS_MATERIAL_I));
-        MaterialContainer.add(MaterialDef.create(MatId.BUTTON_MATERIAL_I));
-        MaterialContainer.add(new StaticColoredMaterial(MatId.GRADIENT_COLOR_MATERIAL)
-                        .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
-                        .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.2f))
-                        .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0f)));
-
-        MaterialContainer.add(MaterialDef.create(MatId.TREE_MATERIAL).asAnimatedTexturedMaterial()
-                .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5)));
-    }
-
     static void loadObjects() {
-        ShapeContainer.add(new Shape(ShapeId.COLLISION_BOX).loadObj(Path.BOX).build());
-        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SIMPLE).loadObj(Path.CIRCLE_SIMPLE).build());
-        ShapeContainer.add(new Shape(ShapeId.UV_MAPPED_BOX).loadObj(Path.UV_MAPPED_BOX).build());
-        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SUB_III).loadObj(Path.CIRCLE_SUB_DIV_III).build());
-        ShapeContainer.add(new Shape(ShapeId.CIRCLE_SUB_I).loadObj(Path.CIRCLE_SUB_DIV_I).build());
-        ShapeContainer.add(new Shape(ShapeId.PIE_45).loadPie(45f,1f).build());
-        ShapeContainer.add(new Shape(ShapeId.CIRCLE_EDGE).loadEdgeOutline(ShapeContainer.get(ShapeId.CIRCLE_SUB_III), 0.01f).build());
-        //ShapeContainer.add(new Shape(ShapeId.PLANET_TREE_EDGE).loadEdgeOutline(ShapeContainer.get(ShapeId.CIRCLE_SUB_I), 0.026f).build());
-        ShapeContainer.add(new Shape(ShapeId.SIMPLE_QUAD).loadQuad(1.2f).build());
+        ShaderDef.loadAll();
+        MaterialDef.loadAll();
+        ShapeDef.loadAll();
+
+        MaterialContainer.get(MaterialDef.GRADIENT_COLOR_MATERIAL).asColoredMaterial()
+                .addColor(ShaderConst.GRADIENT_CENTER_COLOR, new Vector4f(0f,0.2f,0.2f,0.6f))
+                .addColor(ShaderConst.GRADIENT_MID_COLOR, new Vector4f(0f,0.4f,0.3f,0.2f))
+                .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0f));
+        MaterialContainer.get(MaterialDef.TREE_MATERIAL).asAnimatedTexturedMaterial()
+                .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5));
+
 
         GameObjectsContainer.add(new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
                                 .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
@@ -227,7 +199,7 @@ class MainGLObjectsHelper {
     static void finishObjectsSetup() {
         IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
         GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
-                            .setShader(ShaderContainer.get(ShaderId.LINE_SHADER))
+                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
                             .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
                             .build()));
 
@@ -244,24 +216,22 @@ class MainGLObjectsHelper {
     }
 
     static void loadPhysicsObjects() {
-        IGameObject planet = GameObjectsContainer.get(ObjId.PLANET).setPolygonRB();
-        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB();
-        IGameObject mainBase = GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
-        IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
-        sampleScanner.setRigidBody(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
-        sampleScanner.setPolygonTC();
+        GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
 
-        planet.getRigidBody().isStaticObject(true)
-                            .getRBProps().setMass(1000000f).setRestitution(0.3f);
+        GameObjectsContainer.get(ObjId.PLANET).setPolygonRB().getRigidBody().isStaticObject(true)
+                                            .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
-        mainCharacter.getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB().getRigidBody().isStaticObject(false)
                                     .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
+        IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
+        sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
+        sampleScanner.setPolygonTC();
         sampleScanner.getRigidBody().isStaticObject(false)
                                     .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
         //assign colliders and listeners
-        mainCharacter.getRigidBody().setCollisionListener(new GeneralCollisionListener());
+        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().setCollisionListener(new GeneralCollisionListener());
         sampleScanner.getRigidBody().setCollisionListener(new GeneralCollisionListener());
     }
 
