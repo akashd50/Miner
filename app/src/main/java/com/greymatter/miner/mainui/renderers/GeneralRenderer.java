@@ -46,8 +46,8 @@ public class GeneralRenderer extends AbstractRenderer {
         accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getRBProps().getVelocity(),40f));
         vertexData.add(accPoint);
 
-        ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.NOT_BUTTON_I).getRigidBody().asPolygonRB().getTransformedVertices()).build();
-        testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
+//        ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.DIALOG_BUTTON_I).getRigidBody().asPolygonRB().getTransformedVertices()).build();
+//        testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);

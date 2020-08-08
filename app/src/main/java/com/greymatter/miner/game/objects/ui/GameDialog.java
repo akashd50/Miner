@@ -2,6 +2,9 @@ package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.impl.DialogAnimator;
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
@@ -20,13 +23,34 @@ public class GameDialog extends GameUI {
         super(id, drawable);
     }
 
+    public GameDialog() {
+        super(ObjId.OBJECT_NOTIFICATION, DrawableDef.create(ObjId.OBJECT_NOTIFICATION));
+        isAnimationComplete = true;
+        defaultScale = new Vector3f();
+        setOnAnimationFrameHandler(new DialogAnimator());
+
+        setButtonI(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_I)));
+        setButtonII(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_II)));
+        setDefaultScale(new Vector3f(2f,1.5f, 1f));
+        shouldDraw(false);
+        translationFromParent(true);
+        addTag(Tag.NOTIFICATION);
+    }
+
+    @Override
+    public IGameObject setParent(IGameObject parent) {
+        float r = parent.getTransforms().getScale().y + this.getTransforms().getScale().y + 0.2f;
+        moveTo(0f,r, 1.5f);
+        return super.setParent(parent);
+    }
+
     @Override
     public void onDrawFrame() {
         super.onDrawFrame();
     }
 
     public GameDialog setButtonI(GameButton button) {
-        addChild(ObjId.NOT_BUTTON_I, button);
+        addChild(ObjId.DIALOG_BUTTON_I, button);
         button.getTransforms()
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
@@ -36,7 +60,7 @@ public class GameDialog extends GameUI {
     }
 
     public GameDialog setButtonII(GameButton button) {
-        addChild(ObjId.NOT_BUTTON_II, button);
+        addChild(ObjId.DIALOG_BUTTON_II, button);
         button.getTransforms()
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
@@ -46,12 +70,12 @@ public class GameDialog extends GameUI {
     }
 
     public GameDialog setButtonIClickListener(OnClickListener listener) {
-        getChild(ObjId.NOT_BUTTON_I).setOnClickListener(listener);
+        getChild(ObjId.DIALOG_BUTTON_I).setOnClickListener(listener);
         return this;
     }
 
     public GameDialog setButtonIIClickListener(OnClickListener listener) {
-        getChild(ObjId.NOT_BUTTON_II).setOnClickListener(listener);
+        getChild(ObjId.DIALOG_BUTTON_II).setOnClickListener(listener);
         return this;
     }
 

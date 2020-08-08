@@ -23,6 +23,8 @@ public interface IGameObject {
 
     IGameObject addChild(ObjId id, IGameObject object);
     IGameObject getChild(ObjId id);
+    IGameObject setParent(IGameObject parent);
+    IGameObject getParent();
     HashMapE<ObjId, IGameObject> getChildren();
 
     Transforms getTransforms();

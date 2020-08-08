@@ -73,25 +73,6 @@ class MainGLObjectsHelper {
         MaterialContainer.get(MaterialDef.TREE_MATERIAL).asAnimatedTexturedMaterial()
                 .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5));
 
-
-        GameObjectsContainer.add(new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
-                                .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
-                                .setButtonII(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_II)))
-                                .setDefaultScale(new Vector3f(2f,1.5f,1f))
-                                .setButtonIClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(GameObject object) {
-                                        System.out.println("NOT I - Button Click -> " + object);
-                                    }
-                                }).setButtonIIClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(GameObject object) {
-                                        System.out.println("NOT II - Button Click -> " + object);
-                                    }
-                                }).addTag(Tag.NOTIFICATION).shouldDraw(false)
-                                .moveTo(0f,1.9f, 1.5f)
-                                .translationFromParent(true));
-
         GameObjectsContainer.add(new CoalBlock(DrawableDef.create(ObjId.COAL_BLOCK_I))
                                 .addTag(Tag.RESOURCE_OBJECT)
                                 .scaleTo(0.2f,0.2f).moveTo(10f,-4f, -2f));
@@ -121,54 +102,37 @@ class MainGLObjectsHelper {
                                 .addTag(Tag.PHYSICS_OBJECT)
                                 .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f)
                                 .setOnTouchListener(new GeneralTouchListener())
-                                .addChild(ObjId.OBJECT_NOTIFICATION, GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION))
-                                .setOnClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(GameObject object) {
-                                        if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
-                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
-                                        }else{
-                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
-                                        }
+                                .setOnClickListener(object -> {
+                                    if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                    }else{
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
                                     }
-                                }));
+                                }).addChild(ObjId.OBJECT_NOTIFICATION, new GameDialog().setButtonIClickListener(object -> {
+                                                                            System.out.println("NOT I - Button Click -> " + object);
+                                                                        }).setButtonIIClickListener(object -> {
+                                                                            System.out.println("NOT II - Button Click -> " + object);
+                                                                        })));
 
         GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
                                 .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                 .setAnimator(new BooleanAnimator().withFPS(10))
                                 .setOnAnimationFrameHandler(new ScannerAnimationHandler())
-                                .addTag(Tag.PLACABLE_GAME_BUILDING)
-                                .addTag(Tag.PHYSICS_OBJECT)
+                                .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.PHYSICS_OBJECT)
                                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
                                 .setOnTouchListener(new GeneralTouchListener())
-                                .setOnClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(GameObject object) {
-                                        if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
-                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
-                                        }else{
-                                            ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
-                                        }
+                                .setOnClickListener(object -> {
+                                    if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                    }else{
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
                                     }
-                                })
-                                .addChild(ObjId.OBJECT_NOTIFICATION,
-                                        new GameDialog(DrawableDef.create(ObjId.OBJECT_NOTIFICATION))
-                                        .setButtonI(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_I)))
-                                        .setButtonII(new GameButton(DrawableDef.create(ObjId.NOT_BUTTON_II)))
-                                        .setDefaultScale(new Vector3f(2f,1.5f, 1f))
-                                        .setButtonIClickListener(new OnClickListener() {
-                                            @Override
-                                            public void onClick(GameObject object) {
-                                                System.out.println("NOT I - Button Click -> " + object);
-                                            }
-                                        }).setButtonIIClickListener(new OnClickListener() {
-                                            @Override
-                                            public void onClick(GameObject object) {
-                                                System.out.println("NOT II - Button Click -> " + object);
-                                            }
-                                        }).addTag(Tag.NOTIFICATION).shouldDraw(false)
-                                        .moveTo(0f,2.1f, 1.5f)
-                                        .translationFromParent(true)));
+                                }).addChild(ObjId.OBJECT_NOTIFICATION, new GameDialog().setButtonIClickListener(object -> {
+                                                                            System.out.println("NOT I - Button Click -> " + object);
+                                                                        }).setButtonIIClickListener(object -> {
+                                                                            System.out.println("NOT II - Button Click -> " + object);
+                                                                        })));
+
 
         GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.TREE_I))
                                 .scaleTo(1f,1.5f).moveTo(0f,0f, -6f));
@@ -186,11 +150,8 @@ class MainGLObjectsHelper {
                                 .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding())
                                 .moveTo(new Vector2f(-0.33f,0.08f))
                                 .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60))
-                                .setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
-                                    @Override
-                                    public void animate(GameObject object, ValueAnimator animator) {
-                                        object.asGameLight().setIntensity(animator.update().getUpdatedFloat());
-                                    }
+                                .setOnAnimationFrameHandler((object, animator) -> {
+                                    object.asGameLight().setIntensity(animator.update().getUpdatedFloat());
                                 }));
 
         GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(0f,0f,90);
