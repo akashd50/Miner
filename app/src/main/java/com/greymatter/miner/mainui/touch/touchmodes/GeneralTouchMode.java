@@ -61,7 +61,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                         ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
                     }
 
-                    if(object.hasTag(Tag.PHYSICS_OBJECT)) {
+                    if(object.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT) || object.hasTag(Tag.STATIC_PHYSICS_OBJECT)) {
                         CollisionSystemContainer.add(object.getRigidBody());
                     }
 

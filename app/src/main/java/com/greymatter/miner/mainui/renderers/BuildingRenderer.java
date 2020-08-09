@@ -20,11 +20,11 @@ public class BuildingRenderer extends AbstractRenderer {
         super.onDrawFrame();
 
         IGameObject planet = GameObjectsContainer.get(ObjId.PLANET);
-        Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
+        //Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
-        ((Line)testLine).setColor(new Vector4f(0f,0f,1f,1f))
-                .setVertices(planet.getRigidBody().asPolygonRB().getTransformedVertices()).build();
+//        ((Line)testLine).setColor(new Vector4f(0f,0f,1f,1f))
+//                .setVertices(planet.getRigidBody().asPolygonRB().getTransformedVertices()).build();
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);

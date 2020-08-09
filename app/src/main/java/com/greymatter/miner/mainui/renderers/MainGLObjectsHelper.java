@@ -4,13 +4,10 @@ import android.util.Log;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.animators.OnAnimationFrameHandler;
-import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.MaterialContainer;
-import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
@@ -19,10 +16,8 @@ import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.enums.definitions.ShaderDef;
 import com.greymatter.miner.enums.definitions.ShapeDef;
 import com.greymatter.miner.game.objects.Animated;
-import com.greymatter.miner.game.objects.ui.GameButton;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.ui.GameDialog;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
@@ -34,16 +29,13 @@ import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.enums.definitions.DrawableDef;
-import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.IntegerValueAnimator;
-import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
@@ -103,12 +95,12 @@ class MainGLObjectsHelper {
                                 .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f)
                                 .setOnTouchListener(new GeneralTouchListener())
                                 .setOnClickListener(object -> {
-                                    if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                    if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).show();
                                     }else{
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).hide();
                                     }
-                                }).addChild(ObjId.OBJECT_NOTIFICATION, new GameDialog().setButtonIClickListener(object -> {
+                                }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
                                                                             System.out.println("NOT I - Button Click -> " + object);
                                                                         }).setButtonIIClickListener(object -> {
                                                                             System.out.println("NOT II - Button Click -> " + object);
@@ -135,12 +127,12 @@ class MainGLObjectsHelper {
                                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
                                 .setOnTouchListener(new GeneralTouchListener())
                                 .setOnClickListener(object -> {
-                                    if(!object.getChild(ObjId.OBJECT_NOTIFICATION).shouldDraw()) {
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).show();
+                                    if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).show();
                                     }else{
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_NOTIFICATION)).hide();
+                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).hide();
                                     }
-                                }).addChild(ObjId.OBJECT_NOTIFICATION, new GameDialog().setButtonIClickListener(object -> {
+                                }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
                                                                             System.out.println("NOT I - Button Click -> " + object);
                                                                         }).setButtonIIClickListener(object -> {
                                                                             System.out.println("NOT II - Button Click -> " + object);
