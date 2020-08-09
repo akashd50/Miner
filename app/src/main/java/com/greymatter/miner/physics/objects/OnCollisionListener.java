@@ -34,7 +34,6 @@ public interface OnCollisionListener {
                 if(!event.getAgainstObject().isStaticObject()) {
                     event.getAgainstObject().getRBProps().updateVelocity(VectorHelper.multiply(impulse, -1f));
                 }
-
                 angularAdjustmentDueToGravity(event, impulse);
             }
         }

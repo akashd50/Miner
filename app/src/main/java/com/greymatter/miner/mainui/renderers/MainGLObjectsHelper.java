@@ -89,7 +89,7 @@ class MainGLObjectsHelper {
                                 .scaleTo(190f,190f).moveTo(0f,-120.5f, -10f));
 
         GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
-                                .addTag(Tag.STATIC).addTag(Tag.PHYSICS_OBJECT)
+                                .addTag(Tag.STATIC).addTag(Tag.STATIC_PHYSICS_OBJECT)
                                 .scaleTo(120f,120f).moveTo(0f,-120.5f, 0f));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
@@ -99,7 +99,7 @@ class MainGLObjectsHelper {
                                 .setOnTouchListener(new GeneralTouchListener()));
 
         GameObjectsContainer.add(new InteractiveObject(DrawableDef.create(ObjId.MAIN_CHARACTER))
-                                .addTag(Tag.PHYSICS_OBJECT)
+                                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                                 .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f)
                                 .setOnTouchListener(new GeneralTouchListener())
                                 .setOnClickListener(object -> {
@@ -114,11 +114,24 @@ class MainGLObjectsHelper {
                                                                             System.out.println("NOT II - Button Click -> " + object);
                                                                         })));
 
+        //-------------------------------------
+        GameObjectsContainer.add(new InteractiveObject(DrawableDef.create(ObjId.TEST_OBJ_I))
+                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
+                .scaleTo(0.5f,0.5f).moveBy(-4f,2f,0f)
+                .setOnTouchListener(new GeneralTouchListener()));
+
+        GameObjectsContainer.add(new InteractiveObject(DrawableDef.create(ObjId.TEST_OBJ_II))
+                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
+                .scaleTo(0.5f,0.5f).moveBy(-2f,4f,0f)
+                .setOnTouchListener(new GeneralTouchListener()));
+        //-------------------------------------
+
+
         GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
                                 .setRangeObject(GameObjectsContainer.get(ObjId.PIE_GRADIENT_I))
                                 .setAnimator(new BooleanAnimator().withFPS(10))
                                 .setOnAnimationFrameHandler(new ScannerAnimationHandler())
-                                .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.PHYSICS_OBJECT)
+                                .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
                                 .setOnTouchListener(new GeneralTouchListener())
                                 .setOnClickListener(object -> {
@@ -158,16 +171,18 @@ class MainGLObjectsHelper {
     }
 
     static void finishObjectsSetup() {
-        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
-        GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
-                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
-                            .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
-                            .build()));
+//        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
+//        GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
+//                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
+//                            .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
+//                            .build()));
 
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
+        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.MAIN_CHARACTER));
+        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_I));
+        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_II));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
@@ -176,29 +191,40 @@ class MainGLObjectsHelper {
         ActiveResourcesContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I).asResourceBlock());
     }
 
-    static void loadPhysicsObjects() {
+    static void initiatePhysicsSystem() {
         GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
 
         GameObjectsContainer.get(ObjId.PLANET).setPolygonRB().getRigidBody().isStaticObject(true)
-                                            .getRBProps().setMass(1000000f).setRestitution(0.3f);
+                .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
         GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB().getRigidBody().isStaticObject(false)
-                                    .getRBProps().setMass(1.0f).setRestitution(0.5f);
+                .getRBProps().setMass(1.0f).setRestitution(0.1f);
+
+        GameObjectsContainer.get(ObjId.TEST_OBJ_I).setPolygonRB().getRigidBody().isStaticObject(false)
+                .getRBProps().setMass(1.0f).setRestitution(0f);
+
+        GameObjectsContainer.get(ObjId.TEST_OBJ_II).setPolygonRB().getRigidBody().isStaticObject(false)
+                .getRBProps().setMass(1.0f).setRestitution(0f);
 
         IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
         sampleScanner.setPolygonTC();
         sampleScanner.getRigidBody().isStaticObject(false)
-                                    .getRBProps().setMass(1.0f).setRestitution(0.5f);
+                .getRBProps().setMass(1.0f).setRestitution(0.5f);
 
-        //assign colliders and listeners
-        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().setCollisionListener(new GeneralCollisionListener());
-        sampleScanner.getRigidBody().setCollisionListener(new GeneralCollisionListener());
-    }
+        //assign listeners
+        GameObjectsContainer.getAll().forEach(iGameObject -> {
+            if(iGameObject.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT)) {
+                iGameObject.getRigidBody().setCollisionListener(new GeneralCollisionListener());
+            }
+        });
 
-    static void initiatePhysicsSystem() {
-        CollisionSystemContainer.add(GameObjectsContainer.get(ObjId.PLANET).getRigidBody());
-        CollisionSystemContainer.add(GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody());
+        ToDrawContainer.getAll().forEach(iGameObject -> {
+            if(iGameObject.hasTag(Tag.STATIC_PHYSICS_OBJECT) || iGameObject.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT)) {
+                CollisionSystemContainer.add(iGameObject.getRigidBody());
+            }
+        });
+
         CollisionDetectionSystem.initialize();
     }
 

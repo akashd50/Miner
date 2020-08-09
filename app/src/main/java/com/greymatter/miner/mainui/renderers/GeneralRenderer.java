@@ -37,14 +37,14 @@ public class GeneralRenderer extends AbstractRenderer {
 
         Drawable planet = GameObjectsContainer.get(ObjId.PLANET).getDrawable();
         IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
-        Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
+//        Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/
-        ArrayList<Vector3f> vertexData = new ArrayList<>();
-        vertexData.add(mainCharacter.getTransforms().getTranslation());
-        Vector3f accPoint = new Vector3f(mainCharacter.getTransforms().getTranslation());
-        accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getRBProps().getVelocity(),40f));
-        vertexData.add(accPoint);
+//        ArrayList<Vector3f> vertexData = new ArrayList<>();
+//        vertexData.add(mainCharacter.getTransforms().getTranslation());
+//        Vector3f accPoint = new Vector3f(mainCharacter.getTransforms().getTranslation());
+//        accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getRBProps().getVelocity(),40f));
+//        vertexData.add(accPoint);
 
 //        ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.DIALOG_BUTTON_I).getRigidBody().asPolygonRB().getTransformedVertices()).build();
 //        testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));

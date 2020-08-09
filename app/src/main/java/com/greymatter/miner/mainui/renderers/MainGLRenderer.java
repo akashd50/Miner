@@ -20,7 +20,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
         GLES30.glEnable(GLES20.GL_DEPTH_TEST);
 
         MainGLObjectsHelper.loadObjects();
-        MainGLObjectsHelper.loadPhysicsObjects();
         MainGLObjectsHelper.finishObjectsSetup();
         MainGLObjectsHelper.initiatePhysicsSystem();
     }

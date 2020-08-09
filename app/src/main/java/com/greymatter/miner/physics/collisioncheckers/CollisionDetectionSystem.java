@@ -1,6 +1,9 @@
 package com.greymatter.miner.physics.collisioncheckers;
 
+import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
+import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;
@@ -8,23 +11,30 @@ import javax.vecmath.Vector3f;
 
 public class CollisionDetectionSystem {
     private static boolean isCollisionDetectionActive;
+    private static BooleanAnimator systemForcesTimeAnimator;
 
     public synchronized static void initialize() {
         isCollisionDetectionActive = true;
+        systemForcesTimeAnimator = new BooleanAnimator();
+        systemForcesTimeAnimator.withFPS(60);
+
         new Thread(new Runnable() {
             @Override
             public synchronized void run() {
                 while(isCollisionDetectionActive) {
-                    for (RigidBody rigidBody : CollisionSystemContainer.getAll()) {
-                        if(!rigidBody.isStaticObject()) {
-                            for (RigidBody toCheckAgainst : CollisionSystemContainer.getAllExcept(rigidBody)) {
-                                CollisionEvent event = CollisionDetectionHelper.checkCollision(rigidBody, toCheckAgainst);
+                    if(systemForcesTimeAnimator.update().getUpdatedBoolean()) {
+                        CollisionDetectionSystem.updateSystemObjectsForces();
+                        for (RigidBody rigidBody : CollisionSystemContainer.getAll()) {
+                            if(!rigidBody.isStaticObject()) {
+                                for (RigidBody toCheckAgainst : CollisionSystemContainer.getAllExcept(rigidBody)) {
+                                    CollisionEvent event = CollisionDetectionHelper.checkCollision(rigidBody, toCheckAgainst);
 
-                                assert event != null;
-                                if (event.getCollisionStatus() && rigidBody.getCollisionListener() != null) {
-                                    rigidBody.getCollisionListener().onCollision(event);
+                                    assert event != null;
+                                    if (event.getCollisionStatus() && rigidBody.getCollisionListener() != null) {
+                                        rigidBody.getCollisionListener().onCollision(event);
+                                    }
+                                    rigidBody.addOrUpdateCollisionEvent(event);
                                 }
-                                rigidBody.addOrUpdateCollisionEvent(event);
                             }
                         }
                     }
@@ -43,7 +53,13 @@ public class CollisionDetectionSystem {
                         angularAdjustmentDueToGravity(rigidBody,against);
                     }
                 }
-                rigidBody.getRBProps().applyFriction(VectorHelper.multiply(rigidBody.getRBProps().getVelocity(), -0.01f * rigidBody.getRBProps().getMass()));
+                CollisionEvent event = rigidBody.getLastCollisionEvent(GameObjectsContainer.get(ObjId.PLANET).getRigidBody());
+                if(event!=null && event.getCollisionStatus()) {
+                    rigidBody.getRBProps().applyFriction(VectorHelper.multiply(rigidBody.getRBProps().getVelocity(), (-0.01f * rigidBody.getRBProps().getMass())));
+                }else{
+                    float distanceFromPlanet = (float)VectorHelper.getDistanceWithSQRT(rigidBody.getTransforms().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getRigidBody().getTransforms().getTranslation());
+                    rigidBody.getRBProps().applyFriction(VectorHelper.multiply(rigidBody.getRBProps().getVelocity(), (-0.01f * rigidBody.getRBProps().getMass())/distanceFromPlanet));
+                }
                 rigidBody.update();
             }
         }
@@ -73,10 +89,15 @@ public class CollisionDetectionSystem {
             }
         }
 
+//        if(magSumNegSide<magSumPosSide) {
+//            current.getRBProps().updateAngularVelocity(0.01f);
+//        }else{
+//            current.getRBProps().updateAngularVelocity(-0.01f);
+//        }
         if(magSumNegSide<magSumPosSide) {
-            current.getRBProps().updateAngularVelocity(0.01f);
+            current.getRBProps().setAngularAcceleration(0.00001f);
         }else{
-            current.getRBProps().updateAngularVelocity(-0.01f);
+            current.getRBProps().setAngularAcceleration(-0.00001f);
         }
     }
 

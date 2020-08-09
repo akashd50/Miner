@@ -10,6 +10,8 @@ public enum ObjId {
     MAIN_BASE_LIGHT_I,
 
     MAIN_CHARACTER,
+    TEST_OBJ_I,
+    TEST_OBJ_II,
 
     TEST_BALL,
     TEST_LINE,

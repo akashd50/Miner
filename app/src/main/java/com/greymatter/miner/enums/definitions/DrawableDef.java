@@ -20,6 +20,8 @@ public enum DrawableDef {
     MAIN_BASE_LIGHT_I(DrawableType.OBJ, null, null, null),
 
     MAIN_CHARACTER(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.GROUND_MATERIAL, ShaderDef.THREE_D_OBJECT_W_LIGHTING_SHADER),
+    TEST_OBJ_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.GROUND_MATERIAL, ShaderDef.THREE_D_OBJECT_W_LIGHTING_SHADER),
+    TEST_OBJ_II(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.GROUND_MATERIAL, ShaderDef.THREE_D_OBJECT_W_LIGHTING_SHADER),
 
     TEST_LINE(DrawableType.LINE, null, null, ShaderDef.LINE_SHADER),
     TREE_I(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.TREE_MATERIAL, ShaderDef.THREE_D_OBJECT_W_LIGHTING_SHADER),

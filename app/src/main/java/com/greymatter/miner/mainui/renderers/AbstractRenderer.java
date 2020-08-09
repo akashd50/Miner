@@ -26,6 +26,6 @@ public abstract class AbstractRenderer {
     public synchronized void onDrawFrame() {
         GLES30.glClearColor(0.05f,0.05f,0.1f,1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
-        CollisionDetectionSystem.updateSystemObjectsForces();
+        //CollisionDetectionSystem.updateSystemObjectsForces();
     }
 }
