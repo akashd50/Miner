@@ -20,19 +20,19 @@ public abstract class GameNotification extends GameUI {
         defaultScale = new Vector3f();
 
         setOnAnimationFrameHandler((object, animator) -> {
-            GameNotification dialog = (GameNotification) object;
-            if(dialog.shouldDraw() && !dialog.isAnimationComplete()) {
-                Vector3f scale = dialog.getTransforms().getScale();
+            GameNotification notification = (GameNotification) object;
+            if(notification.shouldDraw() && !notification.isAnimationComplete()) {
+                Vector3f scale = notification.getTransforms().getScale();
                 float newVal = animator.update().getUpdatedFloat();
-                dialog.scaleTo(dialog.getDefaultScale().x * newVal, dialog.getDefaultScale().y * newVal);
-                if(scale.x >= dialog.getDefaultScale().x-0.2 || scale.y >= dialog.getDefaultScale().y-0.2) {
-                    dialog.isAnimationComplete(true);
-                    dialog.getAnimator().reset();
+                notification.scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
+                if(newVal >= 1f - animator.getPerFrameIncrement()) {
+                    notification.isAnimationComplete(true);
+                    notification.getAnimator().reset();
                 }
             }
         });
 
-        shouldDraw(false).translationFromParent(true).addTag(Tag.NOTIFICATION);
+        shouldDraw(false).addTag(Tag.NOTIFICATION);
     }
 
     public GameNotification show() {
@@ -50,8 +50,9 @@ public abstract class GameNotification extends GameUI {
 
     @Override
     public IGameObject setParent(IGameObject parent) {
-        float r = parent.getTransforms().getScale().y + this.getTransforms().getScale().y + 0.2f;
+        float r = parent.getTransforms().getScale().y/2 + this.defaultScale.y/2 + 0.6f;
         moveTo(0f,r, 1.5f);
+        translationFromParent(true);
         return super.setParent(parent);
     }
 

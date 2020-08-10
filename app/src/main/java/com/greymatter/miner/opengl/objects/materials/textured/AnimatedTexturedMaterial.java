@@ -17,7 +17,7 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
         diffuseTextureFrames = new ArrayList<>();
     }
 
-    public AnimatedTexturedMaterial addDiffuseTextureFrames(String dirPath, String[] files) {
+    public AnimatedTexturedMaterial addMainTextureFrames(String dirPath, String[] files) {
         for (int i = 0; i < files.length; i++) {
             addDiffuseTextureFrame(dirPath +"/" + files[i]);
         }
@@ -41,22 +41,22 @@ public class AnimatedTexturedMaterial extends TexturedMaterial {
     }
 
     @Override
-    public boolean hasDiffuseTexture() {
+    public boolean hasMainTexture() {
         return true;
     }
 
     @Override
-    public boolean hasRoughnessTexture() {
+    public boolean hasLightTexture() {
         return false;
     }
 
     @Override
-    public Texture getActiveDiffuseTexture() {
+    public Texture getActiveMainTexture() {
         return diffuseTextureFrames.get(intValueAnimator.update().getUpdatedInt());
     }
 
     @Override
-    public Texture getActiveRoughnessTexture() {
+    public Texture getActiveLightTexture() {
         return null;
     }
 

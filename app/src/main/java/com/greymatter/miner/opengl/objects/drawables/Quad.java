@@ -23,7 +23,7 @@ public class Quad extends Drawable {
 
 	public Quad build() {
 		if(getMaterial() instanceof TexturedMaterial) {
-			textureRatio = getMaterial().asTexturedMaterial().getActiveDiffuseTexture().getRatio();
+			textureRatio = getMaterial().asTexturedMaterial().getActiveMainTexture().getRatio();
 		}
 
 		if (textureRatio == 0.0f) {

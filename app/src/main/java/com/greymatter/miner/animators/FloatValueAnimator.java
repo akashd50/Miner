@@ -51,6 +51,11 @@ public class FloatValueAnimator extends ValueAnimator {
         return currentValue;
     }
 
+    @Override
+    public float getPerFrameIncrement() {
+        return perFrameIncrement;
+    }
+
     public FloatValueAnimator setBounds(float lowerBound, float upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;

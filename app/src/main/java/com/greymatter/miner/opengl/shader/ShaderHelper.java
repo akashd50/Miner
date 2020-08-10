@@ -6,9 +6,7 @@ import android.util.Log;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
-import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
@@ -67,24 +65,16 @@ public class ShaderHelper {
         //setUniformVec3("cameraPosWS", *camera.getTranslation());
     }
 
-//    public static void setMaterialProperties(Shader shader, Material material) {
-//        if(material.shouldSetOnDrawFrame()) {
-//            if (material instanceof TexturedMaterial) {
-//                setTexturedMaterialProperties(shader, material.asTexturedMaterial());
-//            } else if (material instanceof ColoredMaterial) {
-//                setColoredMaterialProperties(shader, material.asColoredMaterial());
-//            }
-//        }
-//    }
-
     public static void setTexturedMaterialProperties(Shader shader, TexturedMaterial texturedMaterial) {
-        setUniformInt(shader, "material.diffuseTexture", 0);
-        setUniformInt(shader, "material.specularTexture", 1);
-        if (texturedMaterial.hasDiffuseTexture()) {
-            setTextureUnit2D(0, texturedMaterial.getActiveDiffuseTexture().getTextureId());
+        if (texturedMaterial.hasMainTexture()) {
+            setUniformInt(shader, "material.mainTexture", 0);
+            setTextureUnit2D(0, texturedMaterial.getActiveMainTexture().getTextureId());
+            setUniformInt(shader, "material.hasLightTexture", 0);
         }
-        if (texturedMaterial.hasRoughnessTexture()) {
-            setTextureUnit2D(1, texturedMaterial.getActiveRoughnessTexture().getTextureId());
+        if (texturedMaterial.hasLightTexture()) {
+            setUniformInt(shader, "material.lightTexture", 1);
+            setTextureUnit2D(1, texturedMaterial.getActiveLightTexture().getTextureId());
+            setUniformInt(shader, "material.hasLightTexture", 1);
         }
     }
 

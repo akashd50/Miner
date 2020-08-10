@@ -11,7 +11,6 @@ public class GameDialog extends GameNotification {
     public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
     }
-
     public GameDialog(ObjId id, Drawable drawable) {
         super(id, drawable);
     }

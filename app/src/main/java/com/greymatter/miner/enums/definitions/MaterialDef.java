@@ -11,30 +11,33 @@ import java.io.IOException;
 import static com.greymatter.miner.enums.definitions.MaterialType.*;
 
 public enum MaterialDef {
-    GROUND_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.GROUND_I),
-    DIALOG_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.DIALOG_I),
-    ATMOSPHERE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.ATM_RADIAL_II),
-    PLANET_GRASS_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.GRASS_PATCH_I),
-    TREE_MATERIAL(ANIMATED_TEXTURED_MATERIAL, Path.TREE_ANIM_I_DIR),
-    GRADIENT_COLOR_MATERIAL(STATIC_COLORED_MATERIAL, null),
-    BUTTON_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.BUTTON_I),
-    MAIN_BASE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.MAIN_BASE_FINAL);
+    GROUND_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.GROUND_I, null),
+    DIALOG_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.DIALOG_I, null),
+    ATMOSPHERE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.ATM_RADIAL_II, null),
+    PLANET_GRASS_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.GRASS_PATCH_I, null),
+    TREE_MATERIAL(ANIMATED_TEXTURED_MATERIAL, Path.TREE_ANIM_I_DIR, null),
+    GRADIENT_COLOR_MATERIAL(STATIC_COLORED_MATERIAL, null, null),
+    BUTTON_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.BUTTON_I, null),
+    MAIN_BASE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.MAIN_BASE_FINAL, null),
+    SIGNAL_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.SIGNAL_I, Path.SIGNAL_EXCL);
 
 
     public final MaterialType MATERIAL_TYPE;
-    public final String DIFF_PATH;
-    MaterialDef(MaterialType matType, String diffusePath) {
+    public final String MAIN_TEX_PATH;
+    public final String LIGHT_TEX_PATH;
+    MaterialDef(MaterialType matType, String mainTexPath, String lightTexPath) {
         MATERIAL_TYPE = matType;
-        DIFF_PATH = diffusePath;
+        MAIN_TEX_PATH = mainTexPath;
+        LIGHT_TEX_PATH = lightTexPath;
     }
 
     public static Material create(MaterialDef id) {
         switch (id.MATERIAL_TYPE) {
             case STATIC_TEXTURED_MATERIAL:
-                return new StaticTexturedMaterial(id).attachDiffuseTexture(id.DIFF_PATH);
+                return new StaticTexturedMaterial(id).attachMainTexture(id.MAIN_TEX_PATH);
             case ANIMATED_TEXTURED_MATERIAL:
                 try {
-                    return new AnimatedTexturedMaterial(id).addDiffuseTextureFrames(id.DIFF_PATH, AppServices.getAssetManager().list(id.DIFF_PATH));
+                    return new AnimatedTexturedMaterial(id).addMainTextureFrames(id.MAIN_TEX_PATH, AppServices.getAssetManager().list(id.MAIN_TEX_PATH));
                 }catch (IOException e) {
                     e.printStackTrace();
                 }

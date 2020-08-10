@@ -21,6 +21,8 @@ public class Path {
     public static final String TREE_ANIM_I_DIR =    TEXTURES_DIR + SLASH + "tree_anim_i";
     public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
     public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
+    public static final String SIGNAL_I =           TEXTURES_DIR + SLASH + "signal_i.png";
+    public static final String SIGNAL_EXCL =        TEXTURES_DIR + SLASH + "signal_excl.png";
     public static final String HARMAN =             TEXTURES_DIR + SLASH + "harman.jpg";
     public static final String MAIN_BASE_P =        TEXTURES_DIR + SLASH + "main_base_p.jpg";
     public static final String MAIN_BASE_FINAL =    TEXTURES_DIR + SLASH + "main_base.png";

@@ -6,100 +6,52 @@ import com.greymatter.miner.enums.definitions.MaterialDef;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
 
-import java.util.ArrayList;
-
-import javax.vecmath.Vector3f;
-import javax.vecmath.Vector4f;
-
 public class StaticTexturedMaterial extends TexturedMaterial {
-    private Texture diffuseTexture;
-    private Texture roughnessTexture;
-
-    private float shinniness;
-    private Vector3f ambient;
-    private Vector3f diffuse;
-    private Vector3f specular;
-
-    private ArrayList<Vector4f> colors;
+    private Texture mainTexture;
+    private Texture lightTexture;
 
     public StaticTexturedMaterial(MaterialDef id) {
         super(id);
-        ambient = new Vector3f(1.0f,1.0f,1.0f);
-        diffuse = new Vector3f(1.0f,1.0f,1.0f);
-        specular = new Vector3f(0.5f,0.5f,0.5f);
-        shinniness = 1.0f;
     }
 
-    public StaticTexturedMaterial attachDiffuseTexture(String diffTexName) {
+    public StaticTexturedMaterial attachMainTexture(String diffTexName) {
         if (diffTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, diffTexName);
             TextureBuilder.finish(texture);
-            diffuseTexture = texture;
+            mainTexture = texture;
         }
         return this;
     }
 
-    public StaticTexturedMaterial attachRoughnessTexture(String roughTexName) {
+    public StaticTexturedMaterial attachLightTexture(String roughTexName) {
         if (roughTexName.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
             TextureBuilder.attachImage(texture, roughTexName);
             TextureBuilder.finish(texture);
-            roughnessTexture = texture;
+            lightTexture = texture;
         }
         return this;
     }
 
     @Override
-    public Texture getActiveDiffuseTexture() {
-        return diffuseTexture;
+    public Texture getActiveMainTexture() {
+        return mainTexture;
     }
 
     @Override
-    public Texture getActiveRoughnessTexture() {
-        return roughnessTexture;
-    }
-
-    public float getShinniness() {
-        return shinniness;
-    }
-
-    public void setShinniness(float f) {
-        this.shinniness = f;
-    }
-
-    public Vector3f getDiffuse() {
-        return this.diffuse;
-    }
-
-    public Vector3f getSpecular() {
-        return this.specular;
-    }
-
-    public Vector3f getAmbient() {
-        return this.ambient;
-    }
-
-    public void setDiffuse(Vector3f diff) {
-        this.diffuse = diff;
-    }
-
-    public void setSpecular(Vector3f spec) {
-        this.specular = spec;
-    }
-
-    public void setAmbient(Vector3f amb) {
-        this.ambient = amb;
+    public Texture getActiveLightTexture() {
+        return lightTexture;
     }
 
     @Override
-    public boolean hasDiffuseTexture() {
-        return this.diffuseTexture != null;
+    public boolean hasMainTexture() {
+        return this.mainTexture != null;
     }
 
     @Override
-    public boolean hasRoughnessTexture() {
-        return this.roughnessTexture != null;
+    public boolean hasLightTexture() {
+        return this.lightTexture != null;
     }
 }
 

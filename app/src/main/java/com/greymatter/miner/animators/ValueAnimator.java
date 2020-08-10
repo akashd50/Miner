@@ -59,6 +59,10 @@ public abstract class ValueAnimator {
     protected abstract void updateOverridePositive();
     protected abstract void updateOverrideNegative();
 
+    public float getPerFrameIncrement() {
+        return 0f;
+    }
+
     public int getUpdatedInt(){
         return 0;
     }

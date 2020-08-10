@@ -1,12 +1,9 @@
 #version 300 es
 precision highp float;
 struct Material {
-    sampler2D diffuseTexture;
-    sampler2D specularTexture;
-    float specMultiplier;
-    vec3 diffuse;
-    vec3 specular;
-    vec3 ambient;
+    sampler2D mainTexture;
+    sampler2D lightTexture;
+    int hasLightTexture;
 };
 
 #define MAX_LIGHTS 5
@@ -46,9 +43,20 @@ void main() {
         }
     }
 
-    vec4 textured = texture(material.diffuseTexture, out_uv);
+    vec4 textured = texture(material.mainTexture, out_uv);
     if(textured.w > 0.2) {
-        FragColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + textured;
+        if(material.hasLightTexture == 0) {
+            FragColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + textured;
+        }
+
+        if(material.hasLightTexture == 1){
+            vec4 lightTextured = texture(material.lightTexture, out_uv);
+            if(lightTextured.w > 0.2) {
+                FragColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + lightTextured;
+            }else{
+                FragColor = textured;
+            }
+        }
     }
 }
 

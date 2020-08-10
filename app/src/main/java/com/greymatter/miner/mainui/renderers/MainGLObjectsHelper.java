@@ -17,6 +17,7 @@ import com.greymatter.miner.enums.definitions.ShaderDef;
 import com.greymatter.miner.enums.definitions.ShapeDef;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.InteractiveObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -25,10 +26,12 @@ import com.greymatter.miner.game.objects.buildings.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.Static;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
+import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.GeneralTouchListener;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.IntegerValueAnimator;
@@ -127,16 +130,19 @@ class MainGLObjectsHelper {
                                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
                                 .setOnTouchListener(new GeneralTouchListener())
                                 .setOnClickListener(object -> {
-                                    if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).show();
+                                    if(!object.getChild(ObjId.OBJECT_SIGNAL).shouldDraw()) {
+                                        ((GameSignal) object.getChild(ObjId.OBJECT_SIGNAL)).show();
                                     }else{
-                                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).hide();
+                                        ((GameSignal) object.getChild(ObjId.OBJECT_SIGNAL)).hide();
                                     }
                                 }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
                                                                             System.out.println("NOT I - Button Click -> " + object);
                                                                         }).setButtonIIClickListener(object -> {
                                                                             System.out.println("NOT II - Button Click -> " + object);
-                                                                        })));
+                                                                        }))
+                                .addChild(ObjId.OBJECT_SIGNAL, new GameSignal().setOnClickListener(object -> {
+
+                                                                                })));
 
 
         GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.TREE_I))

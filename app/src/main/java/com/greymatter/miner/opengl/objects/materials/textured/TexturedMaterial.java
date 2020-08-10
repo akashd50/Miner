@@ -16,10 +16,10 @@ public abstract class TexturedMaterial extends Material {
         ShaderHelper.setTexturedMaterialProperties(shader, this);
     }
 
-    public abstract boolean hasDiffuseTexture();
-    public abstract boolean hasRoughnessTexture();
-    public abstract Texture getActiveDiffuseTexture();
-    public abstract Texture getActiveRoughnessTexture();
+    public abstract boolean hasMainTexture();
+    public abstract boolean hasLightTexture();
+    public abstract Texture getActiveMainTexture();
+    public abstract Texture getActiveLightTexture();
 
     public StaticTexturedMaterial asStaticMaterial() {
         return (StaticTexturedMaterial)this;
