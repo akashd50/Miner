@@ -28,6 +28,7 @@ public enum ObjId {
 
     OBJECT_DIALOG,
     OBJECT_SIGNAL,
+    OBJECT_SIGNAL_LIGHT,
 
     COAL_BLOCK_I;
 }

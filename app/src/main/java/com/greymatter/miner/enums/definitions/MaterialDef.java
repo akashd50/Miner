@@ -34,7 +34,7 @@ public enum MaterialDef {
     public static Material create(MaterialDef id) {
         switch (id.MATERIAL_TYPE) {
             case STATIC_TEXTURED_MATERIAL:
-                return new StaticTexturedMaterial(id).attachMainTexture(id.MAIN_TEX_PATH);
+                return new StaticTexturedMaterial(id).attachMainTexture(id.MAIN_TEX_PATH).attachLightTexture(id.LIGHT_TEX_PATH);
             case ANIMATED_TEXTURED_MATERIAL:
                 try {
                     return new AnimatedTexturedMaterial(id).addMainTextureFrames(id.MAIN_TEX_PATH, AppServices.getAssetManager().list(id.MAIN_TEX_PATH));

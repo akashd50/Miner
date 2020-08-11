@@ -14,20 +14,20 @@ public class StaticTexturedMaterial extends TexturedMaterial {
         super(id);
     }
 
-    public StaticTexturedMaterial attachMainTexture(String diffTexName) {
-        if (diffTexName.length() > 0) {
+    public StaticTexturedMaterial attachMainTexture(String diffTexPath) {
+        if (diffTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, diffTexName);
+            TextureBuilder.attachImage(texture, diffTexPath);
             TextureBuilder.finish(texture);
             mainTexture = texture;
         }
         return this;
     }
 
-    public StaticTexturedMaterial attachLightTexture(String roughTexName) {
-        if (roughTexName.length() > 0) {
+    public StaticTexturedMaterial attachLightTexture(String lightTexPath) {
+        if (lightTexPath!=null && lightTexPath.length() > 0) {
             Texture texture = TextureBuilder.create(GLES30.GL_TEXTURE_2D);
-            TextureBuilder.attachImage(texture, roughTexName);
+            TextureBuilder.attachImage(texture, lightTexPath);
             TextureBuilder.finish(texture);
             lightTexture = texture;
         }

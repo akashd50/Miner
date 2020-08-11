@@ -43,20 +43,20 @@ void main() {
         }
     }
 
+    vec4 finalColor = vec4(0.0);
     vec4 textured = texture(material.mainTexture, out_uv);
     if(textured.w > 0.2) {
         if(material.hasLightTexture == 0) {
-            FragColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + textured;
-        }
-
-        if(material.hasLightTexture == 1){
+            finalColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + textured;
+        } else {
             vec4 lightTextured = texture(material.lightTexture, out_uv);
             if(lightTextured.w > 0.2) {
-                FragColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) + lightTextured;
+                finalColor = (vec4(total_light_color.xyz * total_light_intensity, 1.0)) * lightTextured;
             }else{
-                FragColor = textured;
+                finalColor = textured;
             }
         }
+        FragColor = finalColor;
     }
 }
 

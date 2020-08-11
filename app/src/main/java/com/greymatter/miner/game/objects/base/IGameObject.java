@@ -7,6 +7,7 @@ import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
+import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.mainui.touch.OnClickListener;
@@ -14,6 +15,8 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
+
+import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
@@ -23,6 +26,7 @@ public interface IGameObject {
 
     IGameObject addChild(ObjId id, IGameObject object);
     IGameObject getChild(ObjId id);
+    ArrayList<IGameObject> getChildrenWithTag(Tag tag);
     IGameObject setParent(IGameObject parent);
     IGameObject getParent();
     HashMapE<ObjId, IGameObject> getChildren();
@@ -66,6 +70,7 @@ public interface IGameObject {
     RigidBody getRigidBody();
     ValueAnimator getAnimator();
     GameBuilding asGameBuilding();
+    GameObjectWGL asGameObjectWGL();
     GameLight asGameLight();
     Animated asAnimatedObject();
     ResourceBlock asResourceBlock();

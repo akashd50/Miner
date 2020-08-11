@@ -101,6 +101,14 @@ public class ShaderHelper {
         }
     }
 
+    public static void clearLightProperties(Shader shader) {
+        String lightIndS = "lights[";
+        String lightIndE = "].";
+        for(int i=0; i<5; i++) {
+            setUniformFloat(shader, lightIndS+i+lightIndE+ShaderConst.LIGHT_RADIUS, 0f);
+        }
+    }
+
     public static int generateShadersAndProgram(String vs, String fs){
         int vertexShad = loadShader(GLES30.GL_VERTEX_SHADER,
                 vs);

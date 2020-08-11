@@ -12,9 +12,9 @@ public class Path {
     public static final String SIMPLE_TRIANGLE_SHADER =             SHADERS_DIR + SLASH + "simple_triangle";
     public static final String QUAD_SHADER =                        SHADERS_DIR + SLASH + "quad";
     public static final String THREE_D_OBJECT_SHADER =              SHADERS_DIR + SLASH + "three_d_object";
-    public static final String THREE_D_OBJECT_W_LIGHTING_SHADER =   SHADERS_DIR + SLASH + "three_d_object_w_lighting";
+    public static final String LIGHTING_SHADER =   SHADERS_DIR + SLASH + "three_d_object_w_lighting";
     public static final String LINE_SHADER =                        SHADERS_DIR + SLASH + "line";
-    public static final String CIRCLE_GRADIENT_SHADER =             SHADERS_DIR + SLASH + GRADIENT_SHADERS_DIR + SLASH + "circle_gradient";
+    public static final String GRADIENT_SHADER =             SHADERS_DIR + SLASH + GRADIENT_SHADERS_DIR + SLASH + "circle_gradient";
 
     //textures
     public static final String TEXTURES_DIR =       "textures";

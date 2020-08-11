@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects.ui;
 
+import com.greymatter.miner.containers.ActiveLightsContainer;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -39,6 +40,7 @@ public abstract class GameNotification extends GameUI {
         isAnimationComplete = false;
         getTransforms().scaleTo(0f,0f);
         this.shouldDraw(true);
+
         return this;
     }
 

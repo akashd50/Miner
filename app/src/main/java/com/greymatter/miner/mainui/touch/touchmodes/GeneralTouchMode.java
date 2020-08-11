@@ -13,6 +13,7 @@ import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -57,9 +58,9 @@ public class GeneralTouchMode extends AbstractTouchMode {
 
                     ToDrawContainer.add(object);
 
-                    if(object instanceof GameBuilding) {
-                        ActiveLightsContainer.addAll(object.asGameBuilding().getAllLights());
-                    }
+//                    if(object instanceof GameObjectWGL) {
+//                        ActiveLightsContainer.addAll(object.asGameObjectWGL().getAllLights());
+//                    }
 
                     if(object.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT) || object.hasTag(Tag.STATIC_PHYSICS_OBJECT)) {
                         CollisionSystemContainer.add(object.getRigidBody());

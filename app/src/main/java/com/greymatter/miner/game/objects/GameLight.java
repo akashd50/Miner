@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -13,7 +14,6 @@ public class GameLight extends GameObject {
     private Vector4f lightColor;
     public GameLight(Drawable drawable) {
         super(drawable.getId(), drawable);
-        super.shouldDraw(false);
         initialize();
     }
 
@@ -23,15 +23,17 @@ public class GameLight extends GameObject {
     }
 
     private void initialize() {
+        super.shouldDraw(false);
         lightColor = new Vector4f();
         radius = 0f;
         innerCutoff = 0f;
         outerCutoff = 0f;
         intensity = 1f;
+        addTag(Tag.GAME_LIGHT);
     }
 
-    public GameLight attachTo(GameBuilding building) {
-        building.addLight(this);
+    public GameLight attachTo(GameObjectWGL object) {
+        object.addLight(this);
         return this;
     }
 
@@ -62,6 +64,12 @@ public class GameLight extends GameObject {
 
     public GameLight setIntensity(float intensity) {
         this.intensity = intensity;
+        return this;
+    }
+
+    @Override
+    public GameLight shouldDraw(boolean shouldDraw) {
+        shouldDraw = false;
         return this;
     }
 

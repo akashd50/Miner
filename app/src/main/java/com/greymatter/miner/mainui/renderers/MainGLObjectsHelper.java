@@ -154,16 +154,16 @@ class MainGLObjectsHelper {
         GameObjectsContainer.add(new Static(DrawableDef.create(ObjId.PLANET_GRASS_LAYER))
                                 .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f));
 
-        GameObjectsContainer.add(new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
+        new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
                                 .setRadius(1f)
                                 .setColor(1f,0f,0f,1f)
                                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
-                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameBuilding())
+                                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameObjectWGL())
                                 .moveTo(new Vector2f(-0.33f,0.08f))
                                 .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60))
                                 .setOnAnimationFrameHandler((object, animator) -> {
                                     object.asGameLight().setIntensity(animator.update().getUpdatedFloat());
-                                }));
+                                });
 
         GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(0f,0f,90);
     }

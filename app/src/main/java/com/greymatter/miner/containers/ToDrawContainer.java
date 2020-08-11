@@ -4,6 +4,7 @@ import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
 import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -46,7 +47,7 @@ public class ToDrawContainer {
     }
 
     public static synchronized void onDrawFrame(Camera camera) {
-        ActiveLightsContainer.onFrameUpdate();
+        //ActiveLightsContainer.onFrameUpdate();
         ToDrawContainer.applyTransformations();
 
         gameObjects.toList().forEach((gameObject) -> {
@@ -55,11 +56,16 @@ public class ToDrawContainer {
     }
 
     private static synchronized void onDrawFrame(IGameObject gameObject, Camera camera) {
+        gameObject.onFrameUpdate();
+
         if(gameObject.shouldDraw()) {
-            gameObject.onFrameUpdate();
             ShaderHelper.useProgram(gameObject.getDrawable().getShader());
             ShaderHelper.setCameraProperties(gameObject.getDrawable().getShader(), camera);
-            ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ActiveLightsContainer.getAll());
+            if(gameObject instanceof GameObjectWGL) {
+                ShaderHelper.setLightProperties(gameObject.getDrawable().getShader(), ((GameObjectWGL) gameObject).getAllLights());
+            }else{
+                ShaderHelper.clearLightProperties(gameObject.getDrawable().getShader());
+            }
             gameObject.onDrawFrame();
 
             gameObject.getChildren().toList().forEach(child -> {

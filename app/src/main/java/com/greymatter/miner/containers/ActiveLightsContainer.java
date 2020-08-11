@@ -15,8 +15,8 @@ public class ActiveLightsContainer {
         gameLights.put(gameLight.getId(), gameLight);
     }
 
-    public static synchronized void addAll(ArrayList<GameLight> gameLight) {
-        for(GameLight g : gameLight) {
+    public static synchronized void addAll(ArrayList<GameLight> gls) {
+        for(GameLight g : gls) {
             add(g);
         }
     }
@@ -29,6 +29,14 @@ public class ActiveLightsContainer {
         GameObject removed = null;
         if(gameLights !=null) {
             removed = gameLights.remove(id);
+        }
+    }
+
+    public static synchronized void removeAll(ArrayList<GameLight> gls) {
+        if(gameLights != null) {
+            gls.forEach(light -> {
+                gameLights.remove(light.getId());
+            });
         }
     }
 

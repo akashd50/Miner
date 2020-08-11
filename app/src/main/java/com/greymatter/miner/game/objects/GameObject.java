@@ -192,7 +192,6 @@ public abstract class GameObject extends GTransformable {
         return objectDrawable;
     }
 
-
     public RigidBody getRigidBody() {
         return rigidBody;
     }
@@ -212,6 +211,10 @@ public abstract class GameObject extends GTransformable {
     //typecasting
     public GameBuilding asGameBuilding() {
         return (GameBuilding)this;
+    }
+
+    public GameObjectWGL asGameObjectWGL() {
+        return (GameObjectWGL)this;
     }
 
     public GameLight asGameLight() {
