@@ -40,13 +40,8 @@ public class Obj extends Drawable {
 		super.onDrawFrame();
 
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-
-		getMaterial().setShaderProperties(getShader());
-
 		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-
 		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, getShape().getRawObjData().faceConfiguration.size() * 3);
-
 		GLBufferHelper.glUnbindVertexArray();
 	}
 

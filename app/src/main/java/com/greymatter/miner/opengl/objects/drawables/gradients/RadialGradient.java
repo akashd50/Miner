@@ -27,7 +27,6 @@ public class RadialGradient extends Gradient {
         GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
 
         ShaderHelper.setUniformMatrix4fv(super.getShader(), ShaderConst.MODEL, super.getTransforms().getModelMatrix());
-        getMaterial().setShaderProperties(getShader());
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_MID_POINT, midPoint);
         ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_RADIUS, radius);
         ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getTransforms().getTranslation());

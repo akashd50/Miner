@@ -12,6 +12,7 @@ import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
+import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -48,6 +49,7 @@ public interface IGameObject {
     Vector3f getLocation();
 
     void onFrameUpdate();
+    void setShaderProperties(Camera camera);
     void onDrawFrame();
     IGameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler);
     IGameObject addTag(Tag tag);

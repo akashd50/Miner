@@ -13,7 +13,10 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.animators.ValueAnimator;
+import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.shader.Shader;
+import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -53,6 +56,14 @@ public abstract class GameObject extends GTransformable {
         if(onAnimationFrameHandler != null && valueAnimator != null) {
             onAnimationFrameHandler.animate(this, valueAnimator);
         }
+    }
+
+    public void setShaderProperties(Camera camera) {
+        Shader toUse = objectDrawable.getShader();
+        ShaderHelper.useProgram(toUse);
+        ShaderHelper.setCameraProperties(toUse, camera);
+        objectDrawable.getMaterial().setShaderProperties(toUse);
+        ShaderHelper.clearLightProperties(toUse);
     }
 
     public void onDrawFrame() {
