@@ -4,6 +4,7 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
@@ -25,22 +26,16 @@ import javax.vecmath.Vector2f;
 
 public class WorldLoader extends Loader {
     public void load() {
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.ATMOSPHERE))
-                .addTag(Tag.STATIC)
-                .scaleTo(190f,190f).moveTo(0f,-120.5f, -10f));
+        //GameObjectsContainer.add();
 
         GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
-                .addTag(Tag.STATIC).addTag(Tag.STATIC_PHYSICS_OBJECT)
                 .scaleTo(120f,120f).moveTo(0f,-120.5f, 0f));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
-                .addTag(Tag.STATIC)
-                .addTag(Tag.PLACABLE_GAME_BUILDING)
                 .scaleTo(4f,2.7f).moveTo(0f,0f,-5f)
                 .setOnTouchListener(new BuildingModeTouchListener()));
 
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.MAIN_CHARACTER))
-                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
+        GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(ObjId.MAIN_CHARACTER))
                 .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,0f)
                 .setOnTouchListener(new GeneralTouchListener())
                 .setOnClickListener(object -> {
@@ -82,7 +77,7 @@ public class WorldLoader extends Loader {
 
         GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
                 .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,-1f)
+                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,0f)
                 .setOnTouchListener(new BuildingModeTouchListener())
                 .setOnClickListener(object -> {
                     if(!object.getChild(ObjId.OBJECT_SIGNAL).shouldDraw()) {
@@ -100,12 +95,12 @@ public class WorldLoader extends Loader {
                 })));
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
-                .scaleTo(1f,1.5f).moveTo(0f,0f, -6f));
+                .scaleTo(1f,1.5f).moveTo(0f,0f, 0f));
 //
 //        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PLANET_TREE_LAYER))
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.PLANET_GRASS_LAYER))
-                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 1f));
+                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 2f));
 
         updateContainer();
         updatePhysicsProperties();
@@ -119,7 +114,7 @@ public class WorldLoader extends Loader {
 //                            .build()));
 
         //ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));
+        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.MAIN_CHARACTER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_I));

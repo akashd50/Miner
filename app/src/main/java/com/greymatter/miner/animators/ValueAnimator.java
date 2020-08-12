@@ -3,10 +3,10 @@ package com.greymatter.miner.animators;
 public abstract class ValueAnimator {
     private long _perFrameDelay, _lastFrameDrawTime;
     private int _framesPerSecond;
-    private boolean toAndFro, isTo;
+    private boolean toAndFro, isIncrementing, isSingleCycle;
     public ValueAnimator() {
         _lastFrameDrawTime = 0;
-        isTo = true;
+        isIncrementing = true;
     }
 
     public ValueAnimator update() {
@@ -35,13 +35,22 @@ public abstract class ValueAnimator {
         return this;
     }
 
-    protected ValueAnimator to(boolean val) {
-        this.isTo = val;
+    public ValueAnimator setSingleCycle(boolean singleCycle) {
+        isSingleCycle = singleCycle;
         return this;
     }
 
-    public boolean isTo() {
-        return isTo;
+    protected ValueAnimator setIncrementing(boolean val) {
+        this.isIncrementing = val;
+        return this;
+    }
+
+    public boolean isIncrementing() {
+        return isIncrementing;
+    }
+
+    public boolean isSingleCycle() {
+        return isSingleCycle;
     }
 
     public boolean toAndFro() {

@@ -18,7 +18,7 @@ public class FloatValueAnimator extends ValueAnimator {
 
     @Override
     protected void updateOverridePositive() {
-        if(isTo()) {
+        if(isIncrementing()) {
             currentValue += perFrameIncrement;
         }else{
             currentValue -= perFrameIncrement;
@@ -26,11 +26,11 @@ public class FloatValueAnimator extends ValueAnimator {
 
         if(currentValue > upperBound) {
             currentValue = toAndFro()? upperBound : lowerBound;
-            to(!toAndFro());
+            if(!isSingleCycle()) setIncrementing(!toAndFro());
         }
         if(currentValue < lowerBound) {
             currentValue = toAndFro()? lowerBound : upperBound;
-            to(true);
+            if(!isSingleCycle()) setIncrementing(true);
         }
     }
 
@@ -54,6 +54,12 @@ public class FloatValueAnimator extends ValueAnimator {
     @Override
     public float getPerFrameIncrement() {
         return perFrameIncrement;
+    }
+
+    public FloatValueAnimator startFrom(float val, boolean isIncrementing) {
+        this.currentValue = val;
+        this.setIncrementing(isIncrementing);
+        return this;
     }
 
     public FloatValueAnimator setBounds(float lowerBound, float upperBound) {
