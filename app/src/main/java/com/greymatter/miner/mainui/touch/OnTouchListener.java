@@ -1,7 +1,7 @@
 package com.greymatter.miner.mainui.touch;
 
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 

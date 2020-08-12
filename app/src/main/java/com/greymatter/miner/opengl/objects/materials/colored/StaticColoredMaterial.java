@@ -1,6 +1,6 @@
 package com.greymatter.miner.opengl.objects.materials.colored;
 
-import com.greymatter.miner.enums.definitions.MaterialDef;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.helpers.BufferHelper;
 
 import java.util.ArrayList;

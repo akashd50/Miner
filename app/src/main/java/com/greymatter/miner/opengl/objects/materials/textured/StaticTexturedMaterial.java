@@ -2,7 +2,7 @@ package com.greymatter.miner.opengl.objects.materials.textured;
 
 import android.opengl.GLES30;
 
-import com.greymatter.miner.enums.definitions.MaterialDef;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.helpers.TextureBuilder;
 import com.greymatter.miner.opengl.objects.Texture;
 

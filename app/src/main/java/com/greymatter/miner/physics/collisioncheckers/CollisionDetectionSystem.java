@@ -3,7 +3,7 @@ package com.greymatter.miner.physics.collisioncheckers;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import com.greymatter.miner.physics.objects.CollisionEvent;

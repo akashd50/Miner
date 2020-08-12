@@ -1,7 +1,7 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders;
 
 import com.greymatter.miner.containers.ShaderContainer;
-import com.greymatter.miner.enums.definitions.ShaderDef;
+import com.greymatter.miner.loaders.enums.definitions.ShaderDef;
 
 public class ShaderLoader extends Loader {
     public void load() {

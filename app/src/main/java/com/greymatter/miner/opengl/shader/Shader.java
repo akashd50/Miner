@@ -1,6 +1,6 @@
 package com.greymatter.miner.opengl.shader;
 
-import com.greymatter.miner.enums.definitions.ShaderDef;
+import com.greymatter.miner.loaders.enums.definitions.ShaderDef;
 import com.greymatter.miner.helpers.ResourceLoader;
 import static com.greymatter.miner.Path.FRAG_SHADER_EXT;
 import static com.greymatter.miner.Path.VERTEX_SHADER_EXT;

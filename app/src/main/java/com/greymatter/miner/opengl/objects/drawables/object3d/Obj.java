@@ -3,12 +3,10 @@ package com.greymatter.miner.opengl.objects.drawables.object3d;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import java.util.*;
 

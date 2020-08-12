@@ -3,7 +3,7 @@ package com.greymatter.miner.mainui.renderers;
 import android.util.Log;
 
 import com.greymatter.miner.AppServices;
-import com.greymatter.miner.game.loaders.Loader;
+import com.greymatter.miner.loaders.Loader;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 

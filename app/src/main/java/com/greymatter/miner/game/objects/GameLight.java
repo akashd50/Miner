@@ -1,12 +1,9 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.game.objects.buildings.GameBuilding;
-import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
+
 import javax.vecmath.Vector4f;
 
 public class GameLight extends GameObject {

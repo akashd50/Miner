@@ -1,6 +1,6 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 
 public class CircularRB extends RigidBody {
     private float radius, transformedRadius;

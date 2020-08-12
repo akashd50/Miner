@@ -1,10 +1,9 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;

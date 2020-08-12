@@ -1,4 +1,4 @@
-package com.greymatter.miner.enums;
+package com.greymatter.miner.loaders.enums;
 
 public enum Tag {
     PLACABLE_GAME_BUILDING,

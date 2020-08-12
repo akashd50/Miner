@@ -1,13 +1,9 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.game.objects.GameObjectWGL;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.opengl.shader.Shader;
-import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
 import java.util.Comparator;

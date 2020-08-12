@@ -1,7 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;

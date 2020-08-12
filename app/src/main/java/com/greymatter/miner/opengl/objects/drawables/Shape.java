@@ -1,7 +1,7 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
 import com.greymatter.miner.Path;
-import com.greymatter.miner.enums.definitions.ShapeDef;
+import com.greymatter.miner.loaders.enums.definitions.ShapeDef;
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.opengl.ShapesHelper;
 import com.greymatter.miner.opengl.objects.drawables.object3d.RawObjData;

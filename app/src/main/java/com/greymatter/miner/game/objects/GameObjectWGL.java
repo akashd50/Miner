@@ -1,6 +1,6 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.shader.ShaderHelper;

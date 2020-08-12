@@ -1,6 +1,5 @@
 package com.greymatter.miner.helpers;
 
-import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 

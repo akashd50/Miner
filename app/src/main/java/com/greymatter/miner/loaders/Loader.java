@@ -1,4 +1,6 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders;
+
+import com.greymatter.miner.loaders.enums.definitions.LoaderDef;
 
 public abstract class Loader {
     public abstract void load();

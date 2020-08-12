@@ -2,8 +2,8 @@ package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.animators.OnAnimationFrameHandler;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.base.GTransformable;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;

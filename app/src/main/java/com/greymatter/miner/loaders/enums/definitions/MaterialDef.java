@@ -1,25 +1,23 @@
-package com.greymatter.miner.enums.definitions;
+package com.greymatter.miner.loaders.enums.definitions;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.Path;
-import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMaterial;
 import java.io.IOException;
-import static com.greymatter.miner.enums.definitions.MaterialType.*;
 
 public enum MaterialDef {
-    GROUND_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.GROUND_I, null),
-    DIALOG_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.DIALOG_I, null),
-    ATMOSPHERE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.ATM_RADIAL_II, null),
-    PLANET_GRASS_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.GRASS_PATCH_I, null),
-    TREE_MATERIAL(ANIMATED_TEXTURED_MATERIAL, Path.TREE_ANIM_I_DIR, null),
-    GRADIENT_COLOR_MATERIAL(STATIC_COLORED_MATERIAL, null, null),
-    BUTTON_MATERIAL_I(STATIC_TEXTURED_MATERIAL, Path.BUTTON_I, null),
-    MAIN_BASE_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.MAIN_BASE_FINAL, null),
-    SIGNAL_MATERIAL(STATIC_TEXTURED_MATERIAL, Path.SIGNAL_I, Path.SIGNAL_EXCL);
+    GROUND_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.GROUND_I, null),
+    DIALOG_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.DIALOG_I, null),
+    ATMOSPHERE_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.ATM_RADIAL_II, null),
+    PLANET_GRASS_MATERIAL_I(MaterialType.STATIC_TEXTURED_MATERIAL, Path.GRASS_PATCH_I, null),
+    TREE_MATERIAL(MaterialType.ANIMATED_TEXTURED_MATERIAL, Path.TREE_ANIM_I_DIR, null),
+    GRADIENT_COLOR_MATERIAL(MaterialType.STATIC_COLORED_MATERIAL, null, null),
+    BUTTON_MATERIAL_I(MaterialType.STATIC_TEXTURED_MATERIAL, Path.BUTTON_I, null),
+    MAIN_BASE_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.MAIN_BASE_FINAL, null),
+    SIGNAL_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.SIGNAL_I, Path.SIGNAL_EXCL);
 
 
     public final MaterialType MATERIAL_TYPE;

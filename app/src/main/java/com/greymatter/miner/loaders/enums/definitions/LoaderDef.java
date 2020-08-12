@@ -1,4 +1,11 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders.enums.definitions;
+
+import com.greymatter.miner.loaders.Loader;
+import com.greymatter.miner.loaders.MaterialLoader;
+import com.greymatter.miner.loaders.ResourceLoader;
+import com.greymatter.miner.loaders.ShaderLoader;
+import com.greymatter.miner.loaders.ShapesLoader;
+import com.greymatter.miner.loaders.WorldLoader;
 
 public enum LoaderDef {
     SHADER_LOADER,

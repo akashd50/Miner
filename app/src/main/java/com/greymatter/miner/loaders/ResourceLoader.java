@@ -1,10 +1,10 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders;
 
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
 
 public class ResourceLoader extends Loader {

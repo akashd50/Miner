@@ -1,8 +1,8 @@
 package com.greymatter.miner.game.objects.ui;
 
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.loaders.enums.Tag;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;

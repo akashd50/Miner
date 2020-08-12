@@ -1,6 +1,6 @@
 package com.greymatter.miner.game.objects.resources;
 
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 

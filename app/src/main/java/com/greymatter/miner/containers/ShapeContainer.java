@@ -1,7 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.enums.definitions.ShapeDef;
+import com.greymatter.miner.loaders.enums.definitions.ShapeDef;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 
 import java.util.ArrayList;

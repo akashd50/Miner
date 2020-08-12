@@ -1,7 +1,7 @@
 package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 

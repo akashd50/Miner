@@ -1,4 +1,4 @@
-package com.greymatter.miner.enums.definitions;
+package com.greymatter.miner.loaders.enums.definitions;
 
 public enum ShapeType {
     OBJ,

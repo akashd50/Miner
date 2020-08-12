@@ -1,8 +1,7 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;

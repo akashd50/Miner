@@ -1,6 +1,6 @@
 package com.greymatter.miner.opengl.objects.materials;
 
-import com.greymatter.miner.enums.definitions.MaterialDef;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.materials.colored.ColoredMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.AnimatedTexturedMaterial;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;

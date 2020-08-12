@@ -1,7 +1,7 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders;
 
 import com.greymatter.miner.containers.ShapeContainer;
-import com.greymatter.miner.enums.definitions.ShapeDef;
+import com.greymatter.miner.loaders.enums.definitions.ShapeDef;
 
 public class ShapesLoader extends Loader {
     public void load() {

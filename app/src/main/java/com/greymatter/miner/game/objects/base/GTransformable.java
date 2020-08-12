@@ -1,6 +1,6 @@
 package com.greymatter.miner.game.objects.base;
 
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Transforms;
 
 import javax.vecmath.Vector2f;

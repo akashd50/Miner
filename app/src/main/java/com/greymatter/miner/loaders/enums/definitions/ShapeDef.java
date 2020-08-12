@@ -1,4 +1,4 @@
-package com.greymatter.miner.enums.definitions;
+package com.greymatter.miner.loaders.enums.definitions;
 
 import com.greymatter.miner.Path;
 import com.greymatter.miner.containers.ShapeContainer;

@@ -3,7 +3,7 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.View;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;

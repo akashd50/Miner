@@ -1,6 +1,6 @@
 package com.greymatter.miner.game.objects.ui;
 
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class GameButton extends GameUI {

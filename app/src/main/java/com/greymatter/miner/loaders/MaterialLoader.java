@@ -1,9 +1,9 @@
-package com.greymatter.miner.game.loaders;
+package com.greymatter.miner.loaders;
 
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.animators.IntegerValueAnimator;
 import com.greymatter.miner.containers.MaterialContainer;
-import com.greymatter.miner.enums.definitions.MaterialDef;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import javax.vecmath.Vector4f;
 
 public class MaterialLoader extends Loader {

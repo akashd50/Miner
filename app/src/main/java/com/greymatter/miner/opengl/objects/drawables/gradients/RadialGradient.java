@@ -3,10 +3,8 @@ package com.greymatter.miner.opengl.objects.drawables.gradients;
 import android.opengl.GLES30;
 
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.enums.ObjId;
+import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.animators.ValueAnimator;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Shape;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.shader.Shader;
