@@ -5,9 +5,9 @@ import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.enums.Tag;
-import com.greymatter.miner.game.objects.Animated;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObjectWGL;
+import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.mainui.touch.OnClickListener;
@@ -74,6 +74,6 @@ public interface IGameObject {
     GameBuilding asGameBuilding();
     GameObjectWGL asGameObjectWGL();
     GameLight asGameLight();
-    Animated asAnimatedObject();
+    GenericObject asGenericObject();
     ResourceBlock asResourceBlock();
 }

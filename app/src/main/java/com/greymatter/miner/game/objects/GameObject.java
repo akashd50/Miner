@@ -232,8 +232,8 @@ public abstract class GameObject extends GTransformable {
         return (GameLight) this;
     }
 
-    public Animated asAnimatedObject() {
-        return (Animated) this;
+    public GenericObject asGenericObject() {
+        return (GenericObject) this;
     }
 
     public ResourceBlock asResourceBlock() {

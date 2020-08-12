@@ -18,6 +18,7 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
+import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 import java.util.ArrayList;
@@ -162,5 +163,9 @@ public class GeneralTouchMode extends AbstractTouchMode {
             return true;
         }
         return false;
+    }
+
+    public ViewMode getViewMode() {
+        return ViewMode.GENERAL_MODE;
     }
 }

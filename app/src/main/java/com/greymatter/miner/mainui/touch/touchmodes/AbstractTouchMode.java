@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
+import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
@@ -95,4 +96,5 @@ public abstract class AbstractTouchMode {
     public abstract boolean doOnTouchDown(View v);
     public abstract boolean doOnTouchMove(View v);
     public abstract boolean doOnTouchUp(View v);
+    public abstract ViewMode getViewMode();
 }

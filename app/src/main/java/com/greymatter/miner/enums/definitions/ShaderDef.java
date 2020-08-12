@@ -20,11 +20,4 @@ public enum ShaderDef {
     public static Shader create(ShaderDef id) {
         return new Shader(id).load(id.SHADER_PATH);
     }
-
-    public static void loadAll() {
-        ShaderDef[] ids = ShaderDef.values();
-        for (int i = 0; i < ids.length; i++) {
-            ShaderContainer.addShader(create(ids[i]));
-        }
-    }
 }

@@ -1,9 +1,13 @@
 package com.greymatter.miner.game.objects.buildings;
 
+import com.greymatter.miner.animators.BooleanAnimator;
+import com.greymatter.miner.animators.FloatValueAnimator;
+import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
-import com.greymatter.miner.game.objects.Animated;
+import com.greymatter.miner.enums.definitions.DrawableDef;
+import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -13,14 +17,31 @@ import javax.vecmath.Vector3f;
 
 public class Scanner extends GameBuilding {
     private float _scannerRange, _scanningAngle;
-    private Animated rangeObject;
+    private GenericObject rangeObject;
     private ResourceBlock currentlyTracking;
 
     public Scanner(Drawable drawable) {
         super(drawable.getId(), drawable);
+        initialize();
     }
+
     public Scanner(ObjId id, Drawable drawable) {
         super(id, drawable);
+        initialize();
+    }
+
+    private void initialize() {
+        this.setRangeObject(new GenericObject(DrawableDef.create(ObjId.PIE_GRADIENT_I))
+                                    .moveTo(0,0f, 2f).scaleTo(2f,1.5f)
+                                    .setAnimator(new FloatValueAnimator().withFPS(60)
+                                                .setBounds(0f,1f)
+                                                .setPerFrameIncrement(0.04f).toAndFro(true))
+                                    .setOnAnimationFrameHandler((object, animator) -> {
+                                        object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
+                                    }));
+
+        this.setAnimator(new BooleanAnimator().withFPS(10));
+        this.setOnAnimationFrameHandler(new ScannerAnimationHandler());
     }
 
     @Override
@@ -86,7 +107,7 @@ public class Scanner extends GameBuilding {
     }
 
     public Scanner setRangeObject(IGameObject rangeObject) {
-        this.rangeObject = rangeObject.asAnimatedObject();
+        this.rangeObject = rangeObject.asGenericObject();
         this.rangeObject.getTransforms().copyTranslationFromParent(true);
         this.addChild(ObjId.SCANNER_RANGE, rangeObject);
         return this;

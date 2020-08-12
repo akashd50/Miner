@@ -6,6 +6,7 @@ import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
+import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;
@@ -77,5 +78,9 @@ public class BuildingTouchMode extends AbstractTouchMode {
     private boolean doOnTouchUpGLSurface() {
 
         return false;
+    }
+
+    public ViewMode getViewMode() {
+        return ViewMode.BUILDING_MODE;
     }
 }

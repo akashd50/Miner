@@ -41,11 +41,4 @@ public enum ShapeDef {
         }
         return null;
     }
-
-    public static void loadAll() {
-        ShapeDef[] ids = ShapeDef.values();
-        for (int i = 0; i < ids.length; i++) {
-            ShapeContainer.add(create(ids[i]));
-        }
-    }
 }

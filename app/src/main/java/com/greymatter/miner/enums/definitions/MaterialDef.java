@@ -47,11 +47,4 @@ public enum MaterialDef {
                 return null;
         }
     }
-
-    public static void loadAll() {
-        MaterialDef[] ids = MaterialDef.values();
-        for (int i = 0; i < ids.length; i++) {
-            MaterialContainer.add(create(ids[i]));
-        }
-    }
 }
