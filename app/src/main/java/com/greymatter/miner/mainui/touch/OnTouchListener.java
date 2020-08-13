@@ -14,6 +14,6 @@ public interface OnTouchListener {
 
     default void defaultOnTouchMove(GameObject gameObject, Vector2f pointer) {
         gameObject.moveTo(pointer);
-        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), gameObject.getDrawable()));
+        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), gameObject.getDrawable()) - 90);
     }
 }

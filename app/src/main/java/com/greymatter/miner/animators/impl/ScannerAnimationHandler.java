@@ -11,7 +11,7 @@ import javax.vecmath.Vector3f;
 public class ScannerAnimationHandler implements OnAnimationFrameHandler {
     @Override
     public void animate(GameObject object, ValueAnimator animator) {
-        if(animator.update().getUpdatedBoolean()) {
+        if(animator.getUpdatedBoolean()) {
             Scanner scanner = (Scanner)object;
             ResourceBlock currentlyTracking = scanner.getCurrentlyTracking();
             currentlyTracking = currentlyTracking==null? scanner.findClosestResource() : currentlyTracking;

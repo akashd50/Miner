@@ -51,7 +51,7 @@ public interface IGameObject {
     void onFrameUpdate();
     void setShaderProperties(Camera camera);
     void onDrawFrame();
-    IGameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler);
+    //IGameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler);
     IGameObject addTag(Tag tag);
     IGameObject shouldDraw(boolean shouldDraw);
     IGameObject setAnimator(ValueAnimator valueAnimator);

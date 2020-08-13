@@ -26,11 +26,17 @@ public class FloatValueAnimator extends ValueAnimator {
 
         if(currentValue > upperBound) {
             currentValue = toAndFro()? upperBound : lowerBound;
-            if(!isSingleCycle()) setIncrementing(!toAndFro());
+            setIncrementing(!toAndFro());
+            if(isSingleCycle()) {
+                this.pause();
+            }
         }
         if(currentValue < lowerBound) {
             currentValue = toAndFro()? lowerBound : upperBound;
-            if(!isSingleCycle()) setIncrementing(true);
+            setIncrementing(true);
+            if(isSingleCycle()) {
+                this.pause();
+            }
         }
     }
 

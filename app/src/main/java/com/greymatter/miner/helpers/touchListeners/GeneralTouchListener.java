@@ -1,4 +1,4 @@
-package com.greymatter.miner.helpers;
+package com.greymatter.miner.helpers.touchListeners;
 
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.mainui.touch.OnTouchListener;

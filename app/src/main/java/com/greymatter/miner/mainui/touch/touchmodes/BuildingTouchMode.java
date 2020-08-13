@@ -33,7 +33,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
                 Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
+                if(getTouchEventBundle().getObject().onTouchDownEvent(touchPoint)) return true;
                 return doOnTouchDownGLSurface();
         }
         return false;
@@ -55,7 +55,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.mainGLSurfaceView:
                 Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
+                if(getTouchEventBundle().getObject().onTouchUpEvent(touchPoint)) return true;
                 return doOnTouchUpGLSurface();
         }
         return false;
@@ -68,10 +68,14 @@ public class BuildingTouchMode extends AbstractTouchMode {
     }
 
     private boolean doOnTouchMoveGLSurface() {
-        getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-        Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
-        fromCenterToCam.normalize();
-        getMainCamera().setUpVector(fromCenterToCam);
+        if(getTouchHelper().getCurrentPointerCount()==1) {
+            getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
+            fromCenterToCam.normalize();
+            getMainCamera().setUpVector(fromCenterToCam);
+        }else{
+            getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.1f : getMainCamera().getZoomValue()* 0.1f);
+        }
         return true;
     }
 

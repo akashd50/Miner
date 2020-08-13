@@ -17,11 +17,14 @@ public class GameDialog extends GameNotification {
 
     public GameDialog() {
         super(ObjId.OBJECT_DIALOG, DrawableDef.create(ObjId.OBJECT_DIALOG));
+        initialize();
+    }
 
+    private void initialize() {
         setButtonI(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_I)));
         setButtonII(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_II)));
-
         setDefaultScale(new Vector3f(2f,1.5f, 1f));
+        moveBy(0f,0f,2f);
         addTag(Tag.DIALOG);
     }
 
@@ -31,7 +34,8 @@ public class GameDialog extends GameNotification {
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
                     .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.4f, 2f);
+        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.4f, 4f);
+        button.setDefaultScale(new Vector3f(0.4f, 0.2f, 1f));
         return this;
     }
 
@@ -41,7 +45,8 @@ public class GameDialog extends GameNotification {
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
                 .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.4f, 2f);
+        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.4f, 4f);
+        button.setDefaultScale(new Vector3f(0.4f, 0.2f, 1f));
         return this;
     }
 

@@ -7,7 +7,6 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
 public abstract class GameNotification extends GameUI {
-    private Vector3f defaultScale;
     private boolean isAnimationComplete;
 
     public GameNotification(ObjId id, Drawable drawable) {
@@ -17,13 +16,12 @@ public abstract class GameNotification extends GameUI {
 
     private void initialize() {
         isAnimationComplete = true;
-        defaultScale = new Vector3f();
 
-        setOnAnimationFrameHandler((object, animator) -> {
+        getAnimator().setOnAnimationFrameHandler((object, animator) -> {
             GameNotification notification = (GameNotification) object;
             if(notification.shouldDraw() && !notification.isAnimationComplete()) {
                 Vector3f scale = notification.getTransforms().getScale();
-                float newVal = animator.update().getUpdatedFloat();
+                float newVal = animator.getUpdatedFloat();
                 notification.scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
                 if(newVal >= 1f - animator.getPerFrameIncrement()) {
                     notification.isAnimationComplete(true);
@@ -51,7 +49,7 @@ public abstract class GameNotification extends GameUI {
 
     @Override
     public IGameObject setParent(IGameObject parent) {
-        float r = parent.getTransforms().getScale().y/2 + this.defaultScale.y/2 + 0.6f;
+        float r = parent.getTransforms().getScale().y/2 + this.getDefaultScale().y/2 + 0.6f;
         moveTo(0f,r, 1.5f);
         translationFromParent(true);
         return super.setParent(parent);
@@ -62,16 +60,9 @@ public abstract class GameNotification extends GameUI {
         return this;
     }
 
-    public GameNotification setDefaultScale(Vector3f scale) {
-        this.defaultScale.set(scale);
-        return this;
-    }
+
 
     public boolean isAnimationComplete() {
         return isAnimationComplete;
-    }
-
-    public Vector3f getDefaultScale() {
-        return defaultScale;
     }
 }

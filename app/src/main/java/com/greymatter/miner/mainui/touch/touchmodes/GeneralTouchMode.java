@@ -18,6 +18,8 @@ import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
+import com.greymatter.miner.opengl.objects.Transforms;
+
 import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
@@ -59,6 +61,10 @@ public class GeneralTouchMode extends AbstractTouchMode {
 //                    if(object instanceof GameObjectWGL) {
 //                        ActiveLightsContainer.addAll(object.asGameObjectWGL().getAllLights());
 //                    }
+
+                    Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
+                    object.moveTo(0f,planetTransforms.getTranslation().y + planetTransforms.getScale().y + object.getTransforms().getScale().y);
+
 
                     if(object.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT) || object.hasTag(Tag.STATIC_PHYSICS_OBJECT)) {
                         CollisionSystemContainer.add(object.getRigidBody());

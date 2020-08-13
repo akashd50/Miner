@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.loaders.enums.ObjId;
@@ -9,7 +10,7 @@ import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
-public class Planet extends GameBuilding {
+public class Planet extends GameObject {
     private GroupMap<String, Vector3f> resources;
     public Planet(Drawable drawable) {
         super(drawable.getId(), drawable);

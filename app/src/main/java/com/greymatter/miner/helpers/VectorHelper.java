@@ -62,7 +62,12 @@ public class VectorHelper {
 
     public static float angleBetween(Drawable d1, Drawable d2) {
         Vector3f d1Tod2 = VectorHelper.sub(d2.getTransforms().getTranslation(), d1.getTransforms().getTranslation());
-        return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x)) - 90;
+        return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x));
+    }
+
+    public static float angleBetweenRad(Drawable d1, Drawable d2) {
+        Vector3f d1Tod2 = VectorHelper.sub(d2.getTransforms().getTranslation(), d1.getTransforms().getTranslation());
+        return (float)Math.atan2(d1Tod2.y, d1Tod2.x);
     }
 
     public static float getDistanceWithoutSQRT(Vector3f v1, Vector3f v2) {

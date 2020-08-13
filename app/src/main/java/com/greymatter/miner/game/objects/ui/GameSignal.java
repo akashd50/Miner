@@ -27,9 +27,9 @@ public class GameSignal extends GameNotification {
                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
                 .attachTo(this)
                 .moveTo(new Vector2f(0f,0.4f))
-                .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60))
+                .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60)
                 .setOnAnimationFrameHandler((object, animator) -> {
-                    object.asGameLight().setIntensity(animator.update().getUpdatedFloat());
-                });
+                    object.asGameLight().setIntensity(animator.getUpdatedFloat());
+                }));
     }
 }

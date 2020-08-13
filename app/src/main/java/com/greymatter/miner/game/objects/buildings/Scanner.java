@@ -35,13 +35,12 @@ public class Scanner extends GameBuilding {
                                     .moveTo(0,0f, 2f).scaleTo(2f,1.5f)
                                     .setAnimator(new FloatValueAnimator().withFPS(60)
                                                 .setBounds(0f,1f)
-                                                .setPerFrameIncrement(0.04f).toAndFro(true))
-                                    .setOnAnimationFrameHandler((object, animator) -> {
-                                        object.getDrawable().asRadialGradient().setMidPoint(animator.update().getUpdatedFloat());
-                                    }));
+                                                .setPerFrameIncrement(0.04f).toAndFro(true)
+                                                .setOnAnimationFrameHandler((object, animator) -> {
+                                                    object.getDrawable().asRadialGradient().setMidPoint(animator.getUpdatedFloat());
+                                                })));
 
-        this.setAnimator(new BooleanAnimator().withFPS(10));
-        this.setOnAnimationFrameHandler(new ScannerAnimationHandler());
+        this.setAnimator(new BooleanAnimator().withFPS(10).setOnAnimationFrameHandler(new ScannerAnimationHandler()));
     }
 
     @Override

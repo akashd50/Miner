@@ -1,6 +1,8 @@
 package com.greymatter.miner.opengl.objects;
 
 import android.opengl.Matrix;
+
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -13,6 +15,7 @@ public class Transforms {
     private float[] modelMatrix;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
+    private GameObject linkedGameObject;
     private boolean transformationsUpdated, copyTranslationFromParent,
                     copyRotationFromParent, copyScaleFromParent;
     private ArrayList<Transforms> children;
@@ -33,7 +36,9 @@ public class Transforms {
         if(transformationsUpdated) {
             applyTransformationsHelper();
             children.forEach(child -> {
-                child.applyWithParentTransformationsHelper(this);
+                if(child.getLinkedGameObject().isActive()) {
+                    child.applyWithParentTransformationsHelper(this);
+                }
             });
         }
     }
@@ -73,7 +78,9 @@ public class Transforms {
 
         //apply to this object's... child
         children.forEach(child -> {
-            child.applyWithParentTransformationsHelper(this);
+            if(child.getLinkedGameObject().isActive()) {
+                child.applyWithParentTransformationsHelper(this);
+            }
         });
     }
 
@@ -233,6 +240,15 @@ public class Transforms {
         return this;
     }
 
+    public void setLinkedRigidBody(RigidBody linkedRigidBody) {
+        this.linkedRigidBody = linkedRigidBody;
+    }
+
+    public Transforms setLinkedGameObject(GameObject linkedGameObject) {
+        this.linkedGameObject = linkedGameObject;
+        return this;
+    }
+
     public boolean isCopyTranslationFromParent() {
         return copyTranslationFromParent;
     }
@@ -274,8 +290,8 @@ public class Transforms {
 
     public float[] getModelMatrix() { return this.modelMatrix; }
 
-    public void setLinkedRigidBody(RigidBody linkedRigidBody) {
-        this.linkedRigidBody = linkedRigidBody;
+    public GameObject getLinkedGameObject() {
+        return linkedGameObject;
     }
 
     public void onTransformsChanged() {

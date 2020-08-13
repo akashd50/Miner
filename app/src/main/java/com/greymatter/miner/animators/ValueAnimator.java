@@ -1,20 +1,31 @@
 package com.greymatter.miner.animators;
 
+import com.greymatter.miner.game.objects.GameObject;
+
 public abstract class ValueAnimator {
     private long _perFrameDelay, _lastFrameDrawTime;
     private int _framesPerSecond;
-    private boolean toAndFro, isIncrementing, isSingleCycle;
+    private boolean toAndFro, isIncrementing, isSingleCycle, isPaused;
+    private OnAnimationFrameHandler onAnimationFrameHandler;
+    private GameObject linkedObject;
     public ValueAnimator() {
         _lastFrameDrawTime = 0;
         isIncrementing = true;
+        isPaused = false;
     }
 
     public ValueAnimator update() {
-        if(System.currentTimeMillis() - _lastFrameDrawTime > _perFrameDelay) {
-            updateOverridePositive();
-            _lastFrameDrawTime = System.currentTimeMillis();
-        }else{
-            updateOverrideNegative();
+        if(!isPaused) {
+            if (System.currentTimeMillis() - _lastFrameDrawTime > _perFrameDelay) {
+                updateOverridePositive();
+                _lastFrameDrawTime = System.currentTimeMillis();
+            } else {
+                updateOverrideNegative();
+            }
+
+            if (onAnimationFrameHandler != null) {
+                onAnimationFrameHandler.animate(linkedObject, this);
+            }
         }
         return this;
     }
@@ -45,6 +56,26 @@ public abstract class ValueAnimator {
         return this;
     }
 
+    public ValueAnimator setOnAnimationFrameHandler(OnAnimationFrameHandler handler) {
+        this.onAnimationFrameHandler = handler;
+        return this;
+    }
+
+    public ValueAnimator setToAnimateObject(GameObject object) {
+        this.linkedObject = object;
+        return this;
+    }
+
+    public ValueAnimator pause() {
+        isPaused = true;
+        return this;
+    }
+
+    public ValueAnimator resume() {
+        isPaused = false;
+        return this;
+    }
+
     public boolean isIncrementing() {
         return isIncrementing;
     }
@@ -65,9 +96,6 @@ public abstract class ValueAnimator {
         this._perFrameDelay = _perFrameDelay;
     }
 
-    protected abstract void updateOverridePositive();
-    protected abstract void updateOverrideNegative();
-
     public float getPerFrameIncrement() {
         return 0f;
     }
@@ -83,4 +111,7 @@ public abstract class ValueAnimator {
     public boolean getUpdatedBoolean() {
         return false;
     }
+
+    protected abstract void updateOverridePositive();
+    protected abstract void updateOverrideNegative();
 }

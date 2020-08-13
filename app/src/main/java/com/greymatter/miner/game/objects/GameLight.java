@@ -21,6 +21,7 @@ public class GameLight extends GameObject {
 
     private void initialize() {
         super.shouldDraw(false);
+        super.isActive(true);
         lightColor = new Vector4f();
         radius = 0f;
         innerCutoff = 0f;

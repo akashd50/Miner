@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 
 public abstract class GameObject extends GTransformable {
-    private boolean shouldDraw;
+    private boolean shouldDraw, isActive;
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
@@ -35,14 +35,15 @@ public abstract class GameObject extends GTransformable {
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
-    private OnAnimationFrameHandler onAnimationFrameHandler;
     public GameObject(ObjId id, Drawable drawable) {
         super(id);
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
         this.shouldDraw = true;
+        this.isActive = true;
         this.objectLevel = 1;
         this.objectDrawable.setTransforms(getTransforms());
+        this.getTransforms().setLinkedGameObject(this);
 
         try{
             this.setPolygonRB();
@@ -53,8 +54,8 @@ public abstract class GameObject extends GTransformable {
     }
 
     public void onFrameUpdate() {
-        if(onAnimationFrameHandler != null && valueAnimator != null) {
-            onAnimationFrameHandler.animate(this, valueAnimator);
+        if(valueAnimator != null) {
+            valueAnimator.update();
         }
     }
 
@@ -80,11 +81,6 @@ public abstract class GameObject extends GTransformable {
         return this;
     }
 
-    public GameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler) {
-        this.onAnimationFrameHandler = handler;
-        return this;
-    }
-
     public GameObject addTag(Tag tag) {
         this.objectTags.add(tag);
         return this;
@@ -92,12 +88,19 @@ public abstract class GameObject extends GTransformable {
 
     public GameObject shouldDraw(boolean shouldDraw) {
         this.shouldDraw = shouldDraw;
+        this.isActive = shouldDraw;
         getChildren().toList().forEach(child -> { child.shouldDraw(shouldDraw); });
+        return this;
+    }
+
+    public GameObject isActive(boolean value) {
+        this.isActive = value;
         return this;
     }
 
     public GameObject setAnimator(ValueAnimator valueAnimator) {
         this.valueAnimator = valueAnimator;
+        this.valueAnimator.setToAnimateObject(this);
         return this;
     }
 
@@ -107,6 +110,13 @@ public abstract class GameObject extends GTransformable {
     }
 
     public boolean onTouchDownEvent(Vector2f pointer) {
+        for(IGameObject child : getChildren().toList()) {
+            if(child.shouldDraw()) {
+                boolean res = child.onTouchDownEvent(pointer);
+                if (res) return res;
+            }
+        }
+
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
                 onTouchListener.onTouchDown(this, pointer);
@@ -119,7 +129,7 @@ public abstract class GameObject extends GTransformable {
     public boolean onTouchMoveEvent(Vector2f pointer) {
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
-                if (onTouchListener != null) onTouchListener.onTouchMove(this, pointer);
+                onTouchListener.onTouchMove(this, pointer);
                 return true;
             }
         }
@@ -127,30 +137,35 @@ public abstract class GameObject extends GTransformable {
     }
 
     public boolean onTouchUpEvent(Vector2f pointer) {
+        for(IGameObject child : getChildren().toList()) {
+            if(child.shouldDraw()) {
+                boolean res = child.shouldDraw() && child.onTouchUpEvent(pointer);
+                if (res) return res;
+            }
+        }
+
         boolean isClicked = isClicked(pointer);
         if(isClicked) {
-            if(onClickListener!=null) {
+            if(onTouchListener!=null) {
+                onTouchListener.onTouchUp(this, pointer);
+            }
+
+            if(onClickListener != null) {
                 if(!AppServices.getTouchHelper().isTouchPoint1Drag()) {
                     onClickListener.onClick(this);
                     return true;
                 }
             }
-            if(onTouchListener!=null) {
-                onTouchListener.onTouchUp(this, pointer);
-                return true;
-            }
         }
-
-        for(IGameObject child : getChildren().toList()) {
-            boolean res = child.onTouchUpEvent(pointer);
-            if(res) return res;
-        }
-
         return false;
     }
 
     private boolean isClicked(Vector2f pointer) {
         return shouldDraw && touchChecker != null && touchChecker.isClicked(pointer);
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     public GameObject setOnTouchListener(OnTouchListener onTouchListener) {
