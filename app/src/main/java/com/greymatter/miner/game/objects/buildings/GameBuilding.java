@@ -35,6 +35,10 @@ public abstract class GameBuilding extends GameObjectWGL {
                 dir.normalize();
                 dir.z = 0f;
                 object.getTransforms().translateBy(VectorHelper.multiply(dir, 0.4f));
+
+                if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), pointOnSurface) <= 0.05f) {
+                    snapAnimator.pause();
+                }
             }
         });
 
@@ -53,12 +57,14 @@ public abstract class GameBuilding extends GameObjectWGL {
 
             @Override
             public void onTouchUp(GameObject gameObject, Vector2f pointer) {
-                Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
-                float angleBetween = VectorHelper.angleBetweenRad(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), gameObject.getDrawable());
-                float px = planetTransforms.getTranslation().x + planetTransforms.getScale().y * (float)Math.cos(angleBetween);
-                float py = getTransforms().getScale().y + planetTransforms.getTranslation().y + planetTransforms.getScale().y * (float)Math.sin(angleBetween);
-                pointOnSurface = new Vector3f(px, py,0f);
-                snapAnimator.resume();
+                if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
+                    Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
+                    float angleBetween = VectorHelper.angleBetweenRad(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), gameObject.getDrawable());
+                    float px = planetTransforms.getTranslation().x + planetTransforms.getScale().y * (float) Math.cos(angleBetween);
+                    float py = getTransforms().getScale().y + planetTransforms.getTranslation().y + planetTransforms.getScale().y * (float) Math.sin(angleBetween);
+                    pointOnSurface = new Vector3f(px, py, 0f);
+                    snapAnimator.resume();
+                }
             }
         });
 

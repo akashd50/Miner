@@ -25,18 +25,20 @@ public class FloatValueAnimator extends ValueAnimator {
         }
 
         if(currentValue > upperBound) {
-            currentValue = toAndFro()? upperBound : lowerBound;
-            setIncrementing(!toAndFro());
             if(isSingleCycle()) {
                 this.pause();
+            }else {
+                currentValue = toAndFro() ? upperBound : lowerBound;
             }
+            setIncrementing(!toAndFro());
         }
         if(currentValue < lowerBound) {
-            currentValue = toAndFro()? lowerBound : upperBound;
-            setIncrementing(true);
             if(isSingleCycle()) {
                 this.pause();
+            }else {
+                currentValue = toAndFro() ? lowerBound : upperBound;
             }
+            setIncrementing(true);
         }
     }
 
@@ -77,5 +79,13 @@ public class FloatValueAnimator extends ValueAnimator {
     public FloatValueAnimator setPerFrameIncrement(float perFrameIncrement) {
         this.perFrameIncrement = perFrameIncrement;
         return this;
+    }
+
+    public float getUpperBound() {
+        return this.upperBound;
+    }
+
+    public float getLowerBound() {
+        return lowerBound;
     }
 }
