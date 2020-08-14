@@ -119,8 +119,7 @@ public abstract class GameObject extends GTransformable {
 
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
-                onTouchListener.onTouchDown(this, pointer);
-                return true;
+                return onTouchListener.onTouchDown(this, pointer);
             }
         }
         return false;
@@ -129,8 +128,7 @@ public abstract class GameObject extends GTransformable {
     public boolean onTouchMoveEvent(Vector2f pointer) {
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
-                onTouchListener.onTouchMove(this, pointer);
-                return true;
+                return onTouchListener.onTouchMove(this, pointer);
             }
         }
         return false;
@@ -139,23 +137,24 @@ public abstract class GameObject extends GTransformable {
     public boolean onTouchUpEvent(Vector2f pointer) {
         for(IGameObject child : getChildren().toList()) {
             if(child.shouldDraw()) {
-                boolean res = child.shouldDraw() && child.onTouchUpEvent(pointer);
+                boolean res = child.onTouchUpEvent(pointer);
                 if (res) return res;
             }
         }
 
         boolean isClicked = isClicked(pointer);
         if(isClicked) {
+            boolean handled = false;
             if(onTouchListener!=null) {
-                onTouchListener.onTouchUp(this, pointer);
+                handled = onTouchListener.onTouchUp(this, pointer);
             }
 
             if(onClickListener != null) {
                 if(!AppServices.getTouchHelper().isTouchPoint1Drag()) {
-                    onClickListener.onClick(this);
-                    return true;
+                    handled = onClickListener.onClick(this);
                 }
             }
+            return handled;
         }
         return false;
     }

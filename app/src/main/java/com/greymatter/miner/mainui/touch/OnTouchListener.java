@@ -8,9 +8,9 @@ import com.greymatter.miner.helpers.VectorHelper;
 import javax.vecmath.Vector2f;
 
 public interface OnTouchListener {
-    void onTouchDown(GameObject gameObject, Vector2f pointer);
-    void onTouchMove(GameObject gameObject, Vector2f pointer);
-    void onTouchUp(GameObject gameObject, Vector2f pointer);
+    boolean onTouchDown(GameObject gameObject, Vector2f pointer);
+    boolean onTouchMove(GameObject gameObject, Vector2f pointer);
+    boolean onTouchUp(GameObject gameObject, Vector2f pointer);
 
     default void defaultOnTouchMove(GameObject gameObject, Vector2f pointer) {
         gameObject.moveTo(pointer);

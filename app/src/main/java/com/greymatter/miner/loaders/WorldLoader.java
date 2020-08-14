@@ -32,11 +32,11 @@ public class WorldLoader extends Loader {
                 .scaleTo(120f,120f).moveTo(0f,-120.5f, 0f));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
-                .scaleTo(4f,2.7f).moveTo(0f,0f,1f));
+                .scaleTo(4f,4f).moveTo(0f,0f,1f));
                 //.setOnTouchListener(new BuildingModeTouchListener()));
 
         GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(ObjId.MAIN_CHARACTER))
-                .scaleTo(0.5f,0.5f).moveBy(-0.5f,0f,2f)
+                .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,2f)
                 .setOnTouchListener(new GeneralTouchListener())
                 .setOnClickListener(object -> {
                     if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
@@ -44,10 +44,13 @@ public class WorldLoader extends Loader {
                     }else{
                         ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).hide();
                     }
+                    return true;
                 }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
                     System.out.println("NOT I - Button Click -> " + object);
+                    return true;
                 }).setButtonIIClickListener(object -> {
                     System.out.println("NOT II - Button Click -> " + object);
+                    return true;
                 })));
 
         new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
@@ -85,17 +88,20 @@ public class WorldLoader extends Loader {
                     }else{
                         ((GameSignal) object.getChild(ObjId.OBJECT_SIGNAL)).hide();
                     }
+                    return true;
                 }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
                     System.out.println("NOT I - Button Click -> " + object);
+                    return true;
                 }).setButtonIIClickListener(object -> {
                     System.out.println("NOT II - Button Click -> " + object);
+                    return true;
                 }))
                 .addChild(ObjId.OBJECT_SIGNAL, new GameSignal().setOnClickListener(object -> {
-
+                    return true;
                 })));
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
-                .scaleTo(1f,1.5f).moveTo(0f,0.5f, 1f));
+                .scaleTo(1f,1.5f).moveTo(0f,0.5f, 0f));
 //
 //        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PLANET_TREE_LAYER))
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));

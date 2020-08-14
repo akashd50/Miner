@@ -6,17 +6,18 @@ import javax.vecmath.Vector2f;
 
 public class GeneralTouchListener implements OnTouchListener {
     @Override
-    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
-
+    public boolean onTouchDown(GameObject gameObject, Vector2f pointer) {
+        return false;
     }
 
     @Override
-    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
+    public boolean onTouchMove(GameObject gameObject, Vector2f pointer) {
         OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
+        return true;
     }
 
     @Override
-    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
-
+    public boolean onTouchUp(GameObject gameObject, Vector2f pointer) {
+        return true;
     }
 }

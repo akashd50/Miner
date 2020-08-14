@@ -8,7 +8,6 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
 public abstract class GameNotification extends GameUI {
-    private boolean isAnimationComplete;
     private FloatValueAnimator openingAnimator;
     public GameNotification(ObjId id, Drawable drawable) {
         super(id, drawable);
@@ -16,7 +15,6 @@ public abstract class GameNotification extends GameUI {
     }
 
     private void initialize() {
-        isAnimationComplete = true;
         openingAnimator = new FloatValueAnimator().withFPS(60).setPerFrameIncrement(0.1f);
         openingAnimator.setSingleCycle(true);
         openingAnimator.setToAnimateObject(this);
@@ -27,8 +25,6 @@ public abstract class GameNotification extends GameUI {
             float newVal = animator.getUpdatedFloat();
             scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
             if(newVal >= openingAnimator.getUpperBound()) {
-                isAnimationComplete(true);
-
                 openingAnimator.setBounds(1.0f, 1.1f);
                 openingAnimator.startFrom(1.1f,false);
                 openingAnimator.resume();
@@ -45,7 +41,6 @@ public abstract class GameNotification extends GameUI {
     }
 
     public GameNotification show() {
-        isAnimationComplete = false;
         this.getTransforms().scaleTo(0f,0f);
         this.shouldDraw(true);
 
@@ -56,27 +51,15 @@ public abstract class GameNotification extends GameUI {
     }
 
     public GameNotification hide() {
-        isAnimationComplete = true;
         this.shouldDraw(false);
         return this;
     }
 
     @Override
     public IGameObject setParent(IGameObject parent) {
-        float r = parent.getTransforms().getScale().y/2 + this.getDefaultScale().y/2 + 0.6f;
+        float r = parent.getTransforms().getScale().y + this.getDefaultScale().y;
         moveTo(0f,r, 1.5f);
         translationFromParent(true);
         return super.setParent(parent);
-    }
-
-    public GameNotification isAnimationComplete(boolean isAnimationComplete) {
-        this.isAnimationComplete = isAnimationComplete;
-        return this;
-    }
-
-
-
-    public boolean isAnimationComplete() {
-        return isAnimationComplete;
     }
 }

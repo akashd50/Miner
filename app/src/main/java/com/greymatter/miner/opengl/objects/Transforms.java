@@ -53,19 +53,18 @@ public class Transforms {
 
     public void applyWithParentTransformationsHelper(Transforms parent) {
         this.modelMatrix = parent.getModelMatrix().clone();
-        if(!copyTranslationFromParent){
-            Vector3f pt = parent.getTranslation();
-            MatrixHelper.translateM(modelMatrix, -pt.x, -pt.y, -pt.z);
-        }
-
-        if(!copyRotationFromParent) {
-            Vector3f pr = parent.getRotation();
-            MatrixHelper.rotateM(modelMatrix, -pr.x, -pr.y, -pr.z);
-        }
 
         if(!copyScaleFromParent) {
             Vector3f ps = parent.getScale();
             MatrixHelper.scaleM(modelMatrix, 1f/ps.x, 1f/ps.y, 1f/ps.z);
+        }
+        if(!copyRotationFromParent) {
+            Vector3f pr = parent.getRotation();
+            MatrixHelper.rotateM(modelMatrix, -pr.x, -pr.y, -pr.z);
+        }
+        if(!copyTranslationFromParent){
+            Vector3f pt = parent.getTranslation();
+            MatrixHelper.translateM(modelMatrix, -pt.x, -pt.y, -pt.z);
         }
 
         MatrixHelper.translateM(modelMatrix, translation);

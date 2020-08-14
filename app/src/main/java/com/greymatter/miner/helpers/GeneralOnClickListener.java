@@ -5,10 +5,11 @@ import com.greymatter.miner.mainui.touch.OnClickListener;
 
 public class GeneralOnClickListener implements OnClickListener {
     @Override
-    public void onClick(GameObject object) {
+    public boolean onClick(GameObject object) {
 //        switch (object.getId()) {
 //            case ObjId.NOT_BUTTON_I:
 //
 //        }
+        return false;
     }
 }

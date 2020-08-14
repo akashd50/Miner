@@ -9,19 +9,21 @@ import javax.vecmath.Vector2f;
 
 public class BuildingModeTouchListener implements OnTouchListener {
     @Override
-    public void onTouchDown(GameObject gameObject, Vector2f pointer) {
-
+    public boolean onTouchDown(GameObject gameObject, Vector2f pointer) {
+        return false;
     }
 
     @Override
-    public void onTouchMove(GameObject gameObject, Vector2f pointer) {
+    public boolean onTouchMove(GameObject gameObject, Vector2f pointer) {
         if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
             OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void onTouchUp(GameObject gameObject, Vector2f pointer) {
-
+    public boolean onTouchUp(GameObject gameObject, Vector2f pointer) {
+        return true;
     }
 }
