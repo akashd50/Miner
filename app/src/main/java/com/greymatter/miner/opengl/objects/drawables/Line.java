@@ -25,17 +25,17 @@ public class Line extends Drawable {
         dataUpdated = false;
     }
 
-    @Override
-    public void onDrawFrame() {
-        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-        ShaderHelper.setUniformVec4(getShader(), ShaderConst.U_COLOR, lineColor);
-
-        GLES30.glLineWidth(10f);
-        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, lineVertices.size());
-
-        GLBufferHelper.glUnbindVertexArray();
-    }
+//    @Override
+//    public void onDrawFrame() {
+//        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
+//        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
+//        ShaderHelper.setUniformVec4(getShader(), ShaderConst.U_COLOR, lineColor);
+//
+//        GLES30.glLineWidth(10f);
+//        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, lineVertices.size());
+//
+//        GLBufferHelper.glUnbindVertexArray();
+//    }
 
     public Line addVertex(Vector3f toAdd) {
         lineVertices.add(toAdd);
@@ -68,20 +68,14 @@ public class Line extends Drawable {
 
         if(!dataUpdated) {
             int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(BufferHelper.vec3AsFloatArray(lineVertices),
-                    3, getShader(), ShaderConst.IN_POSITION);
+                    3, getRenderer().getShader(), ShaderConst.IN_POSITION);
             super.setVertexBufferObject(vertexBuffer);
         }else{
             GLBufferHelper.updateArrayBufferData(getVertexBufferObject(), BufferHelper.vec3AsFloatArray(lineVertices),
-                                                                3,  getShader(), ShaderConst.IN_POSITION);
+                                                                3,  getRenderer().getShader(), ShaderConst.IN_POSITION);
         }
         GLBufferHelper.glUnbindVertexArray();
         this.dataUpdated = false;
-        return this;
-    }
-
-    @Override
-    public Line setShader(Shader shader) {
-        super.setShader(shader);
         return this;
     }
 }

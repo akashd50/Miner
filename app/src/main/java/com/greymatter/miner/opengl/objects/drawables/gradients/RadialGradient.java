@@ -18,26 +18,10 @@ public class RadialGradient extends Gradient {
         super(id);
     }
 
-    @Override
-    public void onDrawFrame() {
-        super.onDrawFrame();
-
-        GLBufferHelper.glBindVertexArray(super.getVertexArrayObject());
-
-        ShaderHelper.setUniformMatrix4fv(super.getShader(), ShaderConst.MODEL, super.getTransforms().getModelMatrix());
-        ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_MID_POINT, midPoint);
-        ShaderHelper.setUniformFloat(super.getShader(), ShaderConst.GRADIENT_RADIUS, radius);
-        ShaderHelper.setUniformVec3(super.getShader(), ShaderConst.TRANSLATION, super.getTransforms().getTranslation());
-
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, getShape().getVerticesList().size());
-
-        GLBufferHelper.glUnbindVertexArray();
-    }
-
     public RadialGradient build() {
         int vertexArrayObj = GLBufferHelper.glGenVertexArray();
         GLBufferHelper.glBindVertexArray(vertexArrayObj);
-        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, super.getShader(), ShaderConst.IN_POSITION);
+        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, getRenderer().getShader(), ShaderConst.IN_POSITION);
         GLBufferHelper.glUnbindVertexArray();
         super.setVertexArrayObject(vertexArrayObj);
         super.setVertexBufferObject(vertexBufferObj);
@@ -82,12 +66,6 @@ public class RadialGradient extends Gradient {
 
     public float getMidPoint() {
         return midPoint;
-    }
-
-    @Override
-    public RadialGradient setShader(Shader shader) {
-        super.setShader(shader);
-        return this;
     }
 
     @Override

@@ -36,8 +36,8 @@ public class ActiveResourcesContainer {
         gameResources.toList().forEach((gameObject) -> {
             gameObject.onFrameUpdate();
             if(gameObject.shouldDraw()) {
-                gameObject.setShaderProperties(camera);
-                gameObject.onDrawFrame();
+                //gameObject.setShaderProperties(camera);
+                gameObject.getDrawable().getRenderer().render(camera, gameObject);
             }
         });
     }

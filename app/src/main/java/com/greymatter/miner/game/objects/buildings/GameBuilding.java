@@ -11,7 +11,6 @@ import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 

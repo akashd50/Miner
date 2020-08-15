@@ -1,10 +1,12 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.renderers.Renderer;
 import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 
@@ -15,22 +17,15 @@ import javax.vecmath.Vector3f;
 public abstract class Drawable {
     private ObjId id;
     private Material material;
-    private Shader shader;
     private int vertexArray, vertexBuffer;
     private Transforms transforms;
     private Shape shape;
+    private Renderer renderer;
     public Drawable(ObjId id) {
         this.id = id;
     }
 
-    public void onDrawFrame() {}
-
     public Drawable build() {
-        return this;
-    }
-
-    public Drawable setShader(Shader shader) {
-        this.shader = shader;
         return this;
     }
 
@@ -60,14 +55,19 @@ public abstract class Drawable {
         return this;
     }
 
+    public Drawable setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+        return this;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
     public void onTransformsChanged() {}
 
     public Material getMaterial() {
         return this.material;
-    }
-
-    public Shader getShader() {
-        return shader;
     }
 
     public int getVertexArrayObject() {

@@ -1,5 +1,7 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
+import android.opengl.GLES30;
+
 import com.greymatter.miner.Path;
 import com.greymatter.miner.loaders.enums.definitions.ShapeDef;
 import com.greymatter.miner.helpers.BufferHelper;
@@ -11,6 +13,7 @@ import javax.vecmath.Vector3f;
 
 public class Shape {
     private ShapeDef id;
+    private int renderMode;
     public float top, bottom, left, right;
     public float radius, innerAngle, xyRatio;
     private ArrayList<Vector3f> shapeVertices, orderedOuterMesh;
@@ -24,12 +27,14 @@ public class Shape {
     }
 
     public Shape loadCircle(float radius) {
+        renderMode = GLES30.GL_TRIANGLE_FAN;
         ShapesHelper.loadCircle(this, radius);
         this.radius = radius;
         return this;
     }
 
     public Shape loadPie(float innerAngle, float radius) {
+        renderMode = GLES30.GL_TRIANGLE_FAN;
         ShapesHelper.loadPie(this, innerAngle, radius);
         this.radius = radius;
         this.innerAngle = innerAngle;
@@ -37,17 +42,20 @@ public class Shape {
     }
 
     public Shape loadQuad(float xyRatio) {
+        renderMode = GLES30.GL_TRIANGLE_FAN;
         ShapesHelper.loadQuad(this, xyRatio);
         this.xyRatio = xyRatio;
         return this;
     }
 
     public Shape loadObj(String fileName) {
+        renderMode = GLES30.GL_TRIANGLES;
         ShapesHelper.loadRawObj(this, Path.OBJECTS_F + fileName);
         return this;
     }
 
     public Shape loadEdgeOutline(Shape toOutline, float edgeWidth) {
+        renderMode = GLES30.GL_TRIANGLES;
         ShapesHelper.loadShapeOutline(this, toOutline.getOrderedOuterMesh(), edgeWidth);
         return this;
     }
@@ -179,6 +187,10 @@ public class Shape {
 
     public float getXyRatio() {
         return xyRatio;
+    }
+
+    public int getRenderMode() {
+        return renderMode;
     }
 
     public ShapeDef getId() {

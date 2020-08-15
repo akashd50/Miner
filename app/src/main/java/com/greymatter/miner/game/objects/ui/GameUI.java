@@ -6,6 +6,8 @@ import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.renderers.QuadLightingRenderer;
+import com.greymatter.miner.opengl.objects.renderers.QuadRenderer;
 import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 
 import javax.vecmath.Vector2f;

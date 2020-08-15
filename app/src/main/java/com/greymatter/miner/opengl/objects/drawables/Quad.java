@@ -16,7 +16,6 @@ import javax.vecmath.Vector3f;
 
 public class Quad extends Drawable {
 	private float textureRatio;
-	private ArrayList<Vector3f> mesh;
 	public Quad(ObjId id) {
 		super(id);
 	}
@@ -34,25 +33,10 @@ public class Quad extends Drawable {
 		super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, getShader(), ShaderConst.IN_POSITION);
-		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2, getShader(), ShaderConst.IN_UV);
+		int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, getRenderer().getShader(), ShaderConst.IN_POSITION);
+		int uvBuffer = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2, getRenderer().getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
-		return this;
-	}
-
-	public void onDrawFrame() {
-		super.onDrawFrame();
-
-		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-		GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 4);
-		GLBufferHelper.glUnbindVertexArray();
-	}
-
-	@Override
-	public Quad setShader(Shader shader) {
-		super.setShader(shader);
 		return this;
 	}
 

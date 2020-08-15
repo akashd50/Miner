@@ -45,9 +45,9 @@ public class ShapesHelper {
 
     public static void loadQuad(Shape shape, float xyRatio) {
         shape.addVertex(1.0f * xyRatio, 1.0f, 0.0f)
-                .addVertex(-1.0f * xyRatio, 1.0f, 0.0f)
-                .addVertex(-1.0f * xyRatio, -1.0f, 0.0f)
-                .addVertex(1.0f * xyRatio, -1.0f, 0.0f);
+            .addVertex(-1.0f * xyRatio, 1.0f, 0.0f)
+            .addVertex(-1.0f * xyRatio, -1.0f, 0.0f)
+            .addVertex(1.0f * xyRatio, -1.0f, 0.0f);
 
         shape.addUV(1f,0f).addUV(0f,0f).addUV(0f,1f).addUV(1f,1f);
 

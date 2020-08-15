@@ -12,20 +12,11 @@ public class TextureEdgedPolygon extends Drawable {
         super(id);
     }
 
-    public void onDrawFrame() {
-        super.onDrawFrame();
-
-        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, getShape().getVerticesList().size());
-        GLBufferHelper.glUnbindVertexArray();
-    }
-
     public TextureEdgedPolygon build() {
         int vertexArrayObj = GLBufferHelper.glGenVertexArray();
         GLBufferHelper.glBindVertexArray(vertexArrayObj);
-        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, super.getShader(), ShaderConst.IN_POSITION);
-        int uvBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(),2,super.getShader(), ShaderConst.IN_UV);
+        int vertexBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3, getRenderer().getShader(), ShaderConst.IN_POSITION);
+        int uvBufferObj = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(),2,getRenderer().getShader(), ShaderConst.IN_UV);
         GLBufferHelper.glUnbindVertexArray();
 
         super.setVertexArrayObject(vertexArrayObj);

@@ -1,15 +1,10 @@
 package com.greymatter.miner.opengl.objects.drawables.object3d;
 
-import android.opengl.GLES30;
-
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-
 import java.util.*;
-
 import javax.vecmath.Vector3f;
 
 public class Obj extends Drawable {
@@ -24,23 +19,14 @@ public class Obj extends Drawable {
 		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
 		int vertexBufferObject = GLBufferHelper.putDataIntoArrayBuffer(getShape().getVerticesArray(), 3,
-				getShader(), ShaderConst.IN_POSITION);
+				getRenderer().getShader(), ShaderConst.IN_POSITION);
 		super.setVertexBufferObject(vertexBufferObject);
 
 		uvBufferObject = GLBufferHelper.putDataIntoArrayBuffer(getShape().getUVsArray(), 2,
-				getShader(), ShaderConst.IN_UV);
+				getRenderer().getShader(), ShaderConst.IN_UV);
 
 		GLBufferHelper.glUnbindVertexArray();
 		return this;
-	}
-
-	public void onDrawFrame() {
-		super.onDrawFrame();
-
-		GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-		ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-		GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, getShape().getRawObjData().faceConfiguration.size() * 3);
-		GLBufferHelper.glUnbindVertexArray();
 	}
 
 	public ArrayList<Vector3f> getOuterMesh() {

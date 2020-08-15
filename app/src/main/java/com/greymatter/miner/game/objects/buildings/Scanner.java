@@ -12,6 +12,7 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.renderers.RadialGradientRenderer;
 
 import javax.vecmath.Vector3f;
 

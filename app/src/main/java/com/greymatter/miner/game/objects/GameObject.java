@@ -1,7 +1,6 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.AppServices;
-import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -13,16 +12,11 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.animators.ValueAnimator;
-import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.shader.Shader;
-import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
-
 import java.util.ArrayList;
-
 import javax.vecmath.Vector2f;
 
 public abstract class GameObject extends GTransformable {
@@ -57,18 +51,6 @@ public abstract class GameObject extends GTransformable {
         if(valueAnimator != null) {
             valueAnimator.update();
         }
-    }
-
-    public void setShaderProperties(Camera camera) {
-        Shader toUse = objectDrawable.getShader();
-        ShaderHelper.useProgram(toUse);
-        ShaderHelper.setCameraProperties(toUse, camera);
-        objectDrawable.getMaterial().setShaderProperties(toUse);
-        ShaderHelper.clearLightProperties(toUse);
-    }
-
-    public void onDrawFrame() {
-        objectDrawable.onDrawFrame();
     }
 
     public GameObject upgrade() {

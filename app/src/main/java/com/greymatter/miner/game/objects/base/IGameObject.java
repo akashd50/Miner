@@ -15,6 +15,7 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.renderers.Renderer;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 
 import java.util.ArrayList;
@@ -49,9 +50,6 @@ public interface IGameObject {
     Vector3f getLocation();
 
     void onFrameUpdate();
-    void setShaderProperties(Camera camera);
-    void onDrawFrame();
-    //IGameObject setOnAnimationFrameHandler(OnAnimationFrameHandler handler);
     IGameObject addTag(Tag tag);
     IGameObject shouldDraw(boolean shouldDraw);
     IGameObject setAnimator(ValueAnimator valueAnimator);

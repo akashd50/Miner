@@ -5,6 +5,8 @@ import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.renderers.QuadRenderer;
+
 import javax.vecmath.Vector3f;
 
 public abstract class GameNotification extends GameUI {
