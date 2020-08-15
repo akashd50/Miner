@@ -12,9 +12,4 @@ public class GameButton extends GameUI {
     public GameButton(ObjId id, Drawable drawable) {
         super(id, drawable);
     }
-
-    @Override
-    public void onDrawFrame() {
-        super.onDrawFrame();
-    }
 }

@@ -29,7 +29,7 @@ public interface OnCollisionListener {
                 j *= 1 / event.getLinkedObject().getRBProps().getMass() + 1 / event.getAgainstObject().getRBProps().getMass();
 
                 Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
-
+                impulse.z = 0;
                 event.getLinkedObject().getRBProps().updateVelocity(impulse);
                 if(!event.getAgainstObject().isStaticObject()) {
                     event.getAgainstObject().getRBProps().updateVelocity(VectorHelper.multiply(impulse, -1f));
@@ -45,6 +45,7 @@ public interface OnCollisionListener {
         RBProps linkedRBProps = linked.getRBProps();
 
         Vector3f directionToObjectCenter = VectorHelper.sub(event.getLinkedObjectCollisionPoint(), againstTransforms.getTranslation());
+        directionToObjectCenter.z = 0f;
         Vector3f startP = againstTransforms.getTranslation();
         Vector3f endP = VectorHelper.multiply(linked.getTransforms().getTranslation(), 1);
 

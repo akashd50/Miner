@@ -5,6 +5,7 @@ import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.objects.PlayerCharacter;
+import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
@@ -29,14 +30,14 @@ public class WorldLoader extends Loader {
         //GameObjectsContainer.add();
 
         GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
-                .scaleTo(120f,120f).moveTo(0f,-120.5f, 0f));
+                .scaleTo(120f,120f).moveTo(0f,-120.5f, ZHelper.BACK));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
-                .scaleTo(4f,4f).moveTo(0f,0f,1f));
+                .scaleTo(4f,4f).moveTo(0f,0f,ZHelper.FRONT_MID));
                 //.setOnTouchListener(new BuildingModeTouchListener()));
 
         GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(ObjId.MAIN_CHARACTER))
-                .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,2f)
+                .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener())
                 .setOnClickListener(object -> {
                     if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
@@ -58,7 +59,7 @@ public class WorldLoader extends Loader {
                 .setColor(1f,0f,0f,1f)
                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
                 .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameObjectWGL())
-                .moveTo(new Vector2f(-0.33f,0.08f))
+                .moveTo(new Vector2f(0.12f,-0.06f))
                 .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60)
                 .setOnAnimationFrameHandler((object, animator) -> {
                     object.asGameLight().setIntensity(animator.getUpdatedFloat());
@@ -69,18 +70,18 @@ public class WorldLoader extends Loader {
         //-------------------------------------
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TEST_OBJ_I))
                 .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.5f,0.5f).moveBy(-4f,2f,2f)
+                .scaleTo(0.5f,0.5f).moveBy(-4f,2f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener()));
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TEST_OBJ_II))
                 .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.5f,0.5f).moveBy(-2f,4f,2f)
+                .scaleTo(0.5f,0.5f).moveBy(-2f,4f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener()));
         //-------------------------------------
 
         GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
                 .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,2f)
+                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT)
                 .setOnTouchListener(new BuildingModeTouchListener())
                 .setOnClickListener(object -> {
                     if(!object.getChild(ObjId.OBJECT_SIGNAL).shouldDraw()) {
@@ -101,12 +102,12 @@ public class WorldLoader extends Loader {
                 })));
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
-                .scaleTo(1f,1.5f).moveTo(0f,0.5f, 0f));
+                .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
 //
 //        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PLANET_TREE_LAYER))
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.PLANET_GRASS_LAYER))
-                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, 3f));
+                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, ZHelper.OVER_FRONT));
 
         updateContainer();
         updatePhysicsProperties();
@@ -127,7 +128,6 @@ public class WorldLoader extends Loader {
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_II));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
         //ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_TREE_LAYER));
     }
 

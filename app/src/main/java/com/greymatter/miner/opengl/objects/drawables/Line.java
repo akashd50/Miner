@@ -27,8 +27,6 @@ public class Line extends Drawable {
 
     @Override
     public void onDrawFrame() {
-        super.onDrawFrame();
-
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
         ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
         ShaderHelper.setUniformVec4(getShader(), ShaderConst.U_COLOR, lineColor);

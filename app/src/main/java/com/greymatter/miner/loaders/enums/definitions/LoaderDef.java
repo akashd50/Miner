@@ -11,8 +11,8 @@ public enum LoaderDef {
     SHADER_LOADER,
     MATERIAL_LOADER,
     SHAPES_LOADER,
-    RESOURCE_LOADER,
-    WORLD_LOADER;
+    WORLD_LOADER,
+    RESOURCE_LOADER;
 
     public static Loader create(LoaderDef type) {
         switch (type) {

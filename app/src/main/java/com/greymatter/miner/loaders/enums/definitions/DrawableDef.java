@@ -36,7 +36,7 @@ public enum DrawableDef {
     OBJECT_DIALOG(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.DIALOG_MATERIAL, ShaderDef.QUAD_SHADER),
     OBJECT_SIGNAL(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.SIGNAL_MATERIAL, ShaderDef.LIGHTING_SHADER),
 
-    COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.GROUND_MATERIAL, ShaderDef.LIGHTING_SHADER);
+    COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.THREE_D_OBJECT_SHADER);
 
     public final DrawableType DRAWABLE_TYPE;
     public final ShapeDef SHAPE_ID;

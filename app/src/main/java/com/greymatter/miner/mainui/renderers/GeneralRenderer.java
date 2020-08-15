@@ -1,5 +1,7 @@
 package com.greymatter.miner.mainui.renderers;
 
+import com.greymatter.miner.containers.ActiveLightsContainer;
+import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.loaders.enums.ObjId;
@@ -44,6 +46,7 @@ public class GeneralRenderer extends AbstractRenderer {
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ActiveResourcesContainer.onDrawFrame(MainGLObjectsHelper.camera);
 
         System.out.println("FPS: " + mainFPS);
         System.out.println("FRAME TIME: " + (System.currentTimeMillis() - currentFrameStartTime));

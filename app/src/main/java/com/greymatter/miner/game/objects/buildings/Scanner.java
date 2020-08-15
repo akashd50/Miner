@@ -16,7 +16,7 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
 public class Scanner extends GameBuilding {
-    private float _scannerRange, _scanningAngle;
+    private float scannerRange, scanningAngle;
     private GenericObject rangeObject;
     private ResourceBlock currentlyTracking;
 
@@ -32,7 +32,7 @@ public class Scanner extends GameBuilding {
 
     private void initialize() {
         this.setRangeObject(new GenericObject(DrawableDef.create(ObjId.PIE_GRADIENT_I))
-                                    .moveTo(0,0f, 2f).scaleTo(2f,1.5f)
+                                    .moveTo(0,0f, 2f).scaleTo(getObjectLevel()*5f,getObjectLevel()*5f)
                                     .setAnimator(new FloatValueAnimator().withFPS(60)
                                                 .setBounds(0f,1f)
                                                 .setPerFrameIncrement(0.04f).toAndFro(true)
@@ -40,6 +40,8 @@ public class Scanner extends GameBuilding {
                                                     object.getDrawable().asRadialGradient().setMidPoint(animator.getUpdatedFloat());
                                                 })));
 
+        scannerRange = rangeObject.getDrawable().getShape().getRadius() * rangeObject.getTransforms().getScale().x;
+        scanningAngle = rangeObject.getDrawable().getShape().getInnerAngle();
         this.setAnimator(new BooleanAnimator().withFPS(10).setOnAnimationFrameHandler(new ScannerAnimationHandler()));
     }
 
@@ -53,8 +55,8 @@ public class Scanner extends GameBuilding {
     @Override
     public Scanner upgrade() {
         super.upgrade();
-        float newRad = getObjectLevel() * rangeObject.getDrawable().asRadialGradient().getRadius();
-        rangeObject.getTransforms().scaleTo(rangeObject.getTransforms().getScale().x, newRad);
+        scaleTo(getObjectLevel()*5f,getObjectLevel()*5f);
+        scannerRange = rangeObject.getDrawable().getShape().getRadius() * rangeObject.getTransforms().getScale().x;
 
         return this;
     }
@@ -71,12 +73,11 @@ public class Scanner extends GameBuilding {
     public boolean isResourceInRange(ResourceBlock resourceBlock) {
         Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());
         float distance = VectorHelper.getLength(sub);
-        if(distance < _scannerRange) {
-            float rotationZ = getTransforms().getRotation().z;
-            float angleBWResAndScanner = (float)Math.atan2(sub.y, sub.x);
-            float leftEdge = (rotationZ) + 270 - _scanningAngle/2;
-            float rightEdge = (rotationZ) + 270 + _scanningAngle/2;
-
+        if(distance < scannerRange) {
+            float rotationZ = rangeObject.getTransforms().getRotation().z;
+            float angleBWResAndScanner = VectorHelper.angleBetween(getDrawable(), resourceBlock.getDrawable());
+            float leftEdge = (rotationZ) - scanningAngle /2;
+            float rightEdge = (rotationZ) + scanningAngle /2;
             return angleBWResAndScanner > leftEdge && angleBWResAndScanner < rightEdge;
         }
         return false;
@@ -96,12 +97,12 @@ public class Scanner extends GameBuilding {
     }
 
     public Scanner setRange(float scannerRange) {
-        this._scannerRange = scannerRange;
+        this.scannerRange = scannerRange;
         return this;
     }
 
     public Scanner setAngle(float scanningAngle) {
-        this._scanningAngle = scanningAngle;
+        this.scanningAngle = scanningAngle;
         return this;
     }
 
@@ -122,10 +123,10 @@ public class Scanner extends GameBuilding {
     }
 
     public float getRange() {
-        return _scannerRange;
+        return scannerRange;
     }
 
     public float getAngle() {
-        return _scanningAngle;
+        return scanningAngle;
     }
 }
