@@ -19,6 +19,7 @@ public enum ObjId {
     TREE_I,
 
     SCANNER_I,
+    MINER_I,
     PIE_GRADIENT_I,
 
     SCANNER_RANGE,

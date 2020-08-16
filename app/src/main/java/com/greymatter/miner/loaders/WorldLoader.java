@@ -4,7 +4,9 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.manager.MainBaseComm;
 import com.greymatter.miner.game.objects.PlayerCharacter;
+import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -98,8 +100,14 @@ public class WorldLoader extends Loader {
                     return true;
                 }))
                 .addChild(ObjId.OBJECT_SIGNAL, new GameSignal().setOnClickListener(object -> {
+                    MainBaseComm.callNewMiner();
                     return true;
                 })));
+
+        GameObjectsContainer.add(new Miner(DrawableDef.create(ObjId.MINER_I))
+                .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
+                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT));
+        GameObjectsContainer.get(ObjId.MINER_I).getTransforms().rotateTo(0f,0f,180f);
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
                 .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
@@ -128,6 +136,8 @@ public class WorldLoader extends Loader {
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_II));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
         ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
+        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.MINER_I));
+
         //ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_TREE_LAYER));
     }
 
@@ -145,6 +155,10 @@ public class WorldLoader extends Loader {
 
         GameObjectsContainer.get(ObjId.TEST_OBJ_II).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
+
+        GameObjectsContainer.get(ObjId.MINER_I).setPolygonRB().getRigidBody().isStaticObject(false)
+                .setCollisionListener(new GeneralCollisionListener())
+                .getRBProps().setMass(2.0f).setRestitution(0.1f);
 
         IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));

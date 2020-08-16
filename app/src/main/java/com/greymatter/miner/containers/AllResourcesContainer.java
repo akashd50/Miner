@@ -1,19 +1,20 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.loaders.enums.ObjId;
-import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
+import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.opengl.objects.Camera;
 
 import java.util.ArrayList;
 
-public class ActiveResourcesContainer {
-    private static HashMapE<String, ResourceBlock> gameResources = new HashMapE<>();
+public class AllResourcesContainer {
+    private static HashMapE<String, ResourceBlock> gameResources;
 
     public static void add(String id, ResourceBlock gameObject) {
+        if(gameResources == null) {
+            gameResources = new HashMapE<>();
+        }
         gameResources.put(id, gameObject);
     }
 

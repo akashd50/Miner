@@ -19,5 +19,8 @@ public class MaterialLoader extends Loader {
                 .addColor(ShaderConst.GRADIENT_EDGE_COLOR, new Vector4f(0f,0.7f,0.3f,0f));
         MaterialContainer.get(MaterialDef.TREE_MATERIAL).asAnimatedTexturedMaterial()
                 .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(5));
+
+        MaterialContainer.get(MaterialDef.MINER_MATERIAL).asAnimatedTexturedMaterial()
+                .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(2));
     }
 }

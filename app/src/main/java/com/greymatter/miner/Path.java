@@ -19,6 +19,7 @@ public class Path {
     //textures
     public static final String TEXTURES_DIR =       "textures";
     public static final String TREE_ANIM_I_DIR =    TEXTURES_DIR + SLASH + "tree_anim_i";
+    public static final String MINER_ANIM_DIR =     TEXTURES_DIR + SLASH + "miner_anim";
     public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
     public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
     public static final String SIGNAL_I =           TEXTURES_DIR + SLASH + "signal_i.png";

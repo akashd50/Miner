@@ -32,11 +32,12 @@ public abstract class GameBuilding extends GameObjectWGL {
                 Vector3f dir = VectorHelper.sub(pointOnSurface, getLocation());
                 dir.normalize();
                 dir.z = 0f;
-                object.getTransforms().translateBy(VectorHelper.multiply(dir, 0.4f));
+                object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
 
                 if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), pointOnSurface) <= 0.05f) {
                     snapAnimator.pause();
                 }
+                object.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), object.getDrawable()) - 90);
             }
         });
 

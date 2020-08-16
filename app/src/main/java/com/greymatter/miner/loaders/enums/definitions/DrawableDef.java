@@ -31,6 +31,7 @@ public enum DrawableDef {
     TREE_I(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.TREE_MATERIAL, ShaderDef.QUAD_SHADER),
 
     SCANNER_I(DrawableType.OBJ, ShapeDef.CIRCLE_SUB_I, MaterialDef.GROUND_MATERIAL, ShaderDef.QUAD_SHADER),
+    MINER_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.MINER_MATERIAL, ShaderDef.QUAD_SHADER),
     PIE_GRADIENT_I(DrawableType.RADIANT_GRADIENT, ShapeDef.PIE_45, MaterialDef.GRADIENT_COLOR_MATERIAL, ShaderDef.GRADIENT_SHADER),
 
     DIALOG_BUTTON_I(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),

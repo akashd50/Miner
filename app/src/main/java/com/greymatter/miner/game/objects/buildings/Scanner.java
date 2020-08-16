@@ -4,6 +4,7 @@ import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
+import com.greymatter.miner.containers.AllResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
@@ -87,7 +88,7 @@ public class Scanner extends GameBuilding {
     public ResourceBlock findClosestResource() {
         float prevLength = 999999;
         ResourceBlock toReturn = null;
-        for(ResourceBlock resourceBlock : ActiveResourcesContainer.getAll()) {
+        for(ResourceBlock resourceBlock : AllResourcesContainer.getAll()) {
             float dist = VectorHelper.getLength(VectorHelper.sub(resourceBlock.getLocation(), this.getLocation()));
             if(dist < prevLength) {
                 prevLength = dist;
