@@ -70,7 +70,15 @@ public abstract class GameBuilding extends GameObjectWGL {
                 return false;
             }
         });
+    }
 
+    public void snapTo(Vector3f roughPos) {
+        Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
+        float angleBetween = VectorHelper.angleBetweenRad(planetTransforms.getTranslation(), roughPos);
+        float px = planetTransforms.getTranslation().x + planetTransforms.getScale().y * (float) Math.cos(angleBetween);
+        float py = getTransforms().getScale().y + planetTransforms.getTranslation().y + planetTransforms.getScale().y * (float) Math.sin(angleBetween);
+        pointOnSurface = new Vector3f(px, py, 0f);
+        snapAnimator.resume();
     }
 
     @Override

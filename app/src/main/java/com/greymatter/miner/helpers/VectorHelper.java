@@ -70,6 +70,11 @@ public class VectorHelper {
         return (float)Math.atan2(d1Tod2.y, d1Tod2.x);
     }
 
+    public static float angleBetweenRad(Vector3f d1, Vector3f d2) {
+        Vector3f d1Tod2 = VectorHelper.sub(d2, d1);
+        return (float)Math.atan2(d1Tod2.y, d1Tod2.x);
+    }
+
     public static float getDistanceWithoutSQRT(Vector3f v1, Vector3f v2) {
         return (float)(Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2));
     }

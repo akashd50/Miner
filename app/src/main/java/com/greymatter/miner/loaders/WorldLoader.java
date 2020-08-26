@@ -1,5 +1,9 @@
 package com.greymatter.miner.loaders;
 
+import android.app.AlertDialog;
+import android.view.View;
+
+import com.greymatter.miner.R;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
@@ -22,6 +26,7 @@ import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
+import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
@@ -100,13 +105,15 @@ public class WorldLoader extends Loader {
                     return true;
                 }))
                 .addChild(ObjId.OBJECT_SIGNAL, new GameSignal().setOnClickListener(object -> {
-                    MainBaseComm.callNewMiner();
+                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(ObjId.SCANNER_I),
+                            ((Scanner)GameObjectsContainer.get(ObjId.SCANNER_I)).getCurrentlyTracking()));
+
                     return true;
                 })));
 
         GameObjectsContainer.add(new Miner(DrawableDef.create(ObjId.MINER_I))
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
-                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT));
+                .addTag(Tag.PLACABLE_GAME_BUILDING));
         GameObjectsContainer.get(ObjId.MINER_I).getTransforms().rotateTo(0f,0f,180f);
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
@@ -158,7 +165,7 @@ public class WorldLoader extends Loader {
 
         GameObjectsContainer.get(ObjId.MINER_I).setPolygonRB().getRigidBody().isStaticObject(false)
                 .setCollisionListener(new GeneralCollisionListener())
-                .getRBProps().setMass(2.0f).setRestitution(0.1f);
+                .getRBProps().setMass(1.0f).setRestitution(0.1f);
 
         IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));

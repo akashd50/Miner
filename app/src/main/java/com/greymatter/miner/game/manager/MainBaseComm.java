@@ -13,7 +13,5 @@ import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 
 public class MainBaseComm {
     public static void callNewMiner() {
-        CollisionSystemContainer.add(GameObjectsContainer.get(ObjId.MINER_I).getRigidBody());
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.MINER_I));
     }
 }

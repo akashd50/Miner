@@ -23,9 +23,9 @@ public class RBProps {
 
         //angular friction
         if(angularVel > 0) {
-            angularVel-=0.01f;
+            angularVel-=0.015f;
         }else if(angularVel < 0){
-            angularVel+=0.01f;
+            angularVel+=0.015f;
         }
     }
 

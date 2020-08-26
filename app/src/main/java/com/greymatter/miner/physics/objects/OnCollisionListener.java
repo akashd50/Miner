@@ -44,7 +44,7 @@ public interface OnCollisionListener {
         Transforms againstTransforms = event.getAgainstObject().getTransforms();
         RBProps linkedRBProps = linked.getRBProps();
 
-        Vector3f directionToObjectCenter = VectorHelper.sub(event.getLinkedObjectCollisionPoint(), againstTransforms.getTranslation());
+        Vector3f directionToObjectCenter = VectorHelper.sub(linked.getTransforms().getTranslation(), event.getAgainstObjectCollisionPoint());
         directionToObjectCenter.z = 0f;
         Vector3f startP = againstTransforms.getTranslation();
         Vector3f endP = VectorHelper.multiply(linked.getTransforms().getTranslation(), 1);
@@ -56,11 +56,13 @@ public interface OnCollisionListener {
         float angularAcc = angularForce/(linkedRBProps.getMass() * VectorHelper.getMagnitude(directionToObjectCenter));
 
         float pointOnLine = VectorHelper.pointOnLine(startP, endP, event.getLinkedObjectCollisionPoint());
-        if(pointOnLine < 0 ) {
-            linkedRBProps.updateAngularVelocity( angularAcc * 10f);
-        }else if (pointOnLine > 0 ){
-            linkedRBProps.updateAngularVelocity(- angularAcc * 10f);
-        }
+        //if(angularAcc > 0.005f) {
+            if (pointOnLine < 0) {
+                linkedRBProps.updateAngularVelocity(angularAcc * 10f);
+            } else if (pointOnLine > 0) {
+                linkedRBProps.updateAngularVelocity(-angularAcc * 10f);
+            }
+        //}
     }
 
     default void matchSurfaceAngleDefault(CollisionEvent event, Vector3f impulse) {

@@ -14,6 +14,7 @@ import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
@@ -41,26 +42,17 @@ public class GeneralTouchMode extends AbstractTouchMode {
                 GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             case R.id.items_menu:
-                View view = AppServices.getAppContextAsActivity().getLayoutInflater().inflate(R.layout.items_dialog, null);
-                ArrayList<IGameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
+                View view = LayoutHelper.loadLayout(R.layout.items_dialog);
+                AlertDialog selectionDialog = LayoutHelper.loadDialog(view);
 
+                ArrayList<IGameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
                 ListView listView = view.findViewById(R.id.temp_items_list);
                 ArrayAdapter<IGameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
                 listView.setAdapter(buildingArrayAdapter);
 
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AppServices.getAppContext()).setView(view);
-                AlertDialog dialog = dialogBuilder.create();
-
-                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
                     IGameObject object = buildingArrayAdapter.getItem(position);
-
                     ToDrawContainer.add(object);
-
-//                    if(object instanceof GameObjectWGL) {
-//                        ActiveLightsContainer.addAll(object.asGameObjectWGL().getAllLights());
-//                    }
 
                     Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
                     object.moveTo(0f,planetTransforms.getTranslation().y + planetTransforms.getScale().y + object.getTransforms().getScale().y);
@@ -74,17 +66,9 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
                     ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
 
-                    dialog.dismiss();
+                    selectionDialog.dismiss();
                 });
-
-                dialog.show();
-                dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                LayoutHelper.showDialog(selectionDialog);
                 break;
             default:
                 break;

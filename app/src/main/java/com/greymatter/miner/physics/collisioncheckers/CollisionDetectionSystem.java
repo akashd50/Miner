@@ -50,7 +50,7 @@ public class CollisionDetectionSystem {
                 for (RigidBody against : CollisionSystemContainer.getAllExcept(rigidBody)) {
                     if(against.isStaticObject()) {
                         rigidBody.getRBProps().applyGravity(calculateGravitationalForce(rigidBody, against));
-                        angularAdjustmentDueToGravity(rigidBody,against);
+                        //angularAdjustmentDueToGravity(rigidBody,against);
                     }
                 }
                 CollisionEvent event = rigidBody.getLastCollisionEvent(GameObjectsContainer.get(ObjId.PLANET).getRigidBody());
@@ -82,23 +82,26 @@ public class CollisionDetectionSystem {
         float magSumPosSide = 0;
 
         for(Vector3f point : current.asPolygonRB().getTransformedVertices()) {
-            if(VectorHelper.pointOnLine(startP, endP, point) < 0 ) {
+            float onLine = VectorHelper.pointOnLine(startP, endP, point);
+            if(onLine < 0) {
                 magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
-            }else {
+            }else if(onLine > 0) {
                 magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
             }
         }
 
-//        if(magSumNegSide<magSumPosSide) {
-//            current.getRBProps().updateAngularVelocity(0.01f);
-//        }else{
-//            current.getRBProps().updateAngularVelocity(-0.01f);
+//        float slope = 0f;
+//        if(magSumNegSide < magSumPosSide) {
+//            current.getRBProps().updateAngularVelocity(0.03f);
+//        }else if(magSumNegSide > magSumPosSide){
+//            current.getRBProps().updateAngularVelocity(-0.03f);
 //        }
-        if(magSumNegSide<magSumPosSide) {
-            current.getRBProps().setAngularAcceleration(0.00001f);
-        }else{
-            current.getRBProps().setAngularAcceleration(-0.00001f);
-        }
+//        float slope = 1f;
+//        if(magSumNegSide<magSumPosSide-slope) {
+//            current.getRBProps().updateAngularAcceleration(0.000001f);
+//        }else if(magSumPosSide > magSumNegSide + slope){
+//            current.getRBProps().updateAngularAcceleration(-0.000001f);
+//        }
     }
 
     public static void onDestroy() {
