@@ -1,4 +1,4 @@
-package com.greymatter.miner.game.objects.buildings;
+package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.game.objects.GameObject;

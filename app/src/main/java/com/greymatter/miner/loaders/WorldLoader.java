@@ -4,6 +4,7 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.manager.MinerManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
@@ -13,7 +14,7 @@ import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
-import com.greymatter.miner.game.objects.buildings.Planet;
+import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
@@ -80,7 +81,7 @@ public class WorldLoader extends Loader {
                 .setOnTouchListener(new GeneralTouchListener()));
         //-------------------------------------
 
-        GameObjectsContainer.add(new Scanner(DrawableDef.create(DrawableDef.SCANNER_I))
+        GameObjectsContainer.add(new Scanner(DrawableDef.create(DrawableDef.SCANNER_1))
                 .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT)
                 .setOnTouchListener(new BuildingModeTouchListener())
@@ -99,15 +100,14 @@ public class WorldLoader extends Loader {
                                             return true;
                                         }))
                 .setSignal((GameSignal) new GameSignal().setOnClickListener(object -> {
-                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_I.name()),
-                            ((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_I.name())).getCurrentlyTracking()));
+                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name()),
+                            ((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name())).getCurrentlyTracking()));
                     return true;
                 })));
 
-        GameObjectsContainer.add(new Miner(DrawableDef.create(DrawableDef.MINER_I))
+        GameObjectsContainer.add(MinerManager.getNextMinerId(), new Miner(DrawableDef.create(DrawableDef.MINER_1))
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
-        GameObjectsContainer.get(DrawableDef.MINER_I.name()).getTransforms().rotateTo(0f,0f,180f);
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TREE_I))
                 .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
@@ -122,23 +122,19 @@ public class WorldLoader extends Loader {
     }
 
     public void updateContainer() {
-        //        IGameObject mainCharacter = GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER);
+//        IGameObject mainCharacter = GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER);
 //        GameObjectsContainer.add(new InteractiveObject(new Line(DrawableDef.TEST_LINE)
 //                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
 //                            .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
 //                            .build()));
-
         //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_LINE));
-        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.ATMOSPHERE));
+
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_1.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_GRASS_LAYER.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
-        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MINER_I));
-
-        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_TREE_LAYER));
     }
 
     public void updatePhysicsProperties() {
@@ -156,11 +152,11 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
 
-        GameObjectsContainer.get(DrawableDef.MINER_I.name()).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(DrawableDef.MINER_1.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .setCollisionListener(new GeneralCollisionListener())
                 .getRBProps().setMass(1.0f).setRestitution(0.1f);
 
-        IGameObject sampleScanner = GameObjectsContainer.get(DrawableDef.SCANNER_I.name());
+        IGameObject sampleScanner = GameObjectsContainer.get(DrawableDef.SCANNER_1.name());
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
         sampleScanner.setPolygonTC();
         sampleScanner.getRigidBody().isStaticObject(false).getRBProps().setMass(1.0f).setRestitution(0.5f);

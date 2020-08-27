@@ -8,23 +8,21 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import java.util.ArrayList;
 
 public class GameObjectsContainer {
-    private static HashMapE<String, IGameObject> gameObjects;
-    private static HashMapE<String, GameLight> gameLights;
+    private static HashMapE<String, IGameObject> gameObjects = new HashMapE<>();
+    private static HashMapE<String, GameLight> gameLights = new HashMapE<>();
 
     public static void add(IGameObject gameObject) {
-        if(gameObjects == null) {
-            gameObjects = new HashMapE<>();
-        }
-
-        if(gameLights == null) {
-            gameLights = new HashMapE<>();
-        }
-
         if(gameObject instanceof GameLight) {
             gameLights.put(gameObject.getId(), (GameLight)gameObject);
         }
-
         gameObjects.put(gameObject.getId(), gameObject);
+    }
+
+    public static void add(String id, IGameObject gameObject) {
+        if(gameObject instanceof GameLight) {
+            gameLights.put(id, (GameLight)gameObject);
+        }
+        gameObjects.put(id, gameObject);
     }
 
     public static void remove(String id) {

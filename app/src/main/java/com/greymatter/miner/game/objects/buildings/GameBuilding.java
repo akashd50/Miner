@@ -4,6 +4,7 @@ import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
@@ -16,7 +17,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObjectWGL {
     private BooleanAnimator snapAnimator;
-    private Vector3f pointOnSurface;
+    private Vector3f snappingPoint;
     public GameBuilding(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
@@ -29,12 +30,12 @@ public abstract class GameBuilding extends GameObjectWGL {
         snapAnimator.pause();
         snapAnimator.setOnAnimationFrameHandler((object, animator) -> {
             if(animator.getUpdatedBoolean()) {
-                Vector3f dir = VectorHelper.sub(pointOnSurface, getLocation());
+                Vector3f dir = VectorHelper.sub(snappingPoint, getLocation());
                 dir.normalize();
                 dir.z = 0f;
                 object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
 
-                if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), pointOnSurface) <= 0.05f) {
+                if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
                     snapAnimator.pause();
                 }
                 object.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), object.getDrawable()) - 90);
@@ -63,7 +64,7 @@ public abstract class GameBuilding extends GameObjectWGL {
                     float angleBetween = VectorHelper.angleBetweenRad(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), gameObject.getDrawable());
                     float px = planetTransforms.getTranslation().x + planetTransforms.getScale().y * (float) Math.cos(angleBetween);
                     float py = getTransforms().getScale().y + planetTransforms.getTranslation().y + planetTransforms.getScale().y * (float) Math.sin(angleBetween);
-                    pointOnSurface = new Vector3f(px, py, 0f);
+                    snappingPoint = new Vector3f(px, py, 0f);
                     snapAnimator.resume();
                     return true;
                 }
@@ -72,12 +73,11 @@ public abstract class GameBuilding extends GameObjectWGL {
         });
     }
 
-    public void snapTo(Vector3f roughPos) {
-        Transforms planetTransforms = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms();
-        float angleBetween = VectorHelper.angleBetweenRad(planetTransforms.getTranslation(), roughPos);
-        float px = planetTransforms.getTranslation().x + planetTransforms.getScale().y * (float) Math.cos(angleBetween);
-        float py = getTransforms().getScale().y + planetTransforms.getTranslation().y + planetTransforms.getScale().y * (float) Math.sin(angleBetween);
-        pointOnSurface = new Vector3f(px, py, 0f);
+    public void snapTo(IGameObject object, float angleRad) {
+        Transforms objectTransforms = object.getTransforms();
+        float px = objectTransforms.getTranslation().x + objectTransforms.getScale().y * (float) Math.cos(angleRad);
+        float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
+        snappingPoint = new Vector3f(px, py, 0f);
         snapAnimator.resume();
     }
 
