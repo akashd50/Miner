@@ -1,14 +1,12 @@
 package com.greymatter.miner.game.objects.base;
 
-import com.greymatter.miner.loaders.enums.ObjId;
-
 public abstract class GID implements IGameObject {
-    private ObjId id;
-    public GID(ObjId id) {
+    private String id;
+    public GID(String id) {
         this.id = id;
     }
 
-    public ObjId getId() {
+    public String getId() {
         return id;
     }
 

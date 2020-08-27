@@ -1,26 +1,25 @@
 package com.greymatter.miner.game.objects.base;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 
 import java.util.ArrayList;
 
 public abstract class GHierarchical extends GID {
-    private HashMapE<ObjId, IGameObject> children;
+    private HashMapE<String, IGameObject> children;
     private IGameObject parent;
-    public GHierarchical(ObjId id) {
+    public GHierarchical(String id) {
         super(id);
         children = new HashMapE<>();
     }
 
-    public IGameObject addChild(ObjId id, IGameObject object) {
+    public IGameObject addChild(String id, IGameObject object) {
         this.children.put(id, object);
         object.setParent(this);
         return this;
     }
 
-    public IGameObject getChild(ObjId id) {
+    public IGameObject getChild(String id) {
         return children.get(id);
     }
 
@@ -41,7 +40,7 @@ public abstract class GHierarchical extends GID {
         return parent;
     }
 
-    public HashMapE<ObjId, IGameObject> getChildren() {
+    public HashMapE<String, IGameObject> getChildren() {
         return children;
     }
 }

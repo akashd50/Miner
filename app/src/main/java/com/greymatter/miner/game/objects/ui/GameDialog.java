@@ -1,7 +1,5 @@
 package com.greymatter.miner.game.objects.ui;
 
-import com.greymatter.miner.helpers.ZHelper;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
@@ -12,25 +10,25 @@ public class GameDialog extends GameNotification {
     public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
     }
-    public GameDialog(ObjId id, Drawable drawable) {
+    public GameDialog(String id, Drawable drawable) {
         super(id, drawable);
     }
 
     public GameDialog() {
-        super(ObjId.OBJECT_DIALOG, DrawableDef.create(ObjId.OBJECT_DIALOG));
+        super("OBJECT_DIALOG", DrawableDef.create(DrawableDef.OBJECT_DIALOG));
         initialize();
     }
 
     private void initialize() {
-        setButtonI(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_I)));
-        setButtonII(new GameButton(DrawableDef.create(ObjId.DIALOG_BUTTON_II)));
+        setButtonI(new GameButton(DrawableDef.create(DrawableDef.DIALOG_BUTTON_I)));
+        setButtonII(new GameButton(DrawableDef.create(DrawableDef.DIALOG_BUTTON_II)));
         setDefaultScale(new Vector3f(2f,1.5f, 1f));
         moveBy(0f,0f, 0f);
         addTag(Tag.DIALOG);
     }
 
     public GameDialog setButtonI(GameButton button) {
-        addChild(ObjId.DIALOG_BUTTON_I, button);
+        addChild("DIALOG_BUTTON_I", button);
         button.getTransforms()
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
@@ -41,7 +39,7 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog setButtonII(GameButton button) {
-        addChild(ObjId.DIALOG_BUTTON_II, button);
+        addChild("DIALOG_BUTTON_II", button);
         button.getTransforms()
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
@@ -52,12 +50,12 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog setButtonIClickListener(OnClickListener listener) {
-        getChild(ObjId.DIALOG_BUTTON_I).setOnClickListener(listener);
+        getChild("DIALOG_BUTTON_I").setOnClickListener(listener);
         return this;
     }
 
     public GameDialog setButtonIIClickListener(OnClickListener listener) {
-        getChild(ObjId.DIALOG_BUTTON_II).setOnClickListener(listener);
+        getChild("DIALOG_BUTTON_II").setOnClickListener(listener);
         return this;
     }
 }

@@ -1,7 +1,6 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -9,8 +8,8 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import java.util.ArrayList;
 
 public class GameObjectsContainer {
-    private static HashMapE<ObjId, IGameObject> gameObjects;
-    private static HashMapE<ObjId, GameLight> gameLights;
+    private static HashMapE<String, IGameObject> gameObjects;
+    private static HashMapE<String, GameLight> gameLights;
 
     public static void add(IGameObject gameObject) {
         if(gameObjects == null) {
@@ -28,14 +27,14 @@ public class GameObjectsContainer {
         gameObjects.put(gameObject.getId(), gameObject);
     }
 
-    public static void remove(ObjId id) {
+    public static void remove(String id) {
         IGameObject removed = null;
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
         }
     }
 
-    public static IGameObject get(ObjId id) {
+    public static IGameObject get(String id) {
         return gameObjects.get(id);
     }
 

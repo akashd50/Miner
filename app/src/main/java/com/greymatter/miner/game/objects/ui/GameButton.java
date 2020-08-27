@@ -1,6 +1,5 @@
 package com.greymatter.miner.game.objects.ui;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class GameButton extends GameUI {
@@ -9,7 +8,7 @@ public class GameButton extends GameUI {
         super(drawable.getId(), drawable);
     }
 
-    public GameButton(ObjId id, Drawable drawable) {
+    public GameButton(String id, Drawable drawable) {
         super(id, drawable);
     }
 }

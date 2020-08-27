@@ -1,6 +1,5 @@
 package com.greymatter.miner.game.objects.base;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Transforms;
 
 import javax.vecmath.Vector2f;
@@ -8,7 +7,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class GTransformable extends GHierarchical {
     private Transforms transforms;
-    public GTransformable(ObjId id) {
+    public GTransformable(String id) {
         super(id);
         this.transforms = new Transforms();
     }
@@ -18,7 +17,7 @@ public abstract class GTransformable extends GHierarchical {
     }
 
     @Override
-    public IGameObject addChild(ObjId id, IGameObject object) {
+    public IGameObject addChild(String id, IGameObject object) {
         super.addChild(id, object);
         this.transforms.addChild(object.getTransforms());
         return this;

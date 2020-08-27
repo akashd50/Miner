@@ -1,7 +1,7 @@
 package com.greymatter.miner.mainui.touch;
 
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 
@@ -14,6 +14,6 @@ public interface OnTouchListener {
 
     default void defaultOnTouchMove(GameObject gameObject, Vector2f pointer) {
         gameObject.moveTo(pointer);
-        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(ObjId.PLANET).getDrawable(), gameObject.getDrawable()) - 90);
+        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), gameObject.getDrawable()) - 90);
     }
 }

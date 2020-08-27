@@ -1,17 +1,13 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.renderers.QuadRenderer;
-
-import javax.vecmath.Vector3f;
 
 public abstract class GameNotification extends GameUI {
     private FloatValueAnimator openingAnimator;
-    public GameNotification(ObjId id, Drawable drawable) {
+    public GameNotification(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }

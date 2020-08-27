@@ -1,7 +1,8 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.AppServices;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.objects.ui.GameDialog;
+import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.base.GTransformable;
@@ -29,7 +30,7 @@ public abstract class GameObject extends GTransformable {
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
-    public GameObject(ObjId id, Drawable drawable) {
+    public GameObject(String id, Drawable drawable) {
         super(id);
         this.objectDrawable = drawable;
         this.objectTags = new ArrayList<>();
@@ -89,6 +90,24 @@ public abstract class GameObject extends GTransformable {
     public GameObject setTouchChecker(TouchChecker touchChecker) {
         this.touchChecker = touchChecker;
         return this;
+    }
+
+    public GameObject setDialog(GameDialog gameDialog) {
+        addChild("DIALOG", gameDialog);
+        return this;
+    }
+
+    public GameObject setSignal(GameSignal signal) {
+        addChild("SIGNAL", signal);
+        return this;
+    }
+
+    public GameDialog getDialog() {
+        return (GameDialog)getChild("DIALOG");
+    }
+
+    public GameSignal getSignal() {
+        return (GameSignal)getChild("SIGNAL");
     }
 
     public boolean onTouchDownEvent(Vector2f pointer) {

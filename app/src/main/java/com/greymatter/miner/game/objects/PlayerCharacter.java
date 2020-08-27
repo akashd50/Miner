@@ -1,11 +1,10 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 public class PlayerCharacter extends GameObject {
-    public PlayerCharacter(ObjId id, Drawable drawable) {
+    public PlayerCharacter(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }

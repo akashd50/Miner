@@ -1,6 +1,5 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.physics.objects.CollisionEvent;
@@ -9,14 +8,14 @@ import java.util.HashMap;
 import javax.vecmath.Vector3f;
 
 public abstract class RigidBody {
-    private ObjId id;
+    private String id;
     private Vector3f upVector;
     private Transforms transforms;
     private RBProps rbProps;
     private boolean isStaticObject, dynamicallyUpdated;
     private OnCollisionListener onCollisionListener;
     private HashMap<String, CollisionEvent> lastCollisionEvents;
-    public RigidBody(ObjId id) {
+    public RigidBody(String id) {
         this.id = id;
         this.upVector = new Vector3f(0f,1f,0f);
         this.lastCollisionEvents = new HashMap<>();
@@ -105,7 +104,7 @@ public abstract class RigidBody {
         return upVector;
     }
 
-    public ObjId getId() {
+    public String getId() {
         return this.id;
     }
 

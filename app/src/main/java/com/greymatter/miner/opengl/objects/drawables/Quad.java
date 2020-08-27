@@ -1,22 +1,13 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
-import android.opengl.GLES30;
-
 import com.greymatter.miner.ShaderConst;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.GLBufferHelper;
-import com.greymatter.miner.opengl.shader.ShaderHelper;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.materials.textured.TexturedMaterial;
-import com.greymatter.miner.opengl.shader.Shader;
-
-import java.util.ArrayList;
-
-import javax.vecmath.Vector3f;
 
 public class Quad extends Drawable {
 	private float textureRatio;
-	public Quad(ObjId id) {
+	public Quad(String id) {
 		super(id);
 	}
 

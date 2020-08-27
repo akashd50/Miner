@@ -1,9 +1,7 @@
 package com.greymatter.miner.loaders.enums.definitions;
 
 import com.greymatter.miner.containers.MaterialContainer;
-import com.greymatter.miner.containers.ShaderContainer;
 import com.greymatter.miner.containers.ShapeContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
@@ -16,7 +14,7 @@ import com.greymatter.miner.opengl.objects.renderers.Renderer;
 
 public enum DrawableDef {
     ATMOSPHERE(DrawableType.OBJ, ShapeDef.CIRCLE_SIMPLE, MaterialDef.ATMOSPHERE_MATERIAL, ShaderDef.QUAD_SHADER),
-    PLANET(DrawableType.OBJ, ShapeDef.CIRCLE_SUB_III, MaterialDef.GROUND_MATERIAL, ShaderDef.QUAD_SHADER),
+    PLANET_1(DrawableType.OBJ, ShapeDef.CIRCLE_SUB_III, MaterialDef.GROUND_MATERIAL, ShaderDef.QUAD_SHADER),
     PLANET_GRASS_LAYER(DrawableType.TEXTURED_EDGED_POLYGON, ShapeDef.CIRCLE_EDGE, MaterialDef.PLANET_GRASS_MATERIAL_I, ShaderDef.QUAD_SHADER),
     //PLANET_TREE_LAYER(DrawableType.TEXTURED_EDGED_POLYGON, ShapeDef.PLANET_TREE_EDGE, MaterialDef.TREE_MATERIAL, ShaderDef.THREE_D_OBJECT_W_LIGHTING_SHADER),
 
@@ -54,23 +52,23 @@ public enum DrawableDef {
         SHADER_ID = shaderId;
     }
 
-    public static Drawable create(ObjId id) {
+    public static Drawable create(DrawableDef id) {
         DrawableDef objDef = DrawableDef.valueOf(id.toString());
         switch (objDef.DRAWABLE_TYPE) {
             case OBJ:
-                return new Obj(id).setShape(ShapeContainer.get(objDef.SHAPE_ID))
+                return new Obj(id.name()).setShape(ShapeContainer.get(objDef.SHAPE_ID))
                         .setMaterial(MaterialContainer.get(objDef.MAT_ID))
                         .setRenderer(getRenderer(objDef)).build();
             case QUAD:
-                return new Quad(id).setShape(ShapeContainer.get(objDef.SHAPE_ID))
+                return new Quad(id.name()).setShape(ShapeContainer.get(objDef.SHAPE_ID))
                         .setMaterial(MaterialContainer.get(objDef.MAT_ID))
                         .setRenderer(getRenderer(objDef)).build();
             case RADIANT_GRADIENT:
-                return new RadialGradient(id).setShape(ShapeContainer.get(objDef.SHAPE_ID))
+                return new RadialGradient(id.name()).setShape(ShapeContainer.get(objDef.SHAPE_ID))
                         .setMaterial(MaterialContainer.get(objDef.MAT_ID))
                         .setRenderer(getRenderer(objDef)).build();
             case TEXTURED_EDGED_POLYGON:
-                return new TextureEdgedPolygon(id).setShape(ShapeContainer.get(objDef.SHAPE_ID))
+                return new TextureEdgedPolygon(id.name()).setShape(ShapeContainer.get(objDef.SHAPE_ID))
                         .setMaterial(MaterialContainer.get(objDef.MAT_ID))
                         .setRenderer(getRenderer(objDef)).build();
             case LINE:

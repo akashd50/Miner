@@ -8,7 +8,6 @@ import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.loaders.enums.ObjId;
 
 import javax.vecmath.Vector3f;
 
@@ -26,9 +25,9 @@ public class ScannerAnimationHandler implements OnAnimationFrameHandler {
                 dir.z = 0f;
                 scanner.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));
             }else{
-                ActiveResourcesContainer.add(ObjId.COAL_BLOCK_I.toString(), currentlyTracking);
-                if(!scanner.getChild(ObjId.OBJECT_SIGNAL).shouldDraw()) {
-                    ((GameSignal) scanner.getChild(ObjId.OBJECT_SIGNAL)).show();
+                ActiveResourcesContainer.add("COAL_BLOCK_I", currentlyTracking);
+                if(!scanner.getSignal().shouldDraw()) {
+                    scanner.getSignal().show();
                 }
             }
         }

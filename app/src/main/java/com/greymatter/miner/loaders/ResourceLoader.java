@@ -1,17 +1,16 @@
 package com.greymatter.miner.loaders;
 
-import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.AllResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.helpers.ZHelper;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
 
 public class ResourceLoader extends Loader {
     public void load() {
-        float planetRadius = GameObjectsContainer.get(ObjId.PLANET).getTransforms().getScale().y;
+        float planetRadius = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getScale().y;
         String res = "res";
         int i=0;
 //        while(i<360) {
@@ -24,9 +23,9 @@ public class ResourceLoader extends Loader {
 //            ActiveResourcesContainer.add(res+i, block);
 //        }
 
-        CoalBlock block = new CoalBlock(DrawableDef.create(ObjId.COAL_BLOCK_I));
+        CoalBlock block = new CoalBlock(DrawableDef.create(DrawableDef.COAL_BLOCK_I));
         block.addTag(Tag.RESOURCE_OBJECT).scaleTo(0.2f, 0.2f).moveTo(10f, -4f, ZHelper.OVER_FRONT);
-        AllResourcesContainer.add(ObjId.COAL_BLOCK_I.toString(),block);
+        AllResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(),block);
 
         //finishSetup();
     }

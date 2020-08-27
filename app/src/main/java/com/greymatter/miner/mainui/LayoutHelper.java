@@ -4,23 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
-import com.greymatter.miner.game.manager.MainBaseComm;
-import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
-import com.greymatter.miner.loaders.enums.ObjId;
-import com.greymatter.miner.loaders.enums.Tag;
-
-import java.util.ArrayList;
 
 public class LayoutHelper {
     public static AlertDialog getScannerOnResourceFindDialog(Scanner scanner, ResourceBlock resourceBlock) {
@@ -34,8 +26,8 @@ public class LayoutHelper {
         selectionDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Mine Res", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ToDrawContainer.add(GameObjectsContainer.get(ObjId.MINER_I));
-                GameObjectsContainer.get(ObjId.MINER_I).asGameBuilding().snapTo(scanner.getLocation());
+                ToDrawContainer.add(GameObjectsContainer.get("MINER_I"));
+                GameObjectsContainer.get("MINER_I").asGameBuilding().snapTo(scanner.getLocation());
                 dialog.dismiss();
             }
         });

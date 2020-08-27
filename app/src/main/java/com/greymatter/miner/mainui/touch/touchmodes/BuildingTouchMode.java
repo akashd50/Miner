@@ -3,7 +3,7 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.View;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
@@ -70,7 +70,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{

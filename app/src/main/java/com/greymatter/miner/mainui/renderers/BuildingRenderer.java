@@ -2,7 +2,7 @@ package com.greymatter.miner.mainui.renderers;
 
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -16,7 +16,7 @@ public class BuildingRenderer extends AbstractRenderer {
     public synchronized void onDrawFrame() {
         super.onDrawFrame();
 
-        IGameObject planet = GameObjectsContainer.get(ObjId.PLANET);
+        IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
         //Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
 
         /*<---------------------------------------update----------------------------------------->*/

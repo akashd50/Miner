@@ -3,17 +3,15 @@ package com.greymatter.miner.game.objects.buildings;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
-import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.AllResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.renderers.RadialGradientRenderer;
 
 import javax.vecmath.Vector3f;
 
@@ -27,13 +25,13 @@ public class Scanner extends GameBuilding {
         initialize();
     }
 
-    public Scanner(ObjId id, Drawable drawable) {
+    public Scanner(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
     private void initialize() {
-        this.setRangeObject(new GenericObject(DrawableDef.create(ObjId.PIE_GRADIENT_I))
+        this.setRangeObject(new GenericObject(DrawableDef.create(DrawableDef.PIE_GRADIENT_I))
                                     .moveTo(0,0f, 2f).scaleTo(getObjectLevel()*5f,getObjectLevel()*5f)
                                     .setAnimator(new FloatValueAnimator().withFPS(60)
                                                 .setBounds(0f,1f)
@@ -50,7 +48,7 @@ public class Scanner extends GameBuilding {
     @Override
     public void onFrameUpdate() {
         super.onFrameUpdate();
-        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(ObjId.PLANET).getLocation(), this.getLocation());
+        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getLocation(), this.getLocation());
         rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
     }
 
@@ -111,7 +109,7 @@ public class Scanner extends GameBuilding {
     public Scanner setRangeObject(IGameObject rangeObject) {
         this.rangeObject = rangeObject.asGenericObject();
         this.rangeObject.getTransforms().copyTranslationFromParent(true);
-        this.addChild(ObjId.SCANNER_RANGE, rangeObject);
+        this.addChild("SCANNER_RANGE", rangeObject);
         return this;
     }
 

@@ -1,12 +1,11 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import java.util.ArrayList;
 
 public class GameObjectWGL extends GameObject {
     private ArrayList<GameLight> quickAccessGameLights;
-    public GameObjectWGL(ObjId id, Drawable drawable) {
+    public GameObjectWGL(String id, Drawable drawable) {
         super(id, drawable);
         quickAccessGameLights = new ArrayList<>();
     }

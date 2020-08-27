@@ -1,6 +1,5 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 
@@ -11,7 +10,7 @@ import javax.vecmath.Vector3f;
 public class PolygonRB extends RigidBody {
     private ArrayList<Vector3f> meshVertices, transformedVertices;
 
-    public PolygonRB(ObjId id, ArrayList<Vector3f> mesh) {
+    public PolygonRB(String id, ArrayList<Vector3f> mesh) {
         super(id);
         this.meshVertices = mesh;
         this.transformedVertices = new ArrayList<>();

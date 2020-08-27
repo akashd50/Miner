@@ -4,7 +4,6 @@ import com.greymatter.miner.containers.datastructureextensions.GroupMap;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -17,17 +16,17 @@ public class Planet extends GameObject {
         initialize();
     }
 
-    public Planet(ObjId id, Drawable drawable) {
+    public Planet(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
     private void initialize() {
-        IGameObject atmosphere = new GenericObject(DrawableDef.create(ObjId.ATMOSPHERE))
+        IGameObject atmosphere = new GenericObject(DrawableDef.create(DrawableDef.ATMOSPHERE))
                                     .addTag(Tag.STATIC)
                                     .scaleTo(190f,190f).moveTo(0f,0f, -10f);
         atmosphere.getTransforms().copyTranslationFromParent(true);
-        addChild(ObjId.ATMOSPHERE, atmosphere);
+        addChild("ATMOSPHERE", atmosphere);
         addTag(Tag.STATIC);
         addTag(Tag.STATIC_PHYSICS_OBJECT);
     }

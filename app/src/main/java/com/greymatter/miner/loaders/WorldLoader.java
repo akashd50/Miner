@@ -1,18 +1,12 @@
 package com.greymatter.miner.loaders;
 
-import android.app.AlertDialog;
-import android.view.View;
-
-import com.greymatter.miner.R;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
-import com.greymatter.miner.game.manager.MainBaseComm;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GameLight;
@@ -36,92 +30,91 @@ public class WorldLoader extends Loader {
     public void load() {
         //GameObjectsContainer.add();
 
-        GameObjectsContainer.add(new Planet(DrawableDef.create(ObjId.PLANET))
+        GameObjectsContainer.add(new Planet(DrawableDef.create(DrawableDef.PLANET_1))
                 .scaleTo(120f,120f).moveTo(0f,-120.5f, ZHelper.BACK));
 
-        GameObjectsContainer.add(new MainBase(DrawableDef.create(ObjId.MAIN_BASE))
+        GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
                 .scaleTo(4f,4f).moveTo(0f,0f,ZHelper.FRONT_MID));
                 //.setOnTouchListener(new BuildingModeTouchListener()));
 
-        GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(ObjId.MAIN_CHARACTER))
+        GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(DrawableDef.MAIN_CHARACTER))
                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener())
                 .setOnClickListener(object -> {
-                    if(!object.getChild(ObjId.OBJECT_DIALOG).shouldDraw()) {
-                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).show();
+                    if(!object.getDialog().shouldDraw()) {
+                        object.getDialog().show();
                     }else{
-                        ((GameDialog) object.getChild(ObjId.OBJECT_DIALOG)).hide();
+                        object.getDialog().hide();
                     }
                     return true;
-                }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
-                    System.out.println("NOT I - Button Click -> " + object);
-                    return true;
-                }).setButtonIIClickListener(object -> {
-                    System.out.println("NOT II - Button Click -> " + object);
-                    return true;
-                })));
+                }).setDialog(new GameDialog().setButtonIClickListener(object -> {
+                                            System.out.println("NOT I - Button Click -> " + object);
+                                            return true;
+                                        }).setButtonIIClickListener(object -> {
+                                            System.out.println("NOT II - Button Click -> " + object);
+                                            return true;
+                                        })));
 
-        new GameLight(new Obj(ObjId.MAIN_BASE_LIGHT_I))
+        new GameLight(new Obj("MAIN_BASE_LIGHT_I"))
                 .setRadius(1f)
                 .setColor(1f,0f,0f,1f)
                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
-                .attachTo(GameObjectsContainer.get(ObjId.MAIN_BASE).asGameObjectWGL())
+                .attachTo(GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameObjectWGL())
                 .moveTo(new Vector2f(0.12f,-0.06f))
                 .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60)
                 .setOnAnimationFrameHandler((object, animator) -> {
                     object.asGameLight().setIntensity(animator.getUpdatedFloat());
                 }));
 
-        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(0f,0f,90);
+        GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()).getTransforms().rotateTo(0f,0f,90);
 
         //-------------------------------------
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TEST_OBJ_I))
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TEST_OBJ_I))
                 .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                 .scaleTo(0.5f,0.5f).moveBy(-4f,2f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener()));
 
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TEST_OBJ_II))
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TEST_OBJ_II))
                 .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                 .scaleTo(0.5f,0.5f).moveBy(-2f,4f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener()));
         //-------------------------------------
 
-        GameObjectsContainer.add(new Scanner(DrawableDef.create(ObjId.SCANNER_I))
+        GameObjectsContainer.add(new Scanner(DrawableDef.create(DrawableDef.SCANNER_I))
                 .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT)
                 .setOnTouchListener(new BuildingModeTouchListener())
                 .setOnClickListener(object -> {
-                    if(!object.getChild(ObjId.OBJECT_SIGNAL).shouldDraw()) {
-                        ((GameSignal) object.getChild(ObjId.OBJECT_SIGNAL)).show();
+                    if(!object.getDialog().shouldDraw()) {
+                        object.getDialog().show();
                     }else{
-                        ((GameSignal) object.getChild(ObjId.OBJECT_SIGNAL)).hide();
+                        object.getDialog().hide();
                     }
                     return true;
-                }).addChild(ObjId.OBJECT_DIALOG, new GameDialog().setButtonIClickListener(object -> {
-                    System.out.println("NOT I - Button Click -> " + object);
-                    return true;
-                }).setButtonIIClickListener(object -> {
-                    System.out.println("NOT II - Button Click -> " + object);
-                    return true;
-                }))
-                .addChild(ObjId.OBJECT_SIGNAL, new GameSignal().setOnClickListener(object -> {
-                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(ObjId.SCANNER_I),
-                            ((Scanner)GameObjectsContainer.get(ObjId.SCANNER_I)).getCurrentlyTracking()));
-
+                }).setDialog(new GameDialog().setButtonIClickListener(object -> {
+                                            System.out.println("NOT I - Button Click -> " + object);
+                                            return true;
+                                        }).setButtonIIClickListener(object -> {
+                                            System.out.println("NOT II - Button Click -> " + object);
+                                            return true;
+                                        }))
+                .setSignal((GameSignal) new GameSignal().setOnClickListener(object -> {
+                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_I.name()),
+                            ((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_I.name())).getCurrentlyTracking()));
                     return true;
                 })));
 
-        GameObjectsContainer.add(new Miner(DrawableDef.create(ObjId.MINER_I))
+        GameObjectsContainer.add(new Miner(DrawableDef.create(DrawableDef.MINER_I))
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
-        GameObjectsContainer.get(ObjId.MINER_I).getTransforms().rotateTo(0f,0f,180f);
+        GameObjectsContainer.get(DrawableDef.MINER_I.name()).getTransforms().rotateTo(0f,0f,180f);
 
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.TREE_I))
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TREE_I))
                 .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
 //
-//        GameObjectsContainer.add(new Animated(DrawableDef.create(ObjId.PLANET_TREE_LAYER))
+//        GameObjectsContainer.add(new Animated(DrawableDef.create(DrawableDef.PLANET_TREE_LAYER))
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(ObjId.PLANET_GRASS_LAYER))
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.PLANET_GRASS_LAYER))
                 .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, ZHelper.OVER_FRONT));
 
         updateContainer();
@@ -129,45 +122,45 @@ public class WorldLoader extends Loader {
     }
 
     public void updateContainer() {
-        //        IGameObject mainCharacter = GameObjectsContainer.get(ObjId.MAIN_CHARACTER);
-//        GameObjectsContainer.add(new InteractiveObject(new Line(ObjId.TEST_LINE)
+        //        IGameObject mainCharacter = GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER);
+//        GameObjectsContainer.add(new InteractiveObject(new Line(DrawableDef.TEST_LINE)
 //                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
 //                            .addVertices(mainCharacter.getRigidBody().asPolygonRB().getTransformedVertices())
 //                            .build()));
 
-        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_LINE));
-        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.ATMOSPHERE));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.MAIN_CHARACTER));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_I));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TEST_OBJ_II));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_GRASS_LAYER));
-        ToDrawContainer.add(GameObjectsContainer.get(ObjId.TREE_I));
-        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.MINER_I));
+        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_LINE));
+        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.ATMOSPHERE));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_1.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_GRASS_LAYER.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
+        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MINER_I));
 
-        //ToDrawContainer.add(GameObjectsContainer.get(ObjId.PLANET_TREE_LAYER));
+        //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_TREE_LAYER));
     }
 
     public void updatePhysicsProperties() {
-        GameObjectsContainer.get(ObjId.MAIN_BASE).setPolygonRB();
+        GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).setPolygonRB();
 
-        GameObjectsContainer.get(ObjId.PLANET).setPolygonRB().getRigidBody().isStaticObject(true)
+        GameObjectsContainer.get(DrawableDef.PLANET_1.name()).setPolygonRB().getRigidBody().isStaticObject(true)
                 .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
-        GameObjectsContainer.get(ObjId.MAIN_CHARACTER).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0.1f);
 
-        GameObjectsContainer.get(ObjId.TEST_OBJ_I).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
 
-        GameObjectsContainer.get(ObjId.TEST_OBJ_II).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
 
-        GameObjectsContainer.get(ObjId.MINER_I).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(DrawableDef.MINER_I.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .setCollisionListener(new GeneralCollisionListener())
                 .getRBProps().setMass(1.0f).setRestitution(0.1f);
 
-        IGameObject sampleScanner = GameObjectsContainer.get(ObjId.SCANNER_I);
+        IGameObject sampleScanner = GameObjectsContainer.get(DrawableDef.SCANNER_I.name());
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
         sampleScanner.setPolygonTC();
         sampleScanner.getRigidBody().isStaticObject(false).getRBProps().setMass(1.0f).setRestitution(0.5f);

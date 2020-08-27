@@ -1,12 +1,11 @@
 package com.greymatter.miner.physics.objects.rb;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.helpers.VectorHelper;
 import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 
 public class PolygonRbTRViaMat extends PolygonRB {
-    public PolygonRbTRViaMat(ObjId id, ArrayList<Vector3f> mesh) {
+    public PolygonRbTRViaMat(String id, ArrayList<Vector3f> mesh) {
         super(id, mesh);
     }
 

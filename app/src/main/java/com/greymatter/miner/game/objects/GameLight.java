@@ -1,6 +1,5 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
@@ -14,7 +13,7 @@ public class GameLight extends GameObject {
         initialize();
     }
 
-    public GameLight(ObjId id, Drawable drawable) {
+    public GameLight(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }

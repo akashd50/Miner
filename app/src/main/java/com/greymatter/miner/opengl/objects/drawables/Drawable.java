@@ -1,13 +1,10 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
-import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.gradients.Gradient;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.materials.Material;
 import com.greymatter.miner.opengl.objects.renderers.Renderer;
-import com.greymatter.miner.opengl.shader.Shader;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 
 import java.util.ArrayList;
@@ -15,13 +12,13 @@ import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 
 public abstract class Drawable {
-    private ObjId id;
+    private String id;
     private Material material;
     private int vertexArray, vertexBuffer;
     private Transforms transforms;
     private Shape shape;
     private Renderer renderer;
-    public Drawable(ObjId id) {
+    public Drawable(String id) {
         this.id = id;
     }
 
@@ -98,7 +95,7 @@ public abstract class Drawable {
         return this.id.toString();
     }
 
-    public ObjId getId() {
+    public String getId() {
         return this.id;
     }
 

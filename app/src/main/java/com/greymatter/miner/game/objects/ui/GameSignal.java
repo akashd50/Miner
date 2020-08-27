@@ -1,32 +1,30 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
-import com.greymatter.miner.opengl.objects.renderers.QuadLightingRenderer;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class GameSignal extends GameNotification {
-    public GameSignal(ObjId id, Drawable drawable) {
+    public GameSignal(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
     public GameSignal() {
-        super(ObjId.OBJECT_SIGNAL, DrawableDef.create(ObjId.OBJECT_SIGNAL));
+        super("OBJECT_SIGNAL", DrawableDef.create(DrawableDef.OBJECT_SIGNAL));
         initialize();
     }
 
     private void initialize() {
         setDefaultScale(new Vector3f(0.5f,0.8f, 1f));
         addTag(Tag.SIGNAL);
-        new GameLight(new Obj(ObjId.OBJECT_SIGNAL_LIGHT))
+        new GameLight(new Obj("OBJECT_SIGNAL_LIGHT"))
                 .setRadius(1f)
                 .setColor(1f,0f,0f,1f)
                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)

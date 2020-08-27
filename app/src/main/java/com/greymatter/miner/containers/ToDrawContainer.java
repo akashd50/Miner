@@ -1,7 +1,6 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
-import com.greymatter.miner.loaders.enums.ObjId;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ToDrawContainer {
-    private static HashMapE<ObjId, IGameObject> gameObjects = new HashMapE<>();
+    private static HashMapE<String, IGameObject> gameObjects = new HashMapE<>();
     private static Comparator<IGameObject> comparator = new Comparator<IGameObject>() {
         @Override
         public int compare(IGameObject o1, IGameObject o2) {
@@ -28,7 +27,7 @@ public class ToDrawContainer {
         gameObjects.sort(comparator);
     }
 
-    public static synchronized void remove(ObjId id) {
+    public static synchronized void remove(String id) {
         IGameObject removed = null;
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
@@ -64,7 +63,7 @@ public class ToDrawContainer {
         }
     }
 
-    public static IGameObject get(ObjId id) {
+    public static IGameObject get(String id) {
         return gameObjects.get(id);
     }
 

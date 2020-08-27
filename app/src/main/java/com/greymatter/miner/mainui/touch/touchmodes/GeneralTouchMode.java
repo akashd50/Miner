@@ -2,7 +2,6 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.greymatter.miner.AppServices;
@@ -10,7 +9,7 @@ import com.greymatter.miner.R;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.loaders.enums.ObjId;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -35,11 +34,11 @@ public class GeneralTouchMode extends AbstractTouchMode {
         switch (v.getId()) {
             case R.id.move_left:
                 Vector3f left = VectorHelper.getNormal(getMainCamera().getUpVector());
-                GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, 0.01f));
+                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, 0.01f));
                 break;
             case R.id.move_right:
                 Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-                GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
+                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             case R.id.items_menu:
                 View view = LayoutHelper.loadLayout(R.layout.items_dialog);
@@ -54,7 +53,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
                     IGameObject object = buildingArrayAdapter.getItem(position);
                     ToDrawContainer.add(object);
 
-                    Transforms planetTransforms = GameObjectsContainer.get(ObjId.PLANET).getTransforms();
+                    Transforms planetTransforms = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms();
                     object.moveTo(0f,planetTransforms.getTranslation().y + planetTransforms.getScale().y + object.getTransforms().getScale().y);
 
 
@@ -129,7 +128,7 @@ public class GeneralTouchMode extends AbstractTouchMode {
     private boolean doOnTouchMoveGLSurface() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(ObjId.PLANET).getTransforms().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{
@@ -142,11 +141,11 @@ public class GeneralTouchMode extends AbstractTouchMode {
         if(!getTouchHelper().isTouchPoint1Drag()) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
 
-            GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().translateTo(touchPoint);
-            GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
-            GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getTransforms().rotateTo(new Vector3f());
-            GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().setAngularAcceleration(0f);
-            GameObjectsContainer.get(ObjId.MAIN_CHARACTER).getRigidBody().getRBProps().setAngularVelocity(0f);
+            GameObjectsContainer.get("MAIN_CHARACTER").getTransforms().translateTo(touchPoint);
+            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
+            GameObjectsContainer.get("MAIN_CHARACTER").getTransforms().rotateTo(new Vector3f());
+            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setAngularAcceleration(0f);
+            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setAngularVelocity(0f);
             return true;
         }
         return false;
