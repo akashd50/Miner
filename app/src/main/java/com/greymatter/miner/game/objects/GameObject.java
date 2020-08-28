@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.AppServices;
+import com.greymatter.miner.game.objects.base.GRBTouch;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -20,17 +21,13 @@ import com.greymatter.miner.physics.objects.rb.RigidBody;
 import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 
-public abstract class GameObject extends GTransformable {
+public abstract class GameObject extends GRBTouch {
     private boolean shouldDraw, isActive;
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
-    private RigidBody rigidBody;
     private ArrayList<Tag> objectTags;
-    private TouchChecker touchChecker;
-    private OnTouchListener onTouchListener;
-    private OnClickListener onClickListener;
-    private Vector2f touchOffset;
+
     public GameObject(String id, Drawable drawable) {
         super(id);
         this.objectDrawable = drawable;
@@ -88,11 +85,6 @@ public abstract class GameObject extends GTransformable {
         return this;
     }
 
-    public GameObject setTouchChecker(TouchChecker touchChecker) {
-        this.touchChecker = touchChecker;
-        return this;
-    }
-
     public GameObject setDialog(GameDialog gameDialog) {
         addChild("DIALOG", gameDialog);
         return this;
@@ -111,82 +103,6 @@ public abstract class GameObject extends GTransformable {
         return (GameSignal)getChild("SIGNAL");
     }
 
-    public boolean onTouchDownEvent(Vector2f pointer) {
-        for(IGameObject child : getChildren().toList()) {
-            if(child.shouldDraw()) {
-                boolean res = child.onTouchDownEvent(pointer);
-                if (res) return res;
-            }
-        }
-
-        if(onTouchListener!=null) {
-            if (isClicked(pointer)) {
-                touchOffset = new Vector2f(pointer.x - getLocation().x, pointer.y - getLocation().y);
-                return onTouchListener.onTouchDown(this, pointer);
-            }
-        }
-        return false;
-    }
-
-    public boolean onTouchMoveEvent(Vector2f pointer) {
-        if(onTouchListener!=null) {
-            if (isClicked(pointer)) {
-                return onTouchListener.onTouchMove(this, pointer);
-            }
-        }
-        return false;
-    }
-
-    public boolean onTouchUpEvent(Vector2f pointer) {
-        for(IGameObject child : getChildren().toList()) {
-            if(child.shouldDraw()) {
-                boolean res = child.onTouchUpEvent(pointer);
-                if (res) return res;
-            }
-        }
-
-        boolean isClicked = isClicked(pointer);
-        if(isClicked) {
-            boolean handled = false;
-            if(onTouchListener!=null) {
-                handled = onTouchListener.onTouchUp(this, pointer);
-            }
-
-            if(onClickListener != null) {
-                if(!AppServices.getTouchHelper().isTouchPoint1Drag()) {
-                    handled = onClickListener.onClick(this);
-                }
-            }
-            return handled;
-        }
-        return false;
-    }
-
-    private boolean isClicked(Vector2f pointer) {
-        return shouldDraw && touchChecker != null && touchChecker.isClicked(pointer);
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public GameObject setOnTouchListener(OnTouchListener onTouchListener) {
-        this.onTouchListener = onTouchListener;
-        return this;
-    }
-
-    public GameObject setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-        return this;
-    }
-
-    public GameObject setRB(RigidBody rigidBody) {
-        this.rigidBody = rigidBody;
-        this.rigidBody.setTransforms(getTransforms());
-        getTransforms().onTransformsChanged();
-        return this;
-    }
-
     public GameObject setPolygonRB() {
         this.setRB(new PolygonRB(getId(), objectDrawable.getShape().getOrderedOuterMesh()));
         this.setPolygonTC();
@@ -199,18 +115,15 @@ public abstract class GameObject extends GTransformable {
     }
 
     public GameObject setPolygonTC() {
-        touchChecker = new PolygonTouchChecker(getRigidBody()==null ?
-                new PolygonRB(getId(), objectDrawable.getOrderedOuterMesh()) : getRigidBody().asPolygonRB());
+        setTouchChecker(new PolygonTouchChecker(getRigidBody()==null ?
+                new PolygonRB(getId(), objectDrawable.getOrderedOuterMesh()) : getRigidBody().asPolygonRB()));
         return this;
     }
 
-    public Vector2f getTouchDownOffset() {
-        return touchOffset;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public TouchChecker getTouchChecker() {
-        return this.touchChecker;
-    }
 
     public int getObjectLevel() {
         return objectLevel;
@@ -222,10 +135,6 @@ public abstract class GameObject extends GTransformable {
 
     public Drawable getDrawable() {
         return objectDrawable;
-    }
-
-    public RigidBody getRigidBody() {
-        return rigidBody;
     }
 
     public int getNumTags() {

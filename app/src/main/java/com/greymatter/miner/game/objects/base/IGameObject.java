@@ -48,13 +48,18 @@ public interface IGameObject {
     IGameObject scaleFromParent(boolean val);
     Vector3f getLocation();
 
+    boolean onTouchDownEvent(Vector2f pointer);
+    boolean onTouchMoveEvent(Vector2f pointer);
+    boolean onTouchUpEvent(Vector2f pointer);
+    Vector2f getTouchDownOffset();
+    IGameObject setOnTouchListener(OnTouchListener onTouchListener);
+    IGameObject setOnClickListener(OnClickListener onClickListener);
+    IGameObject setRB(RigidBody rigidBody);
+
     void onFrameUpdate();
     IGameObject addTag(Tag tag);
     IGameObject shouldDraw(boolean shouldDraw);
     IGameObject setAnimator(ValueAnimator valueAnimator);
-    IGameObject setOnTouchListener(OnTouchListener onTouchListener);
-    IGameObject setOnClickListener(OnClickListener onClickListener);
-    IGameObject setRB(RigidBody rigidBody);
     IGameObject setPolygonRB();
     IGameObject setGeneralRB();
     IGameObject setPolygonTC();
@@ -62,9 +67,6 @@ public interface IGameObject {
     int getNumTags();
     boolean shouldDraw();
     boolean hasTag(Tag tag);
-    boolean onTouchDownEvent(Vector2f pointer);
-    boolean onTouchMoveEvent(Vector2f pointer);
-    boolean onTouchUpEvent(Vector2f pointer);
     Drawable getDrawable();
     RigidBody getRigidBody();
     ValueAnimator getAnimator();

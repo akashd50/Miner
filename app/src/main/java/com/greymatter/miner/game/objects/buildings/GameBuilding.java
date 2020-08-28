@@ -3,8 +3,6 @@ package com.greymatter.miner.game.objects.buildings;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.manager.GameManager;
-import com.greymatter.miner.game.manager.MinerManager;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.IntersectionEvent;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -46,12 +44,12 @@ public abstract class GameBuilding extends GameObjectWGL {
 
         this.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouchDown(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
                 return false;
             }
 
             @Override
-            public boolean onTouchMove(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
                 if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
                     OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
                     return true;
@@ -60,7 +58,7 @@ public abstract class GameBuilding extends GameObjectWGL {
             }
 
             @Override
-            public boolean onTouchUp(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
                 if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
                     IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
                     snapTo(planet);

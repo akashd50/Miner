@@ -1,8 +1,8 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.GameObjectWGL;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
@@ -34,19 +34,19 @@ public abstract class GameUI extends GameObjectWGL {
 
         this.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouchDown(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
                 onTouchResizeAnimator.startFrom(1.0f,false);
                 onTouchResizeAnimator.resume();
                 return true;
             }
 
             @Override
-            public boolean onTouchMove(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
                 return false;
             }
 
             @Override
-            public boolean onTouchUp(GameObject gameObject, Vector2f pointer) {
+            public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
                 onTouchResizeAnimator.startFrom(gameObject.getTransforms().getScale().x/defaultScale.x,true);
                 onTouchResizeAnimator.resume();
                 return true;

@@ -2,17 +2,17 @@ package com.greymatter.miner.mainui.touch;
 
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.manager.GameManager;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 
 import javax.vecmath.Vector2f;
 
 public interface OnTouchListener {
-    boolean onTouchDown(GameObject gameObject, Vector2f pointer);
-    boolean onTouchMove(GameObject gameObject, Vector2f pointer);
-    boolean onTouchUp(GameObject gameObject, Vector2f pointer);
+    boolean onTouchDown(IGameObject gameObject, Vector2f pointer);
+    boolean onTouchMove(IGameObject gameObject, Vector2f pointer);
+    boolean onTouchUp(IGameObject gameObject, Vector2f pointer);
 
-    default void defaultOnTouchMove(GameObject gameObject, Vector2f pointer) {
+    default void defaultOnTouchMove(IGameObject gameObject, Vector2f pointer) {
         pointer.x -= gameObject.getTouchDownOffset().x;
         pointer.y -= gameObject.getTouchDownOffset().y;
 

@@ -1,7 +1,7 @@
 package com.greymatter.miner.mainui.touch;
 
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 
 public interface OnClickListener {
-    boolean onClick(GameObject object);
+    boolean onClick(IGameObject object);
 }
