@@ -242,7 +242,7 @@ public class VectorHelper {
         fromRbToLoc.normalize();
 
         Vector3f startPt = new Vector3f(objectTransforms.getTranslation());
-        Vector3f endPt = new Vector3f(location);//multiply(fromRbToLoc, 100);
+        Vector3f endPt = new Vector3f(location);
         endPt.x += 100 * fromRbToLoc.x;
         endPt.y += 100 * fromRbToLoc.y;
 

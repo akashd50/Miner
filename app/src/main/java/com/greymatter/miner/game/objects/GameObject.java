@@ -30,6 +30,7 @@ public abstract class GameObject extends GTransformable {
     private TouchChecker touchChecker;
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
+    private Vector2f touchOffset;
     public GameObject(String id, Drawable drawable) {
         super(id);
         this.objectDrawable = drawable;
@@ -120,6 +121,7 @@ public abstract class GameObject extends GTransformable {
 
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
+                touchOffset = new Vector2f(pointer.x - getLocation().x, pointer.y - getLocation().y);
                 return onTouchListener.onTouchDown(this, pointer);
             }
         }
@@ -200,6 +202,10 @@ public abstract class GameObject extends GTransformable {
         touchChecker = new PolygonTouchChecker(getRigidBody()==null ?
                 new PolygonRB(getId(), objectDrawable.getOrderedOuterMesh()) : getRigidBody().asPolygonRB());
         return this;
+    }
+
+    public Vector2f getTouchDownOffset() {
+        return touchOffset;
     }
 
     public TouchChecker getTouchChecker() {

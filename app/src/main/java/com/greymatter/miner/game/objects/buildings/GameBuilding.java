@@ -63,7 +63,7 @@ public abstract class GameBuilding extends GameObjectWGL {
             public boolean onTouchUp(GameObject gameObject, Vector2f pointer) {
                 if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
                     IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
-                    snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), getLocation()));
+                    snapTo(planet);
                     return true;
                 }
                 return false;
@@ -71,12 +71,8 @@ public abstract class GameBuilding extends GameObjectWGL {
         });
     }
 
-    public void snapTo(IGameObject object, float angleRad) {
-        Transforms objectTransforms = object.getTransforms();
-        float px = objectTransforms.getTranslation().x + objectTransforms.getScale().x * (float) Math.cos(angleRad);
-        float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
-        //snappingPoint = new Vector3f(px,py,0f);
-        IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocation()/*new Vector3f(px,py,0f)*/);
+    public void snapTo(IGameObject object) {
+        IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocation());
         snappingPoint = event.intPoint;
 
         Vector3f normal = VectorHelper.getNormal(VectorHelper.sub(event.intLineB, event.intLineA));
@@ -89,6 +85,14 @@ public abstract class GameBuilding extends GameObjectWGL {
         snappingPoint.x+= getTransforms().getScale().y * normal.x;
         snappingPoint.y+= getTransforms().getScale().y * normal.y;
 
+        snapAnimator.resume();
+    }
+
+    public void snapTo(IGameObject object, float angleRad) {
+        Transforms objectTransforms = object.getTransforms();
+        float px = objectTransforms.getTranslation().x + objectTransforms.getScale().y * (float) Math.cos(angleRad);
+        float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
+        snappingPoint = new Vector3f(px, py, 0f);
         snapAnimator.resume();
     }
 
