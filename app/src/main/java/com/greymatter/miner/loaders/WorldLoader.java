@@ -29,10 +29,16 @@ import javax.vecmath.Vector2f;
 
 public class WorldLoader extends Loader {
     public void load() {
-        //GameObjectsContainer.add();
-
         GameObjectsContainer.add(new Planet(DrawableDef.create(DrawableDef.PLANET_1))
-                .scaleTo(120f,120f).moveTo(0f,-120.5f, ZHelper.BACK));
+                .scaleTo(300f,300f).moveTo(0f,-300.5f, ZHelper.BACK));
+
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TREE_I))
+                .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
+//
+//        GameObjectsContainer.add(new Animated(DrawableDef.create(DrawableDef.PLANET_TREE_LAYER))
+//                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
+        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.PLANET_GRASS_LAYER))
+                .scaleTo(299f,299f).moveTo(0f,-300.5f, ZHelper.OVER_FRONT));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
                 .scaleTo(4f,4f).moveTo(0f,0f,ZHelper.FRONT_MID));
@@ -108,14 +114,6 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.add(MinerManager.getNextMinerId(), new Miner(DrawableDef.create(DrawableDef.MINER_1))
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
-
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TREE_I))
-                .scaleTo(1f,1.5f).moveTo(0f,0.5f, ZHelper.MID_BACK));
-//
-//        GameObjectsContainer.add(new Animated(DrawableDef.create(DrawableDef.PLANET_TREE_LAYER))
-//                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.PLANET_GRASS_LAYER))
-                .scaleTo(119.65f,119.65f).moveTo(0f,-120.5f, ZHelper.OVER_FRONT));
 
         updateContainer();
         updatePhysicsProperties();

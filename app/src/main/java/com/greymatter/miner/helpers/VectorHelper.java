@@ -1,6 +1,8 @@
 package com.greymatter.miner.helpers;
 
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import java.util.ArrayList;
 
@@ -230,5 +232,30 @@ public class VectorHelper {
             float y = (a1*c2 - a2*c1)/determinant;
             return new Vector3f(x, y,0f);
         }
+    }
+
+    public static IntersectionEvent findSnapPlaceOnRBSurface(PolygonRB rb, Vector3f location) {
+        Transforms objectTransforms = rb.getTransforms();
+        ArrayList<Vector3f> transformedVertices = rb.getTransformedVertices();
+
+        Vector3f fromRbToLoc = sub(location, objectTransforms.getTranslation());
+        fromRbToLoc.normalize();
+
+        Vector3f startPt = new Vector3f(objectTransforms.getTranslation());
+        Vector3f endPt = new Vector3f(location);//multiply(fromRbToLoc, 100);
+        endPt.x += 100 * fromRbToLoc.x;
+        endPt.y += 100 * fromRbToLoc.y;
+
+        for(int i=0;i<transformedVertices.size()-1;i++) {
+            Vector3f curr = transformedVertices.get(i);
+            Vector3f next = transformedVertices.get(i+1);
+            IntersectionEvent event = checkIntersectionWithExtraInfo(curr, next, startPt, endPt);
+            if(event.intersected) {
+                event.intLineA = curr;
+                event.intLineB = next;
+                return event;
+            }
+        }
+        return null;
     }
 }

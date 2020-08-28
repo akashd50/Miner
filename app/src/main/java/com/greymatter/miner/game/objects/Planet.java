@@ -24,8 +24,9 @@ public class Planet extends GameObject {
     private void initialize() {
         IGameObject atmosphere = new GenericObject(DrawableDef.create(DrawableDef.ATMOSPHERE))
                                     .addTag(Tag.STATIC)
-                                    .scaleTo(190f,190f).moveTo(0f,0f, -10f);
+                                    .scaleTo(2f,2f).moveTo(0f,0f, -10f);
         atmosphere.getTransforms().copyTranslationFromParent(true);
+        atmosphere.getTransforms().copyScaleFromParent(true);
         addChild("ATMOSPHERE", atmosphere);
         addTag(Tag.STATIC);
         addTag(Tag.STATIC_PHYSICS_OBJECT);
