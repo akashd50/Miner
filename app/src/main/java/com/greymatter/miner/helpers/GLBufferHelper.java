@@ -67,4 +67,9 @@ public class GLBufferHelper {
         glVertexAttributePointer(arrayBuffer, shader, attributeName, coordsPerVertex);
     }
 
+    public static void glVertexAttributeDivisor(Shader shader, String attributeName, int numDiv) {
+        int attribLocation = GLES30.glGetAttribLocation(shader.getProgram(), attributeName);
+        GLES30.glVertexAttribDivisor(attribLocation, numDiv);
+    }
+
 }

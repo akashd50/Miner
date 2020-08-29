@@ -3,6 +3,7 @@ package com.greymatter.miner.loaders;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.MinerManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
@@ -21,8 +22,11 @@ import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.mainui.LayoutHelper;
+import com.greymatter.miner.opengl.objects.drawables.Instanced;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
+import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import javax.vecmath.Vector2f;
@@ -115,6 +119,13 @@ public class WorldLoader extends Loader {
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
+        Instanced square = new Instanced("INS");
+        square.setRenderer(new InstancedRenderer());
+        square.addSquare().addSquare().addSquare().addSquare().addSquare().build();
+        square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
+        square.addSquare().build();
+        GameObjectsContainer.add(new GenericObject(square));
+
         updateContainer();
         updatePhysicsProperties();
     }
@@ -133,6 +144,7 @@ public class WorldLoader extends Loader {
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_GRASS_LAYER.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
+        ToDrawContainer.add(GameObjectsContainer.get("INS"));
     }
 
     public void updatePhysicsProperties() {

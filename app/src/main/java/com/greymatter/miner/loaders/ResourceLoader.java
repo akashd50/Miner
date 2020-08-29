@@ -1,7 +1,9 @@
 package com.greymatter.miner.loaders;
 
+import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.AllResourcesContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -24,9 +26,9 @@ public class ResourceLoader extends Loader {
 //        }
 
         CoalBlock block = new CoalBlock(DrawableDef.create(DrawableDef.COAL_BLOCK_I));
-        block.addTag(Tag.RESOURCE_OBJECT).scaleTo(0.2f, 0.2f).moveTo(10f, -4f, ZHelper.OVER_FRONT);
+        block.addTag(Tag.RESOURCE_OBJECT).scaleTo(0.2f, 0.2f).moveTo(20f, -4f, ZHelper.OVER_FRONT);
         AllResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(),block);
-
+        //ActiveResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(), AllResourcesContainer.get(DrawableDef.COAL_BLOCK_I.name()));
         //finishSetup();
     }
 

@@ -13,7 +13,7 @@ public enum ShapeDef {
     PIE_45(ShapeType.PIE, null, null, 45f,1f),
     CIRCLE_EDGE(ShapeType.SHAPE_OUTLINE, null, ShapeDef.CIRCLE_SUB_III, 0.01f,0f),
     //PLANET_TREE_EDGE(Path.BOX, null, 0f,0f),
-    SIMPLE_QUAD(ShapeType.QUAD, null, null, 1.2f,0f);
+    SIMPLE_QUAD(ShapeType.QUAD, null, null, 1.0f,0f);
 
     public final ShapeType SHAPE_TYPE;
     public final String SHAPE_PATH;
