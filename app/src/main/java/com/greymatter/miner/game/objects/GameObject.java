@@ -1,19 +1,18 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.game.objects.base.GRBTouch;
+import com.greymatter.miner.game.objects.base.GRigidBody;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
-import com.greymatter.miner.mainui.touch.touchcheckers.PolygonTouchChecker;
 import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import java.util.ArrayList;
 
-public abstract class GameObject extends GRBTouch {
+public abstract class GameObject extends GRigidBody {
     private boolean shouldDraw, isActive;
     private int objectLevel;
     private ValueAnimator valueAnimator;
@@ -32,7 +31,6 @@ public abstract class GameObject extends GRBTouch {
 
         try{
             this.setPolygonRB();
-            this.setPolygonTC();
         }catch (NullPointerException e) {
             this.setGeneralRB();
         }
@@ -97,18 +95,11 @@ public abstract class GameObject extends GRBTouch {
 
     public GameObject setPolygonRB() {
         this.setRB(new PolygonRB(getId(), objectDrawable.getShape().getOrderedOuterMesh()));
-        this.setPolygonTC();
         return this;
     }
 
     public GameObject setGeneralRB() {
         this.setRB(new GeneralRB(getId()));
-        return this;
-    }
-
-    public GameObject setPolygonTC() {
-        setTouchChecker(new PolygonTouchChecker(getRigidBody()==null ?
-                new PolygonRB(getId(), objectDrawable.getOrderedOuterMesh()) : getRigidBody().asPolygonRB()));
         return this;
     }
 

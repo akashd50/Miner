@@ -20,15 +20,10 @@ public class Instanced extends Drawable {
         setShape(ShapeDef.create(ShapeDef.SIMPLE_QUAD));
     }
 
-    public Instanced addSquare() {
-        if(totalInstances>0) {
-            Vector3f prevTrans = instanceTranslation.get(totalInstances-1);
-            instanceTranslation.add(new Vector3f(prevTrans.x+2.1f,prevTrans.y, prevTrans.z));
-        }else{
-            instanceTranslation.add(new Vector3f(0f,5f,17f));
-        }
-        instanceRotation.add(new Vector3f(0f,0f,0f));
-        instanceScale.add(new Vector3f((float)Math.random(),(float)Math.random(),1f));
+    public Instanced addInstance() {
+        instanceTranslation.add(new Vector3f());
+        instanceRotation.add(new Vector3f());
+        instanceScale.add(new Vector3f(1f,1f,1f));
 
         instanceTranslationArray = BufferHelper.vec3AsFloatArray(instanceTranslation);
         instanceRotationArray = BufferHelper.vec3AsFloatArray(instanceRotation);

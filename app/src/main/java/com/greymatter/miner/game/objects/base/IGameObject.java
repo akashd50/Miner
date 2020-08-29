@@ -62,7 +62,6 @@ public interface IGameObject {
     IGameObject setAnimator(ValueAnimator valueAnimator);
     IGameObject setPolygonRB();
     IGameObject setGeneralRB();
-    IGameObject setPolygonTC();
     int getObjectLevel();
     int getNumTags();
     boolean shouldDraw();

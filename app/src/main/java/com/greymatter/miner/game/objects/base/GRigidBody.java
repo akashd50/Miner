@@ -3,24 +3,17 @@ package com.greymatter.miner.game.objects.base;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
-import com.greymatter.miner.mainui.touch.touchcheckers.TouchChecker;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import javax.vecmath.Vector2f;
 
-public abstract class GRBTouch extends GTransformable {
-    private TouchChecker touchChecker;
+public abstract class GRigidBody extends GTransformable {
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
     private RigidBody rigidBody;
     private Vector2f touchDownOffset;
 
-    public GRBTouch(String id) {
+    public GRigidBody(String id) {
         super(id);
-    }
-
-    public IGameObject setTouchChecker(TouchChecker touchChecker) {
-        this.touchChecker = touchChecker;
-        return this;
     }
 
     public IGameObject setOnTouchListener(OnTouchListener onTouchListener) {
@@ -42,10 +35,6 @@ public abstract class GRBTouch extends GTransformable {
 
     public Vector2f getTouchDownOffset() {
         return touchDownOffset;
-    }
-
-    public TouchChecker getTouchChecker() {
-        return this.touchChecker;
     }
 
     public RigidBody getRigidBody() {
@@ -104,6 +93,6 @@ public abstract class GRBTouch extends GTransformable {
     }
 
     private boolean isClicked(Vector2f pointer) {
-        return shouldDraw() && touchChecker != null && touchChecker.isClicked(pointer);
+        return shouldDraw() && rigidBody != null && rigidBody.isClicked(pointer);
     }
 }

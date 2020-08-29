@@ -5,6 +5,8 @@ import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.physics.objects.CollisionEvent;
 import com.greymatter.miner.physics.objects.OnCollisionListener;
 import java.util.HashMap;
+
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class RigidBody {
@@ -83,6 +85,7 @@ public abstract class RigidBody {
     }
 
     public abstract void updateParamsOverride();
+    public abstract boolean isClicked(Vector2f touchPoint);
 
     public boolean isStaticObject() {
         return isStaticObject;

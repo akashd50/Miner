@@ -126,19 +126,18 @@ public class WorldLoader extends Loader {
 
         Instanced square = new Instanced("INS");
         square.setRenderer(new InstancedRenderer());
-        square.addSquare().addSquare().addSquare().addSquare().addSquare().build();
+        square.addInstance().translateInstanceBy(0,0f,5f,17f).build();
         square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
-        //square.addSquare().build();
         GenericObject obj = new GenericObject(square);
         GameObjectsContainer.add(obj);
 
-        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
-            @Override
-            public void animate(GameObject object, ValueAnimator animator) {
-                Instanced instanced = (Instanced)obj.getDrawable();
-                instanced.translateInstanceBy(0, 0f,0.01f, 0f);
-            }
-        }));
+//        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
+//            @Override
+//            public void animate(GameObject object, ValueAnimator animator) {
+//                Instanced instanced = (Instanced)obj.getDrawable();
+//                instanced.translateInstanceBy(0, 0f,0.01f, 0f);
+//            }
+//        }));
 
         updateContainer();
         updatePhysicsProperties();
@@ -185,7 +184,6 @@ public class WorldLoader extends Loader {
 
         IGameObject sampleScanner = GameObjectsContainer.get(DrawableDef.SCANNER_1.name());
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
-        sampleScanner.setPolygonTC();
         sampleScanner.getRigidBody().isStaticObject(false).getRBProps().setMass(1.0f).setRestitution(0.5f);
 
         //assign listeners

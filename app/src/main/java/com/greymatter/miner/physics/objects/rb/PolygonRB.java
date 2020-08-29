@@ -5,6 +5,7 @@ import com.greymatter.miner.opengl.objects.Transforms;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class PolygonRB extends RigidBody {
@@ -51,7 +52,12 @@ public class PolygonRB extends RigidBody {
        // transformByMat();
     }
 
-//    public void transformByMat() {
+    @Override
+    public boolean isClicked(Vector2f touchPoint) {
+        return VectorHelper.isPointInPolygon(touchPoint, transformedVertices);
+    }
+
+    //    public void transformByMat() {
 //        //getTransforms().applyLastTransformationsForced();
 //        if(isStaticObject()) {
 //            getTransforms().applyTransformationsForced();
