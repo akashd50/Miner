@@ -12,8 +12,8 @@ import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class BuildingTouchMode extends AbstractTouchMode {
-    public BuildingTouchMode(TouchHelper controller, Camera camera) {
+public class BuildingTouchHandler extends AbstractTouchHandler {
+    public BuildingTouchHandler(TouchHelper controller, Camera camera) {
         super(camera, controller);
     }
 
@@ -26,48 +26,31 @@ public class BuildingTouchMode extends AbstractTouchMode {
         }
     }
 
+    @Override
     public void onLongClick(View v) {}
 
     @Override
     public boolean doOnTouchDown(View v) {
-        switch (v.getId()) {
-            case R.id.mainGLSurfaceView:
-                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                if(getTouchEventBundle().getObject().onTouchDownEvent(touchPoint)) return true;
-                return doOnTouchDownGLSurface();
-        }
-        return false;
+        return super.doOnTouchDown(v) || doOnTouchDownExtra();
     }
 
     @Override
     public boolean doOnTouchMove(View v) {
-        switch (v.getId()) {
-            case R.id.mainGLSurfaceView:
-                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                if(getTouchEventBundle().getObject().onTouchMoveEvent(touchPoint)) return true;
-                return doOnTouchMoveGLSurface();
-        }
-        return false;
+        return super.doOnTouchMove(v) || doOnTouchMoveExtra();
     }
 
     @Override
     public boolean doOnTouchUp(View v) {
-        switch (v.getId()) {
-            case R.id.mainGLSurfaceView:
-                Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-                if(getTouchEventBundle().getObject().onTouchUpEvent(touchPoint)) return true;
-                return doOnTouchUpGLSurface();
-        }
-        return false;
+        return super.doOnTouchUp(v) || doOnTouchUpExtra();
     }
 
     /*------------------------------------------private functions---------------------------------*/
-    private boolean doOnTouchDownGLSurface() {
+    private boolean doOnTouchDownExtra() {
 
         return false;
     }
 
-    private boolean doOnTouchMoveGLSurface() {
+    private boolean doOnTouchMoveExtra() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
             Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getTranslation());
@@ -79,7 +62,7 @@ public class BuildingTouchMode extends AbstractTouchMode {
         return true;
     }
 
-    private boolean doOnTouchUpGLSurface() {
+    private boolean doOnTouchUpExtra() {
 
         return false;
     }

@@ -3,6 +3,9 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.greymatter.miner.R;
+import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
@@ -10,11 +13,11 @@ import com.greymatter.miner.opengl.objects.Camera;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class AbstractTouchMode {
+public abstract class AbstractTouchHandler {
     private TouchHelper touchHelper;
     private Camera mainCamera;
     private TouchEventBundle touchEventBundle;
-    public AbstractTouchMode(Camera mainCamera, TouchHelper touchHelper){
+    public AbstractTouchHandler(Camera mainCamera, TouchHelper touchHelper){
         this.touchHelper = touchHelper;
         this.mainCamera = mainCamera;
     }
@@ -22,11 +25,11 @@ public abstract class AbstractTouchMode {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                return doOnTouchDown(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchDown(v);
             case MotionEvent.ACTION_MOVE:
-                return doOnTouchMove(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchMove(v);
             case MotionEvent.ACTION_UP:
-                return doOnTouchUp(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchUp(v);
         }
         return false;
     }
@@ -93,8 +96,29 @@ public abstract class AbstractTouchMode {
 
     public abstract void onClick(View v);
     public abstract void onLongClick(View v);
-    public abstract boolean doOnTouchDown(View v);
-    public abstract boolean doOnTouchMove(View v);
-    public abstract boolean doOnTouchUp(View v);
+
+    public boolean doOnTouchDown(View v) {
+        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+        for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
+            if(gameObject.onTouchDownEvent(touchPoint)) return true;
+        }
+        return false;
+    }
+    public boolean doOnTouchMove(View v) {
+        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+        for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
+            if(gameObject.onTouchMoveEvent(touchPoint)) return true;
+        }
+        return false;
+    }
+
+    public boolean doOnTouchUp(View v) {
+        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+        for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
+            if(gameObject.onTouchUpEvent(touchPoint)) return true;
+        }
+        return false;
+    }
+
     public abstract ViewMode getViewMode();
 }

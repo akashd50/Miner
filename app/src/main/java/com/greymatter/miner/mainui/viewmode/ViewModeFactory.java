@@ -4,19 +4,19 @@ import com.greymatter.miner.mainui.renderers.AbstractRenderer;
 import com.greymatter.miner.mainui.renderers.BuildingRenderer;
 import com.greymatter.miner.mainui.renderers.GeneralRenderer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
-import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchMode;
-import com.greymatter.miner.mainui.touch.touchmodes.BuildingTouchMode;
-import com.greymatter.miner.mainui.touch.touchmodes.GeneralTouchMode;
+import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchHandler;
+import com.greymatter.miner.mainui.touch.touchmodes.BuildingTouchHandler;
+import com.greymatter.miner.mainui.touch.touchmodes.GeneralTouchHandler;
 import com.greymatter.miner.opengl.objects.Camera;
 
 public class ViewModeFactory {
-    public static AbstractTouchMode getNewTouchMode(ViewMode mode, TouchHelper tc, Camera camera) {
+    public static AbstractTouchHandler getNewTouchMode(ViewMode mode, TouchHelper tc, Camera camera) {
         switch (mode) {
             case BUILDING_MODE:
-                return new BuildingTouchMode(tc, camera);
+                return new BuildingTouchHandler(tc, camera);
             case GENERAL_MODE:
             default:
-                return new GeneralTouchMode(tc, camera);
+                return new GeneralTouchHandler(tc, camera);
         }
     }
 

@@ -4,14 +4,14 @@ import com.greymatter.miner.R;
 import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.mainui.renderers.AbstractRenderer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
-import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchMode;
+import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchHandler;
 import com.greymatter.miner.opengl.objects.Camera;
 
 public class ViewModeManager {
-    private static AbstractTouchMode activeTouchMode;
+    private static AbstractTouchHandler activeTouchMode;
     private static AbstractRenderer activeRenderer;
 
-    public static AbstractTouchMode getActiveTouchMode() {
+    public static AbstractTouchHandler getActiveTouchMode() {
         return activeTouchMode;
     }
     public static AbstractRenderer getActiveRenderer() {
