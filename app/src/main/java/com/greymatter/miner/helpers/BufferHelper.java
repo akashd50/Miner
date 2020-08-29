@@ -65,4 +65,12 @@ public class BufferHelper {
         }
         return toReturn;
     }
+
+    public static float[] subset(float[] from, int start, int end) {
+        float[] toRet = new float[end - start];
+        for (int i = start; i < end; i++) {
+            toRet[i-start] = from[i];
+        }
+        return toRet;
+    }
 }

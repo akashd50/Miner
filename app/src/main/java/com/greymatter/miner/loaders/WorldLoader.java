@@ -1,11 +1,16 @@
 package com.greymatter.miner.loaders;
 
+import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
+import com.greymatter.miner.animators.OnAnimationFrameHandler;
+import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
@@ -45,7 +50,7 @@ public class WorldLoader extends Loader {
                 .scaleTo(299f,299f).moveTo(0f,-300.5f, ZHelper.OVER_FRONT));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
-                .scaleTo(4f,4f).moveTo(0f,0f,ZHelper.FRONT_MID));
+                .scaleTo(4f,4f).moveTo(0f,5f,ZHelper.FRONT_MID));
                 //.setOnTouchListener(new BuildingModeTouchListener()));
 
         GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(DrawableDef.MAIN_CHARACTER))
@@ -123,8 +128,17 @@ public class WorldLoader extends Loader {
         square.setRenderer(new InstancedRenderer());
         square.addSquare().addSquare().addSquare().addSquare().addSquare().build();
         square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
-        square.addSquare().build();
-        GameObjectsContainer.add(new GenericObject(square));
+        //square.addSquare().build();
+        GenericObject obj = new GenericObject(square);
+        GameObjectsContainer.add(obj);
+
+        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
+            @Override
+            public void animate(GameObject object, ValueAnimator animator) {
+                Instanced instanced = (Instanced)obj.getDrawable();
+                instanced.translateInstanceBy(0, 0f,0.01f, 0f);
+            }
+        }));
 
         updateContainer();
         updatePhysicsProperties();
@@ -139,11 +153,14 @@ public class WorldLoader extends Loader {
         //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_LINE));
 
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_1.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_GRASS_LAYER.name()));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
+
+        GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
         ToDrawContainer.add(GameObjectsContainer.get("INS"));
     }
 

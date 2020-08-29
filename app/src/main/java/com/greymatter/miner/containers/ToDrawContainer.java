@@ -54,8 +54,7 @@ public class ToDrawContainer {
         gameObject.onFrameUpdate();
 
         if(gameObject.shouldDraw()) {
-//            gameObject.setShaderProperties(camera);
-//            gameObject.onDrawFrame();
+
             gameObject.getDrawable().getRenderer().render(camera, gameObject);
             gameObject.getChildren().toList().forEach(child -> {
                 onDrawFrame(child, camera);

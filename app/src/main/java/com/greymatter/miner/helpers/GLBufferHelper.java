@@ -2,7 +2,6 @@ package com.greymatter.miner.helpers;
 
 import android.opengl.GLES30;
 import android.util.Log;
-
 import com.greymatter.miner.Path;
 import com.greymatter.miner.opengl.shader.Shader;
 
@@ -34,7 +33,7 @@ public class GLBufferHelper {
     public static void glBufferArrayData(int bufferObject, float[] data) {
         glBindArrayBuffer(bufferObject);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, Path.SIZE_OF_FLOAT * data.length,
-                BufferHelper.asFloatBuffer(data), GLES30.GL_STATIC_DRAW);
+                BufferHelper.asFloatBuffer(data), GLES30.GL_DYNAMIC_DRAW);
         glBindArrayBuffer(0);
     }
 
@@ -48,7 +47,6 @@ public class GLBufferHelper {
         GLES30.glEnableVertexAttribArray(attribLocation);
         GLES30.glVertexAttribPointer(attribLocation, coordsPerVertex, GLES30.GL_FLOAT, false,
                 coordsPerVertex * Path.SIZE_OF_FLOAT, 0);
-
         glBindArrayBuffer(0);
     }
 
@@ -57,7 +55,6 @@ public class GLBufferHelper {
         int bufferObject = GLBufferHelper.glGenBuffer();
         glBufferArrayData(bufferObject, data);
         glVertexAttributePointer(bufferObject, shader, attributeName, coordsPerVertex);
-
         return bufferObject;
     }
 
@@ -65,6 +62,12 @@ public class GLBufferHelper {
                                              Shader shader, String attributeName) {
         glBufferArrayData(arrayBuffer, data);
         glVertexAttributePointer(arrayBuffer, shader, attributeName, coordsPerVertex);
+    }
+
+    public static void updateSubBufferData(int arrayBuffer, int startIndex, float[] data) {
+        glBindArrayBuffer(arrayBuffer);
+        GLES30.glBufferSubData(GLES30.GL_ARRAY_BUFFER, startIndex * (4 /*size of float*/), data.length * (4 /*size of float*/), BufferHelper.asFloatBuffer(data));
+        glBindArrayBuffer(0);
     }
 
     public static void glVertexAttributeDivisor(Shader shader, String attributeName, int numDiv) {

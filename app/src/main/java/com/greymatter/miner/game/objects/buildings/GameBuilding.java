@@ -69,7 +69,7 @@ public abstract class GameBuilding extends GameObjectWGL {
         });
     }
 
-    public void snapTo(IGameObject object) {
+    public GameBuilding snapTo(IGameObject object) {
         IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocation());
         snappingPoint = event.intPoint;
 
@@ -84,14 +84,16 @@ public abstract class GameBuilding extends GameObjectWGL {
         snappingPoint.y+= getTransforms().getScale().y * normal.y;
 
         snapAnimator.resume();
+        return this;
     }
 
-    public void snapTo(IGameObject object, float angleRad) {
+    public GameBuilding snapTo(IGameObject object, float angleRad) {
         Transforms objectTransforms = object.getTransforms();
         float px = objectTransforms.getTranslation().x + objectTransforms.getScale().y * (float) Math.cos(angleRad);
         float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
         snappingPoint = new Vector3f(px, py, 0f);
         snapAnimator.resume();
+        return this;
     }
 
     @Override
