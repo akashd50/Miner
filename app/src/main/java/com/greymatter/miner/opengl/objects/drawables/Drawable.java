@@ -100,22 +100,24 @@ public abstract class Drawable {
     }
 
     //typecasting
-    public Obj asObject3D() {
+    public Obj asObj() {
         return (Obj)this;
     }
-
+    public InstanceGroup asInstanceGroup() {
+        return (InstanceGroup)this;
+    }
+    public Instance asInstance() {
+        return (Instance) this;
+    }
     public Quad asQuad() {
         return (Quad) this;
     }
-
     public Line asLine() {
         return (Line) this;
     }
-
     public Gradient asGradient() {
         return (Gradient)this;
     }
-
     public RadialGradient asRadialGradient() {
         return (RadialGradient)this;
     }

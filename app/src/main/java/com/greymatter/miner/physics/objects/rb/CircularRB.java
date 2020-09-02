@@ -3,6 +3,7 @@ package com.greymatter.miner.physics.objects.rb;
 import com.greymatter.miner.helpers.VectorHelper;
 
 import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 
 public class CircularRB extends RigidBody {
     private float radius, transformedRadius;
@@ -33,6 +34,7 @@ public class CircularRB extends RigidBody {
 
     @Override
     public boolean isClicked(Vector2f touchPoint) {
-        return false;
+        return VectorHelper.getDistanceWithSQRT(getTransforms().getTranslation(),
+                new Vector3f(touchPoint.x, touchPoint.y, 0f)) <= transformedRadius;
     }
 }

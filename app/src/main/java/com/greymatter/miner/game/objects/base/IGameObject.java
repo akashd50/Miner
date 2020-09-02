@@ -65,6 +65,7 @@ public interface IGameObject {
     int getObjectLevel();
     int getNumTags();
     boolean shouldDraw();
+    boolean shouldCheckClicks();
     boolean hasTag(Tag tag);
     Drawable getDrawable();
     RigidBody getRigidBody();

@@ -13,7 +13,7 @@ import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import java.util.ArrayList;
 
 public abstract class GameObject extends GRigidBody {
-    private boolean shouldDraw, isActive;
+    private boolean shouldDraw, isActive, shouldCheckClicks;
     private int objectLevel;
     private ValueAnimator valueAnimator;
     private Drawable objectDrawable;
@@ -25,6 +25,7 @@ public abstract class GameObject extends GRigidBody {
         this.objectTags = new ArrayList<>();
         this.shouldDraw = true;
         this.isActive = true;
+        this.shouldCheckClicks = true;
         this.objectLevel = 1;
         this.objectDrawable.setTransforms(getTransforms());
         this.getTransforms().setLinkedGameObject(this);
@@ -60,12 +61,18 @@ public abstract class GameObject extends GRigidBody {
     public GameObject shouldDraw(boolean shouldDraw) {
         this.shouldDraw = shouldDraw;
         this.isActive = shouldDraw;
+        this.shouldCheckClicks = shouldDraw;
         getChildren().toList().forEach(child -> { child.shouldDraw(shouldDraw); });
         return this;
     }
 
     public GameObject isActive(boolean value) {
         this.isActive = value;
+        return this;
+    }
+
+    public GameObject shouldCheckClicks(boolean value) {
+        this.shouldCheckClicks = value;
         return this;
     }
 
@@ -105,6 +112,10 @@ public abstract class GameObject extends GRigidBody {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public boolean shouldCheckClicks() {
+        return shouldCheckClicks;
     }
 
     public int getObjectLevel() {

@@ -29,7 +29,7 @@ public abstract class GRigidBody extends GTransformable {
     public IGameObject setRB(RigidBody rigidBody) {
         this.rigidBody = rigidBody;
         this.rigidBody.setTransforms(getTransforms());
-        getTransforms().onTransformsChanged();
+        this.getTransforms().onTransformsChanged();
         return this;
     }
 
@@ -43,10 +43,10 @@ public abstract class GRigidBody extends GTransformable {
 
     public boolean onTouchDownEvent(Vector2f pointer) {
         for(IGameObject child : getChildren().toList()) {
-            if(child.shouldDraw()) {
+            //if(child.shouldDraw()) {
                 boolean res = child.onTouchDownEvent(pointer);
                 if (res) return res;
-            }
+            //}
         }
 
         if(onTouchListener!=null) {
@@ -59,6 +59,13 @@ public abstract class GRigidBody extends GTransformable {
     }
 
     public boolean onTouchMoveEvent(Vector2f pointer) {
+        for(IGameObject child : getChildren().toList()) {
+            //if(child.shouldCheckClicks()) {
+                boolean res = child.onTouchMoveEvent(pointer);
+                if (res) return res;
+            //}
+        }
+
         if(onTouchListener!=null) {
             if (isClicked(pointer)) {
                 return onTouchListener.onTouchMove(this, pointer);
@@ -69,10 +76,10 @@ public abstract class GRigidBody extends GTransformable {
 
     public boolean onTouchUpEvent(Vector2f pointer) {
         for(IGameObject child : getChildren().toList()) {
-            if(child.shouldDraw()) {
+            //if(child.shouldDraw()) {
                 boolean res = child.onTouchUpEvent(pointer);
                 if (res) return res;
-            }
+           // }
         }
 
         boolean isClicked = isClicked(pointer);
@@ -93,6 +100,10 @@ public abstract class GRigidBody extends GTransformable {
     }
 
     private boolean isClicked(Vector2f pointer) {
-        return shouldDraw() && rigidBody != null && rigidBody.isClicked(pointer);
+        return shouldCheckClicks() && isClickedHelper(pointer);
+    }
+
+    public boolean isClickedHelper(Vector2f pointer) {
+        return rigidBody != null && rigidBody.isClicked(pointer);
     }
 }

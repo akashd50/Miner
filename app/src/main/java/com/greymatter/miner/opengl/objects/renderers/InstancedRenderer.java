@@ -8,7 +8,7 @@ import com.greymatter.miner.helpers.GLBufferHelper;
 import com.greymatter.miner.loaders.enums.definitions.ShaderDef;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import com.greymatter.miner.opengl.objects.drawables.Instanced;
+import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.shader.ShaderHelper;
 
 public class InstancedRenderer extends Renderer {
@@ -18,8 +18,8 @@ public class InstancedRenderer extends Renderer {
 
     @Override
     public void render(Camera camera, IGameObject gameObject) {
-        Drawable drawable = gameObject.getDrawable();
-
+        InstanceGroup drawable = gameObject.getDrawable().asInstanceGroup();
+        drawable.refreshBuffers();
         ShaderHelper.useProgram(getShader());
         ShaderHelper.setCameraProperties(getShader(), camera);
         ShaderHelper.clearLightProperties(getShader());
@@ -28,7 +28,7 @@ public class InstancedRenderer extends Renderer {
 
         GLBufferHelper.glBindVertexArray(drawable.getVertexArrayObject());
         //ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, drawable.getTransforms().getModelMatrix());
-        GLES30.glDrawArraysInstanced(drawable.getShape().getRenderMode(), 0, drawable.getShape().getVerticesList().size(), ((Instanced)drawable).getTotalInstances());
+        GLES30.glDrawArraysInstanced(drawable.getShape().getRenderMode(), 0, drawable.getShape().getVerticesList().size(), ((InstanceGroup)drawable).getTotalInstances());
         GLBufferHelper.glUnbindVertexArray();
     }
 }

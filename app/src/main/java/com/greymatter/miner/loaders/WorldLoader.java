@@ -1,16 +1,13 @@
 package com.greymatter.miner.loaders;
 
-import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.animators.OnAnimationFrameHandler;
-import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
-import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.GameInstancedObject;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
@@ -29,7 +26,7 @@ import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
 import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.mainui.LayoutHelper;
-import com.greymatter.miner.opengl.objects.drawables.Instanced;
+import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
@@ -124,11 +121,15 @@ public class WorldLoader extends Loader {
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
-        Instanced square = new Instanced("INS");
-        square.setRenderer(new InstancedRenderer());
-        square.addInstance().translateInstanceBy(0,0f,5f,17f).build();
+        InstanceGroup square = new InstanceGroup("INS");
+        square.setRenderer(new InstancedRenderer()).build();
         square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
-        GenericObject obj = new GenericObject(square);
+        GameInstancedObject obj = new GameInstancedObject(square);
+        obj.addInstance();
+        obj.addInstance();
+        square.getInstance(0).getTransforms().translateTo(0f,5f,17f);
+        square.getInstance(1).getTransforms().translateTo(0f,8f,17f);
+        //square.translateInstanceTo(1,0f,8f,17f);
         GameObjectsContainer.add(obj);
 
 //        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
