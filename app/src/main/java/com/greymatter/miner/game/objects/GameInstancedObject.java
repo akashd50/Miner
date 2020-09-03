@@ -42,6 +42,7 @@ public class GameInstancedObject extends GameObject {
                 //OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
                 Transforms transforms = gameObject.getTransforms();
                 float scaleDist = (float)VectorHelper.getDistanceWithSQRT(transforms.getTranslation(), VectorHelper.toVector3f(pointer));
+                //transforms.translateBy(scaleDist - transforms.getScale().x,0f);
                 transforms.scaleTo(scaleDist, transforms.getScale().y);
                 return true;
             }

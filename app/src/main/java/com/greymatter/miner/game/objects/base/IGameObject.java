@@ -51,9 +51,13 @@ public interface IGameObject {
     boolean onTouchDownEvent(Vector2f pointer);
     boolean onTouchMoveEvent(Vector2f pointer);
     boolean onTouchUpEvent(Vector2f pointer);
+    boolean isClicked(Vector2f pointer);
     Vector2f getTouchDownOffset();
+    OnTouchListener getOnTouchListener();
+    OnClickListener getOnClickListener();
     IGameObject setOnTouchListener(OnTouchListener onTouchListener);
     IGameObject setOnClickListener(OnClickListener onClickListener);
+    IGameObject setTouchDownOffset(Vector2f offset);
     IGameObject setRB(RigidBody rigidBody);
 
     void onFrameUpdate();

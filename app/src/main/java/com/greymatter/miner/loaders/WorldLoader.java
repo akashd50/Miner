@@ -125,10 +125,14 @@ public class WorldLoader extends Loader {
         square.setRenderer(new InstancedRenderer()).build();
         square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
         GameInstancedObject obj = new GameInstancedObject(square);
-        obj.addInstance();
-        obj.addInstance();
-        square.getInstance(0).getTransforms().translateTo(0f,5f,17f);
-        square.getInstance(1).getTransforms().translateTo(0f,8f,17f);
+        for(int i=0;i<29;i++) {
+            obj.addInstance();
+            square.getInstance(i).getTransforms().translateTo(0f,5f + i,17f);
+        }
+
+//        obj.addInstance();
+//        square.getInstance(0).getTransforms().translateTo(0f,5f,17f);
+//        square.getInstance(1).getTransforms().translateTo(0f,8f,17f);
         //square.translateInstanceTo(1,0f,8f,17f);
         GameObjectsContainer.add(obj);
 

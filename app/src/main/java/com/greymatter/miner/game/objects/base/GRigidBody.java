@@ -33,6 +33,19 @@ public abstract class GRigidBody extends GTransformable {
         return this;
     }
 
+    public IGameObject setTouchDownOffset(Vector2f offset) {
+        this.touchDownOffset = offset;
+        return this;
+    }
+
+    public OnTouchListener getOnTouchListener() {
+        return onTouchListener;
+    }
+
+    public OnClickListener getOnClickListener() {
+        return onClickListener;
+    }
+
     public Vector2f getTouchDownOffset() {
         return touchDownOffset;
     }
@@ -99,7 +112,7 @@ public abstract class GRigidBody extends GTransformable {
         return false;
     }
 
-    private boolean isClicked(Vector2f pointer) {
+    public boolean isClicked(Vector2f pointer) {
         return shouldCheckClicks() && isClickedHelper(pointer);
     }
 

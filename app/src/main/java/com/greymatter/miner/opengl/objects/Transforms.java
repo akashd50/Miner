@@ -48,6 +48,7 @@ public class Transforms {
         MatrixHelper.translateM(modelMatrix, translation);
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
+        //MatrixHelper.translateM(modelMatrix, new Vector3f(translation.x + scale.x, 0f,0f));
         transformationsUpdated = false;
     }
 

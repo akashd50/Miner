@@ -7,7 +7,7 @@ import javax.vecmath.Vector2f;
 public class GeneralTouchListener implements OnTouchListener {
     @Override
     public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
-        return false;
+        return true;
     }
 
     @Override

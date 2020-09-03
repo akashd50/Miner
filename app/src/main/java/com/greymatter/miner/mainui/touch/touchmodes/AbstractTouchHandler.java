@@ -105,36 +105,51 @@ public abstract class AbstractTouchHandler {
     public boolean doOnTouchDown(View v) {
         Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
         for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
-            if(gameObject.onTouchDownEvent(touchPoint)) {
-                currentlySelectedObject = gameObject;
+//            if(gameObject.onTouchDownEvent(touchPoint)) {
+//                currentlySelectedObject = gameObject;
+//                return true;
+//            }
+            if(doOnTouchDownHelper(gameObject, touchPoint)) {
                 return true;
             }
         }
         return false;
     }
+
+    private boolean doOnTouchDownHelper(IGameObject gameObject, Vector2f touchPoint) {
+        for(IGameObject child : gameObject.getChildren().toList()) {
+            if(doOnTouchDownHelper(child, touchPoint)) {
+                return true;
+            }
+        }
+        if(gameObject.isClicked(touchPoint)) {
+            gameObject.setTouchDownOffset(VectorHelper.sub(touchPoint, VectorHelper.toVector2f(gameObject.getLocation())));
+
+            if(gameObject.getOnTouchListener() != null && gameObject.getOnTouchListener().onTouchDown(gameObject, touchPoint)) {
+                currentlySelectedObject = gameObject;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean doOnTouchMove(View v) {
         Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-        if(currentlySelectedObject==null) {
-            for (IGameObject gameObject : ToDrawContainer.getAllReversed()) {
-                if (gameObject.onTouchMoveEvent(touchPoint)) return true;
-            }
-        }else{
-            currentlySelectedObject.onTouchMoveEvent(touchPoint);
-            return true;
+        if(currentlySelectedObject!=null) {
+            return currentlySelectedObject.getOnTouchListener()!=null
+                    && currentlySelectedObject.getOnTouchListener().onTouchMove(currentlySelectedObject, touchPoint);
         }
         return false;
     }
 
     public boolean doOnTouchUp(View v) {
         Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-        if(currentlySelectedObject==null) {
-            for (IGameObject gameObject : ToDrawContainer.getAllReversed()) {
-                if (gameObject.onTouchUpEvent(touchPoint)) return true;
-            }
-        }else {
-            currentlySelectedObject.onTouchUpEvent(touchPoint);
+        if(currentlySelectedObject!=null) {
+            boolean toReturn = currentlySelectedObject.getOnTouchListener()!=null
+                    && currentlySelectedObject.getOnTouchListener().onTouchUp(currentlySelectedObject, touchPoint);
             currentlySelectedObject = null;
-            return true;
+            return toReturn;
         }
 
         return false;
