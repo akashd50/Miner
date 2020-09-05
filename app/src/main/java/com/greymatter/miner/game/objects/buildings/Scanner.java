@@ -75,7 +75,7 @@ public class Scanner extends GameBuilding {
         float distance = VectorHelper.getLength(sub);
         if(distance < scannerRange) {
             float rotationZ = rangeObject.getTransforms().getRotation().z;
-            float angleBWResAndScanner = VectorHelper.angleBetween(getDrawable(), resourceBlock.getDrawable());
+            float angleBWResAndScanner = VectorHelper.angleBetweenDegrees(getDrawable(), resourceBlock.getDrawable());
             float leftEdge = (rotationZ) - scanningAngle /2;
             float rightEdge = (rotationZ) + scanningAngle /2;
             return angleBWResAndScanner > leftEdge && angleBWResAndScanner < rightEdge;

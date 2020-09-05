@@ -58,11 +58,10 @@ public class GLBufferHelper {
         return bufferObject;
     }
 
-    public static int setUpEmptyArrayBuffer(int numInstances, int coordsPerVertex, Shader shader, String attributeName) {
+    public static int setUpEmptyArrayBuffer(int sizeInBytes, int coordsPerVertex, Shader shader, String attributeName) {
         int bufferObject = GLBufferHelper.glGenBuffer();
         glBindArrayBuffer(bufferObject);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, Path.SIZE_OF_FLOAT * numInstances * coordsPerVertex,
-                null, GLES30.GL_DYNAMIC_DRAW);
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, sizeInBytes, null, GLES30.GL_DYNAMIC_DRAW);
         glBindArrayBuffer(0);
         glVertexAttributePointer(bufferObject, shader, attributeName, coordsPerVertex);
 

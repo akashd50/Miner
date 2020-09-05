@@ -23,6 +23,7 @@ public class ShaderConst {
     //attributes
     public static final String IN_POSITION = "in_position";
     public static final String IN_INSTANCE_TRANSLATION = "in_instance_translation";
+    public static final String IN_INSTANCE_TRANSLATION_OFFSET = "in_instance_translation_offset";
     public static final String IN_INSTANCE_ROTATION = "in_instance_rotation";
     public static final String IN_INSTANCE_SCALE = "in_instance_scale";
     public static final String IN_UV = "in_uv";

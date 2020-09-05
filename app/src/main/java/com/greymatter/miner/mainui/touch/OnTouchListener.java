@@ -17,6 +17,6 @@ public interface OnTouchListener {
         pointer.y -= gameObject.getTouchDownOffset().y;
 
         gameObject.moveTo(pointer);
-        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), gameObject.getDrawable()) - 90);
+        gameObject.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetweenDegrees(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), gameObject.getDrawable()) - 90);
     }
 }

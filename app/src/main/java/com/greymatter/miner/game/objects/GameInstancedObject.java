@@ -6,12 +6,10 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Instance;
 import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
-
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class GameInstancedObject extends GameObject {
-    private int instanceSelected;
     public GameInstancedObject(String id, InstanceGroup drawable) {
         super(id, drawable);
         initialize();
@@ -31,6 +29,7 @@ public class GameInstancedObject extends GameObject {
 
         GenericObject genericObject = new GenericObject(
                 new Instance("INSTANCE_"+instanced.getTotalInstances()).setParentGroup(instanced));
+
         genericObject.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
@@ -39,11 +38,13 @@ public class GameInstancedObject extends GameObject {
 
             @Override
             public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-                //OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
                 Transforms transforms = gameObject.getTransforms();
-                float scaleDist = (float)VectorHelper.getDistanceWithSQRT(transforms.getTranslation(), VectorHelper.toVector3f(pointer));
-                //transforms.translateBy(scaleDist - transforms.getScale().x,0f);
-                transforms.scaleTo(scaleDist, transforms.getScale().y);
+                Vector3f pointer3f = VectorHelper.toVector3f(pointer);
+                float scaleDist = (float)VectorHelper.getDistanceWithSQRT(transforms.getTranslation(), pointer3f);
+                float angle = (float)VectorHelper.angleBetweenDegrees(transforms.getTranslation(), pointer3f);
+
+                transforms.scaleTo(scaleDist/2, transforms.getScale().y);
+                transforms.rotateTo(0f,0f,angle);
                 return true;
             }
 
@@ -55,16 +56,10 @@ public class GameInstancedObject extends GameObject {
 
         genericObject.shouldDraw(false);
         genericObject.shouldCheckClicks(true);
+        genericObject.getTransforms().setTranslationTransformationOffset(new Vector3f(1f,0f,0f));
+
         instanced.addInstance(genericObject.getDrawable().asInstance());
         addChild(genericObject.getId(), genericObject);
         return this;
     }
-
-//    @Override
-//    public boolean isClickedHelper(Vector2f pointer) {
-////        for (int i = 0; i < instanceRBs.size(); i++) {
-////            if(instanceRBs.get(i).isClicked(pointer)) return true;
-////        }
-//        return false;
-//    }
 }

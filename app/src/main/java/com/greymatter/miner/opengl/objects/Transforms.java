@@ -4,6 +4,7 @@ import android.opengl.Matrix;
 
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.helpers.MatrixHelper;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import java.util.ArrayList;
@@ -11,18 +12,21 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Transforms {
-    private Vector3f translation, rotation, scale;
+    private Vector3f translation, rotation, scale, translationTransformationOffset;
     private float[] modelMatrix;
     private Drawable linkedDrawable;
     private RigidBody linkedRigidBody;
     private GameObject linkedGameObject;
-    private boolean transformationsUpdated, copyTranslationFromParent,
+    private boolean transformationsUpdated, shouldTransformVertices, copyTranslationFromParent,
                     copyRotationFromParent, copyScaleFromParent;
     private ArrayList<Transforms> children;
+    private ArrayList<Vector3f> transformedVertices;
     public Transforms() {
         translation = new Vector3f();
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
+        translationTransformationOffset = new Vector3f();
+
         this.children = new ArrayList<>();
         this.modelMatrix = new float[16];
         Matrix.setIdentityM(this.modelMatrix, 0);
@@ -240,12 +244,18 @@ public class Transforms {
         return this;
     }
 
-    public void setLinkedRigidBody(RigidBody linkedRigidBody) {
+    public Transforms setLinkedRigidBody(RigidBody linkedRigidBody) {
         this.linkedRigidBody = linkedRigidBody;
+        return this;
     }
 
     public Transforms setLinkedGameObject(GameObject linkedGameObject) {
         this.linkedGameObject = linkedGameObject;
+        return this;
+    }
+
+    public Transforms setTranslationTransformationOffset(Vector3f offset) {
+        this.translationTransformationOffset.set(offset);
         return this;
     }
 
@@ -280,6 +290,10 @@ public class Transforms {
         return translation;
     }
 
+    public Vector3f getTranslationTransformationOffset() {
+        return translationTransformationOffset;
+    }
+
     public Vector3f getRotation() {
         return rotation;
     }
@@ -296,7 +310,30 @@ public class Transforms {
 
     public void onTransformsChanged() {
         transformationsUpdated = true;
+        shouldTransformVertices = true;
         linkedRigidBody.onTransformsChanged();
         linkedDrawable.onTransformsChanged();
+    }
+
+    public ArrayList<Vector3f> getTransformedVertices(ArrayList<Vector3f> vertices) {
+        if(shouldTransformVertices) {
+            ArrayList<Vector3f> newTransformedVerts = new ArrayList<>();
+            for (Vector3f vector : vertices) {
+                Vector3f temp = VectorHelper.copy(vector);
+
+                temp.add(translationTransformationOffset);
+
+                temp.x = temp.x * scale.x;
+                temp.y = temp.y * scale.y;
+                temp = VectorHelper.rotateAroundZ(temp, (float) Math.toRadians(rotation.z));
+                temp.x += translation.x;
+                temp.y += translation.y;
+
+                newTransformedVerts.add(temp);
+            }
+            transformedVertices = newTransformedVerts;
+            shouldTransformVertices = false;
+        }
+        return transformedVertices;
     }
 }

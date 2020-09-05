@@ -62,7 +62,7 @@ public class VectorHelper {
         return angle;
     }
 
-    public static float angleBetween(Drawable d1, Drawable d2) {
+    public static float angleBetweenDegrees(Drawable d1, Drawable d2) {
         Vector3f d1Tod2 = VectorHelper.sub(d2.getTransforms().getTranslation(), d1.getTransforms().getTranslation());
         return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x));
     }
@@ -75,6 +75,11 @@ public class VectorHelper {
     public static float angleBetweenRad(Vector3f d1, Vector3f d2) {
         Vector3f d1Tod2 = VectorHelper.sub(d2, d1);
         return (float)Math.atan2(d1Tod2.y, d1Tod2.x);
+    }
+
+    public static float angleBetweenDegrees(Vector3f d1, Vector3f d2) {
+        Vector3f d1Tod2 = VectorHelper.sub(d2, d1);
+        return (float)Math.toDegrees(Math.atan2(d1Tod2.y, d1Tod2.x));
     }
 
     public static float getDistanceWithoutSQRT(Vector3f v1, Vector3f v2) {
@@ -115,13 +120,12 @@ public class VectorHelper {
         return rotatedAngle;
     }
 
-    public static Vector2f rotateAroundZ(Vector2f v1, float angleRad) {
-        float[] rmat = {(float)Math.cos(angleRad), -(float)Math.sin(angleRad),
-                (float)Math.sin(angleRad), (float)Math.cos(angleRad)};
-        Vector2f rotatedAngle = new Vector2f();
-        rotatedAngle.x = v1.x * rmat[0] + v1.y * rmat[1];
-        rotatedAngle.y = v1.x * rmat[2] + v1.y * rmat[3];
-        return rotatedAngle;
+    public static Vector2f rotateAroundZ(Vector2f toRotate, float angleRad) {
+//        float[] rmat = {(float)Math.cos(angleRad), -(float)Math.sin(angleRad),
+//                (float)Math.sin(angleRad), (float)Math.cos(angleRad)};
+        float cosine = (float)Math.cos(angleRad);
+        float sine = (float)Math.sin(angleRad);
+        return new Vector2f(toRotate.x * cosine + toRotate.y * -sine, toRotate.x * sine + toRotate.y * cosine);
     }
 
     public static Vector3f multiply(Vector3f setTo, Vector3f toMult, float[] mat) {

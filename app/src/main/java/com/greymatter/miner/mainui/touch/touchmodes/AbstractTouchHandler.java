@@ -105,10 +105,6 @@ public abstract class AbstractTouchHandler {
     public boolean doOnTouchDown(View v) {
         Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
         for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
-//            if(gameObject.onTouchDownEvent(touchPoint)) {
-//                currentlySelectedObject = gameObject;
-//                return true;
-//            }
             if(doOnTouchDownHelper(gameObject, touchPoint)) {
                 return true;
             }
