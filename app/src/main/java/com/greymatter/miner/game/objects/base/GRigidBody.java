@@ -54,69 +54,7 @@ public abstract class GRigidBody extends GTransformable {
         return rigidBody;
     }
 
-    public boolean onTouchDownEvent(Vector2f pointer) {
-        for(IGameObject child : getChildren().toList()) {
-            //if(child.shouldDraw()) {
-                boolean res = child.onTouchDownEvent(pointer);
-                if (res) return res;
-            //}
-        }
-
-        if(onTouchListener!=null) {
-            if (isClicked(pointer)) {
-                touchDownOffset = new Vector2f(pointer.x - getLocation().x, pointer.y - getLocation().y);
-                return onTouchListener.onTouchDown(this, pointer);
-            }
-        }
-        return false;
-    }
-
-    public boolean onTouchMoveEvent(Vector2f pointer) {
-        for(IGameObject child : getChildren().toList()) {
-            //if(child.shouldCheckClicks()) {
-                boolean res = child.onTouchMoveEvent(pointer);
-                if (res) return res;
-            //}
-        }
-
-        if(onTouchListener!=null) {
-            if (isClicked(pointer)) {
-                return onTouchListener.onTouchMove(this, pointer);
-            }
-        }
-        return false;
-    }
-
-    public boolean onTouchUpEvent(Vector2f pointer) {
-        for(IGameObject child : getChildren().toList()) {
-            //if(child.shouldDraw()) {
-                boolean res = child.onTouchUpEvent(pointer);
-                if (res) return res;
-           // }
-        }
-
-        boolean isClicked = isClicked(pointer);
-        if(isClicked) {
-            boolean handled = false;
-            if(onTouchListener!=null) {
-                handled = onTouchListener.onTouchUp(this, pointer);
-            }
-
-            if(onClickListener != null) {
-                if(!AppServices.getTouchHelper().isTouchPoint1Drag()) {
-                    handled = onClickListener.onClick(this);
-                }
-            }
-            return handled;
-        }
-        return false;
-    }
-
     public boolean isClicked(Vector2f pointer) {
-        return shouldCheckClicks() && isClickedHelper(pointer);
-    }
-
-    public boolean isClickedHelper(Vector2f pointer) {
-        return rigidBody != null && rigidBody.isClicked(pointer);
+        return shouldCheckClicks() && rigidBody != null && rigidBody.isClicked(pointer);
     }
 }

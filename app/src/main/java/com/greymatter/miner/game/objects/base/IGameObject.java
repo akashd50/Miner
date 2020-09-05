@@ -48,9 +48,6 @@ public interface IGameObject {
     IGameObject scaleFromParent(boolean val);
     Vector3f getLocation();
 
-    boolean onTouchDownEvent(Vector2f pointer);
-    boolean onTouchMoveEvent(Vector2f pointer);
-    boolean onTouchUpEvent(Vector2f pointer);
     boolean isClicked(Vector2f pointer);
     Vector2f getTouchDownOffset();
     OnTouchListener getOnTouchListener();

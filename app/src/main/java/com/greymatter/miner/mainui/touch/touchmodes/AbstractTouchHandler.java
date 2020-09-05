@@ -142,10 +142,15 @@ public abstract class AbstractTouchHandler {
     public boolean doOnTouchUp(View v) {
         Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
         if(currentlySelectedObject!=null) {
-            boolean toReturn = currentlySelectedObject.getOnTouchListener()!=null
-                    && currentlySelectedObject.getOnTouchListener().onTouchUp(currentlySelectedObject, touchPoint);
+            boolean touchHandled, clickHandled;
+            touchHandled = (currentlySelectedObject.getOnTouchListener() != null
+                    && currentlySelectedObject.getOnTouchListener().onTouchUp(currentlySelectedObject, touchPoint));
+            clickHandled = !touchHelper.isTouchPoint1Drag()
+                    && currentlySelectedObject.getOnClickListener() != null
+                    && currentlySelectedObject.getOnClickListener().onClick(currentlySelectedObject);
+
             currentlySelectedObject = null;
-            return toReturn;
+            return touchHandled || clickHandled;
         }
 
         return false;
