@@ -256,6 +256,7 @@ public class Transforms {
 
     public Transforms setTranslationTransformationOffset(Vector3f offset) {
         this.translationTransformationOffset.set(offset);
+        onTransformsChanged();
         return this;
     }
 

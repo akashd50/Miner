@@ -177,12 +177,15 @@ public class InstanceGroup extends Drawable {
     public void refreshBuffers() {
         if(transformsUpdated) {
             instanceTranslationArray = BufferHelper.vec3AsFloatArray(instanceTranslation);
+            instanceTranslationOffsetArray = BufferHelper.vec3AsFloatArray(instanceTranslationOffset);
             instanceRotationArray = BufferHelper.vec3AsFloatArray(instanceRotation);
             instanceScaleArray = BufferHelper.vec3AsFloatArray(instanceScale);
 
             updateTranslationBuffer(0, instanceTranslationArray);
+            updateTranslationOffsetBuffer(0, instanceTranslationOffsetArray);
             updateRotationBuffer(0, instanceRotationArray);
             updateScaleBuffer(0, instanceScaleArray);
+
             transformsUpdated = false;
         }
     }

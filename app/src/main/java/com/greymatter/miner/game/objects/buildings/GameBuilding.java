@@ -38,14 +38,13 @@ public abstract class GameBuilding extends GameObjectWGL {
                 if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
                     snapAnimator.pause();
                 }
-                //object.getTransforms().rotateTo(0f,0f, VectorHelper.angleBetween(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable(), object.getDrawable()) - 90);
             }
         });
 
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
-                return false;
+                return true;
             }
 
             @Override

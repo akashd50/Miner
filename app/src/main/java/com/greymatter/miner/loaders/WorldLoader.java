@@ -8,6 +8,7 @@ import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
 import com.greymatter.miner.game.objects.GameInstancedObject;
+import com.greymatter.miner.game.objects.GamePipeline;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
@@ -123,17 +124,12 @@ public class WorldLoader extends Loader {
 
         InstanceGroup square = new InstanceGroup("INS");
         square.setRenderer(new InstancedRenderer()).build();
-        square.setMaterial(MaterialContainer.get(MaterialDef.BUTTON_MATERIAL_I));
-        GameInstancedObject obj = new GameInstancedObject(square);
+        square.setMaterial(MaterialContainer.get(MaterialDef.TREE_MATERIAL));
+        GamePipeline obj = new GamePipeline(square);
         for(int i=0;i<29;i++) {
             obj.addInstance();
-            square.getInstance(i).getTransforms().translateTo(0f,5f + i,17f);
+            square.getInstance(i).getTransforms().translateTo(0f,5f + i*2,17f);
         }
-
-//        obj.addInstance();
-//        square.getInstance(0).getTransforms().translateTo(0f,5f,17f);
-//        square.getInstance(1).getTransforms().translateTo(0f,8f,17f);
-        //square.translateInstanceTo(1,0f,8f,17f);
         GameObjectsContainer.add(obj);
 
 //        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
