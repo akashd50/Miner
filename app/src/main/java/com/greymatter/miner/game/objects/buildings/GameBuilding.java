@@ -37,6 +37,7 @@ public abstract class GameBuilding extends GameObjectWGL {
 
                 if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
                     snapAnimator.pause();
+                    onSnapAnimationComplete();
                 }
             }
         });
@@ -93,6 +94,10 @@ public abstract class GameBuilding extends GameObjectWGL {
         snappingPoint = new Vector3f(px, py, 0f);
         snapAnimator.resume();
         return this;
+    }
+
+    public void onSnapAnimationComplete() {
+
     }
 
     @Override

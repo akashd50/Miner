@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
+//TODO: Look into adding a new Rectangular rigid body for touch detection for non-physics objects.
+// Use reverse transformations to apply to the touch point and then check if it's in the bounds of the rectangle
 
 public abstract class RigidBody {
     private String id;

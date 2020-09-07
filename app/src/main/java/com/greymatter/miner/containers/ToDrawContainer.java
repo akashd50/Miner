@@ -25,6 +25,7 @@ public class ToDrawContainer {
     public static synchronized void add(IGameObject gameObject) {
         gameObjects.put(gameObject.getId(), gameObject);
         gameObjects.sort(comparator);
+        //TODO: Look into fixing the broken sorting when touch handling.
     }
 
     public static synchronized void remove(String id) {
@@ -52,6 +53,8 @@ public class ToDrawContainer {
 
     private static synchronized void onDrawFrame(IGameObject gameObject, Camera camera) {
         gameObject.onFrameUpdate();
+        //TODO: look into moving the frame update logic into a separate thread that is initialized
+        // on app start from the main thread
 
         if(gameObject.shouldDraw()) {
 

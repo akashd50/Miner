@@ -3,12 +3,9 @@ package com.greymatter.miner.loaders;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
-import com.greymatter.miner.game.objects.GameInstancedObject;
-import com.greymatter.miner.game.objects.GamePipeline;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.Miner;
 import com.greymatter.miner.helpers.ZHelper;
@@ -25,11 +22,8 @@ import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
-import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.mainui.LayoutHelper;
-import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
-import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import javax.vecmath.Vector2f;
@@ -119,26 +113,14 @@ public class WorldLoader extends Loader {
                 })));
 
         GameObjectsContainer.add(MinerManager.getNextMinerId(), new Miner(DrawableDef.create(DrawableDef.MINER_1))
-                .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT)
+                .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT-1)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
-        InstanceGroup square = new InstanceGroup("INS");
-        square.setRenderer(new InstancedRenderer()).build();
-        square.setMaterial(MaterialContainer.get(MaterialDef.TREE_MATERIAL));
-        GamePipeline obj = new GamePipeline(square);
-        for(int i=0;i<29;i++) {
-            obj.addInstance();
-            square.getInstance(i).getTransforms().translateTo(0f,5f + i*2,17f);
-        }
-        GameObjectsContainer.add(obj);
-
-//        obj.setAnimator(new BooleanAnimator().withFPS(10).setToAnimateObject(obj).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
-//            @Override
-//            public void animate(GameObject object, ValueAnimator animator) {
-//                Instanced instanced = (Instanced)obj.getDrawable();
-//                instanced.translateInstanceBy(0, 0f,0.01f, 0f);
-//            }
-//        }));
+//        InstanceGroup square = new InstanceGroup("INS");
+//        square.setRenderer(new InstancedRenderer()).build();
+//        square.setMaterial(MaterialContainer.get(MaterialDef.GROUND_MATERIAL));
+//        GamePipeline obj = new GamePipeline(square);
+//        GameObjectsContainer.add(obj);
 
         updateContainer();
         updatePhysicsProperties();
@@ -161,7 +143,7 @@ public class WorldLoader extends Loader {
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
 
         GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
-        ToDrawContainer.add(GameObjectsContainer.get("INS"));
+        //ToDrawContainer.add(GameObjectsContainer.get("INS"));
     }
 
     public void updatePhysicsProperties() {
