@@ -29,16 +29,14 @@ public abstract class GameBuilding extends GameObjectWGL {
         snapAnimator.toAndFro(true).setToAnimateObject(this);
         snapAnimator.pause();
         snapAnimator.setOnAnimationFrameHandler((object, animator) -> {
-            if(animator.getUpdatedBoolean()) {
-                Vector3f dir = VectorHelper.sub(snappingPoint, getLocation());
-                dir.normalize();
-                dir.z = 0f;
-                object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
-                onSnapAnimationFrame();
-                if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
-                    snapAnimator.pause();
-                    onSnapAnimationComplete();
-                }
+            Vector3f dir = VectorHelper.sub(snappingPoint, getLocation());
+            dir.normalize();
+            dir.z = 0f;
+            object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
+            onSnapAnimationFrame();
+            if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
+                snapAnimator.pause();
+                onSnapAnimationComplete();
             }
         });
 

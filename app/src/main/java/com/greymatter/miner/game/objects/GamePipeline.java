@@ -41,11 +41,11 @@ public class GamePipeline extends GameInstanceGroup {
         firstJointInstance.moveTo(0f,0f, ZHelper.OVER_FRONT);
         firstJointInstance.scaleTo(0.3f,0.3f);
 
-        jointIndicators.setAnimator(new BooleanAnimator().withFPS(6).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
+        jointIndicators.setAnimator(new BooleanAnimator().withFPS(10).setOnAnimationFrameHandler(new OnAnimationFrameHandler() {
             @Override
-            public void animate(GameObject object, ValueAnimator animator) {
+            public void onAnimationFrame(GameObject object, ValueAnimator animator) {
                 for (int i = 0; i < jointIndicators.getTotalInstances(); i++) {
-                    jointIndicators.getInstance(i).getTransforms().rotateBy(0f,0f,2f);
+                    jointIndicators.getInstance(i).getTransforms().rotateBy(0f,0f,10f);
                 }
             }
         }));

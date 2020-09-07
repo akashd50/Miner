@@ -1,6 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -33,10 +34,6 @@ public class ToDrawContainer {
         if(gameObjects !=null) {
             removed = gameObjects.remove(id);
         }
-    }
-
-    public static synchronized void onFrameUpdate() {
-        gameObjects.toList().forEach(IGameObject::onFrameUpdate);
     }
 
     public static synchronized void applyTransformations() {

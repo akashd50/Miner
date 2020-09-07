@@ -19,12 +19,11 @@ public abstract class ValueAnimator {
             if (System.currentTimeMillis() - _lastFrameDrawTime > _perFrameDelay) {
                 updateOverridePositive();
                 _lastFrameDrawTime = System.currentTimeMillis();
+                if (onAnimationFrameHandler != null) {
+                    onAnimationFrameHandler.onAnimationFrame(linkedObject, this);
+                }
             } else {
                 updateOverrideNegative();
-            }
-
-            if (onAnimationFrameHandler != null) {
-                onAnimationFrameHandler.animate(linkedObject, this);
             }
         }
         return this;

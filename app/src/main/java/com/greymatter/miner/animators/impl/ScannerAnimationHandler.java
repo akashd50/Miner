@@ -13,22 +13,20 @@ import javax.vecmath.Vector3f;
 
 public class ScannerAnimationHandler implements OnAnimationFrameHandler {
     @Override
-    public void animate(GameObject object, ValueAnimator animator) {
-        if(animator.getUpdatedBoolean()) {
-            Scanner scanner = (Scanner)object;
-            ResourceBlock currentlyTracking = scanner.getCurrentlyTracking();
-            currentlyTracking = currentlyTracking==null? scanner.findClosestResource() : currentlyTracking;
-            scanner.setCurrentlyTracking(currentlyTracking);
-            if(!scanner.isResourceInRange(currentlyTracking)) {
-                Vector3f dir = VectorHelper.sub(currentlyTracking.getLocation(), scanner.getLocation());
-                dir.normalize();
-                dir.z = 0f;
-                scanner.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));
-            }else{
-                ActiveResourcesContainer.add("COAL_BLOCK_I", currentlyTracking);
-                if(!scanner.getSignal().shouldDraw()) {
-                    scanner.getSignal().show();
-                }
+    public void onAnimationFrame(GameObject object, ValueAnimator animator) {
+        Scanner scanner = (Scanner)object;
+        ResourceBlock currentlyTracking = scanner.getCurrentlyTracking();
+        currentlyTracking = currentlyTracking==null? scanner.findClosestResource() : currentlyTracking;
+        scanner.setCurrentlyTracking(currentlyTracking);
+        if(!scanner.isResourceInRange(currentlyTracking)) {
+            Vector3f dir = VectorHelper.sub(currentlyTracking.getLocation(), scanner.getLocation());
+            dir.normalize();
+            dir.z = 0f;
+            scanner.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));
+        }else{
+            ActiveResourcesContainer.add("COAL_BLOCK_I", currentlyTracking);
+            if(!scanner.getSignal().shouldDraw()) {
+                scanner.getSignal().show();
             }
         }
     }
