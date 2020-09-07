@@ -34,7 +34,7 @@ public abstract class GameBuilding extends GameObjectWGL {
                 dir.normalize();
                 dir.z = 0f;
                 object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
-
+                onSnapAnimationFrame();
                 if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
                     snapAnimator.pause();
                     onSnapAnimationComplete();
@@ -96,9 +96,8 @@ public abstract class GameBuilding extends GameObjectWGL {
         return this;
     }
 
-    public void onSnapAnimationComplete() {
-
-    }
+    public void onSnapAnimationComplete() {}
+    public void onSnapAnimationFrame() {}
 
     @Override
     public void onFrameUpdate() {

@@ -20,6 +20,7 @@ public class Transforms {
     private boolean transformationsUpdated, shouldTransformVertices, copyTranslationFromParent,
                     copyRotationFromParent, copyScaleFromParent;
     private ArrayList<Transforms> children;
+    private Transforms parent;
     private ArrayList<Vector3f> transformedVertices;
     public Transforms() {
         translation = new Vector3f();
@@ -236,6 +237,12 @@ public class Transforms {
 
     public Transforms addChild(Transforms child) {
         children.add(child);
+        child.setParent(this);
+        return this;
+    }
+
+    public Transforms setParent(Transforms parent) {
+        this.parent = parent;
         return this;
     }
 
@@ -258,6 +265,10 @@ public class Transforms {
         this.translationTransformationOffset.set(offset);
         onTransformsChanged();
         return this;
+    }
+
+    public Transforms getParent() {
+        return parent;
     }
 
     public boolean isCopyTranslationFromParent() {

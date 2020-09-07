@@ -11,6 +11,8 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.CircularRB;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
+import com.greymatter.miner.physics.objects.rb.RectangularRB;
+
 import java.util.ArrayList;
 
 public abstract class GameObject extends GRigidBody {
@@ -108,6 +110,11 @@ public abstract class GameObject extends GRigidBody {
 
     public GameObject setCircularRB() {
         this.setRB(new CircularRB(getId(), 1f));
+        return this;
+    }
+
+    public GameObject setRectangularRB() {
+        this.setRB(new RectangularRB(getId()));
         return this;
     }
 

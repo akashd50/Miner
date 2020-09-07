@@ -9,7 +9,6 @@ import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
-
 import javax.vecmath.Vector3f;
 
 public class Miner extends GameBuilding {
@@ -38,7 +37,13 @@ public class Miner extends GameBuilding {
     public void onSnapAnimationComplete() {
         Vector3f directionToCenter = VectorHelper.sub(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getLocation(), getLocation());
         directionToCenter.normalize();
+        pipe.getJointIndicator().getInstance(0).moveTo(getLocation().x + directionToCenter.x*0.6f, getLocation().y + directionToCenter.y*0.6f);
+    }
 
+    @Override
+    public void onSnapAnimationFrame() {
+        Vector3f directionToCenter = VectorHelper.sub(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getLocation(), getLocation());
+        directionToCenter.normalize();
         pipe.getJointIndicator().getInstance(0).moveTo(getLocation().x + directionToCenter.x*0.6f, getLocation().y + directionToCenter.y*0.6f);
     }
 }

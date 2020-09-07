@@ -20,7 +20,7 @@ public abstract class GameUI extends GameObjectWGL {
 
     private void initialize() {
         defaultScale = new Vector3f();
-        this.setRB(new PolygonRbTRViaMat(getId(), this.getDrawable().getOrderedOuterMesh()));
+        this.setRectangularRB();
         this.getRigidBody().isStaticObject(true);
         this.setAnimator(new FloatValueAnimator().setBounds(0f,1f).withFPS(60).setPerFrameIncrement(0.1f));
 
