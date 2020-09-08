@@ -66,23 +66,15 @@ public class TouchHelper {
             currTouchPoint1.set(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()));
         }
 
-        if(event.getPointerId(event.getActionIndex()) == pointer2Id){
+        if(event.getPointerCount()==2 && event.getPointerId(1)!= -1) {
             prevTouchPoint2.set(currTouchPoint2);
-            currTouchPoint2.set(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()));
+            currTouchPoint2.set(event.getX(1), event.getY(1));
         }
     }
 
     public void onTouchUp(MotionEvent event) {
         currentPointerCount = event.getPointerCount();
-//        if(event.findPointerIndex(pointer1Id) == -1 && event.findPointerIndex(pointer2Id) != -1) {
-//            touchPoint1DownTime = touchPoint2DownTime;
-//            touchPoint1TouchDownPt.set(touchPoint2TouchDownPt);
-//            prevTouchPoint1.set(prevTouchPoint2);
-//            currTouchPoint1.set(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()));
-//            pointer1Id = pointer2Id;
-//
-//            resetPointer2Data();
-//        }
+
         previousPointersDist = 0;
         currentPointersDist = 0;
 
@@ -121,7 +113,7 @@ public class TouchHelper {
 
     public float getScalingFactor() {
         if(currentPointerCount == 2) {
-            previousPointersDist = (float)VectorHelper.getDistanceWithSQRT(touchPoint1TouchDownPt, touchPoint2TouchDownPt);
+            previousPointersDist = (float)VectorHelper.getDistanceWithSQRT(prevTouchPoint1, prevTouchPoint2);
             currentPointersDist = (float)VectorHelper.getDistanceWithSQRT(currTouchPoint1, currTouchPoint2);
         }
        return currentPointersDist - previousPointersDist;
