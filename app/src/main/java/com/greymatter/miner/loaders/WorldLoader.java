@@ -7,7 +7,8 @@ import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
-import com.greymatter.miner.game.objects.buildings.Miner;
+import com.greymatter.miner.game.objects.buildings.GasPump;
+import com.greymatter.miner.game.objects.buildings.Mine;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
@@ -112,15 +113,14 @@ public class WorldLoader extends Loader {
                     return true;
                 })));
 
-        GameObjectsContainer.add(MinerManager.getNextMinerId(), new Miner(DrawableDef.create(DrawableDef.MINER_1))
+        GameObjectsContainer.add(MinerManager.getNextMinerId(), new GasPump(DrawableDef.create(DrawableDef.MINER_1))
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT-1)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
-//        InstanceGroup square = new InstanceGroup("INS");
-//        square.setRenderer(new InstancedRenderer()).build();
-//        square.setMaterial(MaterialContainer.get(MaterialDef.GROUND_MATERIAL));
-//        GamePipeline obj = new GamePipeline(square);
-//        GameObjectsContainer.add(obj);
+        GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1))
+                        .addTag(Tag.PLACABLE_GAME_BUILDING)
+                        .scaleTo(6f,3f).moveBy(20f,2f,ZHelper.FRONT));
+                        //.setOnTouchListener(new BuildingModeTouchListener()));
 
         updateContainer();
         updatePhysicsProperties();
@@ -143,7 +143,9 @@ public class WorldLoader extends Loader {
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
 
         GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
-        //ToDrawContainer.add(GameObjectsContainer.get("INS"));
+        GameObjectsContainer.get("MINE").asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
+
+        ToDrawContainer.add(GameObjectsContainer.get("MINE"));
     }
 
     public void updatePhysicsProperties() {

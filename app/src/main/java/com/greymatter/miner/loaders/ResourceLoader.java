@@ -26,9 +26,9 @@ public class ResourceLoader extends Loader {
 //        }
 
         CoalBlock block = new CoalBlock(DrawableDef.create(DrawableDef.COAL_BLOCK_I));
-        block.addTag(Tag.RESOURCE_OBJECT).scaleTo(0.2f, 0.2f).moveTo(20f, -4f, ZHelper.OVER_FRONT);
+        block.addTag(Tag.RESOURCE_OBJECT).scaleTo(1f, 1f).moveTo(20f, -4f, ZHelper.OVER_FRONT);
         AllResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(),block);
-        //ActiveResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(), AllResourcesContainer.get(DrawableDef.COAL_BLOCK_I.name()));
+        ActiveResourcesContainer.add(DrawableDef.COAL_BLOCK_I.name(), AllResourcesContainer.get(DrawableDef.COAL_BLOCK_I.name()));
         //finishSetup();
     }
 

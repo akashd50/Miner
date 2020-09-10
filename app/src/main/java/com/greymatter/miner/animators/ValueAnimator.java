@@ -111,6 +111,8 @@ public abstract class ValueAnimator {
         return false;
     }
 
+    public FloatValueAnimator asFloatValueAnimator() {return (FloatValueAnimator)this;}
+
     protected abstract void updateOverridePositive();
     protected abstract void updateOverrideNegative();
 }

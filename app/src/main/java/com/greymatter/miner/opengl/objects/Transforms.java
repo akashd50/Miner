@@ -321,6 +321,8 @@ public class Transforms {
     }
 
     public void onTransformsChanged() {
+        if(parent!=null) parent.transformationsUpdated = true;
+
         transformationsUpdated = true;
         shouldTransformVertices = true;
         linkedRigidBody.onTransformsChanged();

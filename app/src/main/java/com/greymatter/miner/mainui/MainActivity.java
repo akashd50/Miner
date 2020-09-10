@@ -3,6 +3,7 @@ package com.greymatter.miner.mainui;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;

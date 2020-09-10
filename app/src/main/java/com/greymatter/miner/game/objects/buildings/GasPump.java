@@ -11,14 +11,14 @@ import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import javax.vecmath.Vector3f;
 
-public class Miner extends GameBuilding {
+public class GasPump extends GameBuilding {
     private GamePipeline pipe;
-    public Miner(Drawable drawable) {
+    public GasPump(Drawable drawable) {
         super(drawable.getId(), drawable);
         initialize();
     }
 
-    public Miner(String id, Drawable drawable) {
+    public GasPump(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }

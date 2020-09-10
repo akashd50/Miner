@@ -30,6 +30,7 @@ public enum DrawableDef {
 
     SCANNER_1(DrawableType.OBJ, ShapeDef.CIRCLE_SUB_I, MaterialDef.GROUND_MATERIAL, ShaderDef.QUAD_SHADER),
     MINER_1(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.MINER_MATERIAL, ShaderDef.QUAD_SHADER),
+    MINE_1(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.MINE_MATERIAL_I, ShaderDef.QUAD_SHADER),
     PIE_GRADIENT_I(DrawableType.RADIANT_GRADIENT, ShapeDef.PIE_45, MaterialDef.GRADIENT_COLOR_MATERIAL, ShaderDef.GRADIENT_SHADER),
 
     DIALOG_BUTTON_I(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),
@@ -39,7 +40,7 @@ public enum DrawableDef {
     OBJECT_DIALOG(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.DIALOG_MATERIAL, ShaderDef.QUAD_SHADER),
     OBJECT_SIGNAL(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.SIGNAL_MATERIAL, ShaderDef.LIGHTING_SHADER),
 
-    COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.QUAD_SHADER);
+    COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.ROCK_MATERIAL_I, ShaderDef.QUAD_SHADER);
 
     public final DrawableType DRAWABLE_TYPE;
     public final ShapeDef SHAPE_ID;
