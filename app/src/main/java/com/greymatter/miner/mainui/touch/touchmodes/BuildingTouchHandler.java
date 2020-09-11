@@ -3,12 +3,18 @@ package com.greymatter.miner.mainui.touch.touchmodes;
 import android.view.View;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
+
+import java.util.ArrayList;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
@@ -20,9 +26,7 @@ public class BuildingTouchHandler extends AbstractTouchHandler {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.done_building_placement:
-                ViewModeManager.switchToGeneralMode(getTouchHelper(), getMainCamera());
-                break;
+
         }
     }
 
@@ -30,23 +34,22 @@ public class BuildingTouchHandler extends AbstractTouchHandler {
     public void onLongClick(View v) {}
 
     @Override
-    public boolean doOnTouchDown(View v) {
-        return super.doOnTouchDown(v) || doOnTouchDownExtra();
+    public boolean doOnTouchDown(Vector2f touchPoint) {
+        return super.doOnTouchDown(touchPoint) || doOnTouchDownExtra();
     }
 
     @Override
-    public boolean doOnTouchMove(View v) {
-        return super.doOnTouchMove(v) || doOnTouchMoveExtra();
+    public boolean doOnTouchMove(Vector2f touchPoint) {
+        return super.doOnTouchMove(touchPoint) || doOnTouchMoveExtra();
     }
 
     @Override
-    public boolean doOnTouchUp(View v) {
-        return super.doOnTouchUp(v) || doOnTouchUpExtra();
+    public boolean doOnTouchUp(Vector2f touchPoint) {
+        return super.doOnTouchUp(touchPoint) || doOnTouchUpExtra();
     }
 
     /*------------------------------------------private functions---------------------------------*/
     private boolean doOnTouchDownExtra() {
-
         return false;
     }
 
@@ -69,5 +72,10 @@ public class BuildingTouchHandler extends AbstractTouchHandler {
 
     public ViewMode getViewMode() {
         return ViewMode.BUILDING_MODE;
+    }
+
+    @Override
+    public ArrayList<IGameObject> gameObjectsForTouchChecking() {
+        return ToDrawContainer.getAllReversed();
     }
 }

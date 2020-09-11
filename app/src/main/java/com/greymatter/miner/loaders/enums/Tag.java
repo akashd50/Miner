@@ -10,5 +10,6 @@ public enum Tag {
     RESOURCE_OBJECT,
     NOTIFICATION,
     DIALOG,
-    SIGNAL
+    SIGNAL,
+    UI_OBJECT
 }

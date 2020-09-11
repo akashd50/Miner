@@ -40,6 +40,9 @@ public enum DrawableDef {
     OBJECT_DIALOG(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.DIALOG_MATERIAL, ShaderDef.QUAD_SHADER),
     OBJECT_SIGNAL(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.SIGNAL_MATERIAL, ShaderDef.LIGHTING_SHADER),
 
+    GAME_PAD_FRONT(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.GAME_PAD_FRONT_MATERIAL, ShaderDef.QUAD_SHADER),
+    GAME_PAD_BACKGROUND(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.GAME_PAD_FRONT_MATERIAL, ShaderDef.QUAD_SHADER),
+
     COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.ROCK_MATERIAL_I, ShaderDef.QUAD_SHADER);
 
     public final DrawableType DRAWABLE_TYPE;

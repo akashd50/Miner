@@ -30,66 +30,24 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
     }
 
     @Override
-    public synchronized void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.move_left:
-                Vector3f left = VectorHelper.getNormal(getMainCamera().getUpVector());
-                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, 0.01f));
-                break;
-            case R.id.move_right:
-                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
-                break;
-            case R.id.items_menu:
-                View view = LayoutHelper.loadLayout(R.layout.items_dialog);
-                AlertDialog selectionDialog = LayoutHelper.loadDialog(view);
-
-                ArrayList<IGameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
-                ListView listView = view.findViewById(R.id.temp_items_list);
-                ArrayAdapter<IGameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
-                listView.setAdapter(buildingArrayAdapter);
-
-                listView.setOnItemClickListener((parent, view1, position, id) -> {
-                    IGameObject object = buildingArrayAdapter.getItem(position);
-                    ToDrawContainer.add(object);
-
-                    Transforms planetTransforms = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms();
-                    object.moveTo(0f,planetTransforms.getTranslation().y + planetTransforms.getScale().y + object.getTransforms().getScale().y);
-
-
-                    if(object.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT) || object.hasTag(Tag.STATIC_PHYSICS_OBJECT)) {
-                        CollisionSystemContainer.add(object.getRigidBody());
-                    }
-
-                    TouchEventBundle touchEventBundle = new TouchEventBundle().setObject(object);
-                    ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
-                    ViewModeManager.getActiveTouchMode().setTouchEventBundle(touchEventBundle);
-
-                    selectionDialog.dismiss();
-                });
-                LayoutHelper.showDialog(selectionDialog);
-                break;
-            default:
-                break;
-        }
-    }
+    public synchronized void onClick(View v) {}
 
     @Override
     public void onLongClick(View v) {}
 
     @Override
-    public boolean doOnTouchDown(View v) {
-        return super.doOnTouchDown(v) || doOnTouchDownExtra();
+    public boolean doOnTouchDown(Vector2f touchPoint) {
+        return super.doOnTouchDown(touchPoint) || doOnTouchDownExtra();
     }
 
     @Override
-    public boolean doOnTouchMove(View v) {
-        return super.doOnTouchMove(v) || doOnTouchMoveExtra();
+    public boolean doOnTouchMove(Vector2f touchPoint) {
+        return super.doOnTouchMove(touchPoint) || doOnTouchMoveExtra();
     }
 
     @Override
-    public boolean doOnTouchUp(View v) {
-        return super.doOnTouchUp(v) || doOnTouchUpExtra();
+    public boolean doOnTouchUp(Vector2f touchPoint) {
+        return super.doOnTouchUp(touchPoint) || doOnTouchUpExtra();
     }
 
     /*------------------------------------------private functions---------------------------------*/
@@ -125,7 +83,13 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
         return false;
     }
 
+    @Override
     public ViewMode getViewMode() {
         return ViewMode.GENERAL_MODE;
+    }
+
+    @Override
+    public ArrayList<IGameObject> gameObjectsForTouchChecking() {
+        return ToDrawContainer.getAllReversed();
     }
 }

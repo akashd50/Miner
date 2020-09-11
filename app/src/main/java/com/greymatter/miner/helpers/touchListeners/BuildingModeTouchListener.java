@@ -15,7 +15,7 @@ public class BuildingModeTouchListener implements OnTouchListener {
 
     @Override
     public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-        if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
+        if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
             OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
             return true;
         }

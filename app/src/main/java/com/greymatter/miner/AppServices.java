@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
-import android.view.ScaleGestureDetector;
 
 import com.greymatter.miner.mainui.renderers.MainGLRenderer;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -15,7 +14,7 @@ public class AppServices {
     private static Context context;
     private static GLSurfaceView surfaceView;
     private static MainGLRenderer glRenderer;
-    private static Camera mainCamera;
+    private static Camera gameCamera, uiCamera;
     private static TouchHelper touchHelper;
     public static void setContext(Context ctx) {
         context = ctx;
@@ -34,16 +33,24 @@ public class AppServices {
         glRenderer = renderer;
     }
 
-    public static void setCamera(Camera camera) {
-        mainCamera = camera;
+    public static void setGameCamera(Camera camera) {
+        gameCamera = camera;
+    }
+
+    public static void setUICamera(Camera uiCamera) {
+        AppServices.uiCamera = uiCamera;
+    }
+
+    public static Camera getUICamera() {
+        return uiCamera;
     }
 
     public static Context getAppContext() {
         return context;
     }
 
-    public static Camera getMainCamera() {
-        return mainCamera;
+    public static Camera getGameCamera() {
+        return gameCamera;
     }
 
     public static GLSurfaceView getSurfaceView() {

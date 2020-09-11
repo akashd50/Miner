@@ -7,11 +7,14 @@ import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.touch.touchmodes.AbstractTouchHandler;
 import com.greymatter.miner.mainui.touch.touchmodes.BuildingTouchHandler;
 import com.greymatter.miner.mainui.touch.touchmodes.GeneralTouchHandler;
+import com.greymatter.miner.mainui.touch.touchmodes.UITouchHandler;
 import com.greymatter.miner.opengl.objects.Camera;
 
 public class ViewModeFactory {
-    public static AbstractTouchHandler getNewTouchMode(ViewMode mode, TouchHelper tc, Camera camera) {
+    public static AbstractTouchHandler getNewTouchHandler(ViewMode mode, TouchHelper tc, Camera camera) {
         switch (mode) {
+            case UI_TOUCH_HANDLER:
+                return new UITouchHandler(tc, camera);
             case BUILDING_MODE:
                 return new BuildingTouchHandler(tc, camera);
             case GENERAL_MODE:

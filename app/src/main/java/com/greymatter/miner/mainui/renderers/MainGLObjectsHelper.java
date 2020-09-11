@@ -8,15 +8,18 @@ import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.physics.collisioncheckers.CollisionDetectionSystem;
 
 class MainGLObjectsHelper {
-    static Camera camera;
+    static Camera gameCamera, UICamera;
     static boolean initialSetup = true;
     static void onSurfaceChanged(int width, int height) {
         if(initialSetup) {
-            camera = new Camera(width, height);
-            AppServices.setCamera(camera);
+            gameCamera = new Camera(width, height);
+            UICamera = new Camera(width, height);
+            AppServices.setGameCamera(gameCamera);
+            AppServices.setUICamera(UICamera);
             initialSetup = false;
         }else{
-            camera.onSurfaceChanged(width,height);
+            gameCamera.onSurfaceChanged(width,height);
+            UICamera.onSurfaceChanged(width, height);
         }
     }
 

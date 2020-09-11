@@ -1,8 +1,10 @@
 package com.greymatter.miner.mainui.renderers;
 
+import com.greymatter.miner.AppServices;
 import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -44,8 +46,9 @@ public class GeneralRenderer extends AbstractRenderer {
 //        testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
-        ActiveResourcesContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ToDrawContainer.onDrawFrame(AppServices.getGameCamera());
+        ActiveResourcesContainer.onDrawFrame(AppServices.getGameCamera());
+        UIToDrawContainer.onDrawFrame(AppServices.getUICamera());
 
         System.out.println("FPS: " + mainFPS);
         System.out.println("FRAME TIME: " + (System.currentTimeMillis() - currentFrameStartTime));

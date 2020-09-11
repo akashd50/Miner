@@ -4,8 +4,10 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
+import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.GasPump;
 import com.greymatter.miner.game.objects.buildings.Mine;
@@ -44,7 +46,6 @@ public class WorldLoader extends Loader {
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
                 .scaleTo(4f,4f).moveTo(0f,5f,ZHelper.FRONT_MID));
-                //.setOnTouchListener(new BuildingModeTouchListener()));
 
         GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(DrawableDef.MAIN_CHARACTER))
                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,ZHelper.FRONT)
@@ -120,7 +121,9 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1))
                         .addTag(Tag.PLACABLE_GAME_BUILDING)
                         .scaleTo(6f,3f).moveBy(20f,2f,ZHelper.FRONT));
-                        //.setOnTouchListener(new BuildingModeTouchListener()));
+
+        GameObjectsContainer.add("GAME_PAD", new GamePad(DrawableDef.create(DrawableDef.GAME_PAD_FRONT))
+                    .scaleTo(0.2f,0.2f).moveBy(0f,0f));
 
         updateContainer();
         updatePhysicsProperties();
@@ -146,6 +149,8 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.get("MINE").asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
 
         ToDrawContainer.add(GameObjectsContainer.get("MINE"));
+
+        UIToDrawContainer.add(GameObjectsContainer.get("GAME_PAD"));
     }
 
     public void updatePhysicsProperties() {

@@ -48,7 +48,7 @@ public abstract class GameBuilding extends GameObjectWGL {
 
             @Override
             public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-                if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
+                if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
                     OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
                     return true;
                 }
@@ -57,7 +57,7 @@ public abstract class GameBuilding extends GameObjectWGL {
 
             @Override
             public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
-                if(ViewModeManager.getActiveTouchMode().getViewMode() == ViewMode.BUILDING_MODE) {
+                if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
                     IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
                     snapTo(planet);
                     return true;

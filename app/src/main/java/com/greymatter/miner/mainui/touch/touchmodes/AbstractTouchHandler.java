@@ -10,6 +10,9 @@ import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
 import com.greymatter.miner.opengl.objects.Camera;
+
+import java.util.ArrayList;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
@@ -24,13 +27,14 @@ public abstract class AbstractTouchHandler {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
+        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchDown(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchDown(touchPoint);
             case MotionEvent.ACTION_MOVE:
-                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchMove(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchMove(touchPoint);
             case MotionEvent.ACTION_UP:
-                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchUp(v);
+                if(v.getId() == R.id.mainGLSurfaceView) return doOnTouchUp(touchPoint);
         }
         return false;
     }
@@ -62,12 +66,10 @@ public abstract class AbstractTouchHandler {
     }
 
     public float getLocalX(float x) {
-        //return mainCamera.getTranslation().x + mainCamera.getCameraWidth() * x/mainCamera.getViewportWidth() - mainCamera.getCameraWidth()/2;
         return mainCamera.getCameraWidth() * x/mainCamera.getViewportWidth() - mainCamera.getCameraWidth()/2;
     }
 
     public float getLocalY(float y) {
-        //return mainCamera.getTranslation().y + mainCamera.getCameraHeight()/2 - mainCamera.getCameraHeight() * y/mainCamera.getViewportHeight();
         return mainCamera.getCameraHeight()/2 - mainCamera.getCameraHeight() * y/mainCamera.getViewportHeight();
     }
 
@@ -102,9 +104,8 @@ public abstract class AbstractTouchHandler {
     public abstract void onClick(View v);
     public abstract void onLongClick(View v);
 
-    public boolean doOnTouchDown(View v) {
-        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
-        for(IGameObject gameObject : ToDrawContainer.getAllReversed()) {
+    public boolean doOnTouchDown(Vector2f touchPoint) {
+        for(IGameObject gameObject : gameObjectsForTouchChecking()) {
             if(doOnTouchDownHelper(gameObject, touchPoint)) {
                 return true;
             }
@@ -126,12 +127,10 @@ public abstract class AbstractTouchHandler {
                 return true;
             }
         }
-
         return false;
     }
 
-    public boolean doOnTouchMove(View v) {
-        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+    public boolean doOnTouchMove(Vector2f touchPoint) {
         if(currentlySelectedObject!=null) {
             return currentlySelectedObject.getOnTouchListener()!=null
                     && currentlySelectedObject.getOnTouchListener().onTouchMove(currentlySelectedObject, touchPoint);
@@ -139,8 +138,7 @@ public abstract class AbstractTouchHandler {
         return false;
     }
 
-    public boolean doOnTouchUp(View v) {
-        Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+    public boolean doOnTouchUp(Vector2f touchPoint) {
         if(currentlySelectedObject!=null) {
             boolean touchHandled, clickHandled;
             touchHandled = (currentlySelectedObject.getOnTouchListener() != null
@@ -156,5 +154,6 @@ public abstract class AbstractTouchHandler {
         return false;
     }
 
+    public abstract ArrayList<IGameObject> gameObjectsForTouchChecking();
     public abstract ViewMode getViewMode();
 }

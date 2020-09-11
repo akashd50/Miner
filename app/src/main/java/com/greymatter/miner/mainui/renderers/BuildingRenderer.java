@@ -24,6 +24,6 @@ public class BuildingRenderer extends AbstractRenderer {
 //                .setVertices(planet.getRigidBody().asPolygonRB().getTransformedVertices()).build();
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.camera);
+        ToDrawContainer.onDrawFrame(MainGLObjectsHelper.gameCamera);
     }
 }

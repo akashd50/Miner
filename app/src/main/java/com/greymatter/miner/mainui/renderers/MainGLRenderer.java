@@ -27,9 +27,11 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
         GLES30.glViewport(0,0,width,height);
 
         MainGLObjectsHelper.onSurfaceChanged(width, height);
-        MainGLTouchHelper.onSurfaceChanged(MainGLObjectsHelper.camera);
-        MainGLObjectsHelper.camera.translateTo(new Vector3f(0f,0f,20f));
-        MainGLObjectsHelper.camera.setZoomValue(5f);
+        MainGLTouchHelper.onSurfaceChanged();
+        MainGLObjectsHelper.gameCamera.translateTo(new Vector3f(0f,0f,20f));
+        MainGLObjectsHelper.UICamera.translateTo(new Vector3f(0f,0f,20f));
+
+        MainGLObjectsHelper.gameCamera.setZoomValue(5f);
     }
 
     @Override
