@@ -13,20 +13,13 @@ public class ToDrawContainer {
     private static Comparator<IGameObject> comparator = new Comparator<IGameObject>() {
         @Override
         public int compare(IGameObject o1, IGameObject o2) {
-            if(o1.getTransforms().getTranslation().z > o2.getTransforms().getTranslation().z) {
-                return 1;
-            }else if(o2.getTransforms().getTranslation().z > o1.getTransforms().getTranslation().z){
-                return -1;
-            }else{
-                return 0;
-            }
+            return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
         }
     };
 
     public static synchronized void add(IGameObject gameObject) {
         gameObjects.put(gameObject.getId(), gameObject);
         gameObjects.sort(comparator);
-        //TODO: Look into fixing the broken sorting when touch handling.
     }
 
     public static synchronized void remove(String id) {
@@ -44,7 +37,7 @@ public class ToDrawContainer {
         ToDrawContainer.applyTransformations();
 
         gameObjects.toList().forEach((gameObject) -> {
-                onDrawFrame(gameObject, camera);
+            onDrawFrame(gameObject, camera);
         });
     }
 
@@ -54,9 +47,13 @@ public class ToDrawContainer {
         // on app start from the main thread
 
         if(gameObject.shouldDraw()) {
+            gameObject.getBackgroundChildren().forEach(child -> {
+                onDrawFrame(child, camera);
+            });
 
             gameObject.getDrawable().getRenderer().render(camera, gameObject);
-            gameObject.getChildren().toList().forEach(child -> {
+
+            gameObject.getForegroundChildren().forEach(child -> {
                 onDrawFrame(child, camera);
             });
         }

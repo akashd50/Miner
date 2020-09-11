@@ -22,10 +22,11 @@ public class GamePad extends GameObject {
 
     private void initialize() {
         this.addTag(Tag.UI_OBJECT);
-        this.moveTo(0f,0f, ZHelper.OVER_FRONT+1f);
+        this.moveTo(0f,0f, ZHelper.OVER_FRONT+2f).scaleTo(0.07f,0.07f);
 
         this.padBackground = new GenericObject(DrawableDef.create(DrawableDef.GAME_PAD_BACKGROUND));
-        this.padBackground.moveTo(0f,0f,ZHelper.OVER_FRONT);
+        this.padBackground.moveTo(0f,0f,ZHelper.OVER_FRONT+1f).scaleTo(0.3f,0.3f);
+        this.addChild(padBackground.getId(), padBackground);
 
         setOnTouchListener(new OnTouchListener() {
             @Override

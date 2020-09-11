@@ -13,13 +13,7 @@ public class UIToDrawContainer {
     private static Comparator<IGameObject> comparator = new Comparator<IGameObject>() {
         @Override
         public int compare(IGameObject o1, IGameObject o2) {
-            if(o1.getTransforms().getTranslation().z > o2.getTransforms().getTranslation().z) {
-                return 1;
-            }else if(o2.getTransforms().getTranslation().z > o1.getTransforms().getTranslation().z){
-                return -1;
-            }else{
-                return 0;
-            }
+            return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
         }
     };
 
@@ -54,9 +48,13 @@ public class UIToDrawContainer {
         // on app start from the main thread
 
         if(gameObject.shouldDraw()) {
+            gameObject.getBackgroundChildren().forEach(child -> {
+                onDrawFrame(child, camera);
+            });
 
             gameObject.getDrawable().getRenderer().render(camera, gameObject);
-            gameObject.getChildren().toList().forEach(child -> {
+
+            gameObject.getForegroundChildren().forEach(child -> {
                 onDrawFrame(child, camera);
             });
         }

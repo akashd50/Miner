@@ -2,14 +2,20 @@ package com.greymatter.miner.game.objects.base;
 
 import com.greymatter.miner.opengl.objects.Transforms;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GTransformable extends GHierarchical {
     private Transforms transforms;
+    private ArrayList<IGameObject> backgroundChildren, foregroundChildren;
     public GTransformable(String id) {
         super(id);
         this.transforms = new Transforms();
+        backgroundChildren = new ArrayList<>();
+        foregroundChildren = new ArrayList<>();
     }
 
     public Transforms getTransforms() {
@@ -20,7 +26,26 @@ public abstract class GTransformable extends GHierarchical {
     public IGameObject addChild(String id, IGameObject object) {
         super.addChild(id, object);
         this.transforms.addChild(object.getTransforms());
+        this.addChildHelper(object);
         return this;
+    }
+
+    private void addChildHelper(IGameObject object) {
+        Comparator<IGameObject> listC = new Comparator<IGameObject>() {
+            @Override
+            public int compare(IGameObject o1, IGameObject o2) {
+                return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
+            }
+        };
+
+        if (object.getTransforms().getTranslation().z > transforms.getTranslation().z) {
+            foregroundChildren.add(object);
+        }else{
+            backgroundChildren.add(object);
+        }
+
+        foregroundChildren.sort(listC);
+        backgroundChildren.sort(listC);
     }
 
     public IGameObject moveBy(Vector2f moveTo) {
@@ -86,6 +111,14 @@ public abstract class GTransformable extends GHierarchical {
     public IGameObject scaleFromParent(boolean val) {
         transforms.copyScaleFromParent(val);
         return this;
+    }
+
+    public ArrayList<IGameObject> getBackgroundChildren() {
+        return backgroundChildren;
+    }
+
+    public ArrayList<IGameObject> getForegroundChildren() {
+        return foregroundChildren;
     }
 
     public Vector3f getLocation() {

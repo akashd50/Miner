@@ -46,6 +46,8 @@ public interface IGameObject {
     IGameObject translationFromParent(boolean val);
     IGameObject rotationFromParent(boolean val);
     IGameObject scaleFromParent(boolean val);
+    ArrayList<IGameObject> getBackgroundChildren();
+    ArrayList<IGameObject> getForegroundChildren();
     Vector3f getLocation();
 
     boolean isClicked(Vector2f pointer);

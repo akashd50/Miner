@@ -41,7 +41,7 @@ public class HashMapE<K,V> extends HashMap<K,V> {
     public void sort(Comparator<V> comparator) {
         toList();
         toList.sort(comparator);
-        reversedList = new ArrayList<>(toList);
+        reversedList = new ArrayList<>();
         for(int i = toList.size()-1; i >= 0; i--) {
             reversedList.add(toList.get(i));
         }
