@@ -12,6 +12,7 @@ import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
+import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -37,14 +38,6 @@ public class UITouchHandler extends AbstractTouchHandler {
         switch (v.getId()) {
             case R.id.done_building_placement:
                 ViewModeManager.switchToGeneralMode(getTouchHelper(), getMainCamera());
-                break;
-            case R.id.move_left:
-                Vector3f left = VectorHelper.getNormal(getMainCamera().getUpVector());
-                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, 0.01f));
-                break;
-            case R.id.move_right:
-                Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-                GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(right, 0.01f));
                 break;
             case R.id.items_menu:
                 View view = LayoutHelper.loadLayout(R.layout.items_dialog);
@@ -106,7 +99,11 @@ public class UITouchHandler extends AbstractTouchHandler {
     }
 
     private boolean doOnTouchMoveExtra() {
-
+//        Vector3f left = VectorHelper.getNormal(AppServices.getGameCamera().getUpVector());
+//        //Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
+//
+//        GamePad gamePad = (GamePad)GameObjectsContainer.get("GAME_PAD");
+//        GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, gamePad.getFactor().x*0.001f));
         return false;
     }
 

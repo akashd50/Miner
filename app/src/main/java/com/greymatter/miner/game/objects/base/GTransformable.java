@@ -113,6 +113,10 @@ public abstract class GTransformable extends GHierarchical {
         return this;
     }
 
+    public void onTransformsChanged() {
+
+    }
+
     public ArrayList<IGameObject> getBackgroundChildren() {
         return backgroundChildren;
     }

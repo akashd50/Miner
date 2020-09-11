@@ -23,4 +23,9 @@ public class MaterialLoader extends Loader {
         MaterialContainer.get(MaterialDef.MINER_MATERIAL).asAnimatedTexturedMaterial()
                 .setAnimationHandler(new IntegerValueAnimator().withFPS(6).withTotalFrames(2));
     }
+
+    @Override
+    public void onPostSurfaceInitializationHelper() {
+
+    }
 }

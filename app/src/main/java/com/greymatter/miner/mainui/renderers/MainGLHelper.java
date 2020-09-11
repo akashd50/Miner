@@ -27,6 +27,9 @@ public class MainGLHelper {
 
             ViewModeManager.switchToGeneralMode(touchHelper, AppServices.getGameCamera());
             ViewModeManager.setActiveUITouchHandler(touchHelper, AppServices.getUICamera());
+
+            Loader.onPostSurfaceInitialization();
+
             initialSetup = false;
         }else{
             gameCamera.onSurfaceChanged(width,height);

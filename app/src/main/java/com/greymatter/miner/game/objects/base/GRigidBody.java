@@ -57,4 +57,9 @@ public abstract class GRigidBody extends GTransformable {
     public boolean isClicked(Vector2f pointer) {
         return shouldCheckClicks() && rigidBody != null && rigidBody.isClicked(pointer);
     }
+
+    @Override
+    public void onTransformsChanged() {
+        rigidBody.onTransformsChanged();
+    }
 }

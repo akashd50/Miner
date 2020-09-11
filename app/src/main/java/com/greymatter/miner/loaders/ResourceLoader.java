@@ -36,4 +36,9 @@ public class ResourceLoader extends Loader {
         //ActiveResourcesContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I).asResourceBlock());
         //ToDrawContainer.add(GameObjectsContainer.get(ObjId.COAL_BLOCK_I));
     }
+
+    @Override
+    public void onPostSurfaceInitializationHelper() {
+
+    }
 }

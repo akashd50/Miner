@@ -321,12 +321,13 @@ public class Transforms {
     }
 
     public void onTransformsChanged() {
-        if(parent!=null) parent.transformationsUpdated = true;
+        if(parent!=null && !parent.transformationsUpdated) {
+            parent.onTransformsChanged();
+        }
 
         transformationsUpdated = true;
         shouldTransformVertices = true;
-        linkedRigidBody.onTransformsChanged();
-        linkedDrawable.onTransformsChanged();
+        linkedGameObject.onTransformsChanged();
     }
 
     public ArrayList<Vector3f> getTransformedVertices(ArrayList<Vector3f> vertices) {

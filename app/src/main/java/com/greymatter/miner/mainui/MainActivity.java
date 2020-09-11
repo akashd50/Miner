@@ -17,7 +17,6 @@ import com.greymatter.miner.mainui.renderers.MainGLRenderer;
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
     private MainGLRenderer glRenderer;
-    private Button left, right;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         AppServices.setContext(this);
         AppServices.setGLSurfaceView(surface);
         AppServices.setMainGLRenderer(glRenderer);
-
-        left = findViewById(R.id.move_left);
-        right = findViewById(R.id.move_right);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -79,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.items_menu).setOnClickListener(listener);
         findViewById(R.id.done_building_placement).setOnClickListener(listener);
-        left.setOnClickListener(listener);
-        right.setOnClickListener(listener);
     }
 
 

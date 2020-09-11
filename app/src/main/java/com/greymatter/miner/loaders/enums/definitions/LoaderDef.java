@@ -5,6 +5,7 @@ import com.greymatter.miner.loaders.MaterialLoader;
 import com.greymatter.miner.loaders.ResourceLoader;
 import com.greymatter.miner.loaders.ShaderLoader;
 import com.greymatter.miner.loaders.ShapesLoader;
+import com.greymatter.miner.loaders.UILoader;
 import com.greymatter.miner.loaders.WorldLoader;
 
 public enum LoaderDef {
@@ -12,6 +13,7 @@ public enum LoaderDef {
     MATERIAL_LOADER,
     SHAPES_LOADER,
     WORLD_LOADER,
+    UI_LOADER,
     RESOURCE_LOADER;
 
     public static Loader create(LoaderDef type) {
@@ -26,6 +28,8 @@ public enum LoaderDef {
                 return new MaterialLoader();
             case SHAPES_LOADER:
                 return new ShapesLoader();
+            case UI_LOADER:
+                return new UILoader();
             default:
                 return null;
         }

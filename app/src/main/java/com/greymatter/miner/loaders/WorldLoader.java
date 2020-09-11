@@ -122,8 +122,6 @@ public class WorldLoader extends Loader {
                         .addTag(Tag.PLACABLE_GAME_BUILDING)
                         .scaleTo(6f,3f).moveBy(20f,2f,ZHelper.FRONT));
 
-        GameObjectsContainer.add("GAME_PAD", new GamePad(DrawableDef.create(DrawableDef.GAME_PAD_FRONT)));
-
         updateContainer();
         updatePhysicsProperties();
     }
@@ -148,8 +146,6 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.get("MINE").asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
 
         ToDrawContainer.add(GameObjectsContainer.get("MINE"));
-
-        UIToDrawContainer.add(GameObjectsContainer.get("GAME_PAD"));
     }
 
     public void updatePhysicsProperties() {
@@ -187,5 +183,10 @@ public class WorldLoader extends Loader {
                 CollisionSystemContainer.add(iGameObject.getRigidBody());
             }
         });
+    }
+
+    @Override
+    public void onPostSurfaceInitializationHelper() {
+
     }
 }

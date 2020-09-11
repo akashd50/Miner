@@ -12,7 +12,6 @@ import com.greymatter.miner.physics.objects.rb.CircularRB;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import com.greymatter.miner.physics.objects.rb.RectangularRB;
-
 import java.util.ArrayList;
 
 public abstract class GameObject extends GRigidBody {
@@ -123,6 +122,12 @@ public abstract class GameObject extends GRigidBody {
         return this;
     }
 
+    @Override
+    public void onTransformsChanged() {
+        super.onTransformsChanged();
+        objectDrawable.onTransformsChanged();
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -159,19 +164,15 @@ public abstract class GameObject extends GRigidBody {
     public GameBuilding asGameBuilding() {
         return (GameBuilding)this;
     }
-
     public GameObjectWGL asGameObjectWGL() {
         return (GameObjectWGL)this;
     }
-
     public GameLight asGameLight() {
         return (GameLight) this;
     }
-
     public GenericObject asGenericObject() {
         return (GenericObject) this;
     }
-
     public ResourceBlock asResourceBlock() {
         return (ResourceBlock) this;
     }

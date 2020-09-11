@@ -10,4 +10,9 @@ public class ShapesLoader extends Loader {
             ShapeContainer.add(ShapeDef.create(ids[i]));
         }
     }
+
+    @Override
+    public void onPostSurfaceInitializationHelper() {
+
+    }
 }

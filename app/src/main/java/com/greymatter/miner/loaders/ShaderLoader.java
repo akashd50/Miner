@@ -10,4 +10,9 @@ public class ShaderLoader extends Loader {
             ShaderContainer.addShader(ShaderDef.create(ids[i]));
         }
     }
+
+    @Override
+    public void onPostSurfaceInitializationHelper() {
+
+    }
 }

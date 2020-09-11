@@ -48,6 +48,7 @@ public interface IGameObject {
     IGameObject scaleFromParent(boolean val);
     ArrayList<IGameObject> getBackgroundChildren();
     ArrayList<IGameObject> getForegroundChildren();
+    void onTransformsChanged();
     Vector3f getLocation();
 
     boolean isClicked(Vector2f pointer);
