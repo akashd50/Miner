@@ -6,7 +6,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.vecmath.Vector3f;
 import android.opengl.GLES30;
-import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
+
 import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 
 public class MainGLRenderer implements GLSurfaceView.Renderer  {
@@ -19,19 +19,18 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
         GLES30.glEnable(GLES20.GL_DEPTH_TEST);
 
-        MainGLObjectsHelper.initialize();
+        MainGLHelper.onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES30.glViewport(0,0,width,height);
 
-        MainGLObjectsHelper.onSurfaceChanged(width, height);
-        MainGLTouchHelper.onSurfaceChanged();
-        MainGLObjectsHelper.gameCamera.translateTo(new Vector3f(0f,0f,20f));
-        MainGLObjectsHelper.UICamera.translateTo(new Vector3f(0f,0f,20f));
+        MainGLHelper.onSurfaceChanged(width, height);
+        MainGLHelper.gameCamera.translateTo(new Vector3f(0f,0f,20f));
+        MainGLHelper.UICamera.translateTo(new Vector3f(0f,0f,20f));
 
-        MainGLObjectsHelper.gameCamera.setZoomValue(5f);
+        MainGLHelper.gameCamera.setZoomValue(5f);
     }
 
     @Override
@@ -40,6 +39,6 @@ public class MainGLRenderer implements GLSurfaceView.Renderer  {
     }
 
     public void onDestroy() {
-        MainGLObjectsHelper.onDestroy();
+        MainGLHelper.onDestroy();
     }
 }

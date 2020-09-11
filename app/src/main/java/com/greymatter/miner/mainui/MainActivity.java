@@ -3,9 +3,7 @@ package com.greymatter.miner.mainui;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,8 +11,8 @@ import android.widget.Button;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
+import com.greymatter.miner.mainui.renderers.MainGLHelper;
 import com.greymatter.miner.mainui.renderers.MainGLRenderer;
-import com.greymatter.miner.mainui.touch.MainGLTouchHelper;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView surface;
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                MainGLTouchHelper.onTouch(v, event);
+                MainGLHelper.onTouch(v, event);
                 return true;
             }
         };
@@ -67,14 +65,14 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainGLTouchHelper.onClick(v);
+                MainGLHelper.onClick(v);
             }
         };
 
         View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                MainGLTouchHelper.onLongClick(v);
+                MainGLHelper.onLongClick(v);
                 return false;
             }
         };
