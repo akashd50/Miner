@@ -1,6 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.objects.GameInstanceGroup;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -47,15 +48,19 @@ public class ToDrawContainer {
         // on app start from the main thread
 
         if(gameObject.shouldDraw()) {
-            gameObject.getBackgroundChildren().forEach(child -> {
-                onDrawFrame(child, camera);
-            });
+            if(!(gameObject instanceof GameInstanceGroup)) {
+                gameObject.getBackgroundChildren().forEach(child -> {
+                    onDrawFrame(child, camera);
+                });
+            }
 
             gameObject.getDrawable().getRenderer().render(camera, gameObject);
 
-            gameObject.getForegroundChildren().forEach(child -> {
-                onDrawFrame(child, camera);
-            });
+            if(!(gameObject instanceof GameInstanceGroup)) {
+                gameObject.getForegroundChildren().forEach(child -> {
+                    onDrawFrame(child, camera);
+                });
+            }
         }
     }
 

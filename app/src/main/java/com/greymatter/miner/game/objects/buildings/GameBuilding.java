@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.animators.BooleanAnimator;
+import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -17,28 +18,23 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObjectWGL implements OnTouchListener, OnClickListener {
-    private BooleanAnimator snapAnimator;
-    private Vector3f snappingPoint;
+    private FloatValueAnimator snapAnimator;
+    private Vector3f snappingPoint, startingPoint;
     public GameBuilding(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
     private void initialize() {
-        snapAnimator = new BooleanAnimator();
-        snapAnimator.withFPS(60);
-        snapAnimator.toAndFro(true).setToAnimateObject(this);
+        startingPoint = getLocation();
+        snapAnimator = new FloatValueAnimator();
+        snapAnimator.withFPS(30).setSingleCycle(true).setToAnimateObject(this);
+        snapAnimator.setPerFrameIncrement(0.1f);
         snapAnimator.pause();
         snapAnimator.setOnAnimationFrameHandler((object, animator) -> {
-            Vector3f dir = VectorHelper.sub(snappingPoint, getLocation());
-            dir.normalize();
-            dir.z = 0f;
-            object.getTransforms().translateBy(VectorHelper.multiply(dir, 1f));
-            onSnapAnimationFrame();
-            if(VectorHelper.getDistanceWithSQRT(object.getTransforms().getTranslation(), snappingPoint) <= 0.05f) {
-                snapAnimator.pause();
-                onSnapAnimationComplete();
-            }
+            float x = (startingPoint.x * (1f - animator.getUpdatedFloat()) + snappingPoint.x * animator.getUpdatedFloat());
+            float y = (startingPoint.y * (1f - animator.getUpdatedFloat()) + snappingPoint.y * animator.getUpdatedFloat());
+            object.moveTo(x,y);
         });
 
         this.setOnTouchListener(this);
@@ -65,7 +61,7 @@ public abstract class GameBuilding extends GameObjectWGL implements OnTouchListe
         snappingPoint.x+= getTransforms().getScale().y * normal.x;
         snappingPoint.y+= getTransforms().getScale().y * normal.y;
 
-        snapAnimator.resume();
+        snapAnimator.startFrom(0f,true).resume();
         return this;
     }
 
@@ -74,12 +70,9 @@ public abstract class GameBuilding extends GameObjectWGL implements OnTouchListe
         float px = objectTransforms.getTranslation().x + objectTransforms.getScale().y * (float) Math.cos(angleRad);
         float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
         snappingPoint = new Vector3f(px, py, 0f);
-        snapAnimator.resume();
+        snapAnimator.startFrom(0f,true).resume();
         return this;
     }
-
-    public void onSnapAnimationComplete() {}
-    public void onSnapAnimationFrame() {}
 
     @Override
     public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {

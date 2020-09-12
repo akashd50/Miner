@@ -37,7 +37,7 @@ public class UITouchHandler extends AbstractTouchHandler {
     public synchronized void onClick(View v) {
         switch (v.getId()) {
             case R.id.done_building_placement:
-                ViewModeManager.switchToGeneralMode(getTouchHelper(), getMainCamera());
+                ViewModeManager.switchToGeneralMode(getTouchHelper(), AppServices.getGameCamera());
                 break;
             case R.id.items_menu:
                 View view = LayoutHelper.loadLayout(R.layout.items_dialog);
@@ -61,7 +61,7 @@ public class UITouchHandler extends AbstractTouchHandler {
                     }
 
                     TouchEventBundle touchEventBundle = new TouchEventBundle().setObject(object);
-                    ViewModeManager.switchToBuildingMode(getTouchHelper(), getMainCamera());
+                    ViewModeManager.switchToBuildingMode(getTouchHelper(),  AppServices.getGameCamera());
                     ViewModeManager.getActiveTouchHandler().setTouchEventBundle(touchEventBundle);
 
                     selectionDialog.dismiss();
