@@ -26,6 +26,7 @@ import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
 import com.greymatter.miner.mainui.LayoutHelper;
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
@@ -45,7 +46,7 @@ public class WorldLoader extends Loader {
                 .scaleTo(299f,299f).moveTo(0f,-300.5f, ZHelper.OVER_FRONT));
 
         GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
-                .scaleTo(4f,4f).moveTo(0f,5f,ZHelper.FRONT_MID));
+                .scaleTo(4f,4f).moveTo(-7f,5f,ZHelper.FRONT_MID));
 
         GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(DrawableDef.MAIN_CHARACTER))
                 .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,ZHelper.FRONT)
@@ -109,7 +110,7 @@ public class WorldLoader extends Loader {
                                             return true;
                                         }))
                 .setSignal((GameSignal) new GameSignal().setOnClickListener(object -> {
-                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name()),
+                   LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name()),
                             ((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name())).getCurrentlyTracking()));
                     return true;
                 })));
@@ -118,9 +119,7 @@ public class WorldLoader extends Loader {
                 .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT-1)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
-        GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1))
-                        .addTag(Tag.PLACABLE_GAME_BUILDING)
-                        .scaleTo(6f,3f).moveBy(20f,2f,ZHelper.FRONT));
+        GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1)));
 
         updateContainer();
         updatePhysicsProperties();

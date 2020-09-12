@@ -99,11 +99,6 @@ public class UITouchHandler extends AbstractTouchHandler {
     }
 
     private boolean doOnTouchMoveExtra() {
-//        Vector3f left = VectorHelper.getNormal(AppServices.getGameCamera().getUpVector());
-//        //Vector3f right = VectorHelper.multiply(VectorHelper.getNormal(getMainCamera().getUpVector()), -1f);
-//
-//        GamePad gamePad = (GamePad)GameObjectsContainer.get("GAME_PAD");
-//        GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(left, gamePad.getFactor().x*0.001f));
         return false;
     }
 

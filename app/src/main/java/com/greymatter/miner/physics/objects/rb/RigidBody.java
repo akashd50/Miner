@@ -60,7 +60,6 @@ public abstract class RigidBody {
 
     public RigidBody setTransforms(Transforms transforms) {
         this.transforms = transforms;
-        transforms.setLinkedRigidBody(this);
         return this;
     }
 

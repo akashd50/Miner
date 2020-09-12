@@ -14,8 +14,6 @@ import javax.vecmath.Vector3f;
 public class Transforms {
     private Vector3f translation, rotation, scale, translationTransformationOffset;
     private float[] modelMatrix;
-    private Drawable linkedDrawable;
-    private RigidBody linkedRigidBody;
     private GameObject linkedGameObject;
     private boolean transformationsUpdated, shouldTransformVertices, copyTranslationFromParent,
                     copyRotationFromParent, copyScaleFromParent;
@@ -246,16 +244,6 @@ public class Transforms {
         return this;
     }
 
-    public Transforms setLinkedDrawable(Drawable linkedDrawable) {
-        this.linkedDrawable = linkedDrawable;
-        return this;
-    }
-
-    public Transforms setLinkedRigidBody(RigidBody linkedRigidBody) {
-        this.linkedRigidBody = linkedRigidBody;
-        return this;
-    }
-
     public Transforms setLinkedGameObject(GameObject linkedGameObject) {
         this.linkedGameObject = linkedGameObject;
         return this;
@@ -321,13 +309,20 @@ public class Transforms {
     }
 
     public void onTransformsChanged() {
-        if(parent!=null && !parent.transformationsUpdated) {
-            parent.onTransformsChanged();
+        if(parent!=null) {
+            parent.setTransformationsUpdated(true);
         }
 
         transformationsUpdated = true;
         shouldTransformVertices = true;
         linkedGameObject.onTransformsChanged();
+    }
+
+    private void setTransformationsUpdated(boolean val) {
+        transformationsUpdated = val;
+        if(parent!=null) {
+            parent.setTransformationsUpdated(val);
+        }
     }
 
     public ArrayList<Vector3f> getTransformedVertices(ArrayList<Vector3f> vertices) {

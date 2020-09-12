@@ -114,16 +114,23 @@ public abstract class AbstractTouchHandler {
     }
 
     private boolean doOnTouchDownHelper(IGameObject gameObject, Vector2f touchPoint) {
-        for(IGameObject child : gameObject.getChildren().toList()) {
+        for(IGameObject child : gameObject.getForegroundChildren()) {
             if(doOnTouchDownHelper(child, touchPoint)) {
                 return true;
             }
         }
+
         if(gameObject.isClicked(touchPoint)) {
             gameObject.setTouchDownOffset(VectorHelper.sub(touchPoint, VectorHelper.toVector2f(gameObject.getLocation())));
 
             if(gameObject.getOnTouchListener() != null && gameObject.getOnTouchListener().onTouchDown(gameObject, touchPoint)) {
                 currentlySelectedObject = gameObject;
+                return true;
+            }
+        }
+
+        for(IGameObject child : gameObject.getBackgroundChildren()) {
+            if(doOnTouchDownHelper(child, touchPoint)) {
                 return true;
             }
         }

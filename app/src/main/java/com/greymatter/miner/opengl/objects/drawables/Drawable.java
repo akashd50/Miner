@@ -48,7 +48,6 @@ public abstract class Drawable {
 
     public Drawable setTransforms(Transforms transforms) {
         this.transforms = transforms;
-        this.transforms.setLinkedDrawable(this);
         return this;
     }
 
