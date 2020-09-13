@@ -38,7 +38,8 @@ public abstract class GTransformable extends GHierarchical {
             }
         };
 
-        if (object.getTransforms().getTranslation().z > transforms.getTranslation().z) {
+        if (object.getTransforms().getTranslation().z > transforms.getTranslation().z
+        || (object.getTransforms().isCopyTranslationFromParent() && object.getTransforms().getTranslation().z > 0f)) {
             foregroundChildren.add(object);
         }else{
             backgroundChildren.add(object);
@@ -46,6 +47,16 @@ public abstract class GTransformable extends GHierarchical {
 
         foregroundChildren.sort(listC);
         backgroundChildren.sort(listC);
+        //TODO: Fix the list not sorting if transforms are changed after the fact
+    }
+
+    private void reSortChildren() {
+        foregroundChildren.clear();
+        backgroundChildren.clear();
+
+        for (IGameObject iGameObject : getChildren().toList()) {
+            addChildHelper(iGameObject);
+        }
     }
 
     public IGameObject moveBy(Vector2f moveTo) {
@@ -60,11 +71,13 @@ public abstract class GTransformable extends GHierarchical {
 
     public IGameObject moveBy(float x, float y, float z) {
         transforms.translateBy(x,y,z);
+        reSortChildren();
         return this;
     }
 
     public IGameObject moveBy(Vector3f moveTo) {
         transforms.translateBy(moveTo);
+        reSortChildren();
         return this;
     }
 
@@ -73,18 +86,20 @@ public abstract class GTransformable extends GHierarchical {
         return this;
     }
 
+    public IGameObject moveTo(float x, float y, float z) {
+        transforms.translateTo(x,y,z);
+        reSortChildren();
+        return this;
+    }
+
     public IGameObject moveTo(Vector3f moveTo) {
         transforms.translateTo(moveTo);
+        reSortChildren();
         return this;
     }
 
     public IGameObject moveTo(float x, float y) {
         transforms.translateTo(x,y);
-        return this;
-    }
-
-    public IGameObject moveTo(float x, float y, float z) {
-        transforms.translateTo(x,y,z);
         return this;
     }
 

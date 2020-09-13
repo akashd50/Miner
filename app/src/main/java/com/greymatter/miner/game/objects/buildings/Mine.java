@@ -23,6 +23,7 @@ public class Mine extends GameBuilding {
         this.addTag(Tag.PLACABLE_GAME_BUILDING).scaleTo(6f,3f).moveBy(30f,2f,ZHelper.FRONT);
 
         minerParking = new MinerParking(DrawableDef.create(DrawableDef.COAL_BLOCK_I));
+        minerParking.setRectangularRB();
         minerParking.moveTo(0f, 0f, -2f);
         minerParking.translationFromParent(true);
         minerParking.setClosedPoint(0f, 0f).setOpenPoint(0f, -6f);

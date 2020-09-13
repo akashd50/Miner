@@ -13,6 +13,7 @@ import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
+import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
@@ -61,6 +62,7 @@ public interface IGameObject {
     IGameObject setRB(RigidBody rigidBody);
 
     void onFrameUpdate();
+    void onDrawFrame(Camera camera);
     IGameObject addTag(Tag tag);
     IGameObject shouldDraw(boolean shouldDraw);
     IGameObject setAnimator(ValueAnimator valueAnimator);
@@ -70,6 +72,7 @@ public interface IGameObject {
     int getNumTags();
     boolean shouldDraw();
     boolean shouldCheckClicks();
+    GameObject shouldCheckClicks(boolean value);
     boolean hasTag(Tag tag);
     Drawable getDrawable();
     RigidBody getRigidBody();

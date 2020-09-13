@@ -1,6 +1,7 @@
 package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.game.GameInstance;
+import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Instance;
 import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.physics.objects.rb.CircularRB;
@@ -18,6 +19,13 @@ public class GameInstanceGroup extends GameObject {
 
     private void initialize() {
         this.shouldCheckClicks(false);
+    }
+
+    @Override
+    public void onDrawFrame(Camera camera) {
+        if(shouldDraw()) {
+            getDrawable().getRenderer().render(camera, this);
+        }
     }
 
     public GameInstance addInstance() {

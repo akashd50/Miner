@@ -23,7 +23,6 @@ public class GameDialog extends GameNotification {
         setButtonI(new GameButton(DrawableDef.create(DrawableDef.DIALOG_BUTTON_I)));
         setButtonII(new GameButton(DrawableDef.create(DrawableDef.DIALOG_BUTTON_II)));
         setDefaultScale(new Vector3f(2f,1.5f, 1f));
-        moveBy(0f,0f, 0f);
         addTag(Tag.DIALOG);
     }
 

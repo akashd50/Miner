@@ -7,6 +7,7 @@ import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
 import com.greymatter.miner.animators.ValueAnimator;
+import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.rb.CircularRB;
 import com.greymatter.miner.physics.objects.rb.GeneralRB;
@@ -42,6 +43,20 @@ public abstract class GameObject extends GRigidBody {
     public void onFrameUpdate() {
         if(valueAnimator != null) {
             valueAnimator.update();
+        }
+    }
+
+    public void onDrawFrame(Camera camera) {
+        onFrameUpdate();
+        if(shouldDraw) {
+            getBackgroundChildren().forEach(child -> {
+                child.onDrawFrame(camera);
+            });
+            objectDrawable.getRenderer().render(camera, this);
+
+            getForegroundChildren().forEach(child -> {
+                child.onDrawFrame(camera);
+            });
         }
     }
 

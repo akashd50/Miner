@@ -38,30 +38,14 @@ public class ToDrawContainer {
         ToDrawContainer.applyTransformations();
 
         gameObjects.toList().forEach((gameObject) -> {
-            onDrawFrame(gameObject, camera);
+            gameObject.onDrawFrame(camera);
         });
     }
 
     private static synchronized void onDrawFrame(IGameObject gameObject, Camera camera) {
-        gameObject.onFrameUpdate();
+        //gameObject.onFrameUpdate();
         //TODO: look into moving the frame update logic into a separate thread that is initialized
         // on app start from the main thread
-
-        if(gameObject.shouldDraw()) {
-            if(!(gameObject instanceof GameInstanceGroup)) {
-                gameObject.getBackgroundChildren().forEach(child -> {
-                    onDrawFrame(child, camera);
-                });
-            }
-
-            gameObject.getDrawable().getRenderer().render(camera, gameObject);
-
-            if(!(gameObject instanceof GameInstanceGroup)) {
-                gameObject.getForegroundChildren().forEach(child -> {
-                    onDrawFrame(child, camera);
-                });
-            }
-        }
     }
 
     public static IGameObject get(String id) {
