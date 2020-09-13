@@ -4,12 +4,10 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
-import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
-import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.game.objects.PlayerCharacter;
-import com.greymatter.miner.game.objects.buildings.GasPump;
+import com.greymatter.miner.game.objects.buildings.OilDrill;
 import com.greymatter.miner.game.objects.buildings.Mine;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -26,7 +24,6 @@ import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
 import com.greymatter.miner.mainui.LayoutHelper;
-import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
@@ -115,8 +112,8 @@ public class WorldLoader extends Loader {
                     return true;
                 })));
 
-        GameObjectsContainer.add(MinerManager.getNextMinerId(), new GasPump(DrawableDef.create(DrawableDef.MINER_1))
-                .scaleTo(1.5f,1f).moveTo(-1f,2f, ZHelper.FRONT-1)
+        GameObjectsContainer.add(MinerManager.getNextMinerId(), new OilDrill(DrawableDef.create(DrawableDef.OIL_DRILL))
+                .scaleTo(4f,3f).moveTo(-1f,2f, ZHelper.FRONT-1)
                 .addTag(Tag.PLACABLE_GAME_BUILDING));
 
         GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1)));

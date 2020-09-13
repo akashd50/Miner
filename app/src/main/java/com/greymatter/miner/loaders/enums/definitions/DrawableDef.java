@@ -33,6 +33,8 @@ public enum DrawableDef {
     MINE_1(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.MINE_MATERIAL_I, ShaderDef.QUAD_SHADER),
     PIE_GRADIENT_I(DrawableType.RADIANT_GRADIENT, ShapeDef.PIE_45, MaterialDef.GRADIENT_COLOR_MATERIAL, ShaderDef.GRADIENT_SHADER),
 
+    OIL_DRILL(DrawableType.OBJ, ShapeDef.SIMPLE_QUAD, MaterialDef.OIL_DRILL_MATERIAL, ShaderDef.QUAD_SHADER),
+
     DIALOG_BUTTON_I(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),
     DIALOG_BUTTON_II(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),
     DIALOG_BUTTON_III(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),

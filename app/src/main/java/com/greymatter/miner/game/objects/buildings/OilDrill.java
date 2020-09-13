@@ -22,15 +22,15 @@ import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class GasPump extends GameBuilding {
+public class OilDrill extends GameBuilding {
     private GameInstanceGroup pipelineGroup, jointIndicators;
 
-    public GasPump(Drawable drawable) {
+    public OilDrill(Drawable drawable) {
         super(drawable.getId(), drawable);
         initialize();
     }
 
-    public GasPump(String id, Drawable drawable) {
+    public OilDrill(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
@@ -77,9 +77,10 @@ public class GasPump extends GameBuilding {
         super.onTransformsChanged();
 
         if(jointIndicators!=null) {
+            Vector3f scale = getTransforms().getScale();
             Vector3f directionToCenter = VectorHelper.sub(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getLocation(), getLocation());
             directionToCenter.normalize();
-            jointIndicators.getInstance(0).moveTo(getLocation().x + directionToCenter.x * 0.6f, getLocation().y + directionToCenter.y * 0.6f);
+            jointIndicators.getInstance(0).moveTo(getLocation().x - (scale.x-scale.x*0.30f) + directionToCenter.x * scale.x, getLocation().y + directionToCenter.y * scale.y);
         }
     }
 
