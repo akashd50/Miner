@@ -22,6 +22,10 @@ public abstract class GTransformable extends GHierarchical {
         return transforms;
     }
 
+    public void applyTransformations() {
+        transforms.applyTransformations();
+    }
+
     @Override
     public IGameObject addChild(String id, IGameObject object) {
         super.addChild(id, object);

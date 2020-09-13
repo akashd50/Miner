@@ -22,6 +22,9 @@ public class GameInstanceGroup extends GameObject {
     }
 
     @Override
+    public void applyTransformations() {}
+
+    @Override
     public void onDrawFrame(Camera camera) {
         if(shouldDraw()) {
             getDrawable().getRenderer().render(camera, this);

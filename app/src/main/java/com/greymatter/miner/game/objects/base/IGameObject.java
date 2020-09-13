@@ -34,6 +34,7 @@ public interface IGameObject {
     HashMapE<String, IGameObject> getChildren();
 
     Transforms getTransforms();
+    void applyTransformations();
     IGameObject moveBy(Vector2f moveTo);
     IGameObject moveBy(float x, float y);
     IGameObject moveBy(float x, float y, float z);

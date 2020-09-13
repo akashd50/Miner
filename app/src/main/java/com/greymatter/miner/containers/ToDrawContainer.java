@@ -31,7 +31,7 @@ public class ToDrawContainer {
     }
 
     public static synchronized void applyTransformations() {
-        gameObjects.toList().forEach(object -> {object.getTransforms().applyTransformations();});
+        gameObjects.toList().forEach(IGameObject::applyTransformations);
     }
 
     public static synchronized void onDrawFrame(Camera camera) {

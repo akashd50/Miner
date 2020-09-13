@@ -1,10 +1,9 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.AppServices;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.animators.ValueAnimator;
-import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.game.manager.GamePadController;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.helpers.ZHelper;
@@ -13,10 +12,9 @@ import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public class GamePad extends GameObject implements OnTouchListener, OnAnimationFrameHandler {
-    private GenericObject padBackground;
+    private GameObject padBackground, currentControllableObject;
     private float movementRadius;
     private Vector2f defaultOnScreenLocation;
     private Vector2f factor;
@@ -44,11 +42,7 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
 
         this.addChild(padBackground.getId(), padBackground);
         this.setOnTouchListener(this);
-        this.setAnimator(new BooleanAnimator().withFPS(10).setOnAnimationFrameHandler(this));
-    }
-
-    public Vector2f getFactor() {
-        return factor;
+        this.setAnimator(new BooleanAnimator().withFPS(30).setOnAnimationFrameHandler(this));
     }
 
     public GamePad setDefaultOnScreenLocation(float x, float y) {
@@ -56,6 +50,19 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
         this.moveTo(defaultOnScreenLocation);
         padBackground.moveTo(defaultOnScreenLocation);
         return this;
+    }
+
+    public GamePad setCurrentControllableObject(GameObject currentControllableObject) {
+        this.currentControllableObject = currentControllableObject;
+        return this;
+    }
+
+    public Vector2f getFactor() {
+        return factor;
+    }
+
+    public GameObject getCurrentControllableObject() {
+        return currentControllableObject;
     }
 
     @Override
@@ -75,8 +82,8 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
             float y = defaultOnScreenLocation.y + movementRadius * (float)Math.sin(angleToPoint);
             moveTo(x,y);
         }
-        factor.x = (defaultOnScreenLocation.x - getLocation().x)/movementRadius;
-        factor.y = (defaultOnScreenLocation.y - getLocation().y)/movementRadius;
+        factor.x = (getLocation().x - defaultOnScreenLocation.x)/movementRadius;
+        factor.y = (getLocation().y - defaultOnScreenLocation.y)/movementRadius;
         return true;
     }
 
@@ -90,8 +97,6 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
 
     @Override
     public void onAnimationFrame(GameObject object, ValueAnimator animator) {
-        Vector3f left = VectorHelper.getNormal(AppServices.getGameCamera().getUpVector());
-        GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps()
-                .updateVelocity(VectorHelper.multiply(left, getFactor().x*0.01f));
+        GamePadController.onGamePadAnimationFrame(this, object, animator);
     }
 }

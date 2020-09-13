@@ -63,4 +63,8 @@ public class MinerParking extends GameBuilding {
         getAnimator().asFloatValueAnimator().startFrom(1.0f,false);
         getAnimator().resume();
     }
+
+    public Miner getMiner() {
+        return miner;
+    }
 }
