@@ -7,9 +7,14 @@ import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.physics.objects.CollisionEvent;
+import com.greymatter.miner.physics.objects.rb.RigidBody;
+
+import javax.vecmath.Vector3f;
 
 public class GeneralRenderer extends AbstractRenderer {
     private long prevCountFinishTime;
@@ -31,19 +36,18 @@ public class GeneralRenderer extends AbstractRenderer {
 
         super.onDrawFrame();
 
-        Drawable planet = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getDrawable();
+        IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
         IGameObject mainCharacter = GameObjectsContainer.get("MAIN_CHARACTER");
-//        Drawable testLine = GameObjectsContainer.get(ObjId.TEST_LINE).getDrawable();
+        CollisionEvent collisionEvent = mainCharacter.getRigidBody().getLastCollisionEvent(planet.getRigidBody());
+        if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
+            Vector3f collPoint = collisionEvent.getCollisionPoint();
+            GameObjectsContainer.get("POINT").moveTo(collPoint.x, collPoint.y);
+            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(0, collPoint);
+            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(1, VectorHelper.add(collisionEvent.getLinkedObjectCollisionVector(), collPoint));
+        }
 
         /*<---------------------------------------update----------------------------------------->*/
-//        ArrayList<Vector3f> vertexData = new ArrayList<>();
-//        vertexData.add(mainCharacter.getTransforms().getTranslation());
-//        Vector3f accPoint = new Vector3f(mainCharacter.getTransforms().getTranslation());
-//        accPoint.add(VectorHelper.multiply(mainCharacter.getRigidBody().getRBProps().getVelocity(),40f));
-//        vertexData.add(accPoint);
 
-//        ((Line)testLine).setColor(new Vector4f(0f,1f,0f,1f)).setVertices(GameObjectsContainer.get(ObjId.OBJECT_NOTIFICATION).getChild(ObjId.DIALOG_BUTTON_I).getRigidBody().asPolygonRB().getTransformedVertices()).build();
-//        testLine.getTransforms().translateTo(new Vector3f(0f,0f,2f));
 
         /*<-----------------------------------------draw----------------------------------------->*/
         ToDrawContainer.onDrawFrame(AppServices.getGameCamera());

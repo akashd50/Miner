@@ -12,6 +12,7 @@ public enum ShapeDef {
     CIRCLE_SUB_I(ShapeType.OBJ, Path.CIRCLE_SUB_DIV_I, null, 0f,0f),
     PIE_45(ShapeType.PIE, null, null, 45f,1f),
     CIRCLE_EDGE(ShapeType.SHAPE_OUTLINE, null, ShapeDef.CIRCLE_SUB_III, 0.01f,0f),
+    DEFAULT(ShapeType.DEFAULT, null, null, 0f,0f),
     //PLANET_TREE_EDGE(Path.BOX, null, 0f,0f),
     SIMPLE_QUAD(ShapeType.QUAD, null, null, 1.0f,0f);
 
@@ -38,7 +39,8 @@ public enum ShapeDef {
                 return new Shape(id).loadPie(id.FLOAT_PARAM_I, id.FLOAT_PARAM_II).build();
             case SHAPE_OUTLINE:
                 return new Shape(id).loadEdgeOutline(ShapeContainer.get(id.SHAPE_PARAM_I), id.FLOAT_PARAM_I).build();
+            default:
+                return new Shape(id);
         }
-        return null;
     }
 }

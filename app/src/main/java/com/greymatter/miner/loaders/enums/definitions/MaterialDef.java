@@ -9,6 +9,7 @@ import com.greymatter.miner.opengl.objects.materials.textured.StaticTexturedMate
 import java.io.IOException;
 
 public enum MaterialDef {
+    DEFAULT_COLORED(MaterialType.DEFAULT_COLORED, null, null),
     GROUND_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.GROUND_I, null),
     ADD_MARKER_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.ADD_MARK, null),
     DIALOG_MATERIAL(MaterialType.STATIC_TEXTURED_MATERIAL, Path.DIALOG_I, null),
@@ -46,6 +47,8 @@ public enum MaterialDef {
                     e.printStackTrace();
                 }
             case STATIC_COLORED_MATERIAL:
+                return new StaticColoredMaterial(id);
+            case DEFAULT_COLORED:
                 return new StaticColoredMaterial(id);
             default:
                 return null;

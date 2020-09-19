@@ -116,8 +116,8 @@ public class Shape {
     }
 
     public Shape build() {
-        if(verticesArray == null) verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
-        if(uvsArray == null) uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
+        verticesArray = BufferHelper.vec3AsFloatArray(shapeVertices);
+        uvsArray = BufferHelper.vec2AsFloatArray(shapeUVs);
         return this;
     }
 

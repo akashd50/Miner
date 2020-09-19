@@ -24,10 +24,13 @@ import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
 import com.greymatter.miner.mainui.LayoutHelper;
+import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
+import com.greymatter.miner.opengl.objects.renderers.LineRenderer;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 
 import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 
 public class WorldLoader extends Loader {
     public void load() {
@@ -118,6 +121,13 @@ public class WorldLoader extends Loader {
 
         GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1)));
 
+        GameObjectsContainer.add("POINT",new GenericObject(DrawableDef.create(DrawableDef.COAL_BLOCK_I))
+                .scaleTo(0.2f,0.2f).moveTo(0f,0f,ZHelper.OVER_FRONT));
+
+        GameObjectsContainer.add("LINE", new GenericObject(new Line("LINE").addVertex(new Vector3f(-10f,5f,0f))
+                .addVertex(new Vector3f(10f,5f,0f)).build()).moveTo(0f,0f, ZHelper.OVER_FRONT));
+        //GameObjectsContainer.get("LINE").getDrawable().asLine());
+
         updateContainer();
         updatePhysicsProperties();
     }
@@ -142,6 +152,8 @@ public class WorldLoader extends Loader {
         GameObjectsContainer.get("MINE").asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
 
         ToDrawContainer.add(GameObjectsContainer.get("MINE"));
+        ToDrawContainer.add(GameObjectsContainer.get("POINT"));
+        ToDrawContainer.add(GameObjectsContainer.get("LINE"));
     }
 
     public void updatePhysicsProperties() {
@@ -151,7 +163,7 @@ public class WorldLoader extends Loader {
                 .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
         GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()).setPolygonRB().getRigidBody().isStaticObject(false)
-                .getRBProps().setMass(1.0f).setRestitution(0.1f);
+                .getRBProps().setMass(2.0f).setRestitution(0.1f);
 
         GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);

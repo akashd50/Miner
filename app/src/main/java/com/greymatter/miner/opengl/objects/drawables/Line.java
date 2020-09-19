@@ -1,8 +1,13 @@
 package com.greymatter.miner.opengl.objects.drawables;
 
+import com.greymatter.miner.Path;
 import com.greymatter.miner.ShaderConst;
 import com.greymatter.miner.helpers.BufferHelper;
 import com.greymatter.miner.helpers.GLBufferHelper;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
+import com.greymatter.miner.loaders.enums.definitions.ShapeDef;
+import com.greymatter.miner.opengl.objects.materials.colored.StaticColoredMaterial;
+import com.greymatter.miner.opengl.objects.renderers.LineRenderer;
 
 import java.util.ArrayList;
 
@@ -10,67 +15,64 @@ import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 public class Line extends Drawable {
-    private ArrayList<Vector3f> lineVertices;
-    private Vector4f lineColor;
-    private boolean dataUpdated;
+    private static final int maxVertices = 30;
     public Line(String id) {
         super(id);
-        lineVertices = new ArrayList<>();
-        lineColor = new Vector4f(1f,1f,1f,1f);
-        dataUpdated = false;
+        setMaterial(new StaticColoredMaterial(MaterialDef.DEFAULT_COLORED));
+        getMaterial().asColoredMaterial().addColor(ShaderConst.U_COLOR, new Vector4f(1f,0f,1f,1f));
+        setRenderer(new LineRenderer());
+        setShape(new Shape(ShapeDef.DEFAULT).build());
     }
 
-//    @Override
-//    public void onDrawFrame() {
-//        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
-//        ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, getTransforms().getModelMatrix());
-//        ShaderHelper.setUniformVec4(getShader(), ShaderConst.U_COLOR, lineColor);
-//
-//        GLES30.glLineWidth(10f);
-//        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, lineVertices.size());
-//
-//        GLBufferHelper.glUnbindVertexArray();
-//    }
-
     public Line addVertex(Vector3f toAdd) {
-        lineVertices.add(toAdd);
+        getShape().addVertex(toAdd).build();
+        updateVertexBufferData(0,getShape().getVerticesArray());
+        return this;
+    }
+
+    public Line setVertex(int i, Vector3f toAdd) {
+        getShape().getVerticesList().set(i,toAdd);
+        getShape().build();
+        updateVertexBufferData(0,getShape().getVerticesArray());
         return this;
     }
 
     public Line setColor(Vector4f color) {
-        this.lineColor = color;
+        getMaterial().asColoredMaterial().addColor(ShaderConst.U_COLOR, color);
         return this;
     }
 
     public Line addVertices(ArrayList<Vector3f> toAdd) {
-        lineVertices.addAll(toAdd);
+        getShape().addVertices(toAdd);
+        getShape().build();
+        updateVertexBufferData(0,getShape().getVerticesArray());
         return this;
     }
 
     public Line setVertices(ArrayList<Vector3f> newData) {
-        this.lineVertices.clear();
-        this.lineVertices.addAll(newData);
-        this.dataUpdated = true;
+        getShape().getVerticesList().clear();
+        getShape().addVertices(newData);
+        getShape().build();
+        updateVertexBufferData(0,getShape().getVerticesArray());
         return this;
     }
 
     public Line build() {
-        if(!dataUpdated) {
-            super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
-        }
-
+        super.setVertexArrayObject(GLBufferHelper.glGenVertexArray());
         GLBufferHelper.glBindVertexArray(getVertexArrayObject());
 
-        if(!dataUpdated) {
-            int vertexBuffer = GLBufferHelper.putDataIntoArrayBuffer(BufferHelper.vec3AsFloatArray(lineVertices),
-                    3, getRenderer().getShader(), ShaderConst.IN_POSITION);
-            super.setVertexBufferObject(vertexBuffer);
-        }else{
-            GLBufferHelper.updateArrayBufferData(getVertexBufferObject(), BufferHelper.vec3AsFloatArray(lineVertices),
-                                                                3,  getRenderer().getShader(), ShaderConst.IN_POSITION);
-        }
+        int vertexBuffer = GLBufferHelper.setUpEmptyArrayBuffer(maxVertices  * Path.SIZE_OF_FLOAT * 3, 3, getRenderer().getShader(), ShaderConst.IN_POSITION);
+        setVertexBufferObject(vertexBuffer);
+
         GLBufferHelper.glUnbindVertexArray();
-        this.dataUpdated = false;
+
+        updateVertexBufferData(0,getShape().getVerticesArray());
         return this;
+    }
+
+    private void updateVertexBufferData(int startIndex, float[] data) {
+        GLBufferHelper.glBindVertexArray(getVertexArrayObject());
+        GLBufferHelper.updateSubBufferData(getVertexBufferObject(), startIndex, data);
+        GLBufferHelper.glUnbindVertexArray();
     }
 }

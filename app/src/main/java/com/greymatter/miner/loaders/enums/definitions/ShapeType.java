@@ -4,5 +4,6 @@ public enum ShapeType {
     OBJ,
     PIE,
     SHAPE_OUTLINE,
-    QUAD
+    QUAD,
+    DEFAULT
 }

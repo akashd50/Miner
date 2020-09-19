@@ -26,15 +26,18 @@ public interface OnCollisionListener {
                 float e = Math.min(event.getLinkedObject().getRBProps().getRestitution(),
                         event.getAgainstObject().getRBProps().getRestitution());
                 float j = -(1 + e) * vectorAlongNormal;
-                j *= 1 / event.getLinkedObject().getRBProps().getMass() + 1 / event.getAgainstObject().getRBProps().getMass();
+                j *= event.getLinkedObject().getRBProps().getInverseMass() + event.getAgainstObject().getRBProps().getInverseMass();
 
                 Vector3f impulse = VectorHelper.multiply(event.getCollisionNormal(), j);
                 impulse.z = 0;
                 event.getLinkedObject().getRBProps().updateVelocity(impulse);
+                angularAdjustmentDueToGravity2(event, impulse, event.getLinkedObject());
+
                 if(!event.getAgainstObject().isStaticObject()) {
-                    event.getAgainstObject().getRBProps().updateVelocity(VectorHelper.multiply(impulse, -1f));
+                    Vector3f oppImpulse = VectorHelper.multiply(impulse, -1f);
+                    event.getAgainstObject().getRBProps().updateVelocity(oppImpulse);
+                    angularAdjustmentDueToGravity2(event, oppImpulse, event.getAgainstObject());
                 }
-                angularAdjustmentDueToGravity(event, impulse);
             }
         }
     }
@@ -44,10 +47,8 @@ public interface OnCollisionListener {
         Transforms againstTransforms = event.getAgainstObject().getTransforms();
         RBProps linkedRBProps = linked.getRBProps();
 
-        Vector3f directionToObjectCenter = VectorHelper.sub(linked.getTransforms().getTranslation(), event.getAgainstObjectCollisionPoint());
+        Vector3f directionToObjectCenter = VectorHelper.sub(linked.getTransforms().getTranslation(), event.getCollisionPoint());
         directionToObjectCenter.z = 0f;
-        Vector3f startP = againstTransforms.getTranslation();
-        Vector3f endP = VectorHelper.multiply(linked.getTransforms().getTranslation(), 1);
 
         float forceMag = VectorHelper.getMagnitude(impulse);
         float rotDir = (float)Math.atan2(impulse.y, impulse.x);
@@ -55,6 +56,8 @@ public interface OnCollisionListener {
         directionToObjectCenter.normalize();
         float angularAcc = angularForce/(linkedRBProps.getMass() * VectorHelper.getMagnitude(directionToObjectCenter));
 
+        Vector3f startP = againstTransforms.getTranslation();
+        Vector3f endP = VectorHelper.multiply(linked.getTransforms().getTranslation(), 1);
         float pointOnLine = VectorHelper.pointOnLine(startP, endP, event.getLinkedObjectCollisionPoint());
         //if(angularAcc > 0.005f) {
             if (pointOnLine < 0) {
@@ -63,6 +66,40 @@ public interface OnCollisionListener {
                 linkedRBProps.updateAngularVelocity(-angularAcc * 10f);
             }
         //}
+    }
+
+    default void angularAdjustmentDueToGravity2(CollisionEvent event, Vector3f impulse, RigidBody object) {
+        RBProps linkedRBProps = object.getRBProps();
+
+
+        if(event.getAgainstObject().isStaticObject()) {
+            Vector3f directionToStaticObjCenter = VectorHelper.sub(event.getAgainstObject().getTransforms().getTranslation(), object.getTransforms().getTranslation());
+            directionToStaticObjCenter.normalize();
+            float additionalAcc = impulse.x * directionToStaticObjCenter.y - impulse.y * directionToStaticObjCenter.x;
+            linkedRBProps.updateAngularVelocity(additionalAcc*20);
+        }else{
+            Vector3f directionToCollisionPoint = VectorHelper.sub(event.getCollisionPoint(), object.getTransforms().getTranslation());
+            directionToCollisionPoint.z = 0f;
+            directionToCollisionPoint.normalize();
+            float angularAcceleration = impulse.x * directionToCollisionPoint.y - impulse.y * directionToCollisionPoint.x;
+            linkedRBProps.updateAngularVelocity(angularAcceleration*20);
+        }
+
+        //slopeCalculation(event);
+    }
+
+    default void slopeCalculation(CollisionEvent event) {
+        RBProps linkedRBProps = event.getLinkedObject().getRBProps();
+        Vector3f directionVectorLinked = event.getLinkedObjectCollisionVector();
+        Vector3f directionVectorAgainst = event.getAgainstObjectCollisionVector();
+
+        float slopeLinked = (directionVectorLinked.y/directionVectorAgainst.x);
+        float slopeAgainst = (directionVectorAgainst.y/directionVectorAgainst.x);
+        if(slopeLinked>slopeAgainst) {
+            linkedRBProps.updateAngularVelocity(-0.01f);
+        }else{
+            linkedRBProps.updateAngularVelocity(0.01f);
+        }
     }
 
     default void matchSurfaceAngleDefault(CollisionEvent event, Vector3f impulse) {
@@ -88,4 +125,16 @@ public interface OnCollisionListener {
 
     void impulseResolution(CollisionEvent event);
     void positionalCorrection(CollisionEvent event);
+
+    default void defaultImpulseResolution2(CollisionEvent event) {
+        RBProps propsA = event.getLinkedObject().getRBProps();
+        RBProps propsB = event.getAgainstObject().getRBProps();
+
+        float e = Math.min(propsA.getRestitution(), propsB.getRestitution());
+        float ma = propsA.getMass();
+        float mb = propsB.getMass();
+        //no inertia
+
+
+    }
 }

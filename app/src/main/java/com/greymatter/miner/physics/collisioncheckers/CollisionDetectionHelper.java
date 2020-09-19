@@ -113,7 +113,7 @@ public class CollisionDetectionHelper {
                                                 .withPenDepth(penDepth)
                                                 .withLinkedObjCollisionVector(VectorHelper.sub(nextC1, currC1))
                                                 .withAgainstObjectCollisionVector(VectorHelper.sub(nextC2, currC2))
-                                                .withAgainstObjectCollisionPoint(intersection.intPoint)
+                                                .withCollisionPoint(intersection.intPoint)
                                                 .withLinkedObjectCollisionPoint(distToCurrC1 < distToNextC1 ? currC1 : nextC1);
                 }
             }

@@ -8,7 +8,7 @@ public class CollisionEvent {
     private RigidBody linkedObject, againstObject;
     private Vector3f collisionNormal;
     private Vector3f linkedObjectCollisionPoint;
-    private Vector3f againstObjectCollisionPoint;
+    private Vector3f collisionPoint;
     private Vector3f linkedObjectCollisionVector;
     private Vector3f againstObjectCollisionVector;
     private float penetrationDepth;
@@ -35,8 +35,8 @@ public class CollisionEvent {
         return this;
     }
 
-    public CollisionEvent withAgainstObjectCollisionPoint(Vector3f point) {
-        this.againstObjectCollisionPoint = point;
+    public CollisionEvent withCollisionPoint(Vector3f point) {
+        this.collisionPoint = point;
         return this;
     }
 
@@ -68,8 +68,8 @@ public class CollisionEvent {
         return linkedObjectCollisionPoint;
     }
 
-    public Vector3f getAgainstObjectCollisionPoint() {
-        return againstObjectCollisionPoint;
+    public Vector3f getCollisionPoint() {
+        return collisionPoint;
     }
 
     public float getPenDepth() {

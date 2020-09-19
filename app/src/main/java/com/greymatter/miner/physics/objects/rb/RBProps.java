@@ -4,7 +4,7 @@ import javax.vecmath.Vector3f;
 
 public class RBProps {
     private Vector3f acceleration, velocity, gravity, friction;
-    private float mass, restitution, angularVel, angularAcc;
+    private float mass, restitution, angularVel, angularAcc, inverseMass;
 
     public RBProps() {
         this.acceleration = new Vector3f();
@@ -23,9 +23,9 @@ public class RBProps {
 
         //angular friction
         if(angularVel > 0) {
-            angularVel-=0.015f;
+            angularVel-=0.01f;
         }else if(angularVel < 0){
-            angularVel+=0.015f;
+            angularVel+=0.01f;
         }
     }
 
@@ -96,6 +96,7 @@ public class RBProps {
 
     public RBProps setMass(float mass) {
         this.mass = mass;
+        this.inverseMass = 1/mass;
         return this;
     }
 
@@ -131,6 +132,9 @@ public class RBProps {
 
     public float getMass(){
         return this.mass;
+    }
+    public float getInverseMass(){
+        return this.inverseMass;
     }
 
     public float getRestitution() {

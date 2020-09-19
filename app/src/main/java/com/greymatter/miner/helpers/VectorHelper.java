@@ -33,6 +33,18 @@ public class VectorHelper {
         return temp;
     }
 
+    public static Vector2f add(Vector2f from, Vector2f toAdd) {
+        Vector2f temp = copy(from);
+        temp.add(toAdd);
+        return temp;
+    }
+
+    public static Vector3f add(Vector3f from, Vector3f toAdd) {
+        Vector3f temp = copy(from);
+        temp.add(toAdd);
+        return temp;
+    }
+
     public static Vector2f abs(Vector2f vec) {
         vec.set(Math.abs(vec.x), Math.abs(vec.y));
         return vec;
