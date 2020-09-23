@@ -83,36 +83,38 @@ public class CollisionDetectionHelper {
         for(int i=0; i<vertsC1.size() - 1; i++) {
             Vector3f currC1 = vertsC1.get(i);
             Vector3f nextC1 = vertsC1.get(i + 1);
+            Vector3f prevC1;
+            if(i>0) {
+                prevC1 = vertsC1.get(i - 1);
+            }else{
+                prevC1 = vertsC1.get(vertsC1.size()-1);
+            }
 
             for(int j=0; j<vertsC2.size() - 1; j++) {
                 Vector3f currC2 = vertsC2.get(j);
                 Vector3f nextC2 = vertsC2.get(j + 1);
 
                 IntersectionEvent intersection = VectorHelper.checkIntersectionWithExtraInfo(currC1, nextC1, currC2, nextC2);
-                if (intersection.intersected) {
+                if (intersection.intersected && intersection.intPoint != null) {
 
                     //calculate pen depth
                     Vector3f c2Translation = c2.getTransforms().getTranslation();
-                    float linkedObjVertDist = (float)Math.min(VectorHelper.getDistanceWithSQRT(c2Translation, currC1),
-                                                            VectorHelper.getDistanceWithSQRT(c2Translation, nextC1));
-                    float collPointDist = (float)VectorHelper.getDistanceWithSQRT(c2Translation, intersection.intPoint);
-
-                    float penDepth = 0f;
-                    if(collPointDist>linkedObjVertDist) penDepth = collPointDist - linkedObjVertDist;
-                    else penDepth = linkedObjVertDist - collPointDist;
+                    float penDepth = (float)Math.min(VectorHelper.getDistanceWithSQRT(intersection.intPoint, currC1),
+                                                            VectorHelper.getDistanceWithSQRT(intersection.intPoint, nextC1));
 
                     //calculate linked intersection point
                     float distToCurrC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, currC1);
                     float distToNextC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, nextC1);
+                    float distToPrevC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, prevC1);
 
-                    Vector3f collNormal = VectorHelper.getNormal(VectorHelper.sub(nextC2, currC2));
+                    Vector3f againstObjectCollisionVector = VectorHelper.sub(nextC2, currC2);
+
+                    Vector3f collNormal = VectorHelper.getNormal(againstObjectCollisionVector);
                     return new CollisionEvent().withLinkedObject(c1)
                                                 .againstObject(c2)
                                                 .withCollisionNormal(collNormal)
                                                 .withStatus(true)
-                                                .withPenDepth(penDepth)
-                                                .withLinkedObjCollisionVector(VectorHelper.sub(nextC1, currC1))
-                                                .withAgainstObjectCollisionVector(VectorHelper.sub(nextC2, currC2))
+                                                .withPenDepth(penDepth).withLinkedObjCollLine(currC1, nextC1).withAgainstObjCollLine(currC2, nextC2)
                                                 .withCollisionPoint(intersection.intPoint)
                                                 .withLinkedObjectCollisionPoint(distToCurrC1 < distToNextC1 ? currC1 : nextC1);
                 }

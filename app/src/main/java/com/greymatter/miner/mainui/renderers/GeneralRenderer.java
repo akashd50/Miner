@@ -42,8 +42,8 @@ public class GeneralRenderer extends AbstractRenderer {
         if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
             Vector3f collPoint = collisionEvent.getCollisionPoint();
             GameObjectsContainer.get("POINT").moveTo(collPoint.x, collPoint.y);
-            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(0, collPoint);
-            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(1, VectorHelper.add(collisionEvent.getLinkedObjectCollisionVector(), collPoint));
+            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(0, collisionEvent.getLinkedObjCollLinePt1());
+            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(1, collisionEvent.getLinkedObjCollLinePt2());
         }
 
         /*<---------------------------------------update----------------------------------------->*/

@@ -34,6 +34,7 @@ public class CollisionDetectionSystem {
                                         rigidBody.getCollisionListener().onCollision(event);
                                     }
                                     rigidBody.addOrUpdateCollisionEvent(event);
+                                    toCheckAgainst.addOrUpdateAgainstCollisionEvent(event);
                                 }
                             }
                         }

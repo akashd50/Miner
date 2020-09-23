@@ -43,6 +43,14 @@ public abstract class RigidBody {
             lastCollisionEvents.put(collisionEvent.getAgainstObject().toString(), collisionEvent);
         }
     }
+    public void addOrUpdateAgainstCollisionEvent(CollisionEvent collisionEvent) {
+        if(lastCollisionEvents.containsKey(collisionEvent.getLinkedObject().toString())) {
+            lastCollisionEvents.replace(collisionEvent.getLinkedObject().toString(), collisionEvent);
+        }else{
+            lastCollisionEvents.put(collisionEvent.getLinkedObject().toString(), collisionEvent);
+        }
+    }
+
 
     public CollisionEvent getLastCollisionEvent(RigidBody against) {
         return lastCollisionEvents.get(against.toString());

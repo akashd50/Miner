@@ -9,8 +9,8 @@ public class CollisionEvent {
     private Vector3f collisionNormal;
     private Vector3f linkedObjectCollisionPoint;
     private Vector3f collisionPoint;
-    private Vector3f linkedObjectCollisionVector;
-    private Vector3f againstObjectCollisionVector;
+    private Vector3f linkedObjCollLinePt1, linkedObjCollLinePt2;
+    private Vector3f agObjCollLinePt1, agObjCollLinePt2;
     private float penetrationDepth;
     private boolean collisionStatus;
     public CollisionEvent(){ }
@@ -30,8 +30,9 @@ public class CollisionEvent {
         return this;
     }
 
-    public CollisionEvent withLinkedObjCollisionVector(Vector3f vector) {
-        this.linkedObjectCollisionVector = vector;
+    public CollisionEvent withLinkedObjCollLine(Vector3f pt1, Vector3f pt2) {
+        this.linkedObjCollLinePt1 = pt1;
+        this.linkedObjCollLinePt2 = pt2;
         return this;
     }
 
@@ -55,17 +56,30 @@ public class CollisionEvent {
         return this;
     }
 
-    public CollisionEvent withAgainstObjectCollisionVector(Vector3f againstObjectCollisionVector) {
-        this.againstObjectCollisionVector = againstObjectCollisionVector;
+    public CollisionEvent withAgainstObjCollLine(Vector3f pt1, Vector3f pt2) {
+        this.agObjCollLinePt1 = pt1;
+        this.agObjCollLinePt2 = pt2;
         return this;
-    }
-
-    public Vector3f getAgainstObjectCollisionVector() {
-        return againstObjectCollisionVector;
     }
 
     public Vector3f getLinkedObjectCollisionPoint() {
         return linkedObjectCollisionPoint;
+    }
+
+    public Vector3f getLinkedObjCollLinePt1() {
+        return linkedObjCollLinePt1;
+    }
+
+    public Vector3f getLinkedObjCollLinePt2() {
+        return linkedObjCollLinePt2;
+    }
+
+    public Vector3f getAgObjCollLinePt1() {
+        return agObjCollLinePt1;
+    }
+
+    public Vector3f getAgObjCollLinePt2() {
+        return agObjCollLinePt2;
     }
 
     public Vector3f getCollisionPoint() {
@@ -78,10 +92,6 @@ public class CollisionEvent {
 
     public Vector3f getCollisionNormal() {
         return this.collisionNormal;
-    }
-
-    public Vector3f getLinkedObjectCollisionVector() {
-        return this.linkedObjectCollisionVector;
     }
 
     public boolean getCollisionStatus() {

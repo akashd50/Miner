@@ -253,7 +253,7 @@ public class VectorHelper {
         float determinant = a1*b2 - a2*b1;
 
         if (determinant == 0) {
-            return new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+            return null;
         } else {
             float x = (b2*c1 - b1*c2)/determinant;
             float y = (a1*c2 - a2*c1)/determinant;
