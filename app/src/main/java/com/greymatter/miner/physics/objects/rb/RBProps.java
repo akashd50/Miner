@@ -22,11 +22,11 @@ public class RBProps {
         this.updateAngularVelocity(angularAcc);
 
         //angular friction
-//        if(angularVel > 0) {
-//            angularVel-=0.01f;
-//        }else if(angularVel < 0){
-//            angularVel+=0.01f;
-//        }
+        if(angularVel > 0) {
+            angularVel-=0.005f;
+        }else if(angularVel < 0){
+            angularVel+=0.005f;
+        }
     }
 
     public RBProps resetGravity() {

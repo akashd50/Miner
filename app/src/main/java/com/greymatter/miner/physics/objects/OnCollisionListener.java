@@ -47,12 +47,10 @@ public interface OnCollisionListener {
     default void angularAdjustmentDueToGravity2(CollisionEvent event, Vector3f impulse, RigidBody object) {
         RBProps linkedRBProps = object.getRBProps();
 
-        impulse.z = 0;
-
         Vector3f impulseCopy = VectorHelper.copy(impulse);
         Vector3f fromCOMtoPoint = VectorHelper.sub(event.getCollisionPoint(), object.getTransforms().getTranslation());
         fromCOMtoPoint.z = 0;
-        impulseCopy.cross(impulse,fromCOMtoPoint);
+        impulseCopy.cross(impulse, fromCOMtoPoint);
 
         float pointInertia = VectorHelper.getLength(fromCOMtoPoint);
         if(linkedRBProps.getAngularVelocity()!=0) pointInertia *= linkedRBProps.getAngularVelocity();
