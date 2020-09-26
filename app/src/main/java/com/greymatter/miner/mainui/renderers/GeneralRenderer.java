@@ -39,12 +39,12 @@ public class GeneralRenderer extends AbstractRenderer {
         IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
         IGameObject mainCharacter = GameObjectsContainer.get("MAIN_CHARACTER");
         CollisionEvent collisionEvent = mainCharacter.getRigidBody().getLastCollisionEvent(planet.getRigidBody());
-        if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
-            Vector3f collPoint = collisionEvent.getCollisionPoint();
-            GameObjectsContainer.get("POINT").moveTo(collPoint.x, collPoint.y);
-            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(0, collisionEvent.getLinkedObjCollLinePt1());
-            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(1, collisionEvent.getLinkedObjCollLinePt2());
-        }
+//        if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
+//            Vector3f collPoint = collisionEvent.getCollisionPoint();
+//            GameObjectsContainer.get("POINT").moveTo(collPoint.x, collPoint.y);
+//            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(0, collisionEvent.getLinkedObjCollLinePt1());
+//            GameObjectsContainer.get("LINE").getDrawable().asLine().setVertex(1, collisionEvent.getLinkedObjCollLinePt2());
+//        }
 
         /*<---------------------------------------update----------------------------------------->*/
 

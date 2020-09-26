@@ -77,48 +77,72 @@ public class CollisionDetectionHelper {
     }
 
     private static synchronized CollisionEvent customVCustomAdvanced(PolygonRB c1, PolygonRB c2) {
-        ArrayList<Vector3f> vertsC2 = c2.getTransformedVertices();
-        ArrayList<Vector3f> vertsC1 = c1.getTransformedVertices();
+        ArrayList<Vector3f> verticesC2 = c2.getTransformedVertices();
+        ArrayList<Vector3f> verticesC1 = c1.getTransformedVertices();
 
-        for(int i=0; i<vertsC1.size() - 1; i++) {
-            Vector3f currC1 = vertsC1.get(i);
-            Vector3f nextC1 = vertsC1.get(i + 1);
+        Vector3f averageCollisionPoint = new Vector3f();
+        Vector3f averageCollisionNormal = new Vector3f();
+        float averagePenDepth = 0f;
+        int eventCounter = 0;
+        for(int i=0; i<verticesC1.size() - 1; i++) {
+            Vector3f currC1 = verticesC1.get(i);
+            Vector3f nextC1 = verticesC1.get(i + 1);
             Vector3f prevC1;
             if(i>0) {
-                prevC1 = vertsC1.get(i - 1);
+                prevC1 = verticesC1.get(i - 1);
             }else{
-                prevC1 = vertsC1.get(vertsC1.size()-1);
+                prevC1 = verticesC1.get(verticesC1.size()-1);
             }
 
-            for(int j=0; j<vertsC2.size() - 1; j++) {
-                Vector3f currC2 = vertsC2.get(j);
-                Vector3f nextC2 = vertsC2.get(j + 1);
+            for(int j=0; j<verticesC2.size() - 1; j++) {
+                Vector3f currC2 = verticesC2.get(j);
+                Vector3f nextC2 = verticesC2.get(j + 1);
 
                 IntersectionEvent intersection = VectorHelper.checkIntersectionWithExtraInfo(currC1, nextC1, currC2, nextC2);
                 if (intersection.intersected && intersection.intPoint != null) {
-
                     //calculate pen depth
-                    Vector3f c2Translation = c2.getTransforms().getTranslation();
                     float penDepth = (float)Math.min(VectorHelper.getDistanceWithSQRT(intersection.intPoint, currC1),
                                                             VectorHelper.getDistanceWithSQRT(intersection.intPoint, nextC1));
-
-                    //calculate linked intersection point
                     float distToCurrC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, currC1);
                     float distToNextC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, nextC1);
                     float distToPrevC1 = (float)VectorHelper.getDistanceWithSQRT(intersection.intPoint, prevC1);
 
                     Vector3f againstObjectCollisionVector = VectorHelper.sub(nextC2, currC2);
-
                     Vector3f collNormal = VectorHelper.getNormal(againstObjectCollisionVector);
-                    return new CollisionEvent().withLinkedObject(c1)
-                                                .againstObject(c2)
-                                                .withCollisionNormal(collNormal)
-                                                .withStatus(true)
-                                                .withPenDepth(penDepth).withLinkedObjCollLine(currC1, nextC1).withAgainstObjCollLine(currC2, nextC2)
-                                                .withCollisionPoint(intersection.intPoint)
-                                                .withLinkedObjectCollisionPoint(distToCurrC1 < distToNextC1 ? currC1 : nextC1);
+
+                    averageCollisionNormal.x += collNormal.x;
+                    averageCollisionNormal.y += collNormal.y;
+                    averageCollisionNormal.z += collNormal.z;
+
+                    averageCollisionPoint.x += intersection.intPoint.x;
+                    averageCollisionPoint.y += intersection.intPoint.y;
+                    averageCollisionPoint.z += intersection.intPoint.z;
+
+                    averagePenDepth += penDepth;
+                    eventCounter++;
+//                    CollisionEvent event = new CollisionEvent().withLinkedObject(c1)
+//                            .againstObject(c2)
+//                            .withCollisionNormal(collNormal)
+//                            .withStatus(true)
+//                            .withPenDepth(penDepth).withLinkedObjCollLine(currC1, nex tC1).withAgainstObjCollLine(currC2, nextC2)
+//                            .withCollisionPoint(intersection.intPoint)
+//                            .withLinkedObjectCollisionPoint(distToCurrC1 < distToNextC1 ? currC1 : nextC1);
+//
+//                    eventsRegistered.add(event);
                 }
             }
+        }
+
+        if(averagePenDepth!=0) {
+            averageCollisionNormal = VectorHelper.multiply(averageCollisionNormal, 1f/(float)eventCounter);
+            averageCollisionPoint = VectorHelper.multiply(averageCollisionPoint, 1f/(float)eventCounter);
+            averagePenDepth *= 1f/eventCounter;
+            return new CollisionEvent().withStatus(true)
+                    .withLinkedObject(c1)
+                    .againstObject(c2)
+                    .withCollisionNormal(averageCollisionNormal)
+                    .withPenDepth(averagePenDepth)
+                    .withCollisionPoint(averageCollisionPoint);
         }
         return new CollisionEvent().withLinkedObject(c1).againstObject(c2).withStatus(false);
     }

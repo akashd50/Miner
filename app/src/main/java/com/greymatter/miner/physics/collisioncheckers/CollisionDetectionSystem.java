@@ -50,8 +50,9 @@ public class CollisionDetectionSystem {
                 rigidBody.getRBProps().resetGravity().resetFriction();
                 for (RigidBody against : CollisionSystemContainer.getAllExcept(rigidBody)) {
                     if(against.isStaticObject()) {
-                        rigidBody.getRBProps().applyGravity(calculateGravitationalForce(rigidBody, against));
-                        //angularAdjustmentDueToGravity(rigidBody,against);
+                        Vector3f gravitationalForce = calculateGravitationalForce(rigidBody, against);
+                        rigidBody.getRBProps().applyGravity(gravitationalForce);
+                        //angularAdjustmentDueToGravity(gravitationalForce, rigidBody,against);
                     }
                 }
                 CollisionEvent event = rigidBody.getLastCollisionEvent(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getRigidBody());
@@ -73,36 +74,22 @@ public class CollisionDetectionSystem {
         return VectorHelper.multiply(tDir, force);
     }
 
-    private static void angularAdjustmentDueToGravity(RigidBody current, RigidBody against) {
+    private static void angularAdjustmentDueToGravity(Vector3f gravitationalForce, RigidBody current, RigidBody against) {
         Vector3f currentTranslation = current.getTransforms().getTranslation();
         Vector3f againstTranslation = against.getTransforms().getTranslation();
 
-        Vector3f startP = againstTranslation;
-        Vector3f endP = VectorHelper.multiply(currentTranslation, 1);
-        float magSumNegSide = 0;
-        float magSumPosSide = 0;
-
         for(Vector3f point : current.asPolygonRB().getTransformedVertices()) {
-            float onLine = VectorHelper.pointOnLine(startP, endP, point);
-            if(onLine < 0) {
-                magSumNegSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
-            }else if(onLine > 0) {
-                magSumPosSide += VectorHelper.getMagnitude(VectorHelper.sub(againstTranslation, point));
-            }
-        }
+            Vector3f impulseCopy = VectorHelper.copy(gravitationalForce);
+            Vector3f fromCOMtoPoint = VectorHelper.sub(point, currentTranslation);
+            fromCOMtoPoint.z = 0;
+            impulseCopy.cross(gravitationalForce, fromCOMtoPoint);
 
-//        float slope = 0f;
-//        if(magSumNegSide < magSumPosSide) {
-//            current.getRBProps().updateAngularVelocity(0.03f);
-//        }else if(magSumNegSide > magSumPosSide){
-//            current.getRBProps().updateAngularVelocity(-0.03f);
-//        }
-//        float slope = 1f;
-//        if(magSumNegSide<magSumPosSide-slope) {
-//            current.getRBProps().updateAngularAcceleration(0.000001f);
-//        }else if(magSumPosSide > magSumNegSide + slope){
-//            current.getRBProps().updateAngularAcceleration(-0.000001f);
-//        }
+            float angularVel = (impulseCopy.z);
+            float pointInertia = VectorHelper.getLength(fromCOMtoPoint);
+            if(current.getRBProps().getAngularVelocity()!=0) pointInertia += current.getRBProps().getAngularVelocity();
+
+            current.getRBProps().updateAngularVelocity(angularVel/pointInertia);
+        }
     }
 
     public static void onDestroy() {

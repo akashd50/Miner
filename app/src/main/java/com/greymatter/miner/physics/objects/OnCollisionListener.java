@@ -53,30 +53,17 @@ public interface OnCollisionListener {
         impulseCopy.cross(impulse, fromCOMtoPoint);
 
         float pointInertia = VectorHelper.getLength(fromCOMtoPoint);
-        if(linkedRBProps.getAngularVelocity()!=0) pointInertia *= linkedRBProps.getAngularVelocity();
+        //if(linkedRBProps.getAngularVelocity()!=0) pointInertia += linkedRBProps.getAngularVelocity();
 
         float angularVel = (impulseCopy.z * 60);
 
-        if((angularVel > 0 && linkedRBProps.getAngularVelocity() > 0) || (angularVel < 0 && linkedRBProps.getAngularVelocity() < 0)) {
-            pointInertia = pointInertia*5;
-        }else{
-            pointInertia *= 10;
-        }
-
-        angularVel = angularVel/Math.max(1f,pointInertia);
-
-
-//        if(angularVel>0.03) {
-//            angularVel = 0.03f;
-//        }else if(angularVel<-0.03f) {
-//            angularVel = -0.03f;
+//        if((angularVel > 0 && linkedRBProps.getAngularVelocity() > 0) || (angularVel < 0 && linkedRBProps.getAngularVelocity() < 0)) {
+//            pointInertia = pointInertia*5;
+//        }else{
+//            pointInertia *= 10;
 //        }
-
-        //System.out.println("ANGULAR VEL = " + angularVel);
-        //System.out.println("FROM COM to COLL = " + impulse);
-        //if(impulse.x > 0.002 || impulse.y > 0.002) {
-            linkedRBProps.updateAngularVelocity(-angularVel);
-        //}
+        angularVel = angularVel/Math.max(1f,pointInertia);
+        linkedRBProps.updateAngularVelocity(-angularVel);
     }
 
 //    default void slopeCalculation(CollisionEvent event) {
