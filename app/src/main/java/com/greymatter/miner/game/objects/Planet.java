@@ -42,7 +42,7 @@ public class Planet extends GameObject {
 
         planetGrassLayer = new GenericObject(DrawableDef.create(DrawableDef.PLANET_GRASS_LAYER));
         planetGrassLayer.addTag(Tag.STATIC)
-                        .scaleTo(0.998f,0.998f)
+                        .scaleTo(0.997f,0.997f)
                         .moveTo(0f,0f, 14f);
         planetGrassLayer.getTransforms().copyTranslationFromParent(true);
         planetGrassLayer.getTransforms().copyScaleFromParent(true);

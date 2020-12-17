@@ -5,5 +5,6 @@ public enum DrawableType {
     QUAD,
     RADIANT_GRADIENT,
     TEXTURED_EDGED_POLYGON,
-    LINE
+    LINE,
+    INSTANCE_GROUP
 }

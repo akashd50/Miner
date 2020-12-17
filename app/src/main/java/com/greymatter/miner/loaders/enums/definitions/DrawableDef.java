@@ -3,10 +3,13 @@ package com.greymatter.miner.loaders.enums.definitions;
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.containers.ShapeContainer;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import com.greymatter.miner.opengl.objects.drawables.InstanceGroup;
 import com.greymatter.miner.opengl.objects.drawables.Quad;
 import com.greymatter.miner.opengl.objects.drawables.TextureEdgedPolygon;
 import com.greymatter.miner.opengl.objects.drawables.gradients.RadialGradient;
 import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
+import com.greymatter.miner.opengl.objects.materials.Material;
+import com.greymatter.miner.opengl.objects.renderers.InstancedRenderer;
 import com.greymatter.miner.opengl.objects.renderers.QuadLightingRenderer;
 import com.greymatter.miner.opengl.objects.renderers.QuadRenderer;
 import com.greymatter.miner.opengl.objects.renderers.RadialGradientRenderer;
@@ -45,6 +48,9 @@ public enum DrawableDef {
     GAME_PAD_FRONT(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.GAME_PAD_FRONT_MATERIAL, ShaderDef.QUAD_SHADER),
     GAME_PAD_BACKGROUND(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.GAME_PAD_FRONT_MATERIAL, ShaderDef.QUAD_SHADER),
 
+    PIPES_INSTANCE_GROUP(DrawableType.INSTANCE_GROUP, null, MaterialDef.GROUND_MATERIAL, ShaderDef.INSTANCE_SHADER),
+    JOINTS_INSTANCE_GROUP(DrawableType.INSTANCE_GROUP, null, MaterialDef.ADD_MARKER_MATERIAL, ShaderDef.INSTANCE_SHADER),
+
     COAL_BLOCK_I(DrawableType.OBJ, ShapeDef.COLLISION_BOX, MaterialDef.ROCK_MATERIAL_I, ShaderDef.QUAD_SHADER);
 
     public final DrawableType DRAWABLE_TYPE;
@@ -77,6 +83,9 @@ public enum DrawableDef {
                 return new TextureEdgedPolygon(id.name()).setShape(ShapeContainer.get(objDef.SHAPE_ID))
                         .setMaterial(MaterialContainer.get(objDef.MAT_ID))
                         .setRenderer(getRenderer(objDef)).build();
+            case INSTANCE_GROUP:
+                return new InstanceGroup(id.name()).setMaterial(MaterialContainer.get(objDef.MAT_ID))
+                        .setRenderer(getRenderer(objDef)).build();
             case LINE:
 
         }
@@ -91,6 +100,8 @@ public enum DrawableDef {
                 return new QuadLightingRenderer();
             case GRADIENT_SHADER:
                 return new RadialGradientRenderer();
+            case INSTANCE_SHADER:
+                return new InstancedRenderer();
             default:
                 return null;
         }

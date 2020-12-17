@@ -30,13 +30,17 @@ public class InstanceGroup extends Drawable {
     }
 
     public InstanceGroup addInstance(Instance instance) {
-        instance.setShape(getShape());
-
         instances.add(instance);
-        addTransform(instance.getTransforms());
-
+        this.addTransform(instance.getTransforms());
         totalInstances++;
         return this;
+    }
+
+    public Instance createInstance() {
+        Instance instance = new Instance("INSTANCE_" + getTotalInstances());
+        instance.setShape(getShape());
+        instance.setParentGroup(this);
+        return instance;
     }
 
     private void addTransform(Transforms transforms) {
