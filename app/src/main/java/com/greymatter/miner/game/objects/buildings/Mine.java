@@ -30,7 +30,7 @@ public class Mine extends GameBuilding {
         minerParking = new MinerParking(DrawableDef.create(DrawableDef.COAL_BLOCK_I));
         minerParking.setRectangularRB();
         minerParking.moveTo(0f, 0f, -2f);
-        minerParking.translationFromParent(true);
+        minerParking.copyTranslationFromParent(true);
         minerParking.setClosedPoint(0f, 0f).setOpenPoint(0f, -6f);
 
         this.addChild(minerParking.getId(), minerParking);

@@ -21,8 +21,9 @@ public class Path {
     public static final String TEXTURES_DIR =       "textures";
     public static final String TREE_ANIM_I_DIR =    TEXTURES_DIR + SLASH + "tree_anim_i";
     public static final String MINER_ANIM_DIR =     TEXTURES_DIR + SLASH + "miner_anim";
+    public static final String OIL_DRILL_DIR =      TEXTURES_DIR + SLASH + "oil_drill";
     public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
-    public static final String ADD_MARK =         TEXTURES_DIR + SLASH + "add_mark.png";
+    public static final String ADD_MARK =           TEXTURES_DIR + SLASH + "add_mark.png";
     public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
     public static final String SIGNAL_I =           TEXTURES_DIR + SLASH + "signal_i.png";
     public static final String SIGNAL_EXCL =        TEXTURES_DIR + SLASH + "signal_excl.png";
@@ -31,6 +32,8 @@ public class Path {
     public static final String MAIN_BASE_FINAL =    TEXTURES_DIR + SLASH + "main_base.png";
     public static final String SPACE_SHUTTLE =      TEXTURES_DIR + SLASH + "space_shuttle.png";
     public static final String OIL_DRILL_I =        TEXTURES_DIR + SLASH + "oilwell_i.png";
+    public static final String OIL_OUTER_LAYER =    OIL_DRILL_DIR + SLASH + "oil_outer.png";
+    public static final String OIL_INNER_OIL =      OIL_DRILL_DIR + SLASH + "oil_inner.png";
     public static final String GAME_PAD_FRONT =     TEXTURES_DIR + SLASH + "gamepad_front_i.png";
     public static final String SCANNER_P =          TEXTURES_DIR + SLASH + "scanner_p.jpg";
     public static final String ATM_RADIAL_II =      TEXTURES_DIR + SLASH + "atm_radial_ii.png";

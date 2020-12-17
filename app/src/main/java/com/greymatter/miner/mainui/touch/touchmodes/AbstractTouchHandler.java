@@ -4,7 +4,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.greymatter.miner.R;
-import com.greymatter.miner.containers.ToDrawContainer;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;

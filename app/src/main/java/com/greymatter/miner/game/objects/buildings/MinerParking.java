@@ -40,7 +40,7 @@ public class MinerParking extends GameBuilding {
         miner = new Miner(DrawableDef.create(DrawableDef.GAME_PAD_FRONT));
         miner.moveTo(0f,0f,1f);
         miner.scaleTo(0.5f,0.5f);
-        miner.translationFromParent(true);
+        miner.copyTranslationFromParent(true);
         addChild("MINER", miner);
     }
 

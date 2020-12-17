@@ -2,11 +2,10 @@ package com.greymatter.miner.animators.impl;
 
 import com.greymatter.miner.animators.OnAnimationFrameHandler;
 import com.greymatter.miner.animators.ValueAnimator;
-import com.greymatter.miner.containers.ActiveResourcesContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
-import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.helpers.VectorHelper;
 
 import javax.vecmath.Vector3f;
@@ -24,7 +23,7 @@ public class ScannerAnimationHandler implements OnAnimationFrameHandler {
             dir.z = 0f;
             scanner.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));
         }else{
-            ActiveResourcesContainer.add("COAL_BLOCK_I", currentlyTracking);
+            ContainerManager.getActiveResourceContainer().add("COAL_BLOCK_I", currentlyTracking);
             if(!scanner.getSignal().shouldDraw()) {
                 scanner.getSignal().show();
             }

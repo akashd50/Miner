@@ -1,10 +1,9 @@
 package com.greymatter.miner.mainui.renderers;
 
 import com.greymatter.miner.AppServices;
-import com.greymatter.miner.containers.ActiveResourcesContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
-import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.AllGameObjectsContainer;
 import com.greymatter.miner.containers.UIToDrawContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -32,8 +31,8 @@ public class GeneralRenderer extends AbstractRenderer {
 
         super.onDrawFrame();
 
-        IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
-        IGameObject mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER_1);
+        IGameObject planet = GameManager.getCurrentPlanet();
+        IGameObject mainCharacter = ContainerManager.getAllGameObjectsContainer().get(MAIN_CHARACTER_1);
         CollisionEvent collisionEvent = mainCharacter.getRigidBody().getLastCollisionEvent(planet.getRigidBody());
 //        if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
 //            Vector3f collPoint = collisionEvent.getCollisionPoint();
@@ -46,8 +45,8 @@ public class GeneralRenderer extends AbstractRenderer {
 
 
         /*<-----------------------------------------draw----------------------------------------->*/
-        ToDrawContainer.onDrawFrame(AppServices.getGameCamera());
-        ActiveResourcesContainer.onDrawFrame(AppServices.getGameCamera());
+        ContainerManager.getActiveGameObjectsContainer().onDrawFrame(AppServices.getGameCamera());
+        ContainerManager.getActiveResourceContainer().onDrawFrame(AppServices.getGameCamera());
         UIToDrawContainer.onDrawFrame(AppServices.getUICamera());
 
         System.out.println("FPS: " + mainFPS);

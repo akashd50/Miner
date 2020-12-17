@@ -8,11 +8,10 @@ import android.widget.TextView;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
-import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.AllGameObjectsContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.resources.CoalBlock;
@@ -31,9 +30,9 @@ public class LayoutHelper {
         selectionDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Mine Res", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ToDrawContainer.add(GameObjectsContainer.get(MinerManager.getActiveMinerId()));
-                IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
-                GameObjectsContainer.get(MinerManager.getActiveMinerId()).asGameBuilding().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocation()));
+                ContainerManager.getActiveGameObjectsContainer().add(ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()));
+                IGameObject planet = GameManager.getCurrentPlanet();
+                ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()).asGameBuilding().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocation()));
                 dialog.dismiss();
             }
         });

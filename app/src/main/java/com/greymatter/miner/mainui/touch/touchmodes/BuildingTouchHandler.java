@@ -1,16 +1,13 @@
 package com.greymatter.miner.mainui.touch.touchmodes;
 
 import android.view.View;
-import com.greymatter.miner.R;
-import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
+
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
-import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
 
 import java.util.ArrayList;
@@ -56,7 +53,7 @@ public class BuildingTouchHandler extends AbstractTouchHandler {
     private boolean doOnTouchMoveExtra() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameManager.getCurrentPlanet().getTransforms().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{
@@ -76,6 +73,6 @@ public class BuildingTouchHandler extends AbstractTouchHandler {
 
     @Override
     public ArrayList<IGameObject> gameObjectsForTouchChecking() {
-        return ToDrawContainer.getAllReversed();
+        return ContainerManager.getActiveGameObjectsContainer().getAllReversed();
     }
 }

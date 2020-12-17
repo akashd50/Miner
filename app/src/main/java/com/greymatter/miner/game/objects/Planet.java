@@ -1,11 +1,6 @@
 package com.greymatter.miner.game.objects;
 
-import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.datastructureextensions.GroupMap;
-import com.greymatter.miner.game.objects.GameObject;
-import com.greymatter.miner.game.objects.GenericObject;
-import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;

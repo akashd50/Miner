@@ -57,7 +57,7 @@ public abstract class GameNotification extends GameUI {
     public IGameObject setParent(IGameObject parent) {
         float r = parent.getTransforms().getScale().y + this.getDefaultScale().y;
         moveTo(0f,r, 1.5f);
-        translationFromParent(true);
+        copyTranslationFromParent(true);
         return super.setParent(parent);
     }
 }

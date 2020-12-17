@@ -1,24 +1,15 @@
 package com.greymatter.miner.mainui.touch.touchmodes;
 
-import android.app.AlertDialog;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import com.greymatter.miner.AppServices;
-import com.greymatter.miner.R;
-import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
-import com.greymatter.miner.containers.GameObjectsContainer;
+
+import com.greymatter.miner.containers.AllGameObjectsContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
-import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
-import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.Transforms;
 
 import java.util.ArrayList;
 import javax.vecmath.Vector2f;
@@ -62,7 +53,7 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
     private boolean doOnTouchMoveExtra() {
         if(getTouchHelper().getCurrentPointerCount()==1) {
             getMainCamera().translateBy(VectorHelper.toVector3f(devicePixelsToLocalUnit(getTouchHelper().getPointer1MovementDiff())));
-            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms().getTranslation());
+            Vector3f fromCenterToCam = VectorHelper.sub(getMainCamera().getTranslation(), GameManager.getCurrentPlanet().getTransforms().getTranslation());
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{
@@ -74,12 +65,13 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
     private boolean doOnTouchUpExtra() {
         if(!getTouchHelper().isTouchPoint1Drag()) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
+            AllGameObjectsContainer allGameObjectsContainer = ContainerManager.getAllGameObjectsContainer();
 
-            GameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().translateTo(touchPoint);
-            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
-            GameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(new Vector3f());
-            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularAcceleration(0f);
-            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularVelocity(0f);
+            allGameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().translateTo(touchPoint);
+            allGameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
+            allGameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(new Vector3f());
+            allGameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularAcceleration(0f);
+            allGameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularVelocity(0f);
             return true;
         }
         return false;
@@ -92,6 +84,6 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
 
     @Override
     public ArrayList<IGameObject> gameObjectsForTouchChecking() {
-        return ToDrawContainer.getAllReversed();
+        return ContainerManager.getActiveGameObjectsContainer().getAllReversed();
     }
 }

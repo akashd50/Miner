@@ -4,7 +4,7 @@ import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
 import com.greymatter.miner.containers.AllResourcesContainer;
-import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GenericObject;
@@ -53,7 +53,7 @@ public class Scanner extends GameBuilding {
     @Override
     public void onFrameUpdate() {
         super.onFrameUpdate();
-        Vector3f sub = VectorHelper.sub(GameObjectsContainer.get(GameManager.getCurrentPlanet()).getLocation(), this.getLocation());
+        Vector3f sub = VectorHelper.sub(GameManager.getCurrentPlanet().getLocation(), this.getLocation());
         rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
     }
 
@@ -91,11 +91,11 @@ public class Scanner extends GameBuilding {
     public ResourceBlock findClosestResource() {
         float prevLength = 999999;
         ResourceBlock toReturn = null;
-        for(ResourceBlock resourceBlock : AllResourcesContainer.getAll()) {
+        for(IGameObject resourceBlock : ContainerManager.getAllResourcesContainer().getAll()) {
             float dist = VectorHelper.getLength(VectorHelper.sub(resourceBlock.getLocation(), this.getLocation()));
             if(dist < prevLength) {
                 prevLength = dist;
-                toReturn = resourceBlock;
+                toReturn = (ResourceBlock)resourceBlock;
             }
         }
         return toReturn;

@@ -14,6 +14,8 @@ public class GameConstants {
     public static final String OIL_DRILL_1 = "oil_drill_1";
     public static final String MINE_1 = "mine_1";
 
+    public static final String  OIL_DEPOSIT_1 = "oil_deposit_1";
+
 
     public static final String GAME_PAD = "game_pad";
     public static final String GAME_PAD_BG = "game_pad_background";

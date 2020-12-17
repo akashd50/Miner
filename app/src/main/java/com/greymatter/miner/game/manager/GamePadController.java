@@ -2,7 +2,8 @@ package com.greymatter.miner.game.manager;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.animators.ValueAnimator;
-import com.greymatter.miner.containers.GameObjectsContainer;
+import com.greymatter.miner.containers.AllGameObjectsContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.helpers.VectorHelper;
@@ -12,7 +13,8 @@ import static com.greymatter.miner.game.GameConstants.*;
 
 public class GamePadController {
     public static void setCurrentGamePadObject(GameObject gamePadObject) {
-        ((GamePad) GameObjectsContainer.get(GAME_PAD)).setCurrentControllableObject(gamePadObject);
+        ((GamePad) ContainerManager.getAllGameObjectsContainer().get(GAME_PAD))
+                .setCurrentControllableObject(gamePadObject);
     }
 
     public static void onGamePadAnimationFrame(GamePad gamePad,

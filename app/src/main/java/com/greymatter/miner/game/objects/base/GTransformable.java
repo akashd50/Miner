@@ -117,7 +117,7 @@ public abstract class GTransformable extends GHierarchical {
         return this;
     }
 
-    public IGameObject translationFromParent(boolean val) {
+    public IGameObject copyTranslationFromParent(boolean val) {
         transforms.copyTranslationFromParent(val);
         return this;
     }

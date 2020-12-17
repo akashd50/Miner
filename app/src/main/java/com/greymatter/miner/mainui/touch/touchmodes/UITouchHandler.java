@@ -8,13 +8,11 @@ import android.widget.ListView;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.GameObjectsContainer;
-import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.containers.AllGameObjectsContainer;
 import com.greymatter.miner.containers.UIToDrawContainer;
+import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
-import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -26,7 +24,6 @@ import com.greymatter.miner.opengl.objects.Transforms;
 import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public class UITouchHandler extends AbstractTouchHandler {
     public UITouchHandler(TouchHelper controller, Camera camera) {
@@ -43,16 +40,16 @@ public class UITouchHandler extends AbstractTouchHandler {
                 View view = LayoutHelper.loadLayout(R.layout.items_dialog);
                 AlertDialog selectionDialog = LayoutHelper.loadDialog(view);
 
-                ArrayList<IGameObject> buildings = GameObjectsContainer.getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
+                ArrayList<IGameObject> buildings = ContainerManager.getAllGameObjectsContainer().getAllWithTag(Tag.PLACABLE_GAME_BUILDING);
                 ListView listView = view.findViewById(R.id.temp_items_list);
                 ArrayAdapter<IGameObject> buildingArrayAdapter = new ArrayAdapter<>(AppServices.getAppContext(), android.R.layout.simple_list_item_1, buildings);
                 listView.setAdapter(buildingArrayAdapter);
 
                 listView.setOnItemClickListener((parent, view1, position, id) -> {
                     IGameObject object = buildingArrayAdapter.getItem(position);
-                    ToDrawContainer.add(object);
+                    ContainerManager.getActiveGameObjectsContainer().add(object);
 
-                    Transforms planetTransforms = GameObjectsContainer.get(GameManager.getCurrentPlanet()).getTransforms();
+                    Transforms planetTransforms = GameManager.getCurrentPlanet().getTransforms();
                     object.moveTo(0f,planetTransforms.getTranslation().y + planetTransforms.getScale().y + object.getTransforms().getScale().y);
 
 
