@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
+import static com.greymatter.miner.game.GameConstants.MAIN_CHARACTER_1;
+
 public class GeneralTouchHandler extends AbstractTouchHandler {
     public GeneralTouchHandler(TouchHelper controller, Camera camera) {
         super(camera, controller);
@@ -73,11 +75,11 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
         if(!getTouchHelper().isTouchPoint1Drag()) {
             Vector2f touchPoint = getLocalTouchPoint2f(getTouchHelper().getCurrTouchPoint1());
 
-            GameObjectsContainer.get("MAIN_CHARACTER").getTransforms().translateTo(touchPoint);
-            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
-            GameObjectsContainer.get("MAIN_CHARACTER").getTransforms().rotateTo(new Vector3f());
-            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setAngularAcceleration(0f);
-            GameObjectsContainer.get("MAIN_CHARACTER").getRigidBody().getRBProps().setAngularVelocity(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().translateTo(touchPoint);
+            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setVelocity(new Vector3f(0f, 0f, 0f));
+            GameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(new Vector3f());
+            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularAcceleration(0f);
+            GameObjectsContainer.get(MAIN_CHARACTER_1).getRigidBody().getRBProps().setAngularVelocity(0f);
             return true;
         }
         return false;

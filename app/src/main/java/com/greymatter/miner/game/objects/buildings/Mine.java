@@ -19,6 +19,11 @@ public class Mine extends GameBuilding {
         initialize();
     }
 
+    public Mine(String id) {
+        super(id, DrawableDef.create(DrawableDef.MINE_1));
+        initialize();
+    }
+
     private void initialize() {
         this.addTag(Tag.PLACABLE_GAME_BUILDING).scaleTo(6f,3f).moveBy(30f,2f,ZHelper.FRONT);
 

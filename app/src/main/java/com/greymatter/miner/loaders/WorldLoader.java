@@ -4,12 +4,14 @@ import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.containers.CollisionSystemContainer;
 import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.ToDrawContainer;
+import com.greymatter.miner.game.GameConstants;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.OilDrill;
 import com.greymatter.miner.game.objects.buildings.Mine;
 import com.greymatter.miner.helpers.ZHelper;
+import com.greymatter.miner.helpers.clicklisteners.SimpleDialogClickListener;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.game.objects.GameLight;
@@ -20,6 +22,7 @@ import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
+import static com.greymatter.miner.game.GameConstants.*;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
@@ -34,7 +37,7 @@ import javax.vecmath.Vector3f;
 
 public class WorldLoader extends Loader {
     public void load() {
-        GameObjectsContainer.add(new Planet(DrawableDef.create(DrawableDef.PLANET_1))
+        GameObjectsContainer.add(new Planet(PLANET_1)
                 .scaleTo(300f,300f).moveTo(0f,-300.5f, ZHelper.BACK));
 
         GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TREE_I))
@@ -42,84 +45,62 @@ public class WorldLoader extends Loader {
 //
 //        GameObjectsContainer.add(new Animated(DrawableDef.create(DrawableDef.PLANET_TREE_LAYER))
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.PLANET_GRASS_LAYER))
-                .scaleTo(299f,299f).moveTo(0f,-300.5f, ZHelper.OVER_FRONT));
 
-        GameObjectsContainer.add(new MainBase(DrawableDef.create(DrawableDef.MAIN_BASE))
-                .scaleTo(4f,4f).moveTo(-7f,5f,ZHelper.FRONT_MID));
+        GameObjectsContainer.add(new MainBase(MAIN_BASE_1));
+        GameObjectsContainer.get(MAIN_BASE_1).scaleTo(4f,4f).moveTo(-7f,5f,ZHelper.FRONT_MID);
 
-        GameObjectsContainer.add(new PlayerCharacter(DrawableDef.create(DrawableDef.MAIN_CHARACTER))
-                .scaleTo(0.6f,0.6f).moveBy(-0.5f,0f,ZHelper.FRONT)
+        GameObjectsContainer.add(new PlayerCharacter(MAIN_CHARACTER_1));
+        GameObjectsContainer.get(MAIN_CHARACTER_1)
+                .scaleTo(0.6f,0.6f)
+                .moveBy(-0.5f,0f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener())
-                .setOnClickListener(object -> {
-                    if(!object.getDialog().shouldDraw()) {
-                        object.getDialog().show();
-                    }else{
-                        object.getDialog().hide();
-                    }
-                    return true;
-                }).setDialog(new GameDialog().setButtonIClickListener(object -> {
+                .setOnClickListener(new SimpleDialogClickListener())
+                .setDialog(new GameDialog().setButtonIClickListener(object -> {
                                             System.out.println("NOT I - Button Click -> " + object);
                                             return true;
                                         }).setButtonIIClickListener(object -> {
                                             System.out.println("NOT II - Button Click -> " + object);
                                             return true;
-                                        })));
+                                        }));
+        GameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(0f,0f,90);
 
-        new GameLight(new Obj("MAIN_BASE_LIGHT_I"))
-                .setRadius(1f)
-                .setColor(1f,0f,0f,1f)
-                .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
-                .attachTo(GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameObjectWGL())
-                .moveTo(new Vector2f(0.12f,-0.06f))
-                .setAnimator(new FloatValueAnimator().setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60)
-                .setOnAnimationFrameHandler((object, animator) -> {
-                    object.asGameLight().setIntensity(animator.getUpdatedFloat());
+        //-------------------------------------
+        GameObjectsContainer.add(new GenericObject(TEST_OBJ_1, DrawableDef.create(DrawableDef.TEST_OBJ_I))
+                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
+                .scaleTo(0.5f,0.5f).moveBy(-4f,2f, ZHelper.FRONT)
+                .setOnTouchListener(new GeneralTouchListener()));
+
+        GameObjectsContainer.add(new GenericObject(TEST_OBJ_2, DrawableDef.create(DrawableDef.TEST_OBJ_II))
+                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
+                .scaleTo(0.5f,0.5f).moveBy(-2f,4f, ZHelper.FRONT)
+                .setOnTouchListener(new GeneralTouchListener()));
+        //-------------------------------------
+
+        GameObjectsContainer.add(new Scanner(GameConstants.SCANNER_1));
+        GameObjectsContainer.get(SCANNER_1).addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT);
+        GameObjectsContainer.get(SCANNER_1).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT);
+        GameObjectsContainer.get(SCANNER_1).setOnTouchListener(new BuildingModeTouchListener());
+        GameObjectsContainer.get(SCANNER_1).setOnClickListener(new SimpleDialogClickListener());
+        GameObjectsContainer.get(SCANNER_1).setDialog(new GameDialog().setButtonIClickListener(object -> {
+                                            System.out.println("NOT I - Button Click -> " + object);
+                                            return true;
+                                        }).setButtonIIClickListener(object -> {
+                                            System.out.println("NOT II - Button Click -> " + object);
+                                            return true;
+                                        }));
+        GameObjectsContainer.get(SCANNER_1).setSignal((GameSignal)
+                new GameSignal().setOnClickListener(object -> {
+                    Scanner scanner = (Scanner)GameObjectsContainer.get(GameConstants.SCANNER_1);
+                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog(scanner, (scanner.getCurrentlyTracking())));
+                    return true;
                 }));
 
-        GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()).getTransforms().rotateTo(0f,0f,90);
+        GameObjectsContainer.add(new OilDrill(OIL_DRILL_1));
+        GameObjectsContainer.get(OIL_DRILL_1).scaleTo(4f,3f)
+                .moveTo(-1f,2f, ZHelper.FRONT-1)
+                .addTag(Tag.PLACABLE_GAME_BUILDING);
 
-        //-------------------------------------
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TEST_OBJ_I))
-                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.5f,0.5f).moveBy(-4f,2f,ZHelper.FRONT)
-                .setOnTouchListener(new GeneralTouchListener()));
-
-        GameObjectsContainer.add(new GenericObject(DrawableDef.create(DrawableDef.TEST_OBJ_II))
-                .addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.5f,0.5f).moveBy(-2f,4f,ZHelper.FRONT)
-                .setOnTouchListener(new GeneralTouchListener()));
-        //-------------------------------------
-
-        GameObjectsContainer.add(new Scanner(DrawableDef.create(DrawableDef.SCANNER_1))
-                .addTag(Tag.PLACABLE_GAME_BUILDING).addTag(Tag.DYNAMIC_PHYSICS_OBJECT)
-                .scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT)
-                .setOnTouchListener(new BuildingModeTouchListener())
-                .setOnClickListener(object -> {
-                    if(!object.getDialog().shouldDraw()) {
-                        object.getDialog().show();
-                    }else{
-                        object.getDialog().hide();
-                    }
-                    return true;
-                }).setDialog(new GameDialog().setButtonIClickListener(object -> {
-                                            System.out.println("NOT I - Button Click -> " + object);
-                                            return true;
-                                        }).setButtonIIClickListener(object -> {
-                                            System.out.println("NOT II - Button Click -> " + object);
-                                            return true;
-                                        }))
-                .setSignal((GameSignal) new GameSignal().setOnClickListener(object -> {
-                   LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name()),
-                            ((Scanner)GameObjectsContainer.get(DrawableDef.SCANNER_1.name())).getCurrentlyTracking()));
-                    return true;
-                })));
-
-        GameObjectsContainer.add(MinerManager.getNextMinerId(), new OilDrill(DrawableDef.create(DrawableDef.OIL_DRILL))
-                .scaleTo(4f,3f).moveTo(-1f,2f, ZHelper.FRONT-1)
-                .addTag(Tag.PLACABLE_GAME_BUILDING));
-
-        GameObjectsContainer.add("MINE",new Mine(DrawableDef.create(DrawableDef.MINE_1)));
+        GameObjectsContainer.add(new Mine(MINE_1));
 
         GameObjectsContainer.add("POINT",new GenericObject(DrawableDef.create(DrawableDef.COAL_BLOCK_I))
                 .scaleTo(0.2f,0.2f).moveTo(0f,0f,ZHelper.OVER_FRONT));
@@ -140,42 +121,41 @@ public class WorldLoader extends Loader {
 //                            .build()));
         //ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_LINE));
 
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_1.name()));
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()));
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()));
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()));
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()));
-        ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.PLANET_GRASS_LAYER.name()));
+        ToDrawContainer.add(GameObjectsContainer.get(PLANET_1));
+        ToDrawContainer.add(GameObjectsContainer.get(MAIN_BASE_1));
+        ToDrawContainer.add(GameObjectsContainer.get(MAIN_CHARACTER_1));
+        ToDrawContainer.add(GameObjectsContainer.get(TEST_OBJ_1));
+        ToDrawContainer.add(GameObjectsContainer.get(TEST_OBJ_2));
         ToDrawContainer.add(GameObjectsContainer.get(DrawableDef.TREE_I.name()));
 
-        GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
-        GameObjectsContainer.get("MINE").asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
+        GameObjectsContainer.get(MAIN_BASE_1).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
+        GameObjectsContainer.get(MINE_1).asGameBuilding().snapTo(GameObjectsContainer.get(GameManager.getCurrentPlanet()));
 
-        ToDrawContainer.add(GameObjectsContainer.get("MINE"));
+        ToDrawContainer.add(GameObjectsContainer.get(MINE_1));
         ToDrawContainer.add(GameObjectsContainer.get("POINT"));
         ToDrawContainer.add(GameObjectsContainer.get("LINE"));
     }
 
     public void updatePhysicsProperties() {
-        GameObjectsContainer.get(DrawableDef.MAIN_BASE.name()).setPolygonRB();
+        GameObjectsContainer.get(MAIN_BASE_1).setPolygonRB();
 
-        GameObjectsContainer.get(DrawableDef.PLANET_1.name()).setPolygonRB().getRigidBody().isStaticObject(true)
+        GameObjectsContainer.get(PLANET_1).setPolygonRB().getRigidBody().isStaticObject(true)
                 .getRBProps().setMass(1000000f).setRestitution(0.3f);
 
-        GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER.name()).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(MAIN_CHARACTER_1).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(2.0f).setRestitution(0.1f);
 
-        GameObjectsContainer.get(DrawableDef.TEST_OBJ_I.name()).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(TEST_OBJ_1).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
 
-        GameObjectsContainer.get(DrawableDef.TEST_OBJ_II.name()).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(TEST_OBJ_2).setPolygonRB().getRigidBody().isStaticObject(false)
                 .getRBProps().setMass(1.0f).setRestitution(0f);
 
-        GameObjectsContainer.get(DrawableDef.MINER_1.name()).setPolygonRB().getRigidBody().isStaticObject(false)
+        GameObjectsContainer.get(OIL_DRILL_1).setPolygonRB().getRigidBody().isStaticObject(false)
                 .setCollisionListener(new GeneralCollisionListener())
                 .getRBProps().setMass(1.0f).setRestitution(0.1f);
 
-        IGameObject sampleScanner = GameObjectsContainer.get(DrawableDef.SCANNER_1.name());
+        IGameObject sampleScanner = GameObjectsContainer.get(SCANNER_1);
         sampleScanner.setRB(new PolygonRB(sampleScanner.getId(), sampleScanner.getDrawable().getOptimizedOOMesh(0.1f)));
         sampleScanner.getRigidBody().isStaticObject(false).getRBProps().setMass(1.0f).setRestitution(0.5f);
 

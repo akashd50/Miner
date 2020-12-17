@@ -7,14 +7,10 @@ import com.greymatter.miner.containers.GameObjectsContainer;
 import com.greymatter.miner.containers.UIToDrawContainer;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
 import com.greymatter.miner.opengl.objects.Camera;
-import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.physics.objects.CollisionEvent;
-import com.greymatter.miner.physics.objects.rb.RigidBody;
-
-import javax.vecmath.Vector3f;
+import static com.greymatter.miner.game.GameConstants.*;
 
 public class GeneralRenderer extends AbstractRenderer {
     private long prevCountFinishTime;
@@ -37,7 +33,7 @@ public class GeneralRenderer extends AbstractRenderer {
         super.onDrawFrame();
 
         IGameObject planet = GameObjectsContainer.get(GameManager.getCurrentPlanet());
-        IGameObject mainCharacter = GameObjectsContainer.get("MAIN_CHARACTER");
+        IGameObject mainCharacter = GameObjectsContainer.get(MAIN_CHARACTER_1);
         CollisionEvent collisionEvent = mainCharacter.getRigidBody().getLastCollisionEvent(planet.getRigidBody());
 //        if (collisionEvent != null && collisionEvent.getCollisionPoint()!=null) {
 //            Vector3f collPoint = collisionEvent.getCollisionPoint();

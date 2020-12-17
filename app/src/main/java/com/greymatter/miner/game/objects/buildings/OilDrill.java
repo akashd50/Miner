@@ -12,6 +12,7 @@ import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.helpers.ZHelper;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.Transforms;
@@ -23,6 +24,8 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class OilDrill extends GameBuilding {
+    private static final String PIPES_INS_GROUP = "pipes_ig";
+    private static final String JOINTS_INS_GROUP = "joints_ig";
     private GameInstanceGroup pipelineGroup, jointIndicators;
 
     public OilDrill(Drawable drawable) {
@@ -35,20 +38,25 @@ public class OilDrill extends GameBuilding {
         initialize();
     }
 
+    public OilDrill(String id) {
+        super(id, DrawableDef.create(DrawableDef.OIL_DRILL));
+        initialize();
+    }
+
     private void initialize() {
-        InstanceGroup square = new InstanceGroup("PIPES");
+        InstanceGroup square = new InstanceGroup(PIPES_INS_GROUP);
         square.setRenderer(new InstancedRenderer()).build();
         square.setMaterial(MaterialContainer.get(MaterialDef.GROUND_MATERIAL));
         pipelineGroup = new GameInstanceGroup(square);
         pipelineGroup.moveTo(0f,0f, ZHelper.FRONT);
-        this.addChild("PIPES", pipelineGroup);
+        this.addChild(PIPES_INS_GROUP, pipelineGroup);
 
-        InstanceGroup joint = new InstanceGroup("JOINTS");
+        InstanceGroup joint = new InstanceGroup(JOINTS_INS_GROUP);
         joint.setRenderer(new InstancedRenderer()).build();
         joint.setMaterial(MaterialContainer.get(MaterialDef.ADD_MARKER_MATERIAL));
         jointIndicators = new GameInstanceGroup(joint);
         jointIndicators.moveTo(0f,0f, ZHelper.OVER_FRONT);
-        this.addChild("JOINTS", jointIndicators);
+        this.addChild(JOINTS_INS_GROUP, jointIndicators);
 
         GameObject firstJointInstance = jointIndicators.addInstance();
         firstJointInstance.setCircularRB();

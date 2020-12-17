@@ -14,13 +14,36 @@ public class ToDrawContainer {
     private static Comparator<IGameObject> comparator = new Comparator<IGameObject>() {
         @Override
         public int compare(IGameObject o1, IGameObject o2) {
-            return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
+            return (int)(getZTranslationHelper(o1) - getZTranslationHelper(o2));
         }
     };
 
+    private static float getZTranslationHelper(IGameObject gameObject) {
+        float translation = gameObject.getTransforms().getTranslation().z;
+        IGameObject parent = gameObject.getParent();
+        while (parent != null) {
+            translation += parent.getTransforms().getTranslation().z;
+            parent = parent.getParent();
+        }
+        return translation;
+    }
+
     public static synchronized void add(IGameObject gameObject) {
         gameObjects.put(gameObject.getId(), gameObject);
+        addHelper(gameObject, new StringBuilder());
         gameObjects.sort(comparator);
+    }
+
+    public static synchronized void addHelper(IGameObject gameObject, final StringBuilder preID) {
+        gameObject.getChildren().forEach((s, child) -> {
+            if (child.getChildren().size() > 0) {
+                gameObjects.put(preID.toString() + "_" + gameObject.getId() + "_" + child.getId(), child);
+                preID.append(gameObject.getId());
+                addHelper(child, preID);
+            }else{
+                gameObjects.put(preID.toString() + "_" + gameObject.getId() + "_" + child.getId(), child);
+            }
+        });
     }
 
     public static synchronized void remove(String id) {
@@ -31,7 +54,11 @@ public class ToDrawContainer {
     }
 
     public static synchronized void applyTransformations() {
-        gameObjects.toList().forEach(IGameObject::applyTransformations);
+        gameObjects.toList().forEach(gameObject -> {
+            if (gameObject.getParent() == null) {
+                gameObject.applyTransformations();
+            }
+        });
     }
 
     public static synchronized void onDrawFrame(Camera camera) {

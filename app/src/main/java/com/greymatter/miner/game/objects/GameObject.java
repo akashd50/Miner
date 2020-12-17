@@ -49,14 +49,7 @@ public abstract class GameObject extends GRigidBody {
     public void onDrawFrame(Camera camera) {
         onFrameUpdate();
         if(shouldDraw) {
-            getBackgroundChildren().forEach(child -> {
-                child.onDrawFrame(camera);
-            });
             objectDrawable.getRenderer().render(camera, this);
-
-            getForegroundChildren().forEach(child -> {
-                child.onDrawFrame(camera);
-            });
         }
     }
 

@@ -13,6 +13,8 @@ import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;
 
+import static com.greymatter.miner.game.GameConstants.GAME_PAD_BG;
+
 public class GamePad extends GameObject implements OnTouchListener, OnAnimationFrameHandler {
     private GameObject padBackground, currentControllableObject;
     private float movementRadius;
@@ -34,10 +36,10 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
         defaultOnScreenLocation = new Vector2f(-1.2f,-0.5f);
 
         this.addTag(Tag.UI_OBJECT);
-        this.moveTo(defaultOnScreenLocation.x, defaultOnScreenLocation.y, ZHelper.OVER_FRONT+2f).scaleTo(0.09f,0.09f);
+        this.moveTo(defaultOnScreenLocation.x, defaultOnScreenLocation.y, 28f).scaleTo(0.09f,0.09f);
 
-        this.padBackground = new GenericObject(DrawableDef.create(DrawableDef.GAME_PAD_BACKGROUND));
-        this.padBackground.moveTo(defaultOnScreenLocation.x, defaultOnScreenLocation.y,ZHelper.OVER_FRONT+1f)
+        this.padBackground = new GenericObject(GAME_PAD_BG, DrawableDef.create(DrawableDef.GAME_PAD_BACKGROUND));
+        this.padBackground.moveTo(defaultOnScreenLocation.x, defaultOnScreenLocation.y,27f)
                 .scaleTo(movementRadius,movementRadius);
 
         this.addChild(padBackground.getId(), padBackground);

@@ -2,6 +2,7 @@ package com.greymatter.miner.loaders.enums;
 
 public enum Tag {
     PLACABLE_GAME_BUILDING,
+    PLACABLE_GAME_OBJECT,
     STATIC,
     GAME_LIGHT,
     PHYSICS_OBJECT,

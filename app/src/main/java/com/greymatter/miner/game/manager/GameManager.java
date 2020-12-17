@@ -1,7 +1,9 @@
 package com.greymatter.miner.game.manager;
 
+import com.greymatter.miner.game.GameConstants;
+
 public class GameManager {
     public static String getCurrentPlanet() {
-        return "PLANET_1";
+        return GameConstants.PLANET_1;
     }
 }

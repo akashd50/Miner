@@ -7,6 +7,10 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
 public class GameDialog extends GameNotification {
+    private static final String DIALOG_BUTTON_I = "DIALOG_BUTTON_I";
+    private static final String DIALOG_BUTTON_II = "DIALOG_BUTTON_II";
+    private static final String OBJECT_DIALOG = "OBJECT_DIALOG";
+
     public GameDialog(Drawable drawable) {
         super(drawable.getId(), drawable);
     }
@@ -15,7 +19,7 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog() {
-        super("OBJECT_DIALOG", DrawableDef.create(DrawableDef.OBJECT_DIALOG));
+        super(OBJECT_DIALOG, DrawableDef.create(DrawableDef.OBJECT_DIALOG));
         initialize();
     }
 
@@ -27,7 +31,7 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog setButtonI(GameButton button) {
-        addChild("DIALOG_BUTTON_I", button);
+        addChild(DIALOG_BUTTON_I, button);
         button.getTransforms()
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
@@ -38,7 +42,7 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog setButtonII(GameButton button) {
-        addChild("DIALOG_BUTTON_II", button);
+        addChild(DIALOG_BUTTON_II, button);
         button.getTransforms()
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
@@ -49,12 +53,12 @@ public class GameDialog extends GameNotification {
     }
 
     public GameDialog setButtonIClickListener(OnClickListener listener) {
-        getChild("DIALOG_BUTTON_I").setOnClickListener(listener);
+        getChild(DIALOG_BUTTON_I).setOnClickListener(listener);
         return this;
     }
 
     public GameDialog setButtonIIClickListener(OnClickListener listener) {
-        getChild("DIALOG_BUTTON_II").setOnClickListener(listener);
+        getChild(DIALOG_BUTTON_II).setOnClickListener(listener);
         return this;
     }
 }

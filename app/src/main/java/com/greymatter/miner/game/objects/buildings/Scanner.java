@@ -30,6 +30,11 @@ public class Scanner extends GameBuilding {
         initialize();
     }
 
+    public Scanner(String id) {
+        super(id, DrawableDef.create(DrawableDef.SCANNER_1));
+        initialize();
+    }
+
     private void initialize() {
         this.setRangeObject(new GenericObject(DrawableDef.create(DrawableDef.PIE_GRADIENT_I))
                                     .moveTo(0,0f, 2f).scaleTo(getObjectLevel()*5f,getObjectLevel()*5f)
