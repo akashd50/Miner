@@ -105,7 +105,8 @@ public abstract class AbstractTouchHandler {
 
     public boolean doOnTouchDown(Vector2f touchPoint) {
         for(IGameObject gameObject : gameObjectsForTouchChecking()) {
-            if(doOnTouchDownHelper(gameObject, touchPoint)) {
+            boolean hasParent = gameObject.getParent() != null;
+            if(!hasParent && doOnTouchDownHelper(gameObject, touchPoint)) {
                 return true;
             }
         }

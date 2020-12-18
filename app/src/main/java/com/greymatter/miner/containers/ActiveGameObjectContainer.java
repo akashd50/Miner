@@ -1,6 +1,7 @@
 package com.greymatter.miner.containers;
 
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
+import com.greymatter.miner.game.objects.GameInstanceGroup;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.opengl.objects.Camera;
@@ -39,7 +40,8 @@ public class ActiveGameObjectContainer {
 
     private synchronized void addHelper(IGameObject gameObject, final StringBuilder preID) {
         gameObject.getChildren().forEach((s, child) -> {
-            if (child.getChildren().size() > 0) {
+            boolean isInstanceGroup = child instanceof GameInstanceGroup;
+            if (child.getChildren().size() > 0 && !isInstanceGroup) {
                 gameObjects.put(preID.toString() + "_" + gameObject.getId() + "_" + child.getId(), child);
                 preID.append(gameObject.getId());
                 addHelper(child, preID);

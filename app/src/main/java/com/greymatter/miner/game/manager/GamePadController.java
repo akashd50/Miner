@@ -7,6 +7,7 @@ import com.greymatter.miner.containers.AllGameObjectsContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.GamePad;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import javax.vecmath.Vector3f;
 
@@ -23,7 +24,7 @@ public class GamePadController {
     public static void onGamePadAnimationFrame(GamePad gamePad,
                                                GameObject object,
                                                ValueAnimator animator) {
-       GameObject controllableObject = gamePad.getCurrentControllableObject();
+       IGameObject controllableObject = gamePad.getCurrentControllableObject();
         switch (controllableObject.getId()) {
             case MAIN_CHARACTER_1:
                 Vector3f left = VectorHelper.getNormal(AppServices.getGameCamera().getUpVector());

@@ -16,7 +16,8 @@ import javax.vecmath.Vector2f;
 import static com.greymatter.miner.game.GameConstants.GAME_PAD_BG;
 
 public class GamePad extends GameObject implements OnTouchListener, OnAnimationFrameHandler {
-    private GameObject padBackground, currentControllableObject;
+    private GameObject padBackground;
+    private IGameObject currentControllableObject;
     private float movementRadius;
     private Vector2f defaultOnScreenLocation;
     private Vector2f factor;
@@ -27,6 +28,11 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
 
     public GamePad(Drawable drawable) {
         super(drawable.getId(), drawable);
+        initialize();
+    }
+
+    public GamePad(String id) {
+        super(id, DrawableDef.create(DrawableDef.GAME_PAD_FRONT));
         initialize();
     }
 
@@ -54,7 +60,7 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
         return this;
     }
 
-    public GamePad setCurrentControllableObject(GameObject currentControllableObject) {
+    public GamePad setCurrentControllableObject(IGameObject currentControllableObject) {
         this.currentControllableObject = currentControllableObject;
         return this;
     }
@@ -63,7 +69,7 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
         return factor;
     }
 
-    public GameObject getCurrentControllableObject() {
+    public IGameObject getCurrentControllableObject() {
         return currentControllableObject;
     }
 
