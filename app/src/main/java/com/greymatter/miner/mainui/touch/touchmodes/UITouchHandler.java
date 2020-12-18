@@ -8,8 +8,7 @@ import android.widget.ListView;
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
 import com.greymatter.miner.containers.CollisionSystemContainer;
-import com.greymatter.miner.containers.AllGameObjectsContainer;
-import com.greymatter.miner.containers.UIToDrawContainer;
+import com.greymatter.miner.containers.ActiveUIContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.base.IGameObject;
@@ -110,6 +109,6 @@ public class UITouchHandler extends AbstractTouchHandler {
 
     @Override
     public ArrayList<IGameObject> gameObjectsForTouchChecking() {
-        return UIToDrawContainer.getAllReversed();
+        return ContainerManager.getActiveUIContainer().getAllReversed();
     }
 }

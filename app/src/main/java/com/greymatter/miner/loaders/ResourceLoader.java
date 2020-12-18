@@ -1,6 +1,6 @@
 package com.greymatter.miner.loaders;
 
-import com.greymatter.miner.containers.ActiveResourcesGameObjectContainer;
+import com.greymatter.miner.containers.ActiveResourcesContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.resources.OilDeposit;
@@ -13,7 +13,7 @@ import static com.greymatter.miner.game.GameConstants.*;
 
 public class ResourceLoader extends Loader {
     public void load() {
-        ActiveResourcesGameObjectContainer activeResourcesContainer = ContainerManager.getActiveResourceContainer();
+        ActiveResourcesContainer activeResourcesContainer = ContainerManager.getActiveResourceContainer();
         float planetRadius = GameManager.getCurrentPlanet().getTransforms().getScale().y;
         String res = "res";
         int i=0;

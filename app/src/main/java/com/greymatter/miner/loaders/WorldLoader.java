@@ -31,6 +31,8 @@ import javax.vecmath.Vector3f;
 
 public class WorldLoader extends Loader {
     private final AllGameObjectsContainer allGameObjectsContainer = ContainerManager.getAllGameObjectsContainer();
+    private final ActiveGameObjectContainer activeGameObjectContainer = ContainerManager.getActiveGameObjectsContainer();
+
     public void load() {
         allGameObjectsContainer.add(new Planet(PLANET_1)
                 .scaleTo(300f,300f).moveTo(0f,-300.5f, ZHelper.BACK));
@@ -109,7 +111,6 @@ public class WorldLoader extends Loader {
     }
 
     public void updateContainer() {
-        ActiveGameObjectContainer activeGameObjectContainer = ContainerManager.getActiveGameObjectsContainer();
 //        IGameObject mainCharacter = GameObjectsContainer.get(DrawableDef.MAIN_CHARACTER);
 //        GameObjectsContainer.add(new InteractiveObject(new Line(DrawableDef.TEST_LINE)
 //                            .setShader(ShaderContainer.get(ShaderDef.LINE_SHADER))
@@ -162,7 +163,7 @@ public class WorldLoader extends Loader {
             }
         });
 
-        ContainerManager.getActiveGameObjectsContainer().getAll().forEach(iGameObject -> {
+        activeGameObjectContainer.getAll().forEach(iGameObject -> {
             if(iGameObject.hasTag(Tag.STATIC_PHYSICS_OBJECT) || iGameObject.hasTag(Tag.DYNAMIC_PHYSICS_OBJECT)) {
                 CollisionSystemContainer.add(iGameObject.getRigidBody());
             }

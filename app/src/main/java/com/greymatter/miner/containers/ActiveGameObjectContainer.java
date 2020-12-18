@@ -24,7 +24,7 @@ public class ActiveGameObjectContainer {
     private float getZTranslationHelper(IGameObject gameObject) {
         float translation = gameObject.getTransforms().getTranslation().z;
         IGameObject parent = gameObject.getParent();
-        while (parent != null) {
+        while (parent != null && gameObject.getTransforms().isCopyTranslationFromParent()) {
             translation += parent.getTransforms().getTranslation().z;
             parent = parent.getParent();
         }

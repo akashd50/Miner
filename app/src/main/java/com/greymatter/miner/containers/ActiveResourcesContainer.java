@@ -5,10 +5,10 @@ import com.greymatter.miner.game.objects.resources.ResourceBlock;
 
 import java.util.ArrayList;
 
-public class ActiveResourcesGameObjectContainer extends ActiveGameObjectContainer {
+public class ActiveResourcesContainer extends ActiveGameObjectContainer {
     private ArrayList<ResourceBlock> gameResources;
 
-    public ActiveResourcesGameObjectContainer() {
+    public ActiveResourcesContainer() {
         super();
         gameResources = new ArrayList<>();
     }
