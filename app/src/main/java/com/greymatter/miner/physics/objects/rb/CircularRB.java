@@ -4,6 +4,7 @@ import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 
 import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 
 public class CircularRB extends RigidBody {
     private float radius, transformedRadius;
@@ -40,9 +41,8 @@ public class CircularRB extends RigidBody {
          */
 
         Transforms transforms = getTransforms();
-        Vector2f normalizedTouchPoint = VectorHelper.copy(touchPoint);
-        revertAllTransformations(normalizedTouchPoint, transforms.getParent(), transforms);
-        VectorHelper.revertTransformations(normalizedTouchPoint, transforms);
+        Vector3f normalizedTouchPoint = VectorHelper.toVector3f(touchPoint);
+        normalizedTouchPoint = VectorHelper.getUnitLocation(normalizedTouchPoint, transforms);
 
         float distanceFromCenter = (float)VectorHelper.getDistanceWithSQRT(new Vector2f(0f, 0f),
                                         new Vector2f(normalizedTouchPoint.x, normalizedTouchPoint.y));

@@ -91,29 +91,6 @@ public abstract class RigidBody {
         }
     }
 
-    protected Vector2f revertAllTransformations(Vector2f normalizedTouchPoint, Transforms transforms, Transforms prevTransforms) {
-        boolean shouldRecurse = transforms.isCopyTranslationFromParent()
-                || transforms.isCopyRotationFromParent()
-                || transforms.isCopyScaleFromParent();
-
-        if(transforms.getParent() != null && shouldRecurse){
-            revertAllTransformations(normalizedTouchPoint, transforms.getParent(), transforms);
-        }
-
-        if(prevTransforms.isCopyTranslationFromParent()) {
-            VectorHelper.revertTranslation(normalizedTouchPoint, transforms.getTranslation());
-        }
-
-        if(prevTransforms.isCopyRotationFromParent()) {
-            VectorHelper.revertRotation(normalizedTouchPoint, transforms.getRotation());
-        }
-
-        if(prevTransforms.isCopyScaleFromParent()) {
-            VectorHelper.revertScale(normalizedTouchPoint, transforms.getScale());
-        }
-        return normalizedTouchPoint;
-    }
-
     public abstract void updateParamsOverride();
     public abstract boolean isClicked(Vector2f touchPoint);
 

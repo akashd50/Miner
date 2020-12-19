@@ -3,7 +3,6 @@ package com.greymatter.miner.game.objects.buildings;
 import com.greymatter.miner.animators.BooleanAnimator;
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.animators.impl.ScannerAnimationHandler;
-import com.greymatter.miner.containers.AllResourcesContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
@@ -53,7 +52,7 @@ public class Scanner extends GameBuilding {
     @Override
     public void onFrameUpdate() {
         super.onFrameUpdate();
-        Vector3f sub = VectorHelper.sub(GameManager.getCurrentPlanet().getLocation(), this.getLocation());
+        Vector3f sub = VectorHelper.sub(GameManager.getCurrentPlanet().getLocalLocation(), this.getLocalLocation());
         rangeObject.getTransforms().rotateTo(0f,0f,(float)Math.toDegrees(Math.atan2(sub.y, sub.x)));
     }
 
@@ -76,7 +75,7 @@ public class Scanner extends GameBuilding {
     }
 
     public boolean isResourceInRange(ResourceBlock resourceBlock) {
-        Vector3f sub = VectorHelper.sub(resourceBlock.getLocation(), this.getLocation());
+        Vector3f sub = VectorHelper.sub(resourceBlock.getLocalLocation(), this.getLocalLocation());
         float distance = VectorHelper.getLength(sub);
         if(distance < scannerRange) {
             float rotationZ = rangeObject.getTransforms().getRotation().z;
@@ -92,7 +91,7 @@ public class Scanner extends GameBuilding {
         float prevLength = 999999;
         ResourceBlock toReturn = null;
         for(IGameObject resourceBlock : ContainerManager.getAllResourcesContainer().getAll()) {
-            float dist = VectorHelper.getLength(VectorHelper.sub(resourceBlock.getLocation(), this.getLocation()));
+            float dist = VectorHelper.getLength(VectorHelper.sub(resourceBlock.getLocalLocation(), this.getLocalLocation()));
             if(dist < prevLength) {
                 prevLength = dist;
                 toReturn = (ResourceBlock)resourceBlock;

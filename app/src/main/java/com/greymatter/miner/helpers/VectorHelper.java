@@ -286,6 +286,30 @@ public class VectorHelper {
         return null;
     }
 
+    public static Vector3f applyTransformations(Vector3f vector3f, Transforms transforms) {
+        applyTranslation(vector3f, transforms.getTranslation());
+        applyRotation(vector3f, transforms.getRotation());
+        applyScale(vector3f, transforms.getScale());
+        return vector3f;
+    }
+
+    public static Vector3f applyTranslation(Vector3f vector3f, Vector3f translation) {
+        vector3f.x += translation.x;
+        vector3f.y += translation.y;
+        return vector3f;
+    }
+
+    public static Vector3f applyRotation(Vector3f vector3f, Vector3f rotation) {
+        vector3f = VectorHelper.rotateAroundZ(vector3f, (float) Math.toRadians(rotation.z));
+        return vector3f;
+    }
+
+    public static Vector3f applyScale(Vector3f vector3f, Vector3f scale) {
+        vector3f.x *= scale.x;
+        vector3f.y *= scale.y;
+        return vector3f;
+    }
+
     public static Vector3f revertTransformations(Vector3f vector3f, Transforms transforms) {
         revertTranslation(vector3f, transforms.getTranslation());
         revertRotation(vector3f, transforms.getRotation());
@@ -332,5 +356,71 @@ public class VectorHelper {
         vector2f.x *= 1 / scale.x;
         vector2f.y *= 1 / scale.y;
         return vector2f;
+    }
+
+    public static Vector3f getGlobalLocation(Transforms transforms) {
+        Vector3f translation = new Vector3f();
+        if (transforms.getParent() != null) {
+            applyAllTransformations(translation, transforms.getParent(), transforms);
+            return VectorHelper.applyTransformations(translation, transforms);
+        }else{
+            return transforms.getTranslation();
+        }
+    }
+
+    private static Vector3f applyAllTransformations(Vector3f translation, Transforms transforms, Transforms prevTransforms) {
+        boolean shouldRecurse = transforms.isCopyTranslationFromParent()
+                || transforms.isCopyRotationFromParent()
+                || transforms.isCopyScaleFromParent();
+
+        if(transforms.getParent() != null && shouldRecurse){
+            applyAllTransformations(translation, transforms.getParent(), transforms);
+        }
+
+        if(prevTransforms.isCopyTranslationFromParent()) {
+            VectorHelper.applyTranslation(translation, transforms.getTranslation());
+        }
+
+        if(prevTransforms.isCopyRotationFromParent()) {
+            VectorHelper.applyRotation(translation, transforms.getRotation());
+        }
+
+        if(prevTransforms.isCopyScaleFromParent()) {
+            VectorHelper.applyScale(translation, transforms.getScale());
+        }
+        return translation;
+    }
+
+    public static Vector3f getUnitLocation(Vector3f globalLocation, Transforms transforms) {
+        if (transforms.getParent() != null) {
+            revertAllTransformations(globalLocation, transforms.getParent(), transforms);
+            return VectorHelper.revertTransformations(globalLocation, transforms);
+        }else{
+            return transforms.getTranslation();
+        }
+    }
+
+
+    private static Vector3f revertAllTransformations(Vector3f normalizedTouchPoint, Transforms transforms, Transforms prevTransforms) {
+        boolean shouldRecurse = transforms.isCopyTranslationFromParent()
+                || transforms.isCopyRotationFromParent()
+                || transforms.isCopyScaleFromParent();
+
+        if(transforms.getParent() != null && shouldRecurse){
+            revertAllTransformations(normalizedTouchPoint, transforms.getParent(), transforms);
+        }
+
+        if(prevTransforms.isCopyTranslationFromParent()) {
+            VectorHelper.revertTranslation(normalizedTouchPoint, transforms.getTranslation());
+        }
+
+        if(prevTransforms.isCopyRotationFromParent()) {
+            VectorHelper.revertRotation(normalizedTouchPoint, transforms.getRotation());
+        }
+
+        if(prevTransforms.isCopyScaleFromParent()) {
+            VectorHelper.revertScale(normalizedTouchPoint, transforms.getScale());
+        }
+        return normalizedTouchPoint;
     }
 }

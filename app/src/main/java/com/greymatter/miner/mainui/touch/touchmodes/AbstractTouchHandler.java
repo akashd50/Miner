@@ -124,7 +124,7 @@ public abstract class AbstractTouchHandler {
         }
 
         if(gameObject.isClicked(touchPoint)) {
-            gameObject.setTouchDownOffset(VectorHelper.sub(touchPoint, VectorHelper.toVector2f(gameObject.getLocation())));
+            gameObject.setTouchDownOffset(VectorHelper.sub(touchPoint, VectorHelper.toVector2f(gameObject.getGlobalLocation())));
 
             if(gameObject.getOnTouchListener() != null && gameObject.getOnTouchListener().onTouchDown(gameObject, touchPoint)) {
                 currentlySelectedObject = gameObject;

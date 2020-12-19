@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects.base;
 
+import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.Transforms;
 
 import java.util.ArrayList;
@@ -144,7 +145,12 @@ public abstract class GTransformable extends GHierarchical {
         return foregroundChildren;
     }
 
-    public Vector3f getLocation() {
+    public Vector3f getLocalLocation() {
         return transforms.getTranslation();
+    }
+
+    @Override
+    public Vector3f getGlobalLocation() {
+        return VectorHelper.getGlobalLocation(transforms);
     }
 }

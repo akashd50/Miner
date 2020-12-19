@@ -6,7 +6,6 @@ import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.game.manager.GamePadController;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
-import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
@@ -90,8 +89,8 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
             float y = defaultOnScreenLocation.y + movementRadius * (float)Math.sin(angleToPoint);
             moveTo(x,y);
         }
-        factor.x = (getLocation().x - defaultOnScreenLocation.x)/movementRadius;
-        factor.y = (getLocation().y - defaultOnScreenLocation.y)/movementRadius;
+        factor.x = (getLocalLocation().x - defaultOnScreenLocation.x)/movementRadius;
+        factor.y = (getLocalLocation().y - defaultOnScreenLocation.y)/movementRadius;
         return true;
     }
 

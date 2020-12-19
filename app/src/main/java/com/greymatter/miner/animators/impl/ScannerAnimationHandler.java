@@ -18,7 +18,7 @@ public class ScannerAnimationHandler implements OnAnimationFrameHandler {
         currentlyTracking = currentlyTracking==null? scanner.findClosestResource() : currentlyTracking;
         scanner.setCurrentlyTracking(currentlyTracking);
         if(!scanner.isResourceInRange(currentlyTracking)) {
-            Vector3f dir = VectorHelper.sub(currentlyTracking.getLocation(), scanner.getLocation());
+            Vector3f dir = VectorHelper.sub(currentlyTracking.getLocalLocation(), scanner.getLocalLocation());
             dir.normalize();
             dir.z = 0f;
             scanner.getRigidBody().getRBProps().updateVelocity(VectorHelper.multiply(dir, 0.02f));

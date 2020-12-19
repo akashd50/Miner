@@ -1,7 +1,6 @@
 package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.IntersectionEvent;
@@ -9,13 +8,9 @@ import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
-import com.greymatter.miner.mainui.touch.OnClickListener;
-import com.greymatter.miner.mainui.touch.OnTouchListener;
-import com.greymatter.miner.mainui.viewmode.ViewMode;
-import com.greymatter.miner.mainui.viewmode.ViewModeManager;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-import javax.vecmath.Vector2f;
+
 import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObjectWGL {
@@ -29,7 +24,7 @@ public abstract class GameBuilding extends GameObjectWGL {
     }
 
     private void initialize() {
-        startingPoint = getLocation();
+        startingPoint = getLocalLocation();
         snapAnimator = new FloatValueAnimator();
         snapAnimator.withFPS(30).setSingleCycle(true).setToAnimateObject(this);
         snapAnimator.setPerFrameIncrement(0.1f);
@@ -41,7 +36,8 @@ public abstract class GameBuilding extends GameObjectWGL {
         });
 
         buildingMovementTarget = new GenericObject(BUILDING_MOVEMENT_TARGET, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
-        buildingMovementTarget.moveTo(this.getLocation().x, this.getLocation().y, this.getLocation().z + 1f);
+        buildingMovementTarget.copyTranslationFromParent(true);
+        buildingMovementTarget.moveTo(0f, 0f,1f);
         buildingMovementTarget.getDrawable().setOpacity(0.5f);
         buildingMovementTarget.setCircularRB();
         buildingMovementTarget.setOnTouchListener(new GameBuildingMoveTouchListener());
@@ -56,7 +52,7 @@ public abstract class GameBuilding extends GameObjectWGL {
     }
 
     public GameBuilding snapTo(IGameObject object) {
-        IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocation());
+        IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocalLocation());
         snappingPoint = event.intPoint;
 
         Vector3f normal = VectorHelper.getNormal(VectorHelper.sub(event.intLineB, event.intLineA));
@@ -80,13 +76,5 @@ public abstract class GameBuilding extends GameObjectWGL {
         snappingPoint = new Vector3f(px, py, 0f);
         snapAnimator.startFrom(0f,true).resume();
         return this;
-    }
-
-    @Override
-    public void onTransformsChanged() {
-        super.onTransformsChanged();
-        if (buildingMovementTarget != null) {
-            buildingMovementTarget.moveTo(this.getLocation().x, this.getLocation().y, this.getLocation().z + 1f);
-        }
     }
 }

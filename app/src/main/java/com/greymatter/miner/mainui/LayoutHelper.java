@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.greymatter.miner.AppServices;
 import com.greymatter.miner.R;
-import com.greymatter.miner.containers.AllGameObjectsContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.manager.MinerManager;
@@ -32,7 +31,7 @@ public class LayoutHelper {
             public void onClick(DialogInterface dialog, int which) {
                 ContainerManager.getActiveGameObjectsContainer().add(ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()));
                 IGameObject planet = GameManager.getCurrentPlanet();
-                ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()).asGameBuilding().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocation()));
+                ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()).asGameBuilding().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocalLocation()));
                 dialog.dismiss();
             }
         });

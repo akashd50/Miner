@@ -17,7 +17,7 @@ public class OilDrillJointTouchListener implements OnTouchListener {
     public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
         OilDrill oilDrill = (OilDrill)gameObject.getParent().getParent();
         GameObject newPipeInstance = oilDrill.addInstance();
-        newPipeInstance.moveTo(gameObject.getLocation().x,gameObject.getLocation().y, ZHelper.FRONT);
+        newPipeInstance.moveTo(gameObject.getLocalLocation().x,gameObject.getLocalLocation().y, ZHelper.FRONT);
         return true;
     }
 

@@ -2,14 +2,11 @@ package com.greymatter.miner.game.objects.resources;
 
 import com.greymatter.miner.game.GameInstance;
 import com.greymatter.miner.game.objects.GameInstanceGroup;
-import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.ArrayList;
-
-import javax.vecmath.Vector3f;
 
 public class OilDepositGroup extends ResourceBlock {
     private static final String OUTER_GROUP = "outer_group";
@@ -51,8 +48,8 @@ public class OilDepositGroup extends ResourceBlock {
         int id = outerOilDeposit.getTotalInstances();
         GameInstance newOuterInstance = outerOilDeposit.createAndAddInstance();
         GameInstance newInnerInstance = innerOilDeposit.createAndAddInstance();
-        newOuterInstance.moveTo(x, y, outerOilDeposit.getLocation().z);
-        newInnerInstance.moveTo(x, y, innerOilDeposit.getLocation().z);
+        newOuterInstance.moveTo(x, y, outerOilDeposit.getLocalLocation().z);
+        newInnerInstance.moveTo(x, y, innerOilDeposit.getLocalLocation().z);
 
         oilDeposits.add(new OilDeposit(OIL_DEPOSIT + id)
                 .setOuterOilDeposit(newOuterInstance)

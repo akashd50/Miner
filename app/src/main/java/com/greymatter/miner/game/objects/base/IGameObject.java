@@ -51,7 +51,8 @@ public interface IGameObject {
     ArrayList<IGameObject> getBackgroundChildren();
     ArrayList<IGameObject> getForegroundChildren();
     void onTransformsChanged();
-    Vector3f getLocation();
+    Vector3f getLocalLocation();
+    Vector3f getGlobalLocation();
 
     boolean isClicked(Vector2f pointer);
     Vector2f getTouchDownOffset();
