@@ -12,7 +12,8 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class Transforms {
-    private Vector3f translation, rotation, scale, translationTransformationOffset;
+    private final Vector3f translation, rotation, scale, translationTransformationOffset;
+    private final Vector3f defaultTranslation, defaultRotation, defaultScale;
     private float[] modelMatrix;
     private GameObject linkedGameObject;
     private boolean transformationsUpdated, shouldTransformVertices, copyTranslationFromParent,
@@ -24,6 +25,11 @@ public class Transforms {
         translation = new Vector3f();
         rotation = new Vector3f();
         scale = new Vector3f(1f,1f,1f);
+
+        defaultTranslation = new Vector3f();
+        defaultRotation = new Vector3f();
+        defaultScale = new Vector3f(1f,1f,1f);
+
         translationTransformationOffset = new Vector3f();
 
         this.children = new ArrayList<>();
@@ -107,6 +113,12 @@ public class Transforms {
 
     public Transforms scaleTo(float x, float y) {
         this.scale.set(x,y,this.scale.z);
+        onTransformsChanged();
+        return this;
+    }
+
+    public Transforms scaleTo(Vector2f newScale) {
+        this.scale.set(newScale.x, newScale.y, this.scale.z);
         onTransformsChanged();
         return this;
     }
@@ -231,6 +243,68 @@ public class Transforms {
         } else if(rotation.z < -360) {
             rotation.z = rotation.z + 360;
         }
+    }
+
+    public void setDefaultTranslation(float x, float y, float z) {
+        this.defaultTranslation.set(x, y, z);
+        translateTo(x, y, z);
+    }
+
+    public void setDefaultRotation(float x, float y, float z) {
+        this.defaultRotation.set(x, y, z);
+        rotateTo(x, y, z);
+    }
+
+    public void setDefaultTranslation(float x, float y) {
+        this.defaultTranslation.set(x, y, defaultTranslation.z);
+        translateTo(x, y);
+    }
+
+    public void setDefaultScale(float x, float y) {
+        this.defaultScale.set(x, y, 1f);
+        scaleTo(x, y);
+    }
+
+    public void setDefaultTranslation(Vector3f translation) {
+        this.defaultTranslation.set(translation);
+        translateTo(translation);
+    }
+
+    public void setDefaultRotation(Vector3f rotation) {
+        this.defaultRotation.set(rotation);
+        rotateTo(rotation);
+    }
+
+    public void setDefaultScale(Vector3f scale) {
+        this.defaultScale.set(scale.x, scale.y, 1f);
+        scaleTo(scale);
+    }
+
+    public void setDefaultTranslation(Vector2f translation) {
+        this.defaultTranslation.set(translation.x, translation.y, defaultTranslation.z);
+        translateTo(translation);
+    }
+
+    public void setDefaultRotation(float z) {
+        this.defaultRotation.set(0f, 0f, z);
+        rotateTo(0f, 0f, z);
+    }
+
+    public void setDefaultScale(Vector2f scale) {
+        this.defaultScale.set(scale.x, scale.y, 1f);
+        scaleTo(scale);
+    }
+
+    public Vector3f getDefaultTranslation() {
+        return defaultTranslation;
+    }
+
+    public Vector3f getDefaultRotation() {
+        return defaultRotation;
+    }
+
+    public Vector3f getDefaultScale() {
+        return defaultScale;
     }
 
     public Transforms addChild(Transforms child) {

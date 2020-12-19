@@ -42,6 +42,7 @@ public class Path {
     public static final String BUTTON_I =           TEXTURES_DIR + SLASH + "button_i.png";
     public static final String ROCK_I =             TEXTURES_DIR + SLASH + "rocks_i.png";
     public static final String MINE_II =            TEXTURES_DIR + SLASH + "mine_ii.png";
+    public static final String PIPE_I =             TEXTURES_DIR + SLASH + "pipe_i.png";
 
     //obj files
     public static final String OBJECTS_F = "objects/";

@@ -33,8 +33,8 @@ public class ResourceLoader extends Loader {
         block.addTag(Tag.RESOURCE_OBJECT).scaleTo(1f, 1f).moveTo(20f, -4f, ZHelper.OVER_FRONT);
 
         OilDepositGroup oilDepositGroup = new OilDepositGroup(OIL_DEPOSIT_GROUP_1);
-        oilDepositGroup.addInstance(-15f, -8f);
-        oilDepositGroup.addInstance(-20f, -8f);
+        oilDepositGroup.addInstance(-15f, -8f, 200f);
+        oilDepositGroup.addInstance(-20f, -8f, 200f);
 
         ContainerManager.getAllResourcesContainer().add(DrawableDef.COAL_BLOCK_I.name(), block);
         ContainerManager.getAllResourcesContainer().add(OIL_DEPOSIT_GROUP_1, oilDepositGroup);

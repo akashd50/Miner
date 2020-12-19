@@ -8,6 +8,9 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
+
 public class OilDepositGroup extends ResourceBlock {
     private static final String OUTER_GROUP = "outer_group";
     private static final String INNER_GROUP = "inner_group";
@@ -44,15 +47,32 @@ public class OilDepositGroup extends ResourceBlock {
         this.addChild(OUTER_GROUP, outerOilDeposit);
     }
 
-    public void addInstance(float x, float y) {
+    public void addInstance(float x, float y, float amount) {
         int id = outerOilDeposit.getTotalInstances();
         GameInstance newOuterInstance = outerOilDeposit.createAndAddInstance();
         GameInstance newInnerInstance = innerOilDeposit.createAndAddInstance();
-        newOuterInstance.moveTo(x, y, outerOilDeposit.getLocalLocation().z);
-        newInnerInstance.moveTo(x, y, innerOilDeposit.getLocalLocation().z);
+        newOuterInstance.getTransforms().setDefaultTranslation(x, y, outerOilDeposit.getLocalLocation().z);
+        newOuterInstance.getTransforms().setDefaultScale(1f, 1f);
+        newInnerInstance.getTransforms().setDefaultTranslation(x, y, innerOilDeposit.getLocalLocation().z);
+        newInnerInstance.getTransforms().setDefaultScale(0.6f, 0.7f);
 
-        oilDeposits.add(new OilDeposit(OIL_DEPOSIT + id)
+        outerOilDeposit.setRectangularRB();
+
+        OilDeposit newDeposit = new OilDeposit(OIL_DEPOSIT + id)
                 .setOuterOilDeposit(newOuterInstance)
-                .setInnerOilDeposit(newInnerInstance));
+                .setInnerOilDeposit(newInnerInstance);
+        newDeposit.getResourceAmount().setTotal(amount).setRemaining(amount);
+        oilDeposits.add(newDeposit);
     }
+
+    public OilDeposit getOverlappingDeposit(Vector2f pointer) {
+        for (OilDeposit deposit : oilDeposits) {
+            if (deposit.getOuterOilDeposit().getRigidBody().isClicked(pointer)) {
+                return deposit;
+            }
+        }
+        return null;
+    }
+
+
 }

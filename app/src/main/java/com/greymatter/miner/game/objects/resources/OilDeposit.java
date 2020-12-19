@@ -1,11 +1,10 @@
 package com.greymatter.miner.game.objects.resources;
 
-import com.greymatter.miner.game.GameInstance;
-import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
+import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+import javax.vecmath.Vector3f;
 
 public class OilDeposit extends ResourceBlock {
     private static final String OUTER_DEPOSIT = "outer_oil_deposit";
@@ -30,6 +29,18 @@ public class OilDeposit extends ResourceBlock {
 
     private void initialize() {
 
+    }
+
+    @Override
+    public void onResourceAmountChanged() {
+        Transforms innerTrans = innerOilDeposit.getTransforms();
+        Vector3f defaultTranslation = innerTrans.getDefaultTranslation();
+        Vector3f defaultScale = innerTrans.getDefaultScale();
+
+        float amountRatio = (getResourceAmount().getRemaining()/getResourceAmount().getTotal()) * defaultScale.y;
+        this.innerOilDeposit.scaleTo(defaultScale.x, amountRatio);
+        float translationFix = defaultTranslation.y - (defaultScale.y - amountRatio);
+        this.innerOilDeposit.moveTo(defaultTranslation.x, translationFix, defaultTranslation.z);
     }
 
     public OilDeposit setInnerOilDeposit(IGameObject innerOilDeposit) {
