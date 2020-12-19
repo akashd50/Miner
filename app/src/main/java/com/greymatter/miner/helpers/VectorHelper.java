@@ -285,4 +285,52 @@ public class VectorHelper {
         }
         return null;
     }
+
+    public static Vector3f revertTransformations(Vector3f vector3f, Transforms transforms) {
+        revertTranslation(vector3f, transforms.getTranslation());
+        revertRotation(vector3f, transforms.getRotation());
+        revertScale(vector3f, transforms.getScale());
+        return vector3f;
+    }
+
+    public static Vector3f revertTranslation(Vector3f vector3f, Vector3f translation) {
+        vector3f.x -= translation.x;
+        vector3f.y -= translation.y;
+        return vector3f;
+    }
+
+    public static Vector3f revertRotation(Vector3f vector3f, Vector3f rotation) {
+        vector3f = VectorHelper.rotateAroundZ(vector3f, (float) Math.toRadians(-rotation.z));
+        return vector3f;
+    }
+
+    public static Vector3f revertScale(Vector3f vector3f, Vector3f scale) {
+        vector3f.x *= 1 / scale.x;
+        vector3f.y *= 1 / scale.y;
+        return vector3f;
+    }
+
+    public static Vector2f revertTransformations(Vector2f vector2f, Transforms transforms) {
+        revertTranslation(vector2f, transforms.getTranslation());
+        revertRotation(vector2f, transforms.getRotation());
+        revertScale(vector2f, transforms.getScale());
+        return vector2f;
+    }
+
+    public static Vector2f revertTranslation(Vector2f vector2f, Vector3f translation) {
+        vector2f.x -= translation.x;
+        vector2f.y -= translation.y;
+        return vector2f;
+    }
+
+    public static Vector2f revertRotation(Vector2f vector2f, Vector3f rotation) {
+        vector2f = VectorHelper.rotateAroundZ(vector2f, (float) Math.toRadians(-rotation.z));
+        return vector2f;
+    }
+
+    public static Vector2f revertScale(Vector2f vector2f, Vector3f scale) {
+        vector2f.x *= 1 / scale.x;
+        vector2f.y *= 1 / scale.y;
+        return vector2f;
+    }
 }

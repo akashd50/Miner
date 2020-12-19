@@ -57,7 +57,7 @@ public class GeneralTouchHandler extends AbstractTouchHandler {
             fromCenterToCam.normalize();
             getMainCamera().setUpVector(fromCenterToCam);
         }else{
-            getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.1f : getMainCamera().getZoomValue()* 0.1f);
+            getMainCamera().updateZoomValue(getTouchHelper().getScalingFactor() > 0 ? getMainCamera().getZoomValue() * -0.01f : getMainCamera().getZoomValue()* 0.01f);
         }
         return true;
     }

@@ -1,9 +1,9 @@
 package com.greymatter.miner.physics.objects.rb;
 
 import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.opengl.objects.Transforms;
 
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public class CircularRB extends RigidBody {
     private float radius, transformedRadius;
@@ -34,7 +34,18 @@ public class CircularRB extends RigidBody {
 
     @Override
     public boolean isClicked(Vector2f touchPoint) {
-        return VectorHelper.getDistanceWithSQRT(getTransforms().getTranslation(),
-                new Vector3f(touchPoint.x, touchPoint.y, 0f)) <= transformedRadius;
+        /*
+         * This applies reverted transformations to the point to bring the point into a local space
+         * between -1 and 1 and then checks if that point meets the touch criteria.
+         */
+
+        Transforms transforms = getTransforms();
+        Vector2f normalizedTouchPoint = VectorHelper.copy(touchPoint);
+        revertAllTransformations(normalizedTouchPoint, transforms.getParent(), transforms);
+        VectorHelper.revertTransformations(normalizedTouchPoint, transforms);
+
+        float distanceFromCenter = (float)VectorHelper.getDistanceWithSQRT(new Vector2f(0f, 0f),
+                                        new Vector2f(normalizedTouchPoint.x, normalizedTouchPoint.y));
+        return distanceFromCenter <= 1f;
     }
 }

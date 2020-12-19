@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.greymatter.miner.R;
+import com.greymatter.miner.game.GameInstance;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.mainui.touch.TouchHelper;
@@ -106,6 +107,8 @@ public abstract class AbstractTouchHandler {
     public boolean doOnTouchDown(Vector2f touchPoint) {
         for(IGameObject gameObject : gameObjectsForTouchChecking()) {
             boolean hasParent = gameObject.getParent() != null;
+            // boolean instanceObj = gameObject instanceof GameInstance;
+
             if(!hasParent && doOnTouchDownHelper(gameObject, touchPoint)) {
                 return true;
             }
@@ -124,6 +127,11 @@ public abstract class AbstractTouchHandler {
             gameObject.setTouchDownOffset(VectorHelper.sub(touchPoint, VectorHelper.toVector2f(gameObject.getLocation())));
 
             if(gameObject.getOnTouchListener() != null && gameObject.getOnTouchListener().onTouchDown(gameObject, touchPoint)) {
+                currentlySelectedObject = gameObject;
+                return true;
+            }
+
+            if(gameObject.getOnClickListener() != null) {
                 currentlySelectedObject = gameObject;
                 return true;
             }

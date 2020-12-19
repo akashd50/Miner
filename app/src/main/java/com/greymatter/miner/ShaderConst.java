@@ -8,6 +8,7 @@ public class ShaderConst {
     public static final String MODEL = "model";
     public static final String TRANSLATION = "translation";
     public static final String U_COLOR = "u_color";
+    public static final String U_OPACITY = "u_opacity";
     public static final String GRADIENT_CENTER_COLOR = "centerColor";
     public static final String GRADIENT_EDGE_COLOR = "edgeColor";
     public static final String GRADIENT_MID_COLOR = "midColor";

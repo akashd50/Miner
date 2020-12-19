@@ -27,8 +27,10 @@ public class QuadRenderer extends Renderer {
 
         drawable.getMaterial().setShaderProperties(getShader());
 
+
         GLBufferHelper.glBindVertexArray(drawable.getVertexArrayObject());
         ShaderHelper.setUniformMatrix4fv(getShader(), ShaderConst.MODEL, drawable.getTransforms().getModelMatrix());
+        ShaderHelper.setUniformFloat(getShader(), ShaderConst.U_OPACITY, drawable.getOpacity());
         GLES30.glDrawArrays(drawable.getShape().getRenderMode(), 0, drawable.getShape().getVerticesList().size());
         GLBufferHelper.glUnbindVertexArray();
     }

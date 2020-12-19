@@ -10,11 +10,12 @@ struct Material {
 };
 
 uniform Material material;
+uniform float u_opacity;
 in vec2 out_uv;
 
 out vec4 FragColor;
 void main() {
     vec4 textureCol = texture(material.diffuseTexture, out_uv);
     //if(textureCol.a < 0.1) discard;
-    FragColor = textureCol;
+    FragColor = vec4(textureCol.xyz, min(u_opacity, textureCol.w));
 }

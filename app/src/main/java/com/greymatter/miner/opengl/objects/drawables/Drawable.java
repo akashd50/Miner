@@ -15,11 +15,13 @@ public abstract class Drawable {
     private String id;
     private Material material;
     private int vertexArray, vertexBuffer;
+    private float opacity;
     private Transforms transforms;
     private Shape shape;
     private Renderer renderer;
     public Drawable(String id) {
         this.id = id;
+        this.opacity = 1.0f;
     }
 
     public Drawable build() {
@@ -80,6 +82,15 @@ public abstract class Drawable {
 
     public Shape getShape() {
         return shape;
+    }
+
+    public float getOpacity() {
+        return opacity;
+    }
+
+    public Drawable setOpacity(float opacity) {
+        this.opacity = opacity;
+        return this;
     }
 
     public ArrayList<Vector3f> getOrderedOuterMesh() {

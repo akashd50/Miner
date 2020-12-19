@@ -2,10 +2,13 @@ package com.greymatter.miner.game.objects.buildings;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
 import com.greymatter.miner.game.manager.GameManager;
+import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.IntersectionEvent;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
+import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.mainui.viewmode.ViewMode;
@@ -15,9 +18,11 @@ import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class GameBuilding extends GameObjectWGL implements OnTouchListener, OnClickListener {
+public abstract class GameBuilding extends GameObjectWGL {
+    private static final String BUILDING_MOVEMENT_TARGET = "building_movement_target";
     private FloatValueAnimator snapAnimator;
     private Vector3f snappingPoint, startingPoint;
+    private GenericObject buildingMovementTarget;
     public GameBuilding(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
@@ -35,8 +40,13 @@ public abstract class GameBuilding extends GameObjectWGL implements OnTouchListe
             object.moveTo(x,y);
         });
 
-        this.setOnTouchListener(this);
-        this.setOnClickListener(this);
+        buildingMovementTarget = new GenericObject(BUILDING_MOVEMENT_TARGET, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
+        buildingMovementTarget.moveTo(this.getLocation().x, this.getLocation().y, this.getLocation().z + 1f);
+        buildingMovementTarget.getDrawable().setOpacity(0.5f);
+        buildingMovementTarget.setCircularRB();
+        buildingMovementTarget.setOnTouchListener(new GameBuildingMoveTouchListener());
+
+        this.addChild(BUILDING_MOVEMENT_TARGET, buildingMovementTarget);
     }
 
     @Override
@@ -73,31 +83,10 @@ public abstract class GameBuilding extends GameObjectWGL implements OnTouchListe
     }
 
     @Override
-    public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
-        return true;
-    }
-
-    @Override
-    public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-        if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
-            OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
-            return true;
+    public void onTransformsChanged() {
+        super.onTransformsChanged();
+        if (buildingMovementTarget != null) {
+            buildingMovementTarget.moveTo(this.getLocation().x, this.getLocation().y, this.getLocation().z + 1f);
         }
-        return false;
-    }
-
-    @Override
-    public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
-        if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
-            IGameObject planet = GameManager.getCurrentPlanet();
-            snapTo(planet);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onClick(IGameObject object) {
-        return false;
     }
 }
