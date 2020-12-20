@@ -8,9 +8,12 @@ import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
+import com.greymatter.miner.mainui.touch.OnClickListener;
+import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
+import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObjectWGL {
@@ -41,6 +44,40 @@ public abstract class GameBuilding extends GameObjectWGL {
         buildingMovementTarget.getDrawable().setOpacity(0.5f);
         buildingMovementTarget.setCircularRB();
         buildingMovementTarget.setOnTouchListener(new GameBuildingMoveTouchListener());
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public boolean onClick(IGameObject object) {
+                return false;
+            }
+
+            @Override
+            public boolean onLongClick(IGameObject object) {
+                System.out.println("LONG CLICK");
+//                ContextMenu contextMenu = new ContextMenu("CMENU").withBuildingAs(object.asGameBuilding());
+//                contextMenu.addMoveButton();
+//                ContainerManager.getActiveGameObjectsContainer().add(contextMenu);
+                object.asGameBuilding().getContextMenu().show();
+                return true;
+            }
+        });
+
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
+                return true;
+            }
+
+            @Override
+            public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
+                return false;
+            }
+        });
+        buildingMovementTarget.shouldDraw(false);
 
         this.addChild(BUILDING_MOVEMENT_TARGET, buildingMovementTarget);
     }
@@ -49,6 +86,14 @@ public abstract class GameBuilding extends GameObjectWGL {
     public void onFrameUpdate() {
         super.onFrameUpdate();
         snapAnimator.update();
+    }
+
+    public void startMoving() {
+        buildingMovementTarget.shouldDraw(true);
+    }
+
+    public void stopMoving() {
+        buildingMovementTarget.shouldDraw(false);
     }
 
     public GameBuilding snapTo(IGameObject object) {

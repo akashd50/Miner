@@ -1,20 +1,17 @@
 package com.greymatter.miner.game.objects.ui;
 
-import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.game.objects.base.IGameObject;
+import com.greymatter.miner.game.objects.buildings.GameBuilding;
+import com.greymatter.miner.game.objects.ui.buttons.GMoveButton;
 import com.greymatter.miner.game.objects.ui.buttons.GameButton;
-import com.greymatter.miner.game.objects.ui.buttons.GameToggleButton;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
-import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
 public class ContextMenu extends GameNotification {
-    private static final String BUTTON = "BUTTON_";
-    private static final String OBJECT_DIALOG = "OBJECT_NOTI";
+    protected static final String BUTTON = "BUTTON_";
+    private static final String OBJECT_DIALOG = "DIALOG";
 
-    private FloatValueAnimator openingAnimator;
     private int buttonID;
     public ContextMenu(String id, Drawable drawable) {
         super(id, drawable);
@@ -29,17 +26,24 @@ public class ContextMenu extends GameNotification {
     private void initialize() {
         buttonID = 0;
         setDefaultScale(new Vector3f(1.0f, 0.4f, 1f));
-        addMoveButton();
     }
 
     public GameButton addMoveButton() {
-        GameToggleButton button = new GameToggleButton(BUTTON + buttonID, DrawableDef.create(DrawableDef.MOVE_BUTTON_I));
-        button.setOffMaterial(MaterialContainer.get(MaterialDef.MOVE_ICON_OFF_MATERIAL));
-        button.setOnMaterial(MaterialContainer.get(MaterialDef.MOVE_ICON_ON_MATERIAL));
-        buttonID++;
+        GMoveButton button = new GMoveButton(BUTTON + getNextButtonID());
+        button.setActionObject(this.getParent().asGameBuilding());
 
         addButtonAndReformatDialog(button);
         return button;
+    }
+
+    public GameButton addNewButton(GameButton button) {
+        addButtonAndReformatDialog(button);
+        return button;
+    }
+
+    public ContextMenu withBuildingAs(GameBuilding gameBuilding) {
+        gameBuilding.setContextMenu(this);
+        return this;
     }
 
     public void clearSelectionExcept(GameButton exceptThis) {
@@ -77,5 +81,11 @@ public class ContextMenu extends GameNotification {
 
             leftStart += defaultScaleX;
         }
+    }
+
+    public int getNextButtonID() {
+        int toReturn = buttonID;
+        buttonID++;
+        return toReturn;
     }
 }

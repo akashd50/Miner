@@ -1,5 +1,6 @@
 package com.greymatter.miner.mainui.touch.touchmodes;
 
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,6 +22,9 @@ public abstract class AbstractTouchHandler {
     private Camera mainCamera;
     private TouchEventBundle touchEventBundle;
     private IGameObject currentlySelectedObject;
+    private long longClickStartTime;
+    private Boolean longClickThreadActive = Boolean.FALSE;
+    private final Object threadLockObject = new Object();
     public AbstractTouchHandler(Camera mainCamera, TouchHelper touchHelper){
         this.touchHelper = touchHelper;
         this.mainCamera = mainCamera;
@@ -105,6 +109,7 @@ public abstract class AbstractTouchHandler {
     public abstract void onLongClick(View v);
 
     public boolean doOnTouchDown(Vector2f touchPoint) {
+        startLongClickCheck(touchPoint);
         for(IGameObject gameObject : gameObjectsForTouchChecking()) {
             boolean hasParent = gameObject.getParent() != null;
             // boolean instanceObj = gameObject instanceof GameInstance;
@@ -128,6 +133,7 @@ public abstract class AbstractTouchHandler {
 
             if(gameObject.getOnTouchListener() != null && gameObject.getOnTouchListener().onTouchDown(gameObject, touchPoint)) {
                 currentlySelectedObject = gameObject;
+                System.out.println("Set Currently Selected -> " + currentlySelectedObject.getId());
                 return true;
             }
 
@@ -145,10 +151,45 @@ public abstract class AbstractTouchHandler {
         return false;
     }
 
+    private void startLongClickCheck(Vector2f touchPoint) {
+        longClickThreadActive = true;
+        longClickStartTime = System.currentTimeMillis();
+        Thread longClickCheck = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (longClickThreadActive) {
+                    long elapsedTime = System.currentTimeMillis() - longClickStartTime;
+                    if(elapsedTime > 1000) {
+                        longClickThreadActive = false;
+                        if (currentlySelectedObject != null) {
+                            if( !touchHelper.isTouchPoint1Drag()
+                                && currentlySelectedObject.getOnClickListener() != null) {
+                                currentlySelectedObject.getOnClickListener().onLongClick(currentlySelectedObject);
+                            }
+                        }
+                        break;
+                    }else{
+//                        try {
+//                            Thread.sleep(200);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+                }
+            }
+        });
+
+        longClickCheck.start();
+    }
+
     public boolean doOnTouchMove(Vector2f touchPoint) {
         if(currentlySelectedObject!=null) {
-            return currentlySelectedObject.getOnTouchListener()!=null
+            boolean isHandled =  currentlySelectedObject.getOnTouchListener()!=null
                     && currentlySelectedObject.getOnTouchListener().onTouchMove(currentlySelectedObject, touchPoint);
+            if (isHandled) {
+                longClickThreadActive = Boolean.FALSE;
+                return true;
+            }
         }
         return false;
     }
@@ -165,6 +206,8 @@ public abstract class AbstractTouchHandler {
             currentlySelectedObject = null;
             return touchHandled || clickHandled;
         }
+
+        longClickThreadActive = Boolean.FALSE;
 
         return false;
     }

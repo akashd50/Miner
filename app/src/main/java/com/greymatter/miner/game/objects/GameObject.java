@@ -98,8 +98,8 @@ public abstract class GameObject extends GRigidBody {
         return this;
     }
 
-    public GameObject setNotification(GameNotification gameNotification) {
-        addChild("NOTIFICATION", gameNotification);
+    public GameObject setContextMenu(GameNotification gameNotification) {
+        addChild("CONTEXT_MENU", gameNotification);
         return this;
     }
 
@@ -111,8 +111,8 @@ public abstract class GameObject extends GRigidBody {
     public GameDialog getDialog() {
         return (GameDialog)getChild("DIALOG");
     }
-    public GameNotification getNotification() {
-        return (GameNotification)getChild("NOTIFICATION");
+    public GameNotification getContextMenu() {
+        return (GameNotification)getChild("CONTEXT_MENU");
     }
     public GameSignal getSignal() {
         return (GameSignal)getChild("SIGNAL");

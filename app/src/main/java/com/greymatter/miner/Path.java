@@ -25,6 +25,10 @@ public class Path {
     public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
     public static final String ADD_MARK =           TEXTURES_DIR + SLASH + "add_mark.png";
     public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
+    public static final String DIALOG_OPTIONS =     TEXTURES_DIR + SLASH + "dialog_ii.png";
+    public static final String OK_BUTTON =          TEXTURES_DIR + SLASH + "dialog_ok.png";
+    public static final String CANCEL_BUTTON =      TEXTURES_DIR + SLASH + "dialog_cancel.png";
+    public static final String DIALOG_SIMPLE =      TEXTURES_DIR + SLASH + "ui_outline_i.png";
     public static final String SIGNAL_I =           TEXTURES_DIR + SLASH + "signal_i.png";
     public static final String SIGNAL_EXCL =        TEXTURES_DIR + SLASH + "signal_excl.png";
     public static final String HARMAN =             TEXTURES_DIR + SLASH + "harman.jpg";

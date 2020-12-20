@@ -48,7 +48,7 @@ public class GeneralRenderer extends AbstractRenderer {
         ContainerManager.getActiveResourceContainer().onDrawFrame(AppServices.getGameCamera());
         ContainerManager.getActiveUIContainer().onDrawFrame(AppServices.getUICamera());
 
-        System.out.println("FPS: " + mainFPS);
-        System.out.println("FRAME TIME: " + (System.currentTimeMillis() - currentFrameStartTime));
+//        System.out.println("FPS: " + mainFPS);
+//        System.out.println("FRAME TIME: " + (System.currentTimeMillis() - currentFrameStartTime));
     }
 }

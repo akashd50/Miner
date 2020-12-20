@@ -86,9 +86,9 @@ public interface IGameObject {
     GenericObject asGenericObject();
     ResourceBlock asResourceBlock();
     IGameObject setDialog(GameDialog dialog);
-    IGameObject setNotification(GameNotification gameNotification);
+    IGameObject setContextMenu(GameNotification gameNotification);
     IGameObject setSignal(GameSignal signal);
     GameDialog getDialog();
     GameSignal getSignal();
-    GameNotification getNotification();
+    GameNotification getContextMenu();
 }

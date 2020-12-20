@@ -19,13 +19,11 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.MainBase;
 import com.greymatter.miner.game.objects.Planet;
 import com.greymatter.miner.game.objects.buildings.Scanner;
-import com.greymatter.miner.game.objects.ui.GameDialog;
-import com.greymatter.miner.game.objects.ui.GameSignal;
+
 import static com.greymatter.miner.game.GameConstants.*;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
-import com.greymatter.miner.mainui.LayoutHelper;
 import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
 import javax.vecmath.Vector3f;
@@ -46,14 +44,18 @@ public class WorldLoader extends Loader {
 
         allGameObjectsContainer.add(new MainBase(MAIN_BASE_1));
         allGameObjectsContainer.get(MAIN_BASE_1).scaleTo(4f,4f).moveTo(-7f,5f,ZHelper.FRONT_MID);
+        ContextMenu contextMenu = new ContextMenu("BASE_C_MENU").withBuildingAs(allGameObjectsContainer.get(MAIN_BASE_1).asGameBuilding());
+        contextMenu.addMoveButton();
+        allGameObjectsContainer.get(MAIN_BASE_1).setContextMenu(contextMenu);
+
 
         allGameObjectsContainer.add(new PlayerCharacter(MAIN_CHARACTER_1));
         allGameObjectsContainer.get(MAIN_CHARACTER_1)
                 .scaleTo(0.6f,0.6f)
                 .moveBy(-0.5f,0f,ZHelper.FRONT)
-                .setOnTouchListener(new GeneralTouchListener())
-                .setOnClickListener(new SimpleDialogClickListener())
-                .setNotification(new ContextMenu("CMENU"));
+                .setOnTouchListener(new GeneralTouchListener());
+                //.setOnClickListener(new SimpleDialogClickListener());
+                //.setNotification(new ContextMenu("CMENU"));
 
         allGameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(0f,0f,90);
 
