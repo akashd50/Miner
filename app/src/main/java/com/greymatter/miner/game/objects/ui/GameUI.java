@@ -11,7 +11,6 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public abstract class GameUI extends GameObjectWGL {
-    private Vector3f defaultScale;
     private FloatValueAnimator onTouchResizeAnimator;
     public GameUI(String id, Drawable drawable) {
         super(id, drawable);
@@ -19,7 +18,6 @@ public abstract class GameUI extends GameObjectWGL {
     }
 
     private void initialize() {
-        defaultScale = new Vector3f();
         this.setRectangularRB();
         this.getRigidBody().isStaticObject(true);
         this.setAnimator(new FloatValueAnimator().setBounds(0f,1f).withFPS(60).setPerFrameIncrement(0.1f));
@@ -29,6 +27,7 @@ public abstract class GameUI extends GameObjectWGL {
         onTouchResizeAnimator.pause();
         onTouchResizeAnimator.setOnAnimationFrameHandler((object, animator) -> {
             float updateFloat = animator.getUpdatedFloat();
+            Vector3f defaultScale = getTransforms().getDefaultScale();
             object.scaleTo(updateFloat * defaultScale.x, updateFloat * defaultScale.y);
         });
 
@@ -47,7 +46,8 @@ public abstract class GameUI extends GameObjectWGL {
 
             @Override
             public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
-                onTouchResizeAnimator.startFrom(gameObject.getTransforms().getScale().x/defaultScale.x,true);
+                Vector3f defaultScale = getTransforms().getDefaultScale();
+                onTouchResizeAnimator.startFrom(onTouchResizeAnimator.getUpdatedFloat(),true);
                 onTouchResizeAnimator.resume();
                 return true;
             }
@@ -61,11 +61,11 @@ public abstract class GameUI extends GameObjectWGL {
     }
 
     public GameUI setDefaultScale(Vector3f scale) {
-        this.defaultScale.set(scale);
+        this.getTransforms().setDefaultScale(scale);
         return this;
     }
 
     public Vector3f getDefaultScale() {
-        return defaultScale;
+        return getTransforms().getDefaultScale();
     }
 }

@@ -29,7 +29,8 @@ public class OilDrillJointTouchListener implements OnTouchListener {
         OilDrill oilDrill = (OilDrill)gameObject.getParent().getParent();
         GameInstanceGroup pipelineGroup = oilDrill.getPipelineGroup();
 
-        Transforms transforms = pipelineGroup.getChild("INSTANCE_"  + (pipelineGroup.getTotalInstances()-1)).getTransforms();
+        Transforms transforms = pipelineGroup.getInstance(pipelineGroup.getTotalInstances()-1)
+                                .getTransforms();
         Vector3f pointer3f = VectorHelper.toVector3f(pointer);
         float scaleDist = (float)VectorHelper.getDistanceWithSQRT(transforms.getTranslation(), pointer3f);
         float angle = (float)VectorHelper.angleBetweenDegrees(transforms.getTranslation(), pointer3f);
@@ -51,7 +52,8 @@ public class OilDrillJointTouchListener implements OnTouchListener {
         newInstance.setOnTouchListener(this);
         // Check if it connected to a oil resource
 
-        OilDepositGroup oilDeposits = (OilDepositGroup)ContainerManager.getAllResourcesContainer().get(OIL_DEPOSIT_GROUP_1);
+        OilDepositGroup oilDeposits = (OilDepositGroup)ContainerManager.getAllResourcesContainer()
+                                        .get(OIL_DEPOSIT_GROUP_1);
         OilDeposit overlappingDeposit = oilDeposits.getOverlappingDeposit(pointer);
         if (overlappingDeposit != null) {
             oilDrill.addNewConnectedOilDeposit(overlappingDeposit);

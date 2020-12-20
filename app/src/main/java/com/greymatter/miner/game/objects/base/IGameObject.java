@@ -4,6 +4,7 @@ import com.greymatter.miner.animators.ValueAnimator;
 import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.ui.GameDialog;
+import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
@@ -85,7 +86,9 @@ public interface IGameObject {
     GenericObject asGenericObject();
     ResourceBlock asResourceBlock();
     IGameObject setDialog(GameDialog dialog);
+    IGameObject setNotification(GameNotification gameNotification);
     IGameObject setSignal(GameSignal signal);
     GameDialog getDialog();
     GameSignal getSignal();
+    GameNotification getNotification();
 }

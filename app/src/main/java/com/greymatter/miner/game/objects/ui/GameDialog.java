@@ -36,8 +36,8 @@ public class GameDialog extends GameNotification {
                     .copyTranslationFromParent(true)
                     .copyRotationFromParent(true)
                     .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.4f, 1f);
         button.setDefaultScale(new Vector3f(0.4f, 0.2f, 1f));
+        button.scaleTo(0.4f,0.2f).moveTo(-0.5f, -0.4f, 1f);
         return this;
     }
 
@@ -47,8 +47,8 @@ public class GameDialog extends GameNotification {
                 .copyTranslationFromParent(true)
                 .copyRotationFromParent(true)
                 .copyScaleFromParent(true);
-        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.4f, 1f);
         button.setDefaultScale(new Vector3f(0.4f, 0.2f, 1f));
+        button.scaleTo(0.4f,0.2f).moveTo(0.5f, -0.4f, 1f);
         return this;
     }
 

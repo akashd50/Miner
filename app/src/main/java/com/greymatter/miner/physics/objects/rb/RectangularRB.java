@@ -22,7 +22,6 @@ public class RectangularRB extends RigidBody {
         Transforms transforms = getTransforms();
         Vector3f normalizedTouchPoint = VectorHelper.toVector3f(touchPoint);
         normalizedTouchPoint = VectorHelper.getUnitLocation(normalizedTouchPoint, transforms);
-        VectorHelper.revertTransformations(normalizedTouchPoint, transforms);
 
         return normalizedTouchPoint.x < 1f && normalizedTouchPoint.x > -1f
                 && normalizedTouchPoint.y > -1f && normalizedTouchPoint.y < 1f;

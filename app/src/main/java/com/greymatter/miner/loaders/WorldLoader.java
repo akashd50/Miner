@@ -9,6 +9,7 @@ import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.OilDrill;
 import com.greymatter.miner.game.objects.buildings.Mine;
+import com.greymatter.miner.game.objects.ui.ContextMenu;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.helpers.clicklisteners.SimpleDialogClickListener;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -52,13 +53,8 @@ public class WorldLoader extends Loader {
                 .moveBy(-0.5f,0f,ZHelper.FRONT)
                 .setOnTouchListener(new GeneralTouchListener())
                 .setOnClickListener(new SimpleDialogClickListener())
-                .setDialog(new GameDialog().setButtonIClickListener(object -> {
-                                            System.out.println("NOT I - Button Click -> " + object);
-                                            return true;
-                                        }).setButtonIIClickListener(object -> {
-                                            System.out.println("NOT II - Button Click -> " + object);
-                                            return true;
-                                        }));
+                .setNotification(new ContextMenu("CMENU"));
+
         allGameObjectsContainer.get(MAIN_CHARACTER_1).getTransforms().rotateTo(0f,0f,90);
 
         //-------------------------------------

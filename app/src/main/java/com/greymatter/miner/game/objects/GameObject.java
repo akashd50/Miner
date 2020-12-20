@@ -2,6 +2,7 @@ package com.greymatter.miner.game.objects;
 
 import com.greymatter.miner.game.objects.base.GRigidBody;
 import com.greymatter.miner.game.objects.ui.GameDialog;
+import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.game.objects.ui.GameSignal;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
@@ -97,6 +98,11 @@ public abstract class GameObject extends GRigidBody {
         return this;
     }
 
+    public GameObject setNotification(GameNotification gameNotification) {
+        addChild("NOTIFICATION", gameNotification);
+        return this;
+    }
+
     public GameObject setSignal(GameSignal signal) {
         addChild("SIGNAL", signal);
         return this;
@@ -105,7 +111,9 @@ public abstract class GameObject extends GRigidBody {
     public GameDialog getDialog() {
         return (GameDialog)getChild("DIALOG");
     }
-
+    public GameNotification getNotification() {
+        return (GameNotification)getChild("NOTIFICATION");
+    }
     public GameSignal getSignal() {
         return (GameSignal)getChild("SIGNAL");
     }
