@@ -1,10 +1,12 @@
 package com.greymatter.miner.game.objects.ui;
 
-import android.widget.Button;
-
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.loaders.enums.Tag;
+import com.greymatter.miner.containers.MaterialContainer;
+import com.greymatter.miner.game.objects.base.IGameObject;
+import com.greymatter.miner.game.objects.ui.buttons.GameButton;
+import com.greymatter.miner.game.objects.ui.buttons.GameToggleButton;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
+import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
@@ -27,19 +29,28 @@ public class ContextMenu extends GameNotification {
     private void initialize() {
         buttonID = 0;
         setDefaultScale(new Vector3f(1.0f, 0.4f, 1f));
-        addNewButton();
-        addNewButton();
+        addMoveButton();
     }
 
-    public GameButton addNewButton() {
-        GameButton button = new GameButton(BUTTON + buttonID, DrawableDef.create(DrawableDef.DIALOG_BUTTON_I));
+    public GameButton addMoveButton() {
+        GameToggleButton button = new GameToggleButton(BUTTON + buttonID, DrawableDef.create(DrawableDef.MOVE_BUTTON_I));
+        button.setOffMaterial(MaterialContainer.get(MaterialDef.MOVE_ICON_OFF_MATERIAL));
+        button.setOnMaterial(MaterialContainer.get(MaterialDef.MOVE_ICON_ON_MATERIAL));
         buttonID++;
 
-        addButton(button);
+        addButtonAndReformatDialog(button);
         return button;
     }
 
-    private void addButton(GameButton button) {
+    public void clearSelectionExcept(GameButton exceptThis) {
+        for(IGameObject button : getChildren().toList()) {
+            if (button.getId().compareTo(exceptThis.getId()) != 0) {
+                ((GameButton) button).clearSelection();
+            }
+        }
+    }
+
+    private void addButtonAndReformatDialog(GameButton button) {
         float defaultScaleX = 0.3f;
         addChild(button.getId(), button);
         button.getTransforms()

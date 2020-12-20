@@ -47,6 +47,11 @@ public class Mine extends GameBuilding {
 
             return true;
         }
+
+        @Override
+        public boolean onLongClick(IGameObject object) {
+            return false;
+        }
     };
 
 }

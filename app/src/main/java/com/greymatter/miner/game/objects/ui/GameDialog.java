@@ -1,5 +1,6 @@
 package com.greymatter.miner.game.objects.ui;
 
+import com.greymatter.miner.game.objects.ui.buttons.GameButton;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;

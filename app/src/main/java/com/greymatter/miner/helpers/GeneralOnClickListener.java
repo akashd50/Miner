@@ -12,4 +12,9 @@ public class GeneralOnClickListener implements OnClickListener {
 //        }
         return false;
     }
+
+    @Override
+    public boolean onLongClick(IGameObject object) {
+        return false;
+    }
 }

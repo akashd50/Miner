@@ -13,4 +13,9 @@ public class SimpleDialogClickListener implements OnClickListener {
         }
         return true;
     }
+
+    @Override
+    public boolean onLongClick(IGameObject object) {
+        return false;
+    }
 }

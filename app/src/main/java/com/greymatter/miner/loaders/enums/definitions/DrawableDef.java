@@ -44,6 +44,8 @@ public enum DrawableDef {
     DIALOG_BUTTON_II(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),
     DIALOG_BUTTON_III(DrawableType.OBJ, ShapeDef.UV_MAPPED_BOX, MaterialDef.BUTTON_MATERIAL_I, ShaderDef.LIGHTING_SHADER),
 
+    MOVE_BUTTON_I(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.MOVE_ICON_OFF_MATERIAL, ShaderDef.QUAD_SHADER),
+
     OBJECT_DIALOG(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.DIALOG_MATERIAL, ShaderDef.QUAD_SHADER),
     OBJECT_SIGNAL(DrawableType.QUAD, ShapeDef.SIMPLE_QUAD, MaterialDef.SIGNAL_MATERIAL, ShaderDef.LIGHTING_SHADER),
 

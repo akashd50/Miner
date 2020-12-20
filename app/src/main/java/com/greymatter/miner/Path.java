@@ -44,6 +44,9 @@ public class Path {
     public static final String MINE_II =            TEXTURES_DIR + SLASH + "mine_ii.png";
     public static final String PIPE_I =             TEXTURES_DIR + SLASH + "pipe_i.png";
 
+    public static final String MOVE_ICON_OFF_I =    TEXTURES_DIR + SLASH + "move_icon_off_i.png";
+    public static final String MOVE_ICON_ON_I =     TEXTURES_DIR + SLASH + "move_icon_on_i.png";
+
     //obj files
     public static final String OBJECTS_F = "objects/";
     public static final String CIRCLE_SIMPLE = "atm_simple_circle.obj";

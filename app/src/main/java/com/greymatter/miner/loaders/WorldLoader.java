@@ -74,19 +74,19 @@ public class WorldLoader extends Loader {
         allGameObjectsContainer.get(SCANNER_1).scaleTo(0.6f,0.6f).moveBy(-0.5f,2f,ZHelper.FRONT);
         allGameObjectsContainer.get(SCANNER_1).setOnTouchListener(new BuildingModeTouchListener());
         allGameObjectsContainer.get(SCANNER_1).setOnClickListener(new SimpleDialogClickListener());
-        allGameObjectsContainer.get(SCANNER_1).setDialog(new GameDialog().setButtonIClickListener(object -> {
-                                            System.out.println("NOT I - Button Click -> " + object);
-                                            return true;
-                                        }).setButtonIIClickListener(object -> {
-                                            System.out.println("NOT II - Button Click -> " + object);
-                                            return true;
-                                        }));
-        allGameObjectsContainer.get(SCANNER_1).setSignal((GameSignal)
-                new GameSignal().setOnClickListener(object -> {
-                    Scanner scanner = (Scanner) allGameObjectsContainer.get(GameConstants.SCANNER_1);
-                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog(scanner, (scanner.getCurrentlyTracking())));
-                    return true;
-                }));
+//        allGameObjectsContainer.get(SCANNER_1).setDialog(new GameDialog().setButtonIClickListener(object -> {
+//                                            System.out.println("NOT I - Button Click -> " + object);
+//                                            return true;
+//                                        }).setButtonIIClickListener(object -> {
+//                                            System.out.println("NOT II - Button Click -> " + object);
+//                                            return true;
+//                                        }));
+//        allGameObjectsContainer.get(SCANNER_1).setSignal((GameSignal)
+//                new GameSignal().setOnClickListener(object -> {
+//                    Scanner scanner = (Scanner) allGameObjectsContainer.get(GameConstants.SCANNER_1);
+//                    LayoutHelper.showDialog(LayoutHelper.getScannerOnResourceFindDialog(scanner, (scanner.getCurrentlyTracking())));
+//                    return true;
+//                }));
 
         allGameObjectsContainer.add(new OilDrill(OIL_DRILL_1));
         allGameObjectsContainer.get(OIL_DRILL_1).scaleTo(4f,3f)
