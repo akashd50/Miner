@@ -12,6 +12,13 @@ import javax.vecmath.Vector3f;
 public abstract class GTransformable extends GHierarchical {
     private Transforms transforms;
     private ArrayList<IGameObject> backgroundChildren, foregroundChildren;
+    private static final Comparator<IGameObject> listC = new Comparator<IGameObject>() {
+        @Override
+        public int compare(IGameObject o1, IGameObject o2) {
+            return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
+        }
+    };
+
     public GTransformable(String id) {
         super(id);
         this.transforms = new Transforms();
@@ -36,12 +43,6 @@ public abstract class GTransformable extends GHierarchical {
     }
 
     private void addChildHelper(IGameObject object) {
-        Comparator<IGameObject> listC = new Comparator<IGameObject>() {
-            @Override
-            public int compare(IGameObject o1, IGameObject o2) {
-                return (int)(o1.getTransforms().getTranslation().z - o2.getTransforms().getTranslation().z);
-            }
-        };
 
         if (object.getTransforms().getTranslation().z > transforms.getTranslation().z
         || (object.getTransforms().isCopyTranslationFromParent() && object.getTransforms().getTranslation().z > 0f)) {
@@ -77,12 +78,20 @@ public abstract class GTransformable extends GHierarchical {
     public IGameObject moveBy(float x, float y, float z) {
         transforms.translateBy(x,y,z);
         reSortChildren();
+        GTransformable parent = (GTransformable)getParent();
+        if(parent != null) {
+            parent.reSortChildren();
+        }
         return this;
     }
 
     public IGameObject moveBy(Vector3f moveTo) {
         transforms.translateBy(moveTo);
         reSortChildren();
+        GTransformable parent = (GTransformable)getParent();
+        if(parent != null) {
+            parent.reSortChildren();
+        }
         return this;
     }
 
@@ -94,12 +103,20 @@ public abstract class GTransformable extends GHierarchical {
     public IGameObject moveTo(float x, float y, float z) {
         transforms.translateTo(x,y,z);
         reSortChildren();
+        GTransformable parent = (GTransformable)getParent();
+        if(parent != null) {
+            parent.reSortChildren();
+        }
         return this;
     }
 
     public IGameObject moveTo(Vector3f moveTo) {
         transforms.translateTo(moveTo);
         reSortChildren();
+        GTransformable parent = (GTransformable)getParent();
+        if(parent != null) {
+            parent.reSortChildren();
+        }
         return this;
     }
 
@@ -120,6 +137,11 @@ public abstract class GTransformable extends GHierarchical {
 
     public IGameObject copyTranslationFromParent(boolean val) {
         transforms.copyTranslationFromParent(val);
+        reSortChildren();
+        GTransformable parent = (GTransformable)getParent();
+        if(parent != null) {
+            parent.reSortChildren();
+        }
         return this;
     }
 

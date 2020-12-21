@@ -6,6 +6,7 @@ import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.game.objects.ui.GameSignal;
+import com.greymatter.miner.game.objects.ui.OptionsMenu;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObjectWGL;
@@ -86,9 +87,9 @@ public interface IGameObject {
     GenericObject asGenericObject();
     ResourceBlock asResourceBlock();
     IGameObject setDialog(GameDialog dialog);
-    IGameObject setContextMenu(GameNotification gameNotification);
+    IGameObject setOptionsMenu(OptionsMenu menu);
     IGameObject setSignal(GameSignal signal);
     GameDialog getDialog();
     GameSignal getSignal();
-    GameNotification getContextMenu();
+    OptionsMenu getOptionsMenu();
 }

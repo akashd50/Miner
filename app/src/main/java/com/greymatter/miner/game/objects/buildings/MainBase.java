@@ -30,7 +30,7 @@ public class MainBase extends GameBuilding {
         GameLight gameLight = new GameLight(new Obj(MAIN_BASE_LIGHT_1));
         gameLight.setRadius(1f).setColor(1f,0f,0f,1f)
                 .setInnerCutoff(0.02f).setOuterCutoff(0.8f)
-                .attachTo(this).moveTo(new Vector2f(0.12f,-0.06f));
+                .attachTo(this).moveTo(new Vector2f(0.12f,0.23f));
 
         FloatValueAnimator lightValueAnimator = new FloatValueAnimator();
         lightValueAnimator.setPerFrameIncrement(0.05f).toAndFro(true).withFPS(60);

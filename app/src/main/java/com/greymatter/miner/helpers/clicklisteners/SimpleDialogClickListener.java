@@ -6,10 +6,10 @@ import com.greymatter.miner.mainui.touch.OnClickListener;
 public class SimpleDialogClickListener implements OnClickListener {
     @Override
     public boolean onClick(IGameObject object) {
-        if(!object.getContextMenu().shouldDraw()) {
-            object.getContextMenu().show();
+        if(!object.getOptionsMenu().shouldDraw()) {
+            object.getOptionsMenu().show();
         }else{
-            object.getContextMenu().hide();
+            object.getOptionsMenu().hide();
         }
         return true;
     }

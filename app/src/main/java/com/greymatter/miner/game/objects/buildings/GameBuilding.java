@@ -1,25 +1,23 @@
 package com.greymatter.miner.game.objects.buildings;
 
-import com.greymatter.miner.animators.FloatValueAnimator;
+import android.view.ContextMenu;
+
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.helpers.IntersectionEvent;
-import com.greymatter.miner.helpers.VectorHelper;
+import com.greymatter.miner.game.objects.buildings.helpers.BuildingSnapAndMovementHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
+import com.greymatter.miner.game.objects.ui.GameNotification;
+import com.greymatter.miner.game.objects.ui.OptionsMenu;
 import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
-import com.greymatter.miner.mainui.touch.OnClickListener;
-import com.greymatter.miner.mainui.touch.OnTouchListener;
-import com.greymatter.miner.opengl.objects.Transforms;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
-
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 public abstract class GameBuilding extends GameObjectWGL {
     private static final String BUILDING_MOVEMENT_TARGET = "building_movement_target";
-    private FloatValueAnimator snapAnimator;
-    private Vector3f snappingPoint, startingPoint;
+    private static final String BUILDING_OPTIONS_MENU = "building_options_menu";
+
+    private BuildingSnapAndMovementHelper buildingHelper;
     private GenericObject buildingMovementTarget;
     public GameBuilding(String id, Drawable drawable) {
         super(id, drawable);
@@ -27,16 +25,7 @@ public abstract class GameBuilding extends GameObjectWGL {
     }
 
     private void initialize() {
-        startingPoint = getLocalLocation();
-        snapAnimator = new FloatValueAnimator();
-        snapAnimator.withFPS(30).setSingleCycle(true).setToAnimateObject(this);
-        snapAnimator.setPerFrameIncrement(0.1f);
-        snapAnimator.pause();
-        snapAnimator.setOnAnimationFrameHandler((object, animator) -> {
-            float x = (startingPoint.x * (1f - animator.getUpdatedFloat()) + snappingPoint.x * animator.getUpdatedFloat());
-            float y = (startingPoint.y * (1f - animator.getUpdatedFloat()) + snappingPoint.y * animator.getUpdatedFloat());
-            object.moveTo(x,y);
-        });
+        buildingHelper = new BuildingSnapAndMovementHelper(this);
 
         buildingMovementTarget = new GenericObject(BUILDING_MOVEMENT_TARGET, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
         buildingMovementTarget.copyTranslationFromParent(true);
@@ -44,48 +33,24 @@ public abstract class GameBuilding extends GameObjectWGL {
         buildingMovementTarget.getDrawable().setOpacity(0.5f);
         buildingMovementTarget.setCircularRB();
         buildingMovementTarget.setOnTouchListener(new GameBuildingMoveTouchListener());
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public boolean onClick(IGameObject object) {
-                return false;
-            }
-
-            @Override
-            public boolean onLongClick(IGameObject object) {
-                System.out.println("LONG CLICK");
-//                ContextMenu contextMenu = new ContextMenu("CMENU").withBuildingAs(object.asGameBuilding());
-//                contextMenu.addMoveButton();
-//                ContainerManager.getActiveGameObjectsContainer().add(contextMenu);
-                object.asGameBuilding().getContextMenu().show();
-                return true;
-            }
-        });
-
-        this.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
-                return true;
-            }
-
-            @Override
-            public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-                return false;
-            }
-
-            @Override
-            public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
-                return false;
-            }
-        });
         buildingMovementTarget.shouldDraw(false);
-
         this.addChild(BUILDING_MOVEMENT_TARGET, buildingMovementTarget);
+
+        OptionsMenu optionsMenu = new OptionsMenu(BUILDING_OPTIONS_MENU).withBuildingAs(this);
+        this.setOptionsMenu(optionsMenu);
+
+        this.setOnClickListener(this);
+        this.setOnTouchListener(this);
     }
 
     @Override
     public void onFrameUpdate() {
         super.onFrameUpdate();
-        snapAnimator.update();
+        buildingHelper.update();
+    }
+
+    public BuildingSnapAndMovementHelper getBuildingHelper() {
+        return buildingHelper;
     }
 
     public void startMoving() {
@@ -96,30 +61,23 @@ public abstract class GameBuilding extends GameObjectWGL {
         buildingMovementTarget.shouldDraw(false);
     }
 
-    public GameBuilding snapTo(IGameObject object) {
-        IntersectionEvent event = VectorHelper.findSnapPlaceOnRBSurface(object.getRigidBody().asPolygonRB(), getLocalLocation());
-        snappingPoint = event.intPoint;
-
-        Vector3f normal = VectorHelper.getNormal(VectorHelper.sub(event.intLineB, event.intLineA));
-        normal.normalize();
-
-        float angle = (float)Math.atan2(normal.y, normal.x);
-        float toDegrees = (float)Math.toDegrees(angle);
-        getTransforms().rotateTo(0f,0f,toDegrees - 90);
-
-        snappingPoint.x+= getTransforms().getScale().y * normal.x;
-        snappingPoint.y+= getTransforms().getScale().y * normal.y;
-
-        snapAnimator.startFrom(0f,true).resume();
-        return this;
+    @Override
+    public void onTransformsChanged() {
+        super.onTransformsChanged();
+        OptionsMenu menu = getOptionsMenu();
+        if (menu != null) {
+            getOptionsMenu().linkTo(GameNotification.TOP);
+        }
     }
 
-    public GameBuilding snapTo(IGameObject object, float angleRad) {
-        Transforms objectTransforms = object.getTransforms();
-        float px = objectTransforms.getTranslation().x + objectTransforms.getScale().y * (float) Math.cos(angleRad);
-        float py = getTransforms().getScale().y + objectTransforms.getTranslation().y + objectTransforms.getScale().y * (float) Math.sin(angleRad);
-        snappingPoint = new Vector3f(px, py, 0f);
-        snapAnimator.startFrom(0f,true).resume();
-        return this;
+    @Override
+    public boolean onLongClick(IGameObject object) {
+        object.asGameBuilding().getOptionsMenu().show();
+        return true;
+    }
+
+    @Override
+    public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
+        return true;
     }
 }

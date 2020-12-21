@@ -31,7 +31,7 @@ public class LayoutHelper {
             public void onClick(DialogInterface dialog, int which) {
                 ContainerManager.getActiveGameObjectsContainer().add(ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()));
                 IGameObject planet = GameManager.getCurrentPlanet();
-                ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()).asGameBuilding().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocalLocation()));
+                ContainerManager.getAllGameObjectsContainer().get(MinerManager.getActiveMinerId()).asGameBuilding().getBuildingHelper().snapTo(planet, VectorHelper.angleBetweenRad(planet.getTransforms().getTranslation(), scanner.getLocalLocation()));
                 dialog.dismiss();
             }
         });

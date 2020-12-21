@@ -8,17 +8,17 @@ import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
-public class ContextMenu extends GameNotification {
+public class OptionsMenu extends GameNotification {
     protected static final String BUTTON = "BUTTON_";
     private static final String OBJECT_DIALOG = "DIALOG";
 
     private int buttonID;
-    public ContextMenu(String id, Drawable drawable) {
+    public OptionsMenu(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
-    public ContextMenu(String id) {
+    public OptionsMenu(String id) {
         super(OBJECT_DIALOG, DrawableDef.create(DrawableDef.OBJECT_DIALOG));
         initialize();
     }
@@ -41,8 +41,8 @@ public class ContextMenu extends GameNotification {
         return button;
     }
 
-    public ContextMenu withBuildingAs(GameBuilding gameBuilding) {
-        gameBuilding.setContextMenu(this);
+    public OptionsMenu withBuildingAs(GameBuilding gameBuilding) {
+        gameBuilding.setOptionsMenu(this);
         return this;
     }
 

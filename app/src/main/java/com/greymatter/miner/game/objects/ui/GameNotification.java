@@ -81,12 +81,17 @@ public abstract class GameNotification extends GameUI {
         switch (position) {
             case TOP:
                 float top = this.getParent().getTransforms().getScale().y + this.getDefaultScale().y;
-                moveTo(0f, top, 1f);
+                moveTo(0f, top);
                 break;
             case BOTTOM:
                 float bottom = -(this.getParent().getTransforms().getScale().y + this.getDefaultScale().y);
-                moveTo(0f, bottom, 1f);
+                moveTo(0f, bottom);
                 break;
         }
+    }
+
+    public void linkTo(float x, float y) {
+        float top = this.getParent().getTransforms().getScale().y + this.getDefaultScale().y;
+        moveTo(x, y);
     }
 }

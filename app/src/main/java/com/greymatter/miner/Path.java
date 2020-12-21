@@ -34,7 +34,7 @@ public class Path {
     public static final String HARMAN =             TEXTURES_DIR + SLASH + "harman.jpg";
     public static final String MAIN_BASE_P =        TEXTURES_DIR + SLASH + "main_base_p.jpg";
     public static final String MAIN_BASE_FINAL =    TEXTURES_DIR + SLASH + "main_base.png";
-    public static final String SPACE_SHUTTLE =      TEXTURES_DIR + SLASH + "space_shuttle.png";
+    public static final String SPACE_SHUTTLE =      TEXTURES_DIR + SLASH + "space_shuttle_i.png";
     public static final String OIL_DRILL_I =        TEXTURES_DIR + SLASH + "oilwell_i.png";
     public static final String OIL_OUTER_LAYER =    OIL_DRILL_DIR + SLASH + "oil_outer.png";
     public static final String OIL_INNER_OIL =      OIL_DRILL_DIR + SLASH + "oil_inner.png";

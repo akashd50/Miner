@@ -4,9 +4,8 @@ import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.ui.ConfirmationDialog;
-import com.greymatter.miner.game.objects.ui.ContextMenu;
+import com.greymatter.miner.game.objects.ui.OptionsMenu;
 import com.greymatter.miner.game.objects.ui.GameNotification;
-import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
@@ -42,7 +41,7 @@ public abstract class GameToggleButton extends GameButton {
 
     @Override
     public boolean onClick(IGameObject object) {
-        ((ContextMenu)this.getParent()).clearSelectionExcept(this);
+        ((OptionsMenu)this.getParent()).clearSelectionExcept(this);
         setToggle(!toggle);
         return true;
     }

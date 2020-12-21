@@ -1,12 +1,13 @@
 package com.greymatter.miner.game.objects.base;
 
-import com.greymatter.miner.AppServices;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.mainui.touch.OnTouchListener;
 import com.greymatter.miner.physics.objects.rb.RigidBody;
 import javax.vecmath.Vector2f;
 
-public abstract class GRigidBody extends GTransformable {
+public abstract class GRigidBody extends GTransformable
+        implements OnTouchListener, OnClickListener {
+
     private OnTouchListener onTouchListener;
     private OnClickListener onClickListener;
     private RigidBody rigidBody;
@@ -14,6 +15,8 @@ public abstract class GRigidBody extends GTransformable {
 
     public GRigidBody(String id) {
         super(id);
+        this.setOnClickListener(this);
+        this.setOnTouchListener(this);
     }
 
     public IGameObject setOnTouchListener(OnTouchListener onTouchListener) {
@@ -61,5 +64,30 @@ public abstract class GRigidBody extends GTransformable {
     @Override
     public void onTransformsChanged() {
         rigidBody.onTransformsChanged();
+    }
+
+    @Override
+    public boolean onClick(IGameObject object) {
+        return false;
+    }
+
+    @Override
+    public boolean onLongClick(IGameObject object) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
+        return false;
     }
 }

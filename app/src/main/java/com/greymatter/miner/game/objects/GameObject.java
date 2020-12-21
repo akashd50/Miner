@@ -4,6 +4,7 @@ import com.greymatter.miner.game.objects.base.GRigidBody;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.game.objects.ui.GameSignal;
+import com.greymatter.miner.game.objects.ui.OptionsMenu;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
@@ -73,7 +74,11 @@ public abstract class GameObject extends GRigidBody {
         this.shouldDraw = shouldDraw;
         this.isActive = shouldDraw;
         this.shouldCheckClicks = shouldDraw;
-        getChildren().toList().forEach(child -> { child.shouldDraw(shouldDraw); });
+        synchronized (getChildren()) {
+            getChildren().toList().forEach(child -> {
+                child.shouldDraw(shouldDraw);
+            });
+        }
         return this;
     }
 
@@ -98,8 +103,8 @@ public abstract class GameObject extends GRigidBody {
         return this;
     }
 
-    public GameObject setContextMenu(GameNotification gameNotification) {
-        addChild("CONTEXT_MENU", gameNotification);
+    public GameObject setOptionsMenu(OptionsMenu menu) {
+        addChild("OPTIONS_MENU", menu);
         return this;
     }
 
@@ -111,9 +116,11 @@ public abstract class GameObject extends GRigidBody {
     public GameDialog getDialog() {
         return (GameDialog)getChild("DIALOG");
     }
-    public GameNotification getContextMenu() {
-        return (GameNotification)getChild("CONTEXT_MENU");
+
+    public OptionsMenu getOptionsMenu() {
+        return (OptionsMenu)getChild("OPTIONS_MENU");
     }
+
     public GameSignal getSignal() {
         return (GameSignal)getChild("SIGNAL");
     }

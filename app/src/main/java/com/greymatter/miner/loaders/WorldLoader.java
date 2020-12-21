@@ -9,7 +9,6 @@ import com.greymatter.miner.game.manager.GameManager;
 import com.greymatter.miner.game.objects.PlayerCharacter;
 import com.greymatter.miner.game.objects.buildings.OilDrill;
 import com.greymatter.miner.game.objects.buildings.Mine;
-import com.greymatter.miner.game.objects.ui.ContextMenu;
 import com.greymatter.miner.helpers.ZHelper;
 import com.greymatter.miner.helpers.clicklisteners.SimpleDialogClickListener;
 import com.greymatter.miner.loaders.enums.Tag;
@@ -24,9 +23,7 @@ import static com.greymatter.miner.game.GameConstants.*;
 import com.greymatter.miner.helpers.touchListeners.BuildingModeTouchListener;
 import com.greymatter.miner.helpers.GeneralCollisionListener;
 import com.greymatter.miner.helpers.touchListeners.GeneralTouchListener;
-import com.greymatter.miner.opengl.objects.drawables.Line;
 import com.greymatter.miner.physics.objects.rb.PolygonRB;
-import javax.vecmath.Vector3f;
 
 public class WorldLoader extends Loader {
     private final AllGameObjectsContainer allGameObjectsContainer = ContainerManager.getAllGameObjectsContainer();
@@ -43,10 +40,8 @@ public class WorldLoader extends Loader {
 //                .scaleTo(119f,119f).moveTo(0f,-120.5f, -1f));
 
         allGameObjectsContainer.add(new MainBase(MAIN_BASE_1));
-        allGameObjectsContainer.get(MAIN_BASE_1).scaleTo(4f,4f).moveTo(-7f,5f,ZHelper.FRONT_MID);
-        ContextMenu contextMenu = new ContextMenu("BASE_C_MENU").withBuildingAs(allGameObjectsContainer.get(MAIN_BASE_1).asGameBuilding());
-        contextMenu.addMoveButton();
-        allGameObjectsContainer.get(MAIN_BASE_1).setContextMenu(contextMenu);
+        allGameObjectsContainer.get(MAIN_BASE_1).scaleTo(4f,2.2f).moveTo(-7f,5f,ZHelper.FRONT_MID);
+        allGameObjectsContainer.get(MAIN_BASE_1).getOptionsMenu().addMoveButton();
 
 
         allGameObjectsContainer.add(new PlayerCharacter(MAIN_CHARACTER_1));
@@ -97,11 +92,11 @@ public class WorldLoader extends Loader {
 
         allGameObjectsContainer.add(new Mine(MINE_1));
 
-        allGameObjectsContainer.add("POINT",new GenericObject(DrawableDef.create(DrawableDef.COAL_BLOCK_I))
-                .scaleTo(0.2f,0.2f).moveTo(0f,0f,ZHelper.OVER_FRONT));
-
-        allGameObjectsContainer.add("LINE", new GenericObject(new Line("LINE").addVertex(new Vector3f(-10f,5f,0f))
-                .addVertex(new Vector3f(10f,5f,0f)).build()).moveTo(0f,0f, ZHelper.OVER_FRONT));
+//        allGameObjectsContainer.add("POINT",new GenericObject(DrawableDef.create(DrawableDef.COAL_BLOCK_I))
+//                .scaleTo(0.2f,0.2f).moveTo(0f,0f,ZHelper.OVER_FRONT));
+//
+//        allGameObjectsContainer.add("LINE", new GenericObject(new Line("LINE").addVertex(new Vector3f(-10f,5f,0f))
+//                .addVertex(new Vector3f(10f,5f,0f)).build()).moveTo(0f,0f, ZHelper.OVER_FRONT));
         //GameObjectsContainer.get("LINE").getDrawable().asLine());
 
         updateContainer();
@@ -123,12 +118,12 @@ public class WorldLoader extends Loader {
         activeGameObjectContainer.add(allGameObjectsContainer.get(TEST_OBJ_2));
         activeGameObjectContainer.add(allGameObjectsContainer.get(DrawableDef.TREE_I.name()));
 
-        allGameObjectsContainer.get(MAIN_BASE_1).asGameBuilding().snapTo(GameManager.getCurrentPlanet());
-        allGameObjectsContainer.get(MINE_1).asGameBuilding().snapTo(GameManager.getCurrentPlanet());
+        allGameObjectsContainer.get(MAIN_BASE_1).asGameBuilding().getBuildingHelper().snapTo(GameManager.getCurrentPlanet());
+        allGameObjectsContainer.get(MINE_1).asGameBuilding().getBuildingHelper().snapTo(GameManager.getCurrentPlanet());
 
         activeGameObjectContainer.add(allGameObjectsContainer.get(MINE_1));
-        activeGameObjectContainer.add(allGameObjectsContainer.get("POINT"));
-        activeGameObjectContainer.add(allGameObjectsContainer.get("LINE"));
+//        activeGameObjectContainer.add(allGameObjectsContainer.get("POINT"));
+//        activeGameObjectContainer.add(allGameObjectsContainer.get("LINE"));
     }
 
     public void updatePhysicsProperties() {
