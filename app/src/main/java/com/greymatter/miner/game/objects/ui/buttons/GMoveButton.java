@@ -2,7 +2,7 @@ package com.greymatter.miner.game.objects.ui.buttons;
 
 import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.game.objects.ui.ConfirmationDialog;
+import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -33,10 +33,15 @@ public class GMoveButton extends GameToggleButton {
     @Override
     public boolean onClick(IGameObject object) {
         super.onClick(object);
-        if(isToggle()) {
-            getActionObject().startMoving();
-        }else{
-            getActionObject().stopMoving();
+        IGameObject actionObject = getActionObject();
+        if (actionObject instanceof GameBuilding) {
+            if (actionObject != null) {
+                if (isToggle()) {
+                    actionObject.asGameBuilding().getBuildingHelper().startMoving();
+                } else {
+                    actionObject.asGameBuilding().getBuildingHelper().stopMoving();
+                }
+            }
         }
         return true;
     }

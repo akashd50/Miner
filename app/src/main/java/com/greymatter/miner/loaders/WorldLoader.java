@@ -41,7 +41,7 @@ public class WorldLoader extends Loader {
 
         allGameObjectsContainer.add(new MainBase(MAIN_BASE_1));
         allGameObjectsContainer.get(MAIN_BASE_1).scaleTo(4f,2.2f).moveTo(-7f,5f,ZHelper.FRONT_MID);
-        allGameObjectsContainer.get(MAIN_BASE_1).getOptionsMenu().addMoveButton();
+        //allGameObjectsContainer.get(MAIN_BASE_1).getOptionsMenu().addMoveButton();
 
 
         allGameObjectsContainer.add(new PlayerCharacter(MAIN_CHARACTER_1));

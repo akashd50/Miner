@@ -16,22 +16,16 @@ public class GameBuildingMoveTouchListener implements OnTouchListener {
 
     @Override
     public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-        //if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
-            gameObject.getParent().setTouchDownOffset(gameObject.getTouchDownOffset());
-            OnTouchListener.super.defaultOnTouchMove(gameObject.getParent(), pointer);
-            return true;
-        //}
-        //return false;
+        gameObject.getParent().setTouchDownOffset(gameObject.getTouchDownOffset());
+        OnTouchListener.super.defaultOnTouchMove(gameObject.getParent(), pointer);
+        return true;
     }
 
     @Override
     public boolean onTouchUp(IGameObject gameObject, Vector2f pointer) {
-        //if(ViewModeManager.getActiveTouchHandler().getViewMode() == ViewMode.BUILDING_MODE) {
-            IGameObject planet = GameManager.getCurrentPlanet();
-            GameBuilding building = (GameBuilding)gameObject.getParent();
-            building.getBuildingHelper().snapTo(planet);
-            return true;
-        //}
-       // return false;
+        IGameObject planet = GameManager.getCurrentPlanet();
+        GameBuilding building = (GameBuilding)gameObject.getParent();
+        building.getBuildingHelper().snapTo(planet);
+        return true;
     }
 }

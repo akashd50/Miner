@@ -24,10 +24,12 @@ public class Path {
     public static final String OIL_DRILL_DIR =      TEXTURES_DIR + SLASH + "oil_drill";
     public static final String GROUND_I =           TEXTURES_DIR + SLASH + "ground_i.png";
     public static final String ADD_MARK =           TEXTURES_DIR + SLASH + "add_mark.png";
+    public static final String MOVE_OVERLAY =       TEXTURES_DIR + SLASH + "move_overlay_i.png";
     public static final String DIALOG_I =           TEXTURES_DIR + SLASH + "dialog_i.png";
     public static final String DIALOG_OPTIONS =     TEXTURES_DIR + SLASH + "dialog_ii.png";
     public static final String OK_BUTTON =          TEXTURES_DIR + SLASH + "dialog_ok.png";
     public static final String CANCEL_BUTTON =      TEXTURES_DIR + SLASH + "dialog_cancel.png";
+    public static final String UPGRADE_BUTTON =     TEXTURES_DIR + SLASH + "upgrade_button_i.png";
     public static final String DIALOG_SIMPLE =      TEXTURES_DIR + SLASH + "ui_outline_i.png";
     public static final String SIGNAL_I =           TEXTURES_DIR + SLASH + "signal_i.png";
     public static final String SIGNAL_EXCL =        TEXTURES_DIR + SLASH + "signal_excl.png";

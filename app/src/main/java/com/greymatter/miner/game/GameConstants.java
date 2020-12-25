@@ -20,4 +20,6 @@ public class GameConstants {
 
     public static final String GAME_PAD = "game_pad";
     public static final String GAME_PAD_BG = "game_pad_background";
+
+    public static final String BUILDING_OPTIONS_MENU = "building_options";
 }

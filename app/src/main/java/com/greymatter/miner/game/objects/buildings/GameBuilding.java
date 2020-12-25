@@ -1,13 +1,12 @@
 package com.greymatter.miner.game.objects.buildings;
 
-import android.view.ContextMenu;
-
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.helpers.BuildingSnapAndMovementHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
 import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.game.objects.ui.OptionsMenu;
+import com.greymatter.miner.game.objects.ui.helpers.InGameUIHelper;
 import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -18,7 +17,7 @@ public abstract class GameBuilding extends GameObjectWGL {
     private static final String BUILDING_OPTIONS_MENU = "building_options_menu";
 
     private BuildingSnapAndMovementHelper buildingHelper;
-    private GenericObject buildingMovementTarget;
+    private GenericObject movementPointer;
     public GameBuilding(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
@@ -27,17 +26,15 @@ public abstract class GameBuilding extends GameObjectWGL {
     private void initialize() {
         buildingHelper = new BuildingSnapAndMovementHelper(this);
 
-        buildingMovementTarget = new GenericObject(BUILDING_MOVEMENT_TARGET, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
-        buildingMovementTarget.copyTranslationFromParent(true);
-        buildingMovementTarget.moveTo(0f, 0f,1f);
-        buildingMovementTarget.getDrawable().setOpacity(0.5f);
-        buildingMovementTarget.setCircularRB();
-        buildingMovementTarget.setOnTouchListener(new GameBuildingMoveTouchListener());
-        buildingMovementTarget.shouldDraw(false);
-        this.addChild(BUILDING_MOVEMENT_TARGET, buildingMovementTarget);
-
-        OptionsMenu optionsMenu = new OptionsMenu(BUILDING_OPTIONS_MENU).withBuildingAs(this);
-        this.setOptionsMenu(optionsMenu);
+        movementPointer = new GenericObject(BUILDING_MOVEMENT_TARGET, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
+        movementPointer.copyTranslationFromParent(true);
+        movementPointer.getTransforms().copyScaleFromParent(true);
+        movementPointer.moveTo(0f, 0f,1f);
+        movementPointer.getDrawable().setOpacity(0.5f);
+        movementPointer.setCircularRB();
+        movementPointer.setOnTouchListener(buildingHelper);
+        movementPointer.shouldDraw(false);
+        this.addChild(BUILDING_MOVEMENT_TARGET, movementPointer);
 
         this.setOnClickListener(this);
         this.setOnTouchListener(this);
@@ -53,12 +50,8 @@ public abstract class GameBuilding extends GameObjectWGL {
         return buildingHelper;
     }
 
-    public void startMoving() {
-        buildingMovementTarget.shouldDraw(true);
-    }
-
-    public void stopMoving() {
-        buildingMovementTarget.shouldDraw(false);
+    public GenericObject getMovementPointer() {
+        return movementPointer;
     }
 
     @Override
@@ -72,7 +65,7 @@ public abstract class GameBuilding extends GameObjectWGL {
 
     @Override
     public boolean onLongClick(IGameObject object) {
-        object.asGameBuilding().getOptionsMenu().show();
+        InGameUIHelper.showDialog(this);
         return true;
     }
 
