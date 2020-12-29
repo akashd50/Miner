@@ -42,6 +42,26 @@ public abstract class GTransformable extends GHierarchical {
         return this;
     }
 
+    @Override
+    public IGameObject setParent(IGameObject parent) {
+        super.setParent(parent);
+        parent.getTransforms().addChild(this.getTransforms());
+        ((GTransformable)parent).addChildHelper(this);
+        return this;
+    }
+
+    @Override
+    public void clearParent() {
+        transforms.clearParent();
+        super.clearParent();
+    }
+
+    @Override
+    public void removeChild(IGameObject child) {
+        transforms.removeChild(child.getTransforms());
+        super.removeChild(child);
+    }
+
     private void addChildHelper(IGameObject object) {
 
         if (object.getTransforms().getTranslation().z > transforms.getTranslation().z
@@ -53,7 +73,6 @@ public abstract class GTransformable extends GHierarchical {
 
         foregroundChildren.sort(listC);
         backgroundChildren.sort(listC);
-        //TODO: Fix the list not sorting if transforms are changed after the fact
     }
 
     private void reSortChildren() {

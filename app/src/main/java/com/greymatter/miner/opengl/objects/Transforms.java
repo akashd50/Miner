@@ -3,6 +3,7 @@ package com.greymatter.miner.opengl.objects;
 import android.opengl.Matrix;
 
 import com.greymatter.miner.game.objects.GameObject;
+import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.helpers.MatrixHelper;
 import com.greymatter.miner.helpers.VectorHelper;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -81,7 +82,7 @@ public class Transforms {
         MatrixHelper.rotateM(modelMatrix, rotation);
         MatrixHelper.scaleM(modelMatrix, scale);
 
-        onTransformsChanged();
+        //onTransformsChanged();
 
         transformationsUpdated = false;
 
@@ -315,7 +316,18 @@ public class Transforms {
 
     public Transforms setParent(Transforms parent) {
         this.parent = parent;
+        onTransformsChanged();
         return this;
+    }
+
+    public void clearParent() {
+        this.parent.children.remove(this);
+        this.parent = null;
+    }
+
+    public void removeChild(Transforms child) {
+        this.children.remove(child);
+        child.setParent(null);
     }
 
     public Transforms setLinkedGameObject(GameObject linkedGameObject) {

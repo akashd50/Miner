@@ -11,12 +11,12 @@ import javax.vecmath.Vector2f;
 public class GameBuildingMoveTouchListener implements OnTouchListener {
     @Override
     public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
+        gameObject.getParent().setTouchDownOffset(gameObject.getTouchDownOffset());
         return true;
     }
 
     @Override
     public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-        gameObject.getParent().setTouchDownOffset(gameObject.getTouchDownOffset());
         OnTouchListener.super.defaultOnTouchMove(gameObject.getParent(), pointer);
         return true;
     }

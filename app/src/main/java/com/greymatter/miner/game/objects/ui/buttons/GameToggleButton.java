@@ -29,7 +29,7 @@ public abstract class GameToggleButton extends GameButton {
         confirmationDialog = new ConfirmationDialog(CONFIRMATION_DIALOG);
         addChild(CONFIRMATION_DIALOG, confirmationDialog);
         confirmationDialog.hide();
-        confirmationDialog.linkTo(GameNotification.BOTTOM);
+        confirmationDialog.linkTo(GameNotification.TOP);
     }
 
     @Override

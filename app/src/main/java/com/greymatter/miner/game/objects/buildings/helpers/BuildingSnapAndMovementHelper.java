@@ -69,12 +69,12 @@ public class BuildingSnapAndMovementHelper implements OnTouchListener {
 
     @Override
     public boolean onTouchDown(IGameObject gameObject, Vector2f pointer) {
+        building.setTouchDownOffset(gameObject.getTouchDownOffset());
         return true;
     }
 
     @Override
     public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
-        building.setTouchDownOffset(gameObject.getTouchDownOffset());
         OnTouchListener.super.defaultOnTouchMove(building, pointer);
         return true;
     }
@@ -86,11 +86,11 @@ public class BuildingSnapAndMovementHelper implements OnTouchListener {
         return true;
     }
 
-    public void startMoving() {
-        building.getMovementPointer().shouldDraw(true);
-    }
-
-    public void stopMoving() {
-        building.getMovementPointer().shouldDraw(false);
-    }
+//    public void startMoving() {
+//        building.getMovementPointer().shouldDraw(true);
+//    }
+//
+//    public void stopMoving() {
+//        building.getMovementPointer().shouldDraw(false);
+//    }
 }

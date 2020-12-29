@@ -16,6 +16,8 @@ public class OptionsMenu extends GameNotification {
 
     private int buttonID;
     private IGameObject linkedGameObject;
+    private float buttonsSpacing;
+    private float buttonsScale;
     public OptionsMenu(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
@@ -28,7 +30,9 @@ public class OptionsMenu extends GameNotification {
 
     private void initialize() {
         buttonID = 0;
-        setDefaultScale(new Vector3f(1.0f, 0.4f, 1f));
+        buttonsSpacing = 0.05f;
+        setDefaultScale(new Vector3f(1f, 0.1f, 1f));
+        getTransforms().setDefaultTranslation(0f, -0.8f, 25f);
     }
 
     public GameButton addMoveButton() {
@@ -79,24 +83,24 @@ public class OptionsMenu extends GameNotification {
     }
 
     public void refresh() {
-        float defaultScaleX = 0.3f;
+        float defaultScaleX = 3*buttonsSpacing;
 
         int activeButtons = getApplicableButtons();
-        float redefinedScaleX = activeButtons * 2 * defaultScaleX + activeButtons * 0.1f + 0.1f;
+        float redefinedScaleX = activeButtons * 2 * defaultScaleX + activeButtons * buttonsSpacing + buttonsSpacing;
         redefinedScaleX = redefinedScaleX/2;
 
-        this.getTransforms().setDefaultScale(redefinedScaleX, 0.4f);
+        this.getTransforms().setDefaultScale(redefinedScaleX, getDefaultScale().y);
 
         AtomicReference<Float> leftStart = new AtomicReference<>(-redefinedScaleX);
         final float oneSidedScaleX = redefinedScaleX;
         getChildren().toList().forEach(child -> {
             GameButton currButton = (GameButton)child;
             if (currButton.isApplicable()) {
-                leftStart.updateAndGet(v -> v + 0.1f);
+                leftStart.updateAndGet(v -> v + buttonsSpacing);
                 leftStart.updateAndGet(v -> v + defaultScaleX);
 
                 currButton.moveTo(leftStart.get() / oneSidedScaleX, 0f);
-                currButton.getTransforms().setDefaultScale(defaultScaleX / oneSidedScaleX, 0.6f);
+                currButton.getTransforms().setDefaultScale(defaultScaleX / oneSidedScaleX, 0.8f);
 
                 leftStart.updateAndGet(v -> v + defaultScaleX);
             }
@@ -111,5 +115,33 @@ public class OptionsMenu extends GameNotification {
         int toReturn = buttonID;
         buttonID++;
         return toReturn;
+    }
+
+    public OptionsMenu setButtonsSpacing(float buttonsSpacing) {
+        this.buttonsSpacing = buttonsSpacing;
+        return this;
+    }
+
+    public OptionsMenu setButtonsScale(float buttonsScale) {
+        this.buttonsScale = buttonsScale;
+        return this;
+    }
+
+    public GMoveButton getMoveButton() {
+        for (IGameObject child : getChildren().toList()) {
+            if (child instanceof GMoveButton) {
+                return (GMoveButton) child;
+            }
+        }
+        return null;
+    }
+
+    public GUpgradeButton getUpgradeButton() {
+        for (IGameObject child : getChildren().toList()) {
+            if (child instanceof GUpgradeButton) {
+                return (GUpgradeButton) child;
+            }
+        }
+        return null;
     }
 }

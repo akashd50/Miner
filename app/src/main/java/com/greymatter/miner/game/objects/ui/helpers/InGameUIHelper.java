@@ -12,22 +12,22 @@ import javax.vecmath.Vector3f;
 
 public class InGameUIHelper {
     public static void showDialog(GameBuilding gameBuilding) {
-        OptionsMenu menu = (OptionsMenu)ContainerManager.getActiveGameObjectsContainer().get(BUILDING_OPTIONS_MENU);
+        OptionsMenu menu = (OptionsMenu)ContainerManager.getActiveUIContainer().get(BUILDING_OPTIONS_MENU);
         menu.setActionObject(gameBuilding);
 
         Transforms buildingTransforms = gameBuilding.getTransforms();
         Transforms menuTransforms = menu.getTransforms();
 
-        Vector3f up = getUpVector(gameBuilding);
-        up.x *= buildingTransforms.getScale().y + menuTransforms.getScale().y;
-        up.x += gameBuilding.getLocalLocation().x;
-        up.y *= buildingTransforms.getScale().y + menuTransforms.getScale().y;
-        up.y += gameBuilding.getLocalLocation().y;
-        up.z = gameBuilding.getLocalLocation().z + 1f;
+//        Vector3f up = getUpVector(gameBuilding);
+//        up.x *= buildingTransforms.getScale().y + menuTransforms.getScale().y;
+//        up.x += gameBuilding.getLocalLocation().x;
+//        up.y *= buildingTransforms.getScale().y + menuTransforms.getScale().y;
+//        up.y += gameBuilding.getLocalLocation().y;
+//        up.z = gameBuilding.getLocalLocation().z + 1f;
 
         menu.refresh();
 
-        menu.moveTo(up);
+        //menu.moveTo(up);
         menu.show();
     }
 

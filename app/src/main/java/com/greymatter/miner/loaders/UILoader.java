@@ -23,13 +23,12 @@ public class UILoader extends Loader {
         optionsMenu.addMoveButton();
         optionsMenu.addUpgradeButton();
         optionsMenu.hide();
-        activeGameObjectContainer.add(optionsMenu);
 
-        updateContainer();
-    }
+        allGameObjectsContainer.add(optionsMenu);
 
-    public void updateContainer() {
         activeUIContainer.add(allGameObjectsContainer.get(GAME_PAD));
+        activeUIContainer.add(optionsMenu);
+        activeGameObjectContainer.add(optionsMenu.getMoveButton().getMovementPointer());
     }
 
     @Override
