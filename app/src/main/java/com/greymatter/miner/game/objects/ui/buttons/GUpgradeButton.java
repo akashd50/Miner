@@ -4,7 +4,7 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class GUpgradeButton extends GameButton {
+public class GUpgradeButton extends GGroupButton {
 
     public GUpgradeButton(Drawable drawable) {
         super(drawable);

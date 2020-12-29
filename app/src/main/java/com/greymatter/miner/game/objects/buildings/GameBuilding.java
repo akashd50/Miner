@@ -1,13 +1,9 @@
 package com.greymatter.miner.game.objects.buildings;
 
-import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.buildings.helpers.BuildingSnapAndMovementHelper;
 import com.greymatter.miner.game.objects.GameObjectWGL;
-import com.greymatter.miner.game.objects.ui.GameNotification;
-import com.greymatter.miner.game.objects.ui.OptionsMenu;
 import com.greymatter.miner.game.objects.ui.helpers.InGameUIHelper;
-import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector2f;
 

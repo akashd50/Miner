@@ -4,7 +4,7 @@ import com.greymatter.miner.game.objects.ui.buttons.GameButton;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class ConfirmationDialog extends OptionsMenu {
+public class ConfirmationDialog extends ButtonsMenu {
     public ConfirmationDialog(String id, Drawable drawable) {
         super(id, drawable);
         initialize();

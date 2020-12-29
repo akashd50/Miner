@@ -3,12 +3,12 @@ package com.greymatter.miner.game.objects.ui.buttons;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.ui.ConfirmationDialog;
-import com.greymatter.miner.game.objects.ui.OptionsMenu;
+import com.greymatter.miner.game.objects.ui.GroupButtonsMenu;
 import com.greymatter.miner.game.objects.ui.GameNotification;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import com.greymatter.miner.opengl.objects.materials.Material;
 
-public abstract class GameToggleButton extends GameButton {
+public abstract class GameToggleButton extends GGroupButton {
     private static final String CONFIRMATION_DIALOG = "CONFIRMATION_DIALOG";
 
     private boolean toggle;
@@ -39,7 +39,7 @@ public abstract class GameToggleButton extends GameButton {
 
     @Override
     public boolean onClick(IGameObject object) {
-        ((OptionsMenu)this.getParent()).clearSelectionExcept(this);
+        ((GroupButtonsMenu)this.getParent()).clearSelectionExcept(this);
         setToggle(!toggle);
         return true;
     }

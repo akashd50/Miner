@@ -7,7 +7,7 @@ import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.containers.ActiveUIContainer;
 import com.greymatter.miner.game.objects.GamePad;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.game.objects.ui.OptionsMenu;
+import com.greymatter.miner.game.objects.ui.GroupButtonsMenu;
 
 import static com.greymatter.miner.game.GameConstants.*;
 
@@ -19,7 +19,7 @@ public class UILoader extends Loader {
     public void load() {
         allGameObjectsContainer.add(new GamePad(GAME_PAD));
 
-        OptionsMenu optionsMenu = new OptionsMenu(BUILDING_OPTIONS_MENU);
+        GroupButtonsMenu optionsMenu = new GroupButtonsMenu(BUILDING_OPTIONS_MENU);
         optionsMenu.addMoveButton();
         optionsMenu.addUpgradeButton();
         optionsMenu.hide();

@@ -26,6 +26,7 @@ public class FloatValueAnimator extends ValueAnimator {
 
         if(currentValue > upperBound) {
             if(isSingleCycle()) {
+                currentValue = upperBound;
                 this.pause();
             }else {
                 currentValue = toAndFro() ? upperBound : lowerBound;
@@ -34,6 +35,7 @@ public class FloatValueAnimator extends ValueAnimator {
         }
         if(currentValue < lowerBound) {
             if(isSingleCycle()) {
+                currentValue = lowerBound;
                 this.pause();
             }else {
                 currentValue = toAndFro() ? lowerBound : upperBound;

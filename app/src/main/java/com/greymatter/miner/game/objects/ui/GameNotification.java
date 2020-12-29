@@ -1,7 +1,6 @@
 package com.greymatter.miner.game.objects.ui;
 
 import com.greymatter.miner.animators.FloatValueAnimator;
-import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
@@ -30,11 +29,6 @@ public abstract class GameNotification extends GameUI {
             GameNotification notification = (GameNotification) object;
             float newVal = animator.getUpdatedFloat();
             scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
-//            if(newVal >= openingAnimator.getUpperBound()) {
-//                openingAnimator.setBounds(1.0f, 1.1f);
-//                openingAnimator.startFrom(1.1f,false);
-//                openingAnimator.resume();
-//            }
         });
 
         shouldDraw(false).addTag(Tag.NOTIFICATION);
@@ -48,19 +42,27 @@ public abstract class GameNotification extends GameUI {
 
     public GameNotification show() {
         isShowing = true;
-        this.getTransforms().scaleTo(0f,0f);
         this.shouldDraw(true);
+        showHelper();
+        return this;
+    }
 
+    protected void showHelper() {
+        this.getTransforms().scaleTo(0f,0f);
         openingAnimator.setBounds(0.5f, 1f);
         openingAnimator.startFrom(0.5f,true);
         openingAnimator.resume();
-        return this;
     }
 
     public GameNotification hide() {
         isShowing = false;
         this.shouldDraw(false);
+        hideHelper();
         return this;
+    }
+
+    protected void hideHelper() {
+
     }
 
     @Override
@@ -75,6 +77,15 @@ public abstract class GameNotification extends GameUI {
         moveTo(0f,r, 1f);
         copyTranslationFromParent(true);
         return super.setParent(parent);
+    }
+
+    public GameNotification setOpeningAnimator(FloatValueAnimator openingAnimator) {
+        this.openingAnimator = openingAnimator;
+        return this;
+    }
+
+    public FloatValueAnimator getOpeningAnimator() {
+        return openingAnimator;
     }
 
     public void linkTo(int position) {
