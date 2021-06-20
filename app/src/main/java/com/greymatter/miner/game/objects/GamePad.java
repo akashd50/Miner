@@ -82,7 +82,7 @@ public class GamePad extends GameObject implements OnTouchListener, OnAnimationF
     public boolean onTouchMove(IGameObject gameObject, Vector2f pointer) {
         float distance = (float)VectorHelper.getDistanceWithSQRT(defaultOnScreenLocation, pointer);
         if(distance<=movementRadius) {
-            OnTouchListener.super.defaultOnTouchMove(gameObject, pointer);
+            super.defaultOnTouchMove(gameObject, pointer);
         } else {
             float angleToPoint = VectorHelper.angleBetweenRad(defaultOnScreenLocation, pointer);
             float x = defaultOnScreenLocation.x + movementRadius * (float)Math.cos(angleToPoint);

@@ -29,7 +29,7 @@ public abstract class GameToggleButton extends GGroupButton {
         confirmationDialog = new ConfirmationDialog(CONFIRMATION_DIALOG);
         addChild(CONFIRMATION_DIALOG, confirmationDialog);
         confirmationDialog.hide();
-        confirmationDialog.linkTo(GameNotification.TOP);
+        //confirmationDialog.linkTo(GameNotification.TOP);
     }
 
     @Override

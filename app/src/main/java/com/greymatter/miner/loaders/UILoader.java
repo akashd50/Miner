@@ -20,6 +20,7 @@ public class UILoader extends Loader {
         allGameObjectsContainer.add(new GamePad(GAME_PAD));
 
         GroupButtonsMenu optionsMenu = new GroupButtonsMenu(BUILDING_OPTIONS_MENU);
+        //optionsMenu.setButtonsScale(0.2f);
         optionsMenu.addMoveButton();
         optionsMenu.addUpgradeButton();
         optionsMenu.hide();

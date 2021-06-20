@@ -73,10 +73,14 @@ public abstract class GameNotification extends GameUI {
 
     @Override
     public IGameObject setParent(IGameObject parent) {
+        setParentHelper(parent);
+        return super.setParent(parent);
+    }
+
+    protected void setParentHelper(IGameObject parent) {
         float r = parent.getTransforms().getScale().y + this.getDefaultScale().y;
         moveTo(0f,r, 1f);
         copyTranslationFromParent(true);
-        return super.setParent(parent);
     }
 
     public GameNotification setOpeningAnimator(FloatValueAnimator openingAnimator) {

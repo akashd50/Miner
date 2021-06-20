@@ -33,10 +33,14 @@ public class ButtonsMenu extends GameNotification {
 
     private void initialize() {
         buttonID = 0;
+        buttonsScale = 0.15f;
         buttonsSpacing = 0.05f;
-        screenBottomLocation = new Vector2f(0f, -1.1f);
-        setDefaultScale(new Vector3f(1f, 0.1f, 1f));
-        getTransforms().setDefaultTranslation(0f, -0.9f, 25f);
+
+        setDefaultScale(new Vector3f(1f, buttonsScale/2 + buttonsSpacing, 1f));
+
+        screenBottomLocation = new Vector2f(0f, -1.0f - getDefaultScale().y);
+
+        getTransforms().setDefaultTranslation(0f, -1.0f + getDefaultScale().y, 25f);
 
         FloatValueAnimator openingAnimator = new FloatValueAnimator().withFPS(30).setPerFrameIncrement(0.2f);
         openingAnimator.setSingleCycle(true);
@@ -82,7 +86,7 @@ public class ButtonsMenu extends GameNotification {
     }
 
     public void refresh() {
-        float defaultScaleX = 3*buttonsSpacing;
+        float defaultScaleX = buttonsScale;
 
         int activeButtons = getNumButtons();
         float redefinedScaleX = activeButtons * 2 * defaultScaleX + activeButtons * buttonsSpacing + buttonsSpacing;

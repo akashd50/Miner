@@ -362,8 +362,10 @@ public class VectorHelper {
         Vector3f translation = new Vector3f();
         if (transforms.getParent() != null) {
             applyAllTransformations(translation, transforms.getParent(), transforms);
+            return VectorHelper.applyTransformations(translation, transforms);
+        } else {
+            return transforms.getTranslation();
         }
-        return VectorHelper.applyTransformations(translation, transforms);
     }
 
     private static Vector3f applyAllTransformations(Vector3f translation, Transforms transforms, Transforms prevTransforms) {
