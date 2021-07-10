@@ -10,7 +10,7 @@ import com.greymatter.miner.opengl.objects.drawables.object3d.Obj;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class GameSignal extends GameNotification {
+public class GameSignal extends GamePopup {
     public GameSignal(String id, Drawable drawable) {
         super(id, drawable);
         initialize();

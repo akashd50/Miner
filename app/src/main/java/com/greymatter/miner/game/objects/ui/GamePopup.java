@@ -5,7 +5,7 @@ import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public abstract class GameNotification extends GameUI {
+public abstract class GamePopup extends GameUI {
     public static final int TOP = 1;
     public static final int BOTTOM = 2;
     public static final int LEFT = 3;
@@ -13,7 +13,7 @@ public abstract class GameNotification extends GameUI {
 
     private boolean isShowing;
     private FloatValueAnimator openingAnimator;
-    public GameNotification(String id, Drawable drawable) {
+    public GamePopup(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
@@ -26,7 +26,7 @@ public abstract class GameNotification extends GameUI {
         openingAnimator.pause();
 
         openingAnimator.setOnAnimationFrameHandler((object, animator) -> {
-            GameNotification notification = (GameNotification) object;
+            GamePopup notification = (GamePopup) object;
             float newVal = animator.getUpdatedFloat();
             scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
         });
@@ -40,7 +40,7 @@ public abstract class GameNotification extends GameUI {
         openingAnimator.update();
     }
 
-    public GameNotification show() {
+    public GamePopup show() {
         isShowing = true;
         this.shouldDraw(true);
         showHelper();
@@ -54,7 +54,7 @@ public abstract class GameNotification extends GameUI {
         openingAnimator.resume();
     }
 
-    public GameNotification hide() {
+    public GamePopup hide() {
         isShowing = false;
         this.shouldDraw(false);
         hideHelper();
@@ -66,7 +66,7 @@ public abstract class GameNotification extends GameUI {
     }
 
     @Override
-    public GameNotification shouldDraw(boolean shouldDraw) {
+    public GamePopup shouldDraw(boolean shouldDraw) {
         super.shouldDraw(isShowing);
         return this;
     }
@@ -83,7 +83,7 @@ public abstract class GameNotification extends GameUI {
         copyTranslationFromParent(true);
     }
 
-    public GameNotification setOpeningAnimator(FloatValueAnimator openingAnimator) {
+    public GamePopup setOpeningAnimator(FloatValueAnimator openingAnimator) {
         this.openingAnimator = openingAnimator;
         return this;
     }

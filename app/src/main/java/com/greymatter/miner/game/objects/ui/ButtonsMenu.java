@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class ButtonsMenu extends GameNotification {
+public class ButtonsMenu extends GamePopup {
     protected static final String BUTTON = "BUTTON_";
 
     private int buttonID;
@@ -134,6 +134,20 @@ public class ButtonsMenu extends GameNotification {
         return this;
     }
 
+    public void clearSelectionExcept(GameButton exceptThis) {
+        for(IGameObject button : getChildren().toList()) {
+            if (button.getId().compareTo(exceptThis.getId()) != 0) {
+                ((GameButton) button).clearSelection();
+            }
+        }
+    }
+
+    public void clearSelection() {
+        for(IGameObject button : getChildren().toList()) {
+            ((GameButton) button).clearSelection();
+        }
+    }
+
     @Override
     protected void showHelper() {
         moveTo(screenBottomLocation);
@@ -145,5 +159,11 @@ public class ButtonsMenu extends GameNotification {
     protected void hideHelper() {
         getOpeningAnimator().startFrom(0f, true);
         getOpeningAnimator().resume();
+    }
+
+    @Override
+    public boolean onClick(IGameObject object) {
+        this.clearSelection();
+        return super.onClick(object);
     }
 }

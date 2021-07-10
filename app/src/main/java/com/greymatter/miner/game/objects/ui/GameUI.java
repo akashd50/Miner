@@ -11,7 +11,7 @@ import com.greymatter.miner.physics.objects.rb.PolygonRbTRViaMat;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public abstract class GameUI extends GameObjectWGL implements OnClickListener, OnTouchListener {
+public abstract class GameUI extends GameObjectWGL {
     private FloatValueAnimator onTouchResizeAnimator;
     public GameUI(String id, Drawable drawable) {
         super(id, drawable);

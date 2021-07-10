@@ -6,8 +6,10 @@ import com.greymatter.miner.containers.AllGameObjectsContainer;
 import com.greymatter.miner.containers.ContainerManager;
 import com.greymatter.miner.containers.ActiveUIContainer;
 import com.greymatter.miner.game.objects.GamePad;
+import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.game.objects.ui.GroupButtonsMenu;
+import com.greymatter.miner.game.objects.ui.menu_impls.BuildingOptionsMenu;
+import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 
 import static com.greymatter.miner.game.GameConstants.*;
 
@@ -17,10 +19,14 @@ public class UILoader extends Loader {
     private final ActiveGameObjectContainer activeGameObjectContainer = ContainerManager.getActiveGameObjectsContainer();
 
     public void load() {
+        // load game object overlays for action buttons
+        GenericObject moveIndicatorObj = new GenericObject(BUILDING_MOVEMENT_OVERLAY, DrawableDef.create(DrawableDef.BUILDING_MOVE_TARGET));
+        activeGameObjectContainer.add(moveIndicatorObj);
+
+        // preload other UI elements
         allGameObjectsContainer.add(new GamePad(GAME_PAD));
 
-        GroupButtonsMenu optionsMenu = new GroupButtonsMenu(BUILDING_OPTIONS_MENU);
-        //optionsMenu.setButtonsScale(0.2f);
+        BuildingOptionsMenu optionsMenu = new BuildingOptionsMenu(BUILDING_OPTIONS_MENU);
         optionsMenu.addMoveButton();
         optionsMenu.addUpgradeButton();
         optionsMenu.hide();
@@ -29,7 +35,6 @@ public class UILoader extends Loader {
 
         activeUIContainer.add(allGameObjectsContainer.get(GAME_PAD));
         activeUIContainer.add(optionsMenu);
-        activeGameObjectContainer.add(optionsMenu.getMoveButton().getMovementPointer());
     }
 
     @Override

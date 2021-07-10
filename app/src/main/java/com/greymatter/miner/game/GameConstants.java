@@ -22,4 +22,6 @@ public class GameConstants {
     public static final String GAME_PAD_BG = "game_pad_background";
 
     public static final String BUILDING_OPTIONS_MENU = "building_options";
+    public static final String BUILDING_MOVEMENT_OVERLAY = "building_movement_overlay";
+
 }

@@ -25,6 +25,8 @@ public class GamePadController {
                                                GameObject object,
                                                ValueAnimator animator) {
        IGameObject controllableObject = gamePad.getCurrentControllableObject();
+       if (controllableObject == null) return;
+
         switch (controllableObject.getId()) {
             case MAIN_CHARACTER_1:
                 Vector3f left = VectorHelper.getNormal(AppServices.getGameCamera().getUpVector());

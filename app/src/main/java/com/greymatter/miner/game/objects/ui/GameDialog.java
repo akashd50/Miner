@@ -7,7 +7,7 @@ import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 import javax.vecmath.Vector3f;
 
-public class GameDialog extends GameNotification {
+public class GameDialog extends GamePopup {
     private static final String DIALOG_BUTTON_I = "DIALOG_BUTTON_I";
     private static final String DIALOG_BUTTON_II = "DIALOG_BUTTON_II";
     private static final String OBJECT_DIALOG = "OBJECT_DIALOG";
