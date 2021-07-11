@@ -29,6 +29,7 @@ public class UILoader extends Loader {
         BuildingOptionsMenu optionsMenu = new BuildingOptionsMenu(BUILDING_OPTIONS_MENU);
         optionsMenu.addMoveButton();
         optionsMenu.addUpgradeButton();
+        optionsMenu.addCloseButton();
         optionsMenu.hide();
 
         allGameObjectsContainer.add(optionsMenu);

@@ -45,8 +45,10 @@ public abstract class GTransformable extends GHierarchical {
     @Override
     public IGameObject setParent(IGameObject parent) {
         super.setParent(parent);
-        parent.getTransforms().addChild(this.getTransforms());
-        ((GTransformable)parent).addChildHelper(this);
+        if (parent != null) {
+            parent.getTransforms().addChild(this.getTransforms());
+            ((GTransformable) parent).addChildHelper(this);
+        }
         return this;
     }
 

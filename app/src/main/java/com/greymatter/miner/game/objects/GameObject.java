@@ -3,7 +3,7 @@ package com.greymatter.miner.game.objects;
 import com.greymatter.miner.game.objects.base.GRigidBody;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
-import com.greymatter.miner.game.objects.ui.ButtonsMenu;
+import com.greymatter.miner.game.objects.ui.GenericMenu;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.buildings.GameBuilding;
 import com.greymatter.miner.game.objects.resources.ResourceBlock;
@@ -102,7 +102,7 @@ public abstract class GameObject extends GRigidBody {
         return this;
     }
 
-    public GameObject setOptionsMenu(ButtonsMenu menu) {
+    public GameObject setOptionsMenu(GenericMenu menu) {
         addChild("OPTIONS_MENU", menu);
         return this;
     }
@@ -116,8 +116,8 @@ public abstract class GameObject extends GRigidBody {
         return (GameDialog)getChild("DIALOG");
     }
 
-    public ButtonsMenu getOptionsMenu() {
-        return (ButtonsMenu)getChild("OPTIONS_MENU");
+    public GenericMenu getOptionsMenu() {
+        return (GenericMenu)getChild("OPTIONS_MENU");
     }
 
     public GameSignal getSignal() {

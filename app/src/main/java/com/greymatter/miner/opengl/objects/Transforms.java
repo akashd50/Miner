@@ -321,8 +321,10 @@ public class Transforms {
     }
 
     public void clearParent() {
-        this.parent.children.remove(this);
-        this.parent = null;
+        if (parent != null) {
+            this.parent.removeChild(this);
+            this.parent = null;
+        }
     }
 
     public void removeChild(Transforms child) {

@@ -36,16 +36,17 @@ public abstract class GHierarchical extends GID {
 
     public IGameObject setParent(IGameObject parent) {
         this.parent = parent;
-        if (!parent.getChildren().containsKey(this.getId())) {
+        if (this.parent != null && !this.parent.getChildren().containsKey(this.getId())) {
             parent.addChild(this.getId(), this);
         }
-        //parent.getChildren().put(this.getId(), this);
         return this;
     }
 
     public void clearParent() {
-        this.parent.getChildren().remove(this.getId());
-        this.parent = null;
+        if (this.parent != null) {
+            this.parent.removeChild(this);
+            this.parent = null;
+        }
     }
 
     public void removeChild(IGameObject child) {

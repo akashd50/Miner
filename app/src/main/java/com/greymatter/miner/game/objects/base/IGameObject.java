@@ -5,7 +5,7 @@ import com.greymatter.miner.containers.datastructureextensions.HashMapE;
 import com.greymatter.miner.game.objects.GameObject;
 import com.greymatter.miner.game.objects.ui.GameDialog;
 import com.greymatter.miner.game.objects.ui.GameSignal;
-import com.greymatter.miner.game.objects.ui.ButtonsMenu;
+import com.greymatter.miner.game.objects.ui.GenericMenu;
 import com.greymatter.miner.loaders.enums.Tag;
 import com.greymatter.miner.game.objects.GameLight;
 import com.greymatter.miner.game.objects.GameObjectWGL;
@@ -29,6 +29,7 @@ public interface IGameObject {
 
     IGameObject addChild(String id, IGameObject object);
     IGameObject getChild(String id);
+    void removeChild(IGameObject child);
     ArrayList<IGameObject> getChildrenWithTag(Tag tag);
     IGameObject setParent(IGameObject parent);
     IGameObject getParent();
@@ -86,9 +87,9 @@ public interface IGameObject {
     GenericObject asGenericObject();
     ResourceBlock asResourceBlock();
     IGameObject setDialog(GameDialog dialog);
-    IGameObject setOptionsMenu(ButtonsMenu menu);
+    IGameObject setOptionsMenu(GenericMenu menu);
     IGameObject setSignal(GameSignal signal);
     GameDialog getDialog();
     GameSignal getSignal();
-    ButtonsMenu getOptionsMenu();
+    GenericMenu getOptionsMenu();
 }

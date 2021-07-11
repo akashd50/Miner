@@ -29,6 +29,9 @@ public abstract class GamePopup extends GameUI {
             GamePopup notification = (GamePopup) object;
             float newVal = animator.getUpdatedFloat();
             scaleTo(notification.getDefaultScale().x * newVal, notification.getDefaultScale().y * newVal);
+            if (!animator.isIncrementing() && newVal <= animator.asFloatValueAnimator().getLowerBound()) {
+                this.shouldDraw(false);
+            }
         });
 
         shouldDraw(false).addTag(Tag.NOTIFICATION);
@@ -56,13 +59,14 @@ public abstract class GamePopup extends GameUI {
 
     public GamePopup hide() {
         isShowing = false;
-        this.shouldDraw(false);
         hideHelper();
         return this;
     }
 
     protected void hideHelper() {
-
+        openingAnimator.setBounds(0.5f, 1f);
+        openingAnimator.startFrom(1.0f,false);
+        openingAnimator.resume();
     }
 
     @Override

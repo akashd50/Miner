@@ -5,7 +5,7 @@ import com.greymatter.miner.containers.MaterialContainer;
 import com.greymatter.miner.game.GameConstants;
 import com.greymatter.miner.game.objects.GenericObject;
 import com.greymatter.miner.game.objects.base.IGameObject;
-import com.greymatter.miner.game.objects.ui.ButtonsMenu;
+import com.greymatter.miner.game.objects.ui.GenericMenu;
 import com.greymatter.miner.game.objects.ui.buttons.GameToggleButton;
 import com.greymatter.miner.game.objects.ui.buttons.GameButton;
 import com.greymatter.miner.helpers.touchListeners.GameBuildingMoveTouchListener;
@@ -14,7 +14,7 @@ import com.greymatter.miner.loaders.enums.definitions.MaterialDef;
 import com.greymatter.miner.mainui.touch.OnClickListener;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
 
-public class BuildingOptionsMenu extends ButtonsMenu {
+public class BuildingOptionsMenu extends GenericMenu {
     private static final String BUILDING_MOVEMENT_POINTER = "building_movement_target";
 
     public BuildingOptionsMenu(String id, Drawable drawable) {
@@ -76,6 +76,25 @@ public class BuildingOptionsMenu extends ButtonsMenu {
         });
         super.addNewButton(upgradeButton);
         return upgradeButton;
+    }
+
+    public GameButton addCloseButton() {
+        GameButton closeButton = new GameButton(BUTTON + getNextButtonID(), DrawableDef.create(DrawableDef.GAME_PAD_FRONT));
+        closeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public boolean onClick(IGameObject object) {
+                BuildingOptionsMenu.super.hide();
+                BuildingOptionsMenu.super.clearSelection();
+                return true;
+            }
+
+            @Override
+            public boolean onLongClick(IGameObject object) {
+                return false;
+            }
+        });
+        super.addNewButton(closeButton);
+        return closeButton;
     }
 
     public int getNumButtons() {

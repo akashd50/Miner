@@ -8,12 +8,15 @@ import com.greymatter.miner.game.objects.base.IGameObject;
 import com.greymatter.miner.game.objects.ui.buttons.GameButton;
 import com.greymatter.miner.loaders.enums.definitions.DrawableDef;
 import com.greymatter.miner.opengl.objects.drawables.Drawable;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-public class ButtonsMenu extends GamePopup {
+public class GenericMenu extends GamePopup {
     protected static final String BUTTON = "BUTTON_";
 
     private int buttonID;
@@ -21,12 +24,12 @@ public class ButtonsMenu extends GamePopup {
     private float buttonsSpacing;
     private float buttonsScale;
     private Vector2f screenBottomLocation;
-    public ButtonsMenu(String id, Drawable drawable) {
+    public GenericMenu(String id, Drawable drawable) {
         super(id, drawable);
         initialize();
     }
 
-    public ButtonsMenu(String id) {
+    public GenericMenu(String id) {
         super(id, DrawableDef.create(DrawableDef.OBJECT_DIALOG));
         initialize();
     }
@@ -74,7 +77,7 @@ public class ButtonsMenu extends GamePopup {
         return button;
     }
 
-    public ButtonsMenu setActionObject(IGameObject gameObject) {
+    public GenericMenu setActionObject(IGameObject gameObject) {
         this.linkedGameObject = gameObject;
         getChildren().toList().forEach(child -> {
             GameButton button = ((GameButton)child);
@@ -96,7 +99,9 @@ public class ButtonsMenu extends GamePopup {
 
         AtomicReference<Float> leftStart = new AtomicReference<>(-redefinedScaleX);
         final float oneSidedScaleX = redefinedScaleX;
-        getChildren().toList().forEach(child -> {
+        ArrayList<IGameObject> sortedButtons = new ArrayList<>(getChildren().toList());
+        sortedButtons.sort((iGameObject, t1) -> iGameObject.getId().compareTo(t1.getId()));
+        sortedButtons.forEach(child -> {
             GameButton currButton = (GameButton)child;
             if (shouldAdd(currButton)) {
                 leftStart.updateAndGet(v -> v + buttonsSpacing);
@@ -124,12 +129,12 @@ public class ButtonsMenu extends GamePopup {
         return toReturn;
     }
 
-    public ButtonsMenu setButtonsSpacing(float buttonsSpacing) {
+    public GenericMenu setButtonsSpacing(float buttonsSpacing) {
         this.buttonsSpacing = buttonsSpacing;
         return this;
     }
 
-    public ButtonsMenu setButtonsScale(float buttonsScale) {
+    public GenericMenu setButtonsScale(float buttonsScale) {
         this.buttonsScale = buttonsScale;
         return this;
     }
